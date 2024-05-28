@@ -1,0 +1,222 @@
+# Hexo Configuration
+## Docs: https://hexo.io/docs/configuration.html
+## Source: https://github.com/hexojs/hexo/
+
+# Site
+# 网站配置
+# 网站标题
+title: Mr.Miaow Blog
+# 网站副标题
+subtitle: Do what you say, say what you do.
+# 网站描述
+description: ''
+# 网站的关键词。使用半角逗号 , 分隔多个关键词
+keywords: Hexo,Blog,技术分享
+author: Mr.Miaow
+language: zh-CN
+timezone: Asia/Shanghai
+
+# URL
+## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
+# 网址
+url: http://miaopei.github.io
+#网站根目录,默认"/",放在子目录"/子目录/"
+#root: /
+# 文章的永久链接格式
+permalink: :year/:month/:day/:title/
+# 永久链接中各部分的默认值
+permalink_defaults:
+pretty_urls:
+  trailing_index: true # Set to false to remove trailing 'index.html' from permalinks 移除'index.html'后缀
+  trailing_html: true # Set to false to remove trailing '.html' from permalinks 移除'.html'后缀
+
+# Directory
+# 资源文件夹，这个文件夹用来存放内容
+source_dir: source
+# 公共文件夹，这个文件夹用于存放生成的站点文件
+public_dir: public
+# 标签文件夹
+tag_dir: tags
+# 归档文件夹
+archive_dir: archives
+# 分类文件夹
+category_dir: categories
+# Include code 文件夹，source_dir 下的子目录
+code_dir: downloads/code
+# 国际化（i18n）文件夹
+i18n_dir: :lang
+# 跳过指定文件的渲染。匹配到的文件将会被不做改动地复制到 public 目录中。您可使用 glob 表达式来匹配路径
+skip_render:
+
+# Writing
+# 文章
+# 新文章的文件名称
+new_post_name: :title.md # File name of new posts
+# 预设布局
+default_layout: post
+# 把标题转换为 title case
+titlecase: false # Transform title into titlecase
+# 在新标签中打开链接
+external_link:
+  enable: true # Open external links in new tab 在新标签中打开链接
+  field: site # Apply to the whole site 整个网站（site）生效或仅对文章（post）生效
+  exclude: '' # 需要排除的域名。主域名和子域名如 www 需分别配置
+# 把文件名称转换为 (1) 小写或 (2) 大写
+filename_case: 0
+# 显示草稿
+render_drafts: false
+# 启动 Asset(资源)文件夹
+post_asset_folder: false
+# 把链接改为与根目录的相对位址
+relative_link: false
+# 显示未来的文章
+future: true
+
+syntax_highlighter: highlight.js
+# 代码块的设置
+highlight:
+  enable: true # 开启代码块高亮
+  line_number: true # 显示行数
+  auto_detect: true # 如果未指定语言，则启用自动检测
+  tab_replace: '' # 用 n 个空格替换 tabs；如果值为空，则不会替换 tabs
+  wrap: true # 将代码块包装到<table>
+  hljs: false # CSS类使用hljs-*前缀
+prismjs:
+  preprocess: true
+  line_number: true
+  tab_replace: ''
+
+# Home page setting
+# path: Root path for your blogs index page. (default = '')
+# per_page: Posts displayed per page. (0 = disable pagination)
+# order_by: Posts order. (Order by date descending by default)
+index_generator:
+  path: ''
+  per_page: 10
+  order_by: -date
+
+# Category & Tag
+# 分类 & 标签
+# 默认分类
+default_category: uncategorized
+# 分类别名
+category_map:
+# 标签别名
+tag_map:
+
+# Metadata elements
+## https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta
+meta_generator: true
+
+# Date / Time format
+## Hexo uses Moment.js to parse and display date
+## You can customize the date format as defined in
+## http://momentjs.com/docs/#/displaying/format/
+date_format: YYYY-MM-DD
+time_format: HH:mm:ss
+## updated_option supports 'mtime', 'date', 'empty'
+updated_option: 'mtime'
+
+# Pagination
+## Set per_page to 0 to disable pagination
+# 每页显示的文章量 (0 = 关闭分页功能)
+per_page: 10
+# 分页目录
+pagination_dir: page
+
+# Include / Exclude file(s)
+## include:/exclude: options only apply to the 'source/' folder
+# Hexo 默认会忽略隐藏文件和文件夹（包括名称以下划线和 . 开头的文件和文件夹，Hexo 的 _posts 和 _data 等目录除外）。通过设置此字段将使 Hexo 处理他们并将它们复制到 source 目录下
+include:
+# Hexo 会忽略这些文件和目录
+exclude:
+# 忽略文件/文件夹
+ignore:
+
+# Extensions
+## Plugins: https://hexo.io/plugins/
+
+## Themes: https://hexo.io/themes/
+Plugins:
+  - hexo-generator-feed
+  - hexo-symbols-count-time
+  - hexo-generator-baidu-sitemap
+  - hexo-generator-sitemap
+  
+#theme: landscape
+theme: next
+
+# Deployment
+## Docs: https://hexo.io/docs/one-command-deployment
+# 部署部分的设置
+deploy:
+  type: git
+  repo: git@github.com:miaopei/miaopei.github.io.git
+  branch: main
+
+search:
+  path: search.xml
+  field: post
+  format: html
+  limit: 10000
+
+# 为博客加上妹子
+live2d:
+  enable: true
+  scriptFrom: local
+  pluginRootPath: live2dw/
+  pluginJsPath: lib/
+  pluginModelPath: assets/
+  tagMode: false
+  log: false
+  model:
+    use: live2d-widget-model-hijiki
+  display:
+    position: right
+    width: 150
+    height: 300
+  mobile:
+    show: true
+
+sitemap:
+  path: sitemap.xml
+  template: ./source/_xml/sitemap_template.xml
+  rel: false
+  tag: true
+  category: false
+
+#symbols_count_time:
+  #文章内是否显示
+  #  symbols: true
+  #time: true   # 取消估算单篇文章阅读时间
+  # 网页底部是否显示
+  #total_symbols: true
+  #total_time: true  # 取消估算站点总阅读时间
+  #exclude_codeblock: false
+
+# Algolia Search API Key
+#algolia:
+#  applicationID: '5HERDWLKZV'
+#  apiKey: '7876dff207d78e6df0721656b26ee0af'
+#  indexName: 'hexo-algolia'
+
+#baidu_url_submit:
+#count: 20
+#host: miaopei.github.io
+#token: T41H8pjFOJHIVPJ3
+#path: baidu_urls.txt
+
+#leancloud_counter_security:
+#enable_sync: true
+#app_id: 8my53W9pnVTOdpPvvH1P76YB-gzGzoHsz
+#app_key: DxtWRruxKOO4SPacKO9Mxe8g
+#username: miaopei
+#password: mp123456
+
+#baidusitemap:
+    #path: baidusitemap.xml
+
+#aplayer:
+    #enable: true
+    #meting: true
+    #asset_inject: false
