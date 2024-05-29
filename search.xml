@@ -19,21 +19,6 @@
 ]]></content>
   </entry>
   <entry>
-    <title>Hexo的Next主题个性化设置</title>
-    <url>/2016/12/23/Hexo/Hexo%E7%9A%84Next%E4%B8%BB%E9%A2%98%E4%B8%AA%E6%80%A7%E5%8C%96%E8%AE%BE%E7%BD%AE/</url>
-    <content><![CDATA[<blockquote>
-<p><a href="https://github.com/HarleyWang93/blog/issues/1">Hexo + GitHub (Coding) Pages 搭建博客</a></p>
-<p><a href="http://blog.shenyuanluo.com/HexoConfig1.html">Hexo的Next主题个性化设置（一）——基础设置</a></p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>hexo</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Hexo + Github 博客多终端同步</title>
     <url>/2017/03/20/Hexo/Hexo-Github-%E5%8D%9A%E5%AE%A2%E5%A4%9A%E7%BB%88%E7%AB%AF%E5%90%8C%E6%AD%A5/</url>
     <content><![CDATA[<p><a href="http://blog.csdn.net/Monkey_LZL/article/details/60870891">原文链接</a></p>
@@ -51,6 +36,21 @@
 
 <h2 id="4-不同终端间愉快地玩耍"><a href="#4-不同终端间愉快地玩耍" class="headerlink" title="4. 不同终端间愉快地玩耍"></a>4. 不同终端间愉快地玩耍</h2><p>在不同的终端已经做完配置，就可以愉快的分享自己更新的博客<br>进入自己相应的文件夹</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 先pull完成本地与远端的融合</span></span><br><span class="line">$ git pull origin hexo</span><br><span class="line"></span><br><span class="line">$ hexo new post <span class="string">&quot; new blog name&quot;</span></span><br><span class="line"></span><br><span class="line">$ git add <span class="built_in">source</span></span><br><span class="line"></span><br><span class="line">$ git commit -m <span class="string">&quot;XX&quot;</span></span><br><span class="line"></span><br><span class="line">$ git push origin hexo</span><br><span class="line"></span><br><span class="line">$ hexo d -g</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>hexo</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hexo的Next主题个性化设置</title>
+    <url>/2016/12/23/Hexo/Hexo%E7%9A%84Next%E4%B8%BB%E9%A2%98%E4%B8%AA%E6%80%A7%E5%8C%96%E8%AE%BE%E7%BD%AE/</url>
+    <content><![CDATA[<blockquote>
+<p><a href="https://github.com/HarleyWang93/blog/issues/1">Hexo + GitHub (Coding) Pages 搭建博客</a></p>
+<p><a href="http://blog.shenyuanluo.com/HexoConfig1.html">Hexo的Next主题个性化设置（一）——基础设置</a></p>
+</blockquote>
 ]]></content>
       <categories>
         <category>hexo</category>
