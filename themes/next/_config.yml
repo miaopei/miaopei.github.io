@@ -684,11 +684,11 @@ comments:
   lazyload: false
   # Modify texts or order for any naves, here are some examples.
   nav:
-    #disqus:
-    #  text: Load Disqus
-    #  order: -1
     gitalk:
       order: -2
+    disqus:
+      text: Load Disqus
+      order: -1
 
 # Disqus
 # For more information: https://disqus.com
@@ -766,7 +766,7 @@ gitalk:
   github_id: miaopei # Github repo owner
   repo: miaopei.github.io # Repository name to store issues
   client_id: Ov23li804qbeklf03KFv # Github Application Client ID
-  client_secret: 04d82f918ed9c01a0df0dd4cd2677366782282e8 # Github Application Client Secret
+  client_secret: fce69a6b68a24543006d90b37dbe835082db6f23 # Github Application Client Secret
   admin_user: miaopei # GitHub repo owner and collaborators, only these guys can initialize github issues
   distraction_free_mode: true # Facebook-like distraction free mode
   # Gitalk's display language depends on user's browser or system environment
