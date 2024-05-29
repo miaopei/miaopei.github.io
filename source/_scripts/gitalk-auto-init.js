@@ -6,19 +6,21 @@ const request = require('request');
 const xmlParser = require('xml-parser');
 const md5 = require('md5');
 
-const keystr = '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mrmiaow';
+const keystr = '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_mrmiaow';
 
 // 配置信息
 const config = {
   username: 'miaopei', // GitHub repository 所有者，可以是个人或者组织。对应Gitalk配置中的owner
-  repo: 'miaopei.github.io', // 储存评论issue的github仓库名，仅需要仓库名字即可。对应 Gitalk配置中的repo
-  token: keystr.match(/(\S*)mrmiaow/)[1], // 前面申请的 personal access token
+  repo: "miaopei.github.io", // 储存评论issue的github仓库名，仅需要仓库名字即可。对应 Gitalk配置中的repo
   //token: '', // 前面申请的 personal access token
+  token: keystr.match(/(\S*)_mrmiaow/)[1], // 前面申请的 personal access token
   sitemap: path.join(__dirname, '../../public/sitemap.xml'), // 自己站点的 sitemap 文件地址
   cache: true, // 是否启用缓存，启用缓存会将已经初始化的数据写入配置的 gitalkCacheFile 文件，下一次直接通过缓存文件判断
   gitalkCacheFile: path.join(__dirname, './gitalk-init-cache.json'), // 用于保存 gitalk 已经初始化的 id 列表
   gitalkErrorFile: path.join(__dirname, './gitalk-init-error.json'), // 用于保存 gitalk 初始化报错的数据
 };
+
+console.log(`token: [${config.token}]`);
 
 const api = 'https://api.github.com/repos/' + config.username + '/' + config.repo + '/issues';
 

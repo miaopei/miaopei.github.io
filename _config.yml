@@ -180,7 +180,7 @@ live2d:
 
 sitemap:
   path: sitemap.xml
-  template: ./source/_xml/sitemap_template.xml
+  template: source/_scripts/sitemap_template.xml
   rel: false
   tag: true
   category: false
