@@ -21,7 +21,7 @@ date: 2017-03-28 16:53:46
 
 首先确定已经安装好了 `nodejs` 和 `npm` 以及 `git`
 
-```bash
+```shell
 $ npm install hexo -g
 $ hexo init blog
 $ cd blog
