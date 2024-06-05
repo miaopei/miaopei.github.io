@@ -185,6 +185,11 @@ sitemap:
   tag: true
   category: false
 
+aplayer:
+  enable: true
+  meting: true
+  asset_inject: false
+    
 #symbols_count_time:
   #文章内是否显示
   #  symbols: true
@@ -216,7 +221,4 @@ sitemap:
 #baidusitemap:
     #path: baidusitemap.xml
 
-#aplayer:
-    #enable: true
-    #meting: true
-    #asset_inject: false
+
