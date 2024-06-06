@@ -1,6 +1,196 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Hexo + Github 博客多终端同步</title>
+    <url>/2017/03/20/Hexo/Hexo-Github-%E5%8D%9A%E5%AE%A2%E5%A4%9A%E7%BB%88%E7%AB%AF%E5%90%8C%E6%AD%A5/</url>
+    <content><![CDATA[<p><a href="http://blog.csdn.net/Monkey_LZL/article/details/60870891">原文链接</a></p>
+<p>主体的思路是将博文内容相关文件放在Github项目中master中，将Hexo配置写博客用的相关文件放在Github项目的hexo分支上，这个是关键，多终端的同步只需要对分支hexo进行操作。下面是详细的步骤讲解：</p>
+<span id="more"></span>
+
+<h2 id="1-准备条件"><a href="#1-准备条件" class="headerlink" title="1. 准备条件"></a>1. 准备条件</h2><p>安装了Node.js,Git,Hexo环境<br>完成Github与本地Hexo的对接<br>这部分大家可以参考<a href="https://xuanwo.org/2015/03/26/hexo-intor/">史上最详细的Hexo博客搭建图文教程</a></p>
+<p>配置好这些，就可以捋起袖子大干一场了！</p>
+<h2 id="2-在其中一个中单操作，push本地文件夹Hexo中的必要文件到yourname-github-io的hexo分支上"><a href="#2-在其中一个中单操作，push本地文件夹Hexo中的必要文件到yourname-github-io的hexo分支上" class="headerlink" title="2. 在其中一个中单操作，push本地文件夹Hexo中的必要文件到yourname.github.io的hexo分支上"></a>2. 在其中一个中单操作，push本地文件夹Hexo中的必要文件到yourname.github.io的hexo分支上</h2><p>在利用Github+Hexo搭建自己的博客时，新建了一个Hexo的文件夹，并进行相关的配置，这部分主要是将这些配置的文件托管到Github项目的分支上，其中只托管部分用于多终端的同步的文件，如完成的效果图所示：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 初始化本地仓库</span></span><br><span class="line">$ git init</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将必要的文件依次添加，有些文件夹如npm install产生的node_modules由于路径过长不好处理，所以这里没有用`git add .`命令了，而是依次添加必要文件</span></span><br><span class="line">$ git add <span class="built_in">source</span></span><br><span class="line">$ git commit -m <span class="string">&quot;Blog Source Hexo&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 新建hexo分支</span></span><br><span class="line">$ git branch hexo</span><br><span class="line"></span><br><span class="line"><span class="comment"># 切换到hexo分支上</span></span><br><span class="line">$ git checkout hexo</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将本地与Github项目对接</span></span><br><span class="line">$ git remote add origin https://github.com/yourname/yourname.github.io.git</span><br><span class="line"></span><br><span class="line"><span class="comment"># push到Github项目的hexo分支上</span></span><br><span class="line">$ git push origin hexo</span><br></pre></td></tr></table></figure>
+
+<p>这样你的github项目中就会多出一个Hexo分支，这个就是用于多终端同步关键的部分。</p>
+<h2 id="3-另一终端完成clone和push更新"><a href="#3-另一终端完成clone和push更新" class="headerlink" title="3. 另一终端完成clone和push更新"></a>3. 另一终端完成clone和push更新</h2><p>此时在另一终端更新博客，只需要将Github的hexo分支clone下来，进行初次的相关配置</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 将Github中hexo分支clone到本地</span></span><br><span class="line">$ git <span class="built_in">clone</span> -b hexo https://github.com/yourname/yourname.github.io.git</span><br><span class="line"></span><br><span class="line"><span class="comment"># 切换到刚刚clone的文件夹内</span></span><br><span class="line">$ <span class="built_in">cd</span> yourname.github.io</span><br><span class="line"></span><br><span class="line"><span class="comment"># cheackout 远程代码到本地hexo分支</span></span><br><span class="line">$ git checkout -b hexo origin/hexo</span><br><span class="line"></span><br><span class="line"><span class="comment"># 注意，这里一定要切换到刚刚clone的文件夹内执行，安装必要的所需组件，不用再init</span></span><br><span class="line">$ npm install</span><br><span class="line"></span><br><span class="line"><span class="comment"># 新建一个.md文件，并编辑完成自己的博客内容</span></span><br><span class="line">$ hexo new post <span class="string">&quot;new blog name&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 经测试每次只要更新sorcerer中的文件到Github中即可，因为只是新建了一篇新博客</span></span><br><span class="line">$ git add <span class="built_in">source</span></span><br><span class="line">$ git commit -m <span class="string">&quot;XX&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 更新分支</span></span><br><span class="line">$ git push origin hexo</span><br><span class="line"></span><br><span class="line"><span class="comment"># push更新完分支之后将自己写的博客对接到自己搭的博客网站上，同时同步了Github中的master</span></span><br><span class="line">$ hexo d -g</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-不同终端间愉快地玩耍"><a href="#4-不同终端间愉快地玩耍" class="headerlink" title="4. 不同终端间愉快地玩耍"></a>4. 不同终端间愉快地玩耍</h2><p>在不同的终端已经做完配置，就可以愉快的分享自己更新的博客<br>进入自己相应的文件夹</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 先pull完成本地与远端的融合</span></span><br><span class="line">$ git pull origin hexo</span><br><span class="line"></span><br><span class="line">$ hexo new post <span class="string">&quot; new blog name&quot;</span></span><br><span class="line"></span><br><span class="line">$ git add <span class="built_in">source</span></span><br><span class="line"></span><br><span class="line">$ git commit -m <span class="string">&quot;XX&quot;</span></span><br><span class="line"></span><br><span class="line">$ git push origin hexo</span><br><span class="line"></span><br><span class="line">$ hexo d -g</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>hexo</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hexo的Next主题个性化设置</title>
+    <url>/2016/12/23/Hexo/Hexo%E7%9A%84Next%E4%B8%BB%E9%A2%98%E4%B8%AA%E6%80%A7%E5%8C%96%E8%AE%BE%E7%BD%AE/</url>
+    <content><![CDATA[<blockquote>
+<p><a href="https://github.com/HarleyWang93/blog/issues/1">Hexo + GitHub (Coding) Pages 搭建博客</a></p>
+<p><a href="http://blog.shenyuanluo.com/HexoConfig1.html">Hexo的Next主题个性化设置（一）——基础设置</a></p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>hexo</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>hexo 使用指南</title>
+    <url>/2017/03/28/Hexo/hexo-%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/</url>
+    <content><![CDATA[<h2 id="安装、初始化和配置"><a href="#安装、初始化和配置" class="headerlink" title="安装、初始化和配置"></a>安装、初始化和配置</h2><h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><ul>
+<li>git</li>
+<li>node.js</li>
+<li>github</li>
+</ul>
+<span id="more"></span>
+
+<h3 id="安装和初始化"><a href="#安装和初始化" class="headerlink" title="安装和初始化"></a>安装和初始化</h3><p>首先确定已经安装好了 <code>nodejs</code> 和 <code>npm</code> 以及 <code>git</code></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">npm install hexo -g</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">hexo init blog</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">cd</span> blog</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">npm install</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">hexo server</span></span><br></pre></td></tr></table></figure>
+
+<p>访问<a href="http://localhost:4000/">http://localhost:4000</a>，会看到生成好的博客。</p>
+<h3 id="主目录结构"><a href="#主目录结构" class="headerlink" title="主目录结构"></a>主目录结构</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">|-- _config.yml</span><br><span class="line">|-- package.json</span><br><span class="line">|-- scaffolds</span><br><span class="line">|-- source</span><br><span class="line">   |-- _posts</span><br><span class="line">|-- themes</span><br><span class="line">|-- .gitignore</span><br><span class="line">|-- package.json</span><br></pre></td></tr></table></figure>
+
+<p><strong>_config.yml</strong></p>
+<p>全局配置文件，网站的很多信息都在这里配置，诸如网站名称，副标题，描述，作者，语言，主题，部署等等参数。这个文件下面会做较为详细的介绍。</p>
+<p><strong>package.json</strong></p>
+<p>hexo框架的参数和所依赖插件，如下：  </p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;hexo-site&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;version&quot;</span><span class="punctuation">:</span> <span class="string">&quot;0.0.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;private&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;hexo&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;version&quot;</span><span class="punctuation">:</span> <span class="string">&quot;3.2.0&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;dependencies&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;hexo&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^3.2.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;hexo-generator-archive&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^0.1.4&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;hexo-generator-category&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^0.1.3&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;hexo-generator-index&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^0.2.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;hexo-generator-tag&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^0.2.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;hexo-renderer-ejs&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^0.2.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;hexo-renderer-stylus&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^0.3.1&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;hexo-renderer-marked&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^0.2.10&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;hexo-server&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^0.2.0&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>scaffold</strong></p>
+<p>scaffolds是“脚手架、骨架”的意思，当你新建一篇文章（hexo new ‘title’）的时候，hexo是根据这个目录下的文件进行构建的。基本不用关心。</p>
+<p><strong>_config.yml文件</strong></p>
+<p>_config.yml 采用YAML语法格式，<a href="http://my.oschina.net/u/1861837/blog/526142?p=%7B%7BtotalPage%7D%7D">具体语法自行学习</a> 。<br>具体配置可以参考<a href="https://hexo.io/zh-cn/docs/configuration.html">官方文档</a>，_config.yml 文件中的内容，并对主要参数做简单的介绍</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Hexo Configuration</span></span><br><span class="line"><span class="comment">## Docs: https://hexo.io/docs/configuration.html</span></span><br><span class="line"><span class="comment">## Source: https://github.com/hexojs/hexo/</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Site</span></span><br><span class="line"><span class="attr">title:</span> <span class="string">Hexo</span>   <span class="comment">#网站标题</span></span><br><span class="line"><span class="attr">subtitle:</span>     <span class="comment">#网站副标题</span></span><br><span class="line"><span class="attr">description:</span>  <span class="comment">#网站描述</span></span><br><span class="line"><span class="attr">author:</span> <span class="string">John</span> <span class="string">Doe</span>  <span class="comment">#作者</span></span><br><span class="line"><span class="attr">language:</span>    <span class="comment">#语言</span></span><br><span class="line"><span class="attr">timezone:</span>    <span class="comment">#网站时区。Hexo 默认使用您电脑的时区。时区列表。比如说：America/New_York, Japan, 和 UTC 。</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># URL</span></span><br><span class="line"><span class="comment">## If your site is put in a subdirectory, set url as &#x27;http://yoursite.com/child&#x27; and root as &#x27;/child/&#x27;</span></span><br><span class="line"><span class="attr">url:</span> <span class="string">http://yoursite.com</span>   <span class="comment">#你的站点Url</span></span><br><span class="line"><span class="attr">root:</span> <span class="string">/</span>                    <span class="comment">#站点的根目录</span></span><br><span class="line"><span class="attr">permalink:</span> <span class="string">:year/:month/:day/:title/</span>   <span class="comment">#文章的 永久链接 格式   </span></span><br><span class="line"><span class="attr">permalink_defaults:</span>    <span class="comment">#永久链接中各部分的默认值</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Directory   </span></span><br><span class="line"><span class="attr">source_dir:</span> <span class="string">source</span>         <span class="comment">#资源文件夹，这个文件夹用来存放内容</span></span><br><span class="line"><span class="attr">public_dir:</span> <span class="string">public</span>         <span class="comment">#公共文件夹，这个文件夹用于存放生成的站点文件。</span></span><br><span class="line"><span class="attr">tag_dir:</span> <span class="string">tags</span>              <span class="comment">#标签文件夹     </span></span><br><span class="line"><span class="attr">archive_dir:</span> <span class="string">archives</span>      <span class="comment">#归档文件夹</span></span><br><span class="line"><span class="attr">category_dir:</span> <span class="string">categories</span>   <span class="comment">#分类文件夹</span></span><br><span class="line"><span class="attr">code_dir:</span> <span class="string">downloads/code</span>   <span class="comment">#Include code 文件夹</span></span><br><span class="line"><span class="attr">i18n_dir:</span> <span class="string">:lang</span>            <span class="comment">#国际化（i18n）文件夹</span></span><br><span class="line"><span class="attr">skip_render:</span>               <span class="comment">#跳过指定文件的渲染，您可使用 glob 表达式来匹配路径。    </span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Writing</span></span><br><span class="line"><span class="attr">new_post_name:</span> <span class="string">:title.md</span>   <span class="comment">#新文章的文件名称</span></span><br><span class="line"><span class="attr">default_layout:</span> <span class="string">post</span>       <span class="comment">#预设布局</span></span><br><span class="line"><span class="attr">titlecase:</span> <span class="literal">false</span>           <span class="comment">#把标题转换为 title case</span></span><br><span class="line"><span class="attr">external_link:</span> <span class="literal">true</span>        <span class="comment">#在新标签中打开链接</span></span><br><span class="line"><span class="attr">filename_case:</span> <span class="number">0</span>           <span class="comment">#把文件名称转换为 (1) 小写或 (2) 大写</span></span><br><span class="line"><span class="attr">render_drafts:</span> <span class="literal">false</span>       <span class="comment">#是否显示草稿</span></span><br><span class="line"><span class="attr">post_asset_folder:</span> <span class="literal">false</span>   <span class="comment">#是否启动 Asset 文件夹</span></span><br><span class="line"><span class="attr">relative_link:</span> <span class="literal">false</span>       <span class="comment">#把链接改为与根目录的相对位址    </span></span><br><span class="line"><span class="attr">future:</span> <span class="literal">true</span>               <span class="comment">#显示未来的文章</span></span><br><span class="line"><span class="attr">highlight:</span>                 <span class="comment">#内容中代码块的设置    </span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">line_number:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">auto_detect:</span> <span class="literal">false</span></span><br><span class="line">  <span class="attr">tab_replace:</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Category &amp; Tag</span></span><br><span class="line"><span class="attr">default_category:</span> <span class="string">uncategorized</span></span><br><span class="line"><span class="attr">category_map:</span>          <span class="comment">#分类别名</span></span><br><span class="line"><span class="attr">tag_map:</span>               <span class="comment">#标签别名</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Date / Time format</span></span><br><span class="line"><span class="comment">## Hexo uses Moment.js to parse and display date</span></span><br><span class="line"><span class="comment">## You can customize the date format as defined in</span></span><br><span class="line"><span class="comment">## http://momentjs.com/docs/#/displaying/format/</span></span><br><span class="line"><span class="attr">date_format:</span> <span class="string">YYYY-MM-DD</span>         <span class="comment">#日期格式</span></span><br><span class="line"><span class="attr">time_format:</span> <span class="string">HH:mm:ss</span>           <span class="comment">#时间格式    </span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Pagination</span></span><br><span class="line"><span class="comment">## Set per_page to 0 to disable pagination</span></span><br><span class="line"><span class="attr">per_page:</span> <span class="number">10</span>    <span class="comment">#分页数量</span></span><br><span class="line"><span class="attr">pagination_dir:</span> <span class="string">page</span>  </span><br><span class="line"></span><br><span class="line"><span class="comment"># Extensions</span></span><br><span class="line"><span class="comment">## Plugins: https://hexo.io/plugins/</span></span><br><span class="line"><span class="comment">## Themes: https://hexo.io/themes/</span></span><br><span class="line"><span class="attr">theme:</span> <span class="string">landscape</span>   <span class="comment">#主题名称</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Deployment</span></span><br><span class="line"><span class="comment">## Docs: https://hexo.io/docs/deployment.html</span></span><br><span class="line"><span class="comment">#  部署部分的设置</span></span><br><span class="line"><span class="attr">deploy:</span>     </span><br><span class="line">  <span class="attr">type:</span> <span class="string">git</span>  <span class="comment">#类型，常用的git</span></span><br><span class="line">  <span class="attr">repo:</span> <span class="string">https://github.com/nanshanyi/nanshanyi.github.io.git</span> <span class="comment">#github仓库的地址</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><p><strong>如果页面中出现中文，应以UTF-8无BOM编码格式，所以不要用win自带的记事本，而是用notepad++这种支持编码转换的编辑器。</strong></p>
+<p>由于google在天朝大陆被墙，进入 <code>themes\landscape\layout\_partial</code> ，打开 <code>head.ejs</code> ，删掉第31行 <code>fonts.googleapis.com</code> 的链接。</p>
+<p>下载下来 <code>jQuery-2.0.3.min.js</code> ，放到 <code>themes\landscape\source\js</code> 文件夹中。之后进入 <code>themes\landscape\layout\_partial</code> ，打开 <code>after-footer.ejs</code> ，将第17行的路径替换为 <code>/js/jquery-2.0.3.min.js</code> 。</p>
+<p>至此大功告成。</p>
+<h2 id="写文章-草稿"><a href="#写文章-草稿" class="headerlink" title="写文章&amp;草稿"></a>写文章&amp;草稿</h2><h3 id="文章"><a href="#文章" class="headerlink" title="文章"></a>文章</h3><p>命令行输入：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new post <span class="string">&quot;new article&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>之后在 <code>soource/_posts</code> 目录下面多了一个 <code>new-article.md</code> 的文件。</p>
+<h3 id="文章属性"><a href="#文章属性" class="headerlink" title="文章属性"></a>文章属性</h3><table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>layout</td>
+<td>Layout</td>
+<td>post或page</td>
+</tr>
+<tr>
+<td>title</td>
+<td>文章的标题</td>
+<td></td>
+</tr>
+<tr>
+<td>date</td>
+<td>穿件日期</td>
+<td>文件的创建日期</td>
+</tr>
+<tr>
+<td>updated</td>
+<td>修改日期</td>
+<td>文件的修改日期</td>
+</tr>
+<tr>
+<td>comments</td>
+<td>是否开启评论</td>
+<td>true</td>
+</tr>
+<tr>
+<td>tags</td>
+<td>标签</td>
+<td></td>
+</tr>
+<tr>
+<td>categories</td>
+<td>分类</td>
+<td></td>
+</tr>
+<tr>
+<td>permalink</td>
+<td>url中的名字</td>
+<td>文件名</td>
+</tr>
+<tr>
+<td>toc</td>
+<td>是否开启目录</td>
+<td>true</td>
+</tr>
+<tr>
+<td>reward</td>
+<td>是否开启打赏</td>
+<td>true</td>
+</tr>
+</tbody></table>
+<h3 id="分类和标签"><a href="#分类和标签" class="headerlink" title="分类和标签"></a>分类和标签</h3><figure class="highlight text"><table><tr><td class="code"><pre><span class="line">categories:</span><br><span class="line">  - 日记</span><br><span class="line">tags:</span><br><span class="line">  - Hexo</span><br><span class="line">  - node.js</span><br></pre></td></tr></table></figure>
+
+<h3 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h3><p><code>&lt;!--more--&gt;</code> 之上的内容为摘要。</p>
+<h3 id="草稿"><a href="#草稿" class="headerlink" title="草稿"></a>草稿</h3><p>草稿相当于很多博客都有的“私密文章”功能。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new draft <span class="string">&quot;new draft&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>会在 <code>source/_drafts</code> 目录下生成一个 <code>new-draft.md</code> 文件。但是这个文件不被显示在页面上，链接也访问不到。也就是说如果你想把某一篇文章移除显示，又不舍得删除，可以把它移动到 <code>_drafts</code> 目录之中。</p>
+<p>如果你希望强行预览草稿，更改配置文件：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">render_drafts: true</span><br></pre></td></tr></table></figure>
+
+<p>或者，如下方式启动server：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server --drafts</span><br></pre></td></tr></table></figure>
+
+<p>下面这条命令可以把草稿变成文章，或者页面：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo publish [layout] &lt;filename&gt;</span><br><span class="line"></span><br><span class="line">eg:</span><br><span class="line">$ hexo publish drafts hexo-使用指南</span><br></pre></td></tr></table></figure>
+
+<h2 id="Blog中出入图片和音乐"><a href="#Blog中出入图片和音乐" class="headerlink" title="Blog中出入图片和音乐"></a>Blog中出入图片和音乐</h2><p>文章推介：<a href="http://www.jianshu.com/p/53e0d2a617da">Hexo 博客中插入音乐&#x2F;视频</a></p>
+<p>​		   <a href="http://blog.shiqichan.com/use-qiniu-store-image-for-hexo/">使用七牛为Hexo存储图片</a></p>
+<pre><code>             [hexo主题中添加相册功能](http://www.cnblogs.com/xljzlw/p/5137622.html)
+</code></pre>
+<p>​		   <a href="http://wuchong.me/blog/2014/12/13/hexo-theme-creating-image-styles/?utm_source=tuicool&utm_medium=referral#">为 Hexo 主题添加多种图片样式(主题不错考虑移植)</a></p>
+<p>​		   <a href="https://yq.aliyun.com/articles/8607">Hexo折腾记——基本配置篇</a></p>
+<p>​		   <a href="http://www.cnblogs.com/jarson-7426/p/5515870.html">hexo博客进阶－相册和独立域名</a></p>
+<p>插入图片基本分为两种办法** ：</p>
+<p>（1） 放在本地文件</p>
+<p>首先在根目录下确认 <code>_config.yml</code> 中有 <code>post_asset_folder:true</code> 。<br>在 hexo 目录，执行：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ npm install https://github.com/CodeFalling/hexo-asset-image --save</span><br></pre></td></tr></table></figure>
+
+<p>之后再使用 <code>hexo new &#39;new&#39; </code>创建新博客的时候，会在 <code>source/_posts</code> 里面创建 <code>.md</code> 文件的同时生成一个相同的名字的文件夹。把该文章中需要使用的图片放在该文件夹下即可。<br>使用的时候</p>
+<figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">![<span class="string">“图片描述”（可以不写）</span>](<span class="link">/文件夹名/你的图片名字.JPG</span>)</span><br><span class="line">例如：</span><br><span class="line">！[ ] (new/text.jpg)</span><br></pre></td></tr></table></figure>
+
+<p>（2）放在<a href="https://portal.qiniu.com/signup?code=3lglas6pgi2qa">七牛</a>上，需要先注册，上传图片生成链接，直接在文章中使用链接即可。</p>
+<p><strong>插入音乐</strong> ：</p>
+<p>可以使用网易云音乐，搜索想要的歌曲，点击歌曲名字进入播放器页面，点击生成外链播放器；复制代码，直接粘贴到博文中即可。这样会显示一个网易的播放器，可以把</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">iframe</span> <span class="attr">frameborder</span>=<span class="string">&quot;no&quot;</span> <span class="attr">border</span>=<span class="string">&quot;0&quot;</span> <span class="attr">marginwidth</span>=<span class="string">&quot;0&quot;</span> <span class="attr">marginheight</span>=<span class="string">&quot;0&quot;</span> <span class="attr">width</span>=<span class="string">298</span> <span class="attr">height</span>=<span class="string">52</span> <span class="attr">src</span>=<span class="string">&quot;http://music.163.com/outchain/player?type=2&amp;id=32192436&amp;auto=1&amp;height=32&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">iframe</span>&gt;</span></span><br><span class="line">//其中的width=298 height=52 均改为0就看不到了，依然可以播放音乐</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="http://i.imgur.com/Y60twn8.png"></p>
+<p><img data-src="http://i.imgur.com/i42cvBI.png"></p>
+<h2 id="代码高亮highlight-js支持"><a href="#代码高亮highlight-js支持" class="headerlink" title="代码高亮highlight.js支持"></a>代码高亮highlight.js支持</h2><p><a href="https://highlightjs.org/">highlightjs官网</a></p>
+<p><a href="https://highlightjs.org/static/demo/">highlightjs主题风格</a></p>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><p><a href="http://www.yehbeats.com/2015/04/08/hexo-search/">Hexo，Yilia主题添加站内搜索功能</a></p>
+<p><a href="http://kuangqi.me/tricks/enable-table-of-contents-on-hexo/">为Hexo博客添加目录</a></p>
+<p><a href="http://www.ituring.com.cn/article/199624">Hexo站点中添加文章目录以及归档</a></p>
+<p><a href="http://crescentmoon.info/2014/12/11/popular-widget/">使用LeanCloud平台为Hexo博客添加文章浏览量统计组件</a></p>
+<p><a href="http://www.tuicool.com/articles/ABFn2qU">使用hexo搭建静态博客</a></p>
+<p><a href="http://www.ituring.com.cn/article/199035?utm_source=tuicool&utm_medium=referral">Hexo Docs中文 ： （二）基本用法</a></p>
+]]></content>
+      <categories>
+        <category>hexo</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>netconf note</title>
     <url>/2020/09/21/Netconf/netconf-note/</url>
     <content><![CDATA[<h1 id="Netconf-学习笔记"><a href="#Netconf-学习笔记" class="headerlink" title="Netconf 学习笔记"></a>Netconf 学习笔记</h1><h2 id="1-Netconf简介"><a href="#1-Netconf简介" class="headerlink" title="1. Netconf简介"></a>1. Netconf简介</h2><p>随着SDN的大热，一个诞生了十年之久的协议焕发了第二春，它就是NETCONF协议。如果你在两年前去搜索NETCONF协议，基本得到的信息都是“这个协议是一个网管协议，主要目的是弥补SNMP协议的不足，希望可以取代SNMP协议”。SNMP有哪些不足，而NETCONF是否真的能够弥补，这都不是重点，重点是NETCONF诞生至今SNMP依旧活的好好的。所以如果我们还是把NETCONF当做一个网管协议的话，估计它会在冷板凳上一直坐下去，而如果我们换一个角度去看待NETCONF协议，你会发现也许它是最适合SDN的一个协议。</p>
@@ -1104,196 +1294,6 @@
       </categories>
       <tags>
         <tag>Netconf</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Hexo + Github 博客多终端同步</title>
-    <url>/2017/03/20/Hexo/Hexo-Github-%E5%8D%9A%E5%AE%A2%E5%A4%9A%E7%BB%88%E7%AB%AF%E5%90%8C%E6%AD%A5/</url>
-    <content><![CDATA[<p><a href="http://blog.csdn.net/Monkey_LZL/article/details/60870891">原文链接</a></p>
-<p>主体的思路是将博文内容相关文件放在Github项目中master中，将Hexo配置写博客用的相关文件放在Github项目的hexo分支上，这个是关键，多终端的同步只需要对分支hexo进行操作。下面是详细的步骤讲解：</p>
-<span id="more"></span>
-
-<h2 id="1-准备条件"><a href="#1-准备条件" class="headerlink" title="1. 准备条件"></a>1. 准备条件</h2><p>安装了Node.js,Git,Hexo环境<br>完成Github与本地Hexo的对接<br>这部分大家可以参考<a href="https://xuanwo.org/2015/03/26/hexo-intor/">史上最详细的Hexo博客搭建图文教程</a></p>
-<p>配置好这些，就可以捋起袖子大干一场了！</p>
-<h2 id="2-在其中一个中单操作，push本地文件夹Hexo中的必要文件到yourname-github-io的hexo分支上"><a href="#2-在其中一个中单操作，push本地文件夹Hexo中的必要文件到yourname-github-io的hexo分支上" class="headerlink" title="2. 在其中一个中单操作，push本地文件夹Hexo中的必要文件到yourname.github.io的hexo分支上"></a>2. 在其中一个中单操作，push本地文件夹Hexo中的必要文件到yourname.github.io的hexo分支上</h2><p>在利用Github+Hexo搭建自己的博客时，新建了一个Hexo的文件夹，并进行相关的配置，这部分主要是将这些配置的文件托管到Github项目的分支上，其中只托管部分用于多终端的同步的文件，如完成的效果图所示：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 初始化本地仓库</span></span><br><span class="line">$ git init</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将必要的文件依次添加，有些文件夹如npm install产生的node_modules由于路径过长不好处理，所以这里没有用`git add .`命令了，而是依次添加必要文件</span></span><br><span class="line">$ git add <span class="built_in">source</span></span><br><span class="line">$ git commit -m <span class="string">&quot;Blog Source Hexo&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 新建hexo分支</span></span><br><span class="line">$ git branch hexo</span><br><span class="line"></span><br><span class="line"><span class="comment"># 切换到hexo分支上</span></span><br><span class="line">$ git checkout hexo</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将本地与Github项目对接</span></span><br><span class="line">$ git remote add origin https://github.com/yourname/yourname.github.io.git</span><br><span class="line"></span><br><span class="line"><span class="comment"># push到Github项目的hexo分支上</span></span><br><span class="line">$ git push origin hexo</span><br></pre></td></tr></table></figure>
-
-<p>这样你的github项目中就会多出一个Hexo分支，这个就是用于多终端同步关键的部分。</p>
-<h2 id="3-另一终端完成clone和push更新"><a href="#3-另一终端完成clone和push更新" class="headerlink" title="3. 另一终端完成clone和push更新"></a>3. 另一终端完成clone和push更新</h2><p>此时在另一终端更新博客，只需要将Github的hexo分支clone下来，进行初次的相关配置</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 将Github中hexo分支clone到本地</span></span><br><span class="line">$ git <span class="built_in">clone</span> -b hexo https://github.com/yourname/yourname.github.io.git</span><br><span class="line"></span><br><span class="line"><span class="comment"># 切换到刚刚clone的文件夹内</span></span><br><span class="line">$ <span class="built_in">cd</span> yourname.github.io</span><br><span class="line"></span><br><span class="line"><span class="comment"># cheackout 远程代码到本地hexo分支</span></span><br><span class="line">$ git checkout -b hexo origin/hexo</span><br><span class="line"></span><br><span class="line"><span class="comment"># 注意，这里一定要切换到刚刚clone的文件夹内执行，安装必要的所需组件，不用再init</span></span><br><span class="line">$ npm install</span><br><span class="line"></span><br><span class="line"><span class="comment"># 新建一个.md文件，并编辑完成自己的博客内容</span></span><br><span class="line">$ hexo new post <span class="string">&quot;new blog name&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 经测试每次只要更新sorcerer中的文件到Github中即可，因为只是新建了一篇新博客</span></span><br><span class="line">$ git add <span class="built_in">source</span></span><br><span class="line">$ git commit -m <span class="string">&quot;XX&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 更新分支</span></span><br><span class="line">$ git push origin hexo</span><br><span class="line"></span><br><span class="line"><span class="comment"># push更新完分支之后将自己写的博客对接到自己搭的博客网站上，同时同步了Github中的master</span></span><br><span class="line">$ hexo d -g</span><br></pre></td></tr></table></figure>
-
-<h2 id="4-不同终端间愉快地玩耍"><a href="#4-不同终端间愉快地玩耍" class="headerlink" title="4. 不同终端间愉快地玩耍"></a>4. 不同终端间愉快地玩耍</h2><p>在不同的终端已经做完配置，就可以愉快的分享自己更新的博客<br>进入自己相应的文件夹</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 先pull完成本地与远端的融合</span></span><br><span class="line">$ git pull origin hexo</span><br><span class="line"></span><br><span class="line">$ hexo new post <span class="string">&quot; new blog name&quot;</span></span><br><span class="line"></span><br><span class="line">$ git add <span class="built_in">source</span></span><br><span class="line"></span><br><span class="line">$ git commit -m <span class="string">&quot;XX&quot;</span></span><br><span class="line"></span><br><span class="line">$ git push origin hexo</span><br><span class="line"></span><br><span class="line">$ hexo d -g</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>hexo</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Hexo的Next主题个性化设置</title>
-    <url>/2016/12/23/Hexo/Hexo%E7%9A%84Next%E4%B8%BB%E9%A2%98%E4%B8%AA%E6%80%A7%E5%8C%96%E8%AE%BE%E7%BD%AE/</url>
-    <content><![CDATA[<blockquote>
-<p><a href="https://github.com/HarleyWang93/blog/issues/1">Hexo + GitHub (Coding) Pages 搭建博客</a></p>
-<p><a href="http://blog.shenyuanluo.com/HexoConfig1.html">Hexo的Next主题个性化设置（一）——基础设置</a></p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>hexo</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>hexo 使用指南</title>
-    <url>/2017/03/28/Hexo/hexo-%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/</url>
-    <content><![CDATA[<h2 id="安装、初始化和配置"><a href="#安装、初始化和配置" class="headerlink" title="安装、初始化和配置"></a>安装、初始化和配置</h2><h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><ul>
-<li>git</li>
-<li>node.js</li>
-<li>github</li>
-</ul>
-<span id="more"></span>
-
-<h3 id="安装和初始化"><a href="#安装和初始化" class="headerlink" title="安装和初始化"></a>安装和初始化</h3><p>首先确定已经安装好了 <code>nodejs</code> 和 <code>npm</code> 以及 <code>git</code></p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">npm install hexo -g</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">hexo init blog</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">cd</span> blog</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">npm install</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">hexo server</span></span><br></pre></td></tr></table></figure>
-
-<p>访问<a href="http://localhost:4000/">http://localhost:4000</a>，会看到生成好的博客。</p>
-<h3 id="主目录结构"><a href="#主目录结构" class="headerlink" title="主目录结构"></a>主目录结构</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">|-- _config.yml</span><br><span class="line">|-- package.json</span><br><span class="line">|-- scaffolds</span><br><span class="line">|-- source</span><br><span class="line">   |-- _posts</span><br><span class="line">|-- themes</span><br><span class="line">|-- .gitignore</span><br><span class="line">|-- package.json</span><br></pre></td></tr></table></figure>
-
-<p><strong>_config.yml</strong></p>
-<p>全局配置文件，网站的很多信息都在这里配置，诸如网站名称，副标题，描述，作者，语言，主题，部署等等参数。这个文件下面会做较为详细的介绍。</p>
-<p><strong>package.json</strong></p>
-<p>hexo框架的参数和所依赖插件，如下：  </p>
-<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;hexo-site&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;version&quot;</span><span class="punctuation">:</span> <span class="string">&quot;0.0.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;private&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;hexo&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;version&quot;</span><span class="punctuation">:</span> <span class="string">&quot;3.2.0&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;dependencies&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;hexo&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^3.2.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;hexo-generator-archive&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^0.1.4&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;hexo-generator-category&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^0.1.3&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;hexo-generator-index&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^0.2.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;hexo-generator-tag&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^0.2.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;hexo-renderer-ejs&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^0.2.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;hexo-renderer-stylus&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^0.3.1&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;hexo-renderer-marked&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^0.2.10&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;hexo-server&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^0.2.0&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
-
-<p><strong>scaffold</strong></p>
-<p>scaffolds是“脚手架、骨架”的意思，当你新建一篇文章（hexo new ‘title’）的时候，hexo是根据这个目录下的文件进行构建的。基本不用关心。</p>
-<p><strong>_config.yml文件</strong></p>
-<p>_config.yml 采用YAML语法格式，<a href="http://my.oschina.net/u/1861837/blog/526142?p=%7B%7BtotalPage%7D%7D">具体语法自行学习</a> 。<br>具体配置可以参考<a href="https://hexo.io/zh-cn/docs/configuration.html">官方文档</a>，_config.yml 文件中的内容，并对主要参数做简单的介绍</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Hexo Configuration</span></span><br><span class="line"><span class="comment">## Docs: https://hexo.io/docs/configuration.html</span></span><br><span class="line"><span class="comment">## Source: https://github.com/hexojs/hexo/</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Site</span></span><br><span class="line"><span class="attr">title:</span> <span class="string">Hexo</span>   <span class="comment">#网站标题</span></span><br><span class="line"><span class="attr">subtitle:</span>     <span class="comment">#网站副标题</span></span><br><span class="line"><span class="attr">description:</span>  <span class="comment">#网站描述</span></span><br><span class="line"><span class="attr">author:</span> <span class="string">John</span> <span class="string">Doe</span>  <span class="comment">#作者</span></span><br><span class="line"><span class="attr">language:</span>    <span class="comment">#语言</span></span><br><span class="line"><span class="attr">timezone:</span>    <span class="comment">#网站时区。Hexo 默认使用您电脑的时区。时区列表。比如说：America/New_York, Japan, 和 UTC 。</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># URL</span></span><br><span class="line"><span class="comment">## If your site is put in a subdirectory, set url as &#x27;http://yoursite.com/child&#x27; and root as &#x27;/child/&#x27;</span></span><br><span class="line"><span class="attr">url:</span> <span class="string">http://yoursite.com</span>   <span class="comment">#你的站点Url</span></span><br><span class="line"><span class="attr">root:</span> <span class="string">/</span>                    <span class="comment">#站点的根目录</span></span><br><span class="line"><span class="attr">permalink:</span> <span class="string">:year/:month/:day/:title/</span>   <span class="comment">#文章的 永久链接 格式   </span></span><br><span class="line"><span class="attr">permalink_defaults:</span>    <span class="comment">#永久链接中各部分的默认值</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Directory   </span></span><br><span class="line"><span class="attr">source_dir:</span> <span class="string">source</span>         <span class="comment">#资源文件夹，这个文件夹用来存放内容</span></span><br><span class="line"><span class="attr">public_dir:</span> <span class="string">public</span>         <span class="comment">#公共文件夹，这个文件夹用于存放生成的站点文件。</span></span><br><span class="line"><span class="attr">tag_dir:</span> <span class="string">tags</span>              <span class="comment">#标签文件夹     </span></span><br><span class="line"><span class="attr">archive_dir:</span> <span class="string">archives</span>      <span class="comment">#归档文件夹</span></span><br><span class="line"><span class="attr">category_dir:</span> <span class="string">categories</span>   <span class="comment">#分类文件夹</span></span><br><span class="line"><span class="attr">code_dir:</span> <span class="string">downloads/code</span>   <span class="comment">#Include code 文件夹</span></span><br><span class="line"><span class="attr">i18n_dir:</span> <span class="string">:lang</span>            <span class="comment">#国际化（i18n）文件夹</span></span><br><span class="line"><span class="attr">skip_render:</span>               <span class="comment">#跳过指定文件的渲染，您可使用 glob 表达式来匹配路径。    </span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Writing</span></span><br><span class="line"><span class="attr">new_post_name:</span> <span class="string">:title.md</span>   <span class="comment">#新文章的文件名称</span></span><br><span class="line"><span class="attr">default_layout:</span> <span class="string">post</span>       <span class="comment">#预设布局</span></span><br><span class="line"><span class="attr">titlecase:</span> <span class="literal">false</span>           <span class="comment">#把标题转换为 title case</span></span><br><span class="line"><span class="attr">external_link:</span> <span class="literal">true</span>        <span class="comment">#在新标签中打开链接</span></span><br><span class="line"><span class="attr">filename_case:</span> <span class="number">0</span>           <span class="comment">#把文件名称转换为 (1) 小写或 (2) 大写</span></span><br><span class="line"><span class="attr">render_drafts:</span> <span class="literal">false</span>       <span class="comment">#是否显示草稿</span></span><br><span class="line"><span class="attr">post_asset_folder:</span> <span class="literal">false</span>   <span class="comment">#是否启动 Asset 文件夹</span></span><br><span class="line"><span class="attr">relative_link:</span> <span class="literal">false</span>       <span class="comment">#把链接改为与根目录的相对位址    </span></span><br><span class="line"><span class="attr">future:</span> <span class="literal">true</span>               <span class="comment">#显示未来的文章</span></span><br><span class="line"><span class="attr">highlight:</span>                 <span class="comment">#内容中代码块的设置    </span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">line_number:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">auto_detect:</span> <span class="literal">false</span></span><br><span class="line">  <span class="attr">tab_replace:</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Category &amp; Tag</span></span><br><span class="line"><span class="attr">default_category:</span> <span class="string">uncategorized</span></span><br><span class="line"><span class="attr">category_map:</span>          <span class="comment">#分类别名</span></span><br><span class="line"><span class="attr">tag_map:</span>               <span class="comment">#标签别名</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Date / Time format</span></span><br><span class="line"><span class="comment">## Hexo uses Moment.js to parse and display date</span></span><br><span class="line"><span class="comment">## You can customize the date format as defined in</span></span><br><span class="line"><span class="comment">## http://momentjs.com/docs/#/displaying/format/</span></span><br><span class="line"><span class="attr">date_format:</span> <span class="string">YYYY-MM-DD</span>         <span class="comment">#日期格式</span></span><br><span class="line"><span class="attr">time_format:</span> <span class="string">HH:mm:ss</span>           <span class="comment">#时间格式    </span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Pagination</span></span><br><span class="line"><span class="comment">## Set per_page to 0 to disable pagination</span></span><br><span class="line"><span class="attr">per_page:</span> <span class="number">10</span>    <span class="comment">#分页数量</span></span><br><span class="line"><span class="attr">pagination_dir:</span> <span class="string">page</span>  </span><br><span class="line"></span><br><span class="line"><span class="comment"># Extensions</span></span><br><span class="line"><span class="comment">## Plugins: https://hexo.io/plugins/</span></span><br><span class="line"><span class="comment">## Themes: https://hexo.io/themes/</span></span><br><span class="line"><span class="attr">theme:</span> <span class="string">landscape</span>   <span class="comment">#主题名称</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Deployment</span></span><br><span class="line"><span class="comment">## Docs: https://hexo.io/docs/deployment.html</span></span><br><span class="line"><span class="comment">#  部署部分的设置</span></span><br><span class="line"><span class="attr">deploy:</span>     </span><br><span class="line">  <span class="attr">type:</span> <span class="string">git</span>  <span class="comment">#类型，常用的git</span></span><br><span class="line">  <span class="attr">repo:</span> <span class="string">https://github.com/nanshanyi/nanshanyi.github.io.git</span> <span class="comment">#github仓库的地址</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><p><strong>如果页面中出现中文，应以UTF-8无BOM编码格式，所以不要用win自带的记事本，而是用notepad++这种支持编码转换的编辑器。</strong></p>
-<p>由于google在天朝大陆被墙，进入 <code>themes\landscape\layout\_partial</code> ，打开 <code>head.ejs</code> ，删掉第31行 <code>fonts.googleapis.com</code> 的链接。</p>
-<p>下载下来 <code>jQuery-2.0.3.min.js</code> ，放到 <code>themes\landscape\source\js</code> 文件夹中。之后进入 <code>themes\landscape\layout\_partial</code> ，打开 <code>after-footer.ejs</code> ，将第17行的路径替换为 <code>/js/jquery-2.0.3.min.js</code> 。</p>
-<p>至此大功告成。</p>
-<h2 id="写文章-草稿"><a href="#写文章-草稿" class="headerlink" title="写文章&amp;草稿"></a>写文章&amp;草稿</h2><h3 id="文章"><a href="#文章" class="headerlink" title="文章"></a>文章</h3><p>命令行输入：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new post <span class="string">&quot;new article&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>之后在 <code>soource/_posts</code> 目录下面多了一个 <code>new-article.md</code> 的文件。</p>
-<h3 id="文章属性"><a href="#文章属性" class="headerlink" title="文章属性"></a>文章属性</h3><table>
-<thead>
-<tr>
-<th>Setting</th>
-<th>Description</th>
-<th>Default</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>layout</td>
-<td>Layout</td>
-<td>post或page</td>
-</tr>
-<tr>
-<td>title</td>
-<td>文章的标题</td>
-<td></td>
-</tr>
-<tr>
-<td>date</td>
-<td>穿件日期</td>
-<td>文件的创建日期</td>
-</tr>
-<tr>
-<td>updated</td>
-<td>修改日期</td>
-<td>文件的修改日期</td>
-</tr>
-<tr>
-<td>comments</td>
-<td>是否开启评论</td>
-<td>true</td>
-</tr>
-<tr>
-<td>tags</td>
-<td>标签</td>
-<td></td>
-</tr>
-<tr>
-<td>categories</td>
-<td>分类</td>
-<td></td>
-</tr>
-<tr>
-<td>permalink</td>
-<td>url中的名字</td>
-<td>文件名</td>
-</tr>
-<tr>
-<td>toc</td>
-<td>是否开启目录</td>
-<td>true</td>
-</tr>
-<tr>
-<td>reward</td>
-<td>是否开启打赏</td>
-<td>true</td>
-</tr>
-</tbody></table>
-<h3 id="分类和标签"><a href="#分类和标签" class="headerlink" title="分类和标签"></a>分类和标签</h3><figure class="highlight text"><table><tr><td class="code"><pre><span class="line">categories:</span><br><span class="line">  - 日记</span><br><span class="line">tags:</span><br><span class="line">  - Hexo</span><br><span class="line">  - node.js</span><br></pre></td></tr></table></figure>
-
-<h3 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h3><p><code>&lt;!--more--&gt;</code> 之上的内容为摘要。</p>
-<h3 id="草稿"><a href="#草稿" class="headerlink" title="草稿"></a>草稿</h3><p>草稿相当于很多博客都有的“私密文章”功能。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new draft <span class="string">&quot;new draft&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>会在 <code>source/_drafts</code> 目录下生成一个 <code>new-draft.md</code> 文件。但是这个文件不被显示在页面上，链接也访问不到。也就是说如果你想把某一篇文章移除显示，又不舍得删除，可以把它移动到 <code>_drafts</code> 目录之中。</p>
-<p>如果你希望强行预览草稿，更改配置文件：</p>
-<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">render_drafts: true</span><br></pre></td></tr></table></figure>
-
-<p>或者，如下方式启动server：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server --drafts</span><br></pre></td></tr></table></figure>
-
-<p>下面这条命令可以把草稿变成文章，或者页面：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo publish [layout] &lt;filename&gt;</span><br><span class="line"></span><br><span class="line">eg:</span><br><span class="line">$ hexo publish drafts hexo-使用指南</span><br></pre></td></tr></table></figure>
-
-<h2 id="Blog中出入图片和音乐"><a href="#Blog中出入图片和音乐" class="headerlink" title="Blog中出入图片和音乐"></a>Blog中出入图片和音乐</h2><p>文章推介：<a href="http://www.jianshu.com/p/53e0d2a617da">Hexo 博客中插入音乐&#x2F;视频</a></p>
-<p>​		   <a href="http://blog.shiqichan.com/use-qiniu-store-image-for-hexo/">使用七牛为Hexo存储图片</a></p>
-<pre><code>             [hexo主题中添加相册功能](http://www.cnblogs.com/xljzlw/p/5137622.html)
-</code></pre>
-<p>​		   <a href="http://wuchong.me/blog/2014/12/13/hexo-theme-creating-image-styles/?utm_source=tuicool&utm_medium=referral#">为 Hexo 主题添加多种图片样式(主题不错考虑移植)</a></p>
-<p>​		   <a href="https://yq.aliyun.com/articles/8607">Hexo折腾记——基本配置篇</a></p>
-<p>​		   <a href="http://www.cnblogs.com/jarson-7426/p/5515870.html">hexo博客进阶－相册和独立域名</a></p>
-<p>插入图片基本分为两种办法** ：</p>
-<p>（1） 放在本地文件</p>
-<p>首先在根目录下确认 <code>_config.yml</code> 中有 <code>post_asset_folder:true</code> 。<br>在 hexo 目录，执行：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ npm install https://github.com/CodeFalling/hexo-asset-image --save</span><br></pre></td></tr></table></figure>
-
-<p>之后再使用 <code>hexo new &#39;new&#39; </code>创建新博客的时候，会在 <code>source/_posts</code> 里面创建 <code>.md</code> 文件的同时生成一个相同的名字的文件夹。把该文章中需要使用的图片放在该文件夹下即可。<br>使用的时候</p>
-<figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">![<span class="string">“图片描述”（可以不写）</span>](<span class="link">/文件夹名/你的图片名字.JPG</span>)</span><br><span class="line">例如：</span><br><span class="line">！[ ] (new/text.jpg)</span><br></pre></td></tr></table></figure>
-
-<p>（2）放在<a href="https://portal.qiniu.com/signup?code=3lglas6pgi2qa">七牛</a>上，需要先注册，上传图片生成链接，直接在文章中使用链接即可。</p>
-<p><strong>插入音乐</strong> ：</p>
-<p>可以使用网易云音乐，搜索想要的歌曲，点击歌曲名字进入播放器页面，点击生成外链播放器；复制代码，直接粘贴到博文中即可。这样会显示一个网易的播放器，可以把</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">iframe</span> <span class="attr">frameborder</span>=<span class="string">&quot;no&quot;</span> <span class="attr">border</span>=<span class="string">&quot;0&quot;</span> <span class="attr">marginwidth</span>=<span class="string">&quot;0&quot;</span> <span class="attr">marginheight</span>=<span class="string">&quot;0&quot;</span> <span class="attr">width</span>=<span class="string">298</span> <span class="attr">height</span>=<span class="string">52</span> <span class="attr">src</span>=<span class="string">&quot;http://music.163.com/outchain/player?type=2&amp;id=32192436&amp;auto=1&amp;height=32&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">iframe</span>&gt;</span></span><br><span class="line">//其中的width=298 height=52 均改为0就看不到了，依然可以播放音乐</span><br></pre></td></tr></table></figure>
-
-<p><img data-src="http://i.imgur.com/Y60twn8.png"></p>
-<p><img data-src="http://i.imgur.com/i42cvBI.png"></p>
-<h2 id="代码高亮highlight-js支持"><a href="#代码高亮highlight-js支持" class="headerlink" title="代码高亮highlight.js支持"></a>代码高亮highlight.js支持</h2><p><a href="https://highlightjs.org/">highlightjs官网</a></p>
-<p><a href="https://highlightjs.org/static/demo/">highlightjs主题风格</a></p>
-<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><p><a href="http://www.yehbeats.com/2015/04/08/hexo-search/">Hexo，Yilia主题添加站内搜索功能</a></p>
-<p><a href="http://kuangqi.me/tricks/enable-table-of-contents-on-hexo/">为Hexo博客添加目录</a></p>
-<p><a href="http://www.ituring.com.cn/article/199624">Hexo站点中添加文章目录以及归档</a></p>
-<p><a href="http://crescentmoon.info/2014/12/11/popular-widget/">使用LeanCloud平台为Hexo博客添加文章浏览量统计组件</a></p>
-<p><a href="http://www.tuicool.com/articles/ABFn2qU">使用hexo搭建静态博客</a></p>
-<p><a href="http://www.ituring.com.cn/article/199035?utm_source=tuicool&utm_medium=referral">Hexo Docs中文 ： （二）基本用法</a></p>
-]]></content>
-      <categories>
-        <category>hexo</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
       </tags>
   </entry>
 </search>
