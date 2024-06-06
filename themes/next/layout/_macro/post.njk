@@ -95,6 +95,10 @@
       {%- endif %}
     </div>
 
+    {%- if not is_index and theme.passage_end_tag.enabled %}
+      {%- include 'passage-end-tag.njk' -%}
+    {%- endif %}
+
     {#####################}
     {### END POST BODY ###}
     {#####################}

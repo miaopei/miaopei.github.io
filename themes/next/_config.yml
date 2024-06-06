@@ -999,6 +999,11 @@ post_wordcount:
   totalcount: true 
   separated_meta: true
 
+# 文章末尾添加“本文结束”标记
+passage_end_tag:
+  enabled: true
+  content: ------------- 💖 🌞 本 文 结 束 😚 感 谢 您 的 阅 读 🌞 💖 -------------
+
 # Assets
 # Accelerate delivery of static files using a CDN
 # The js option is only valid when vendors.internal is local.
