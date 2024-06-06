@@ -163,8 +163,8 @@ site_state: true
 social:
   GitHub: https://github.com/miaopei || fab fa-github
   E-Mail: miaopei163@163.com || fa fa-envelope
-  简书: https://www.jianshu.com/u/a5516555e760 || fa fa-book
-  RSS: /atom.xml || fa fa-rss
+  #简书: https://www.jianshu.com/u/a5516555e760 || fa fa-book
+  #RSS: /atom.xml || fa fa-rss
   #掘金: https://juejin.im/user/5811a3ec67f3560057d6ff16 || wolf-pack-battalion
   #Weibo: 3922739561 || fab fa-weibo
   #Twitter: https://twitter.com/yourname || fab fa-twitter
@@ -293,6 +293,8 @@ follow_me:
   #WeChat: /images/wechat_channel.png || fab fa-weixin
   #RSS: /atom.xml || fa fa-rss
 
+rss: /atom.xml
+
 # Related popular posts
 # Dependencies: https://github.com/sergeyzwezdin/hexo-related-posts
 related_posts:
@@ -380,8 +382,9 @@ codeblock:
   # Add copy button on codeblock
   copy_button:
     enable: true
+    show_result: true
     # Available values: default | flat | mac
-    style:
+    style: default
   # Fold code block
   fold:
     enable: false
@@ -390,7 +393,7 @@ codeblock:
 back2top:
   enable: true
   # Back to top in sidebar.
-  sidebar: false
+  sidebar: true
   # Scroll percent label in b2t button.
   # ?????????????$)A!@?!c????????
   scrollpercent: true
