@@ -163,7 +163,8 @@ site_state: true
 social:
   GitHub: https://github.com/miaopei || fab fa-github
   E-Mail: miaopei163@163.com || fa fa-envelope
-  #简书: https://www.jianshu.com/u/a5516555e760 || jedi-order
+  简书: https://www.jianshu.com/u/a5516555e760 || fa fa-book
+  RSS: /atom.xml || fa fa-rss
   #掘金: https://juejin.im/user/5811a3ec67f3560057d6ff16 || wolf-pack-battalion
   #Weibo: 3922739561 || fab fa-weibo
   #Twitter: https://twitter.com/yourname || fab fa-twitter
@@ -396,7 +397,7 @@ back2top:
 
 # Reading progress bar
 reading_progress:
-  enable: false
+  enable: true
   # Available values: left | right
   start_at: left
   # Available values: top | bottom
@@ -452,13 +453,13 @@ font:
   # Font settings for site title (.site-title).
   title:
     external: true
-    family:
+    family: Lobster Two
     size:
 
   # Font settings for headlines (<h1> to <h6>).
   headings:
     external: true
-    family:
+    family: 
     size:
 
   # Font settings for posts (.post-body).
@@ -596,7 +597,7 @@ fancybox: false
 # Medium Zoom is a JavaScript library for zooming images like Medium.
 # Warning: Do not enable both `fancybox` and `mediumzoom`.
 # For more information: https://medium-zoom.francoischalifour.com
-mediumzoom: false
+mediumzoom: true
 
 # Vanilla JavaScript plugin for lazyloading images.
 # For more information: https://apoorv.pro/lozad.js/demo/

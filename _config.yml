@@ -189,6 +189,11 @@ aplayer:
   enable: true
   meting: true
   asset_inject: false
+
+feed:
+  type: atom
+  path: atom.xml
+  limit: 100
     
 #symbols_count_time:
   #文章内是否显示
