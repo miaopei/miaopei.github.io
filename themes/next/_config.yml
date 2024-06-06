@@ -393,8 +393,8 @@ codeblock:
   # Code Highlight theme
   # All available themes: https://theme-next.js.org/highlight/
   theme:
-    light: default
-    dark: stackoverflow-dark
+    light: a11y-dark
+    dark: a11y-dark
   prism:
     light: prism
     dark: prism-dark
@@ -403,7 +403,7 @@ codeblock:
     enable: true
     show_result: true
     # Available values: default | flat | mac
-    style: default
+    style: mac
   # Fold code block
   fold:
     enable: false

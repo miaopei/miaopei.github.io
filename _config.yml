@@ -82,7 +82,7 @@ highlight:
   wrap: true # 将代码块包装到<table>
   hljs: false # CSS类使用hljs-*前缀
 prismjs:
-  preprocess: true
+  preprocess: false
   line_number: true
   tab_replace: ''
 
