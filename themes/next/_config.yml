@@ -67,8 +67,8 @@ creative_commons:
   license: by-nc-sa
   # Available values: big | small
   size: small
-  sidebar: false
-  post: false
+  sidebar: false 
+  post: true
   # You can set a language value if you prefer a translated version of CC license, e.g. deed.zh
   # CC licenses are available in 39 languages, you can find the specific and correct abbreviation you need on https://creativecommons.org
   language:
@@ -212,14 +212,14 @@ language_switcher: false
 
 footer:
   # Specify the year when the site was setup. If not defined, current year will be used.
-  #since: 2021
+  since: 2015
 
   # Icon between year and copyright info.
   icon:
     # Icon name in Font Awesome. See: https://fontawesome.com/icons
     name: fa fa-heart
     # If you want to animate the icon, set it to true.
-    animated: false
+    animated: true
     # Change the color of icon, using Hex Code.
     color: "#ff0000"
 
@@ -228,7 +228,7 @@ footer:
   copyright:
 
   # Powered by Hexo & NexT
-  powered: true
+  powered: false
 
   # Beian ICP and gongan information for Chinese users. See: https://beian.miit.gov.cn, https://beian.mps.gov.cn
   beian:
@@ -240,6 +240,18 @@ footer:
     gongan_num:
     # The icon for gongan beian. Login and See: https://beian.mps.gov.cn/web/business/businessHome/website
     gongan_icon_url:
+
+  # web run time
+  # 这是网站开始运行的时间，展示网站运行了多长时间。
+  # 格式, 2018-02-13 15:00:00. 如果个数只有一位，需要补零。
+  runtime:
+    enable: true
+    year: 2016
+    month: 12
+    day: 23
+    hour: 15
+    minute: 00
+    second: 00
 
 
 # ---------------------------------------------------------------
@@ -276,10 +288,13 @@ tag_icon: true
 # Front-matter variable (nonsupport animation).
 reward_settings:
   # If true, a donate button will be displayed in every article by default.
-  enable: false
+  enable: true
   animation: false
+  #comment: 如果你觉得这篇文章对你有用，欢迎赞赏哦~
 
 reward:
+  wechatpay: /images/wechatpay.jpg
+  alipay: /images/alipay.jpg
   #wechatpay: /images/wechatpay.png
   #alipay: /images/alipay.png
   #paypal: /images/paypal.png
