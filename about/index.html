@@ -248,7 +248,7 @@
 <h2 id="关于本站"><a href="#关于本站" class="headerlink" title="关于本站"></a>关于本站</h2><p><em><strong>本站介绍</strong></em>：博客采用 <a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/docs/">Hexo</a> + Git 搭建，使用 <a target="_blank" rel="noopener" href="http://theme-next.iissnan.com/">Next</a> 主题。</p>
 <hr>
 
-    <div id="aplayer-OagqGCHT" class="aplayer aplayer-tag-marker meting-tag-marker"
+    <div id="aplayer-ICrHHait" class="aplayer aplayer-tag-marker meting-tag-marker"
          data-id="2861822943" data-server="netease" data-type="playlist" data-mode="circulation" data-autoplay="true" data-mutex="false" data-listmaxheight="340px" data-preload="none" data-theme="#ad7a86"
     ></div>
 
@@ -291,7 +291,53 @@
     </span>
     <span title="站点阅读时长">1:41</span>
   </span>
+</div> <div>
+   <span id="sitetime"></span>
+   <span id="year" style="display:none">2016</span> 
+   <span id="month" style="display:none">12</span>   
+   <span id="day" style="display:none">23</span>   
+   <span id="hour" style="display:none">15</span>   
+   <span id="minute" style="display:none">0</span>   
+   <span id="second" style="display:none">0</span>   
+	<script language=javascript>
+	function siteTime(){        
+		window.setTimeout("siteTime()", 1000);
+		var seconds = 1000;
+		var minutes = seconds * 60;
+		var hours = minutes * 60;
+		var days = hours * 24;
+		var years = days * 365;
+		var today = new Date();
+		var todayYear = today.getFullYear();
+		var todayMonth = today.getMonth()+1;
+		var todayDate = today.getDate();
+		var todayHour = today.getHours();
+		var todayMinute = today.getMinutes();
+		var todaySecond = today.getSeconds();
+	    var year = document.getElementById("year").innerHTML;
+		var month = document.getElementById("month").innerHTML;
+		var day = document.getElementById("day").innerHTML;
+		var hour = document.getElementById("hour").innerHTML;
+		var minute = document.getElementById("minute").innerHTML;
+		var second = document.getElementById("second").innerHTML;
+		var t1 = Date.UTC(year,month,day,hour,minute,second); 
+		var t2 = Date.UTC(todayYear,todayMonth,todayDate,todayHour,todayMinute,todaySecond);
+		var diff = t2-t1;
+		var diffYears = Math.floor(diff/years);
+		var diffDays = Math.floor((diff/days)-diffYears*365);
+		var diffHours = Math.floor((diff-(diffYears*365+diffDays)*days)/hours);
+		var diffMinutes = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours)/minutes);
+		var diffSeconds = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours-diffMinutes*minutes)/seconds);
+		if(diffYears==0){
+		document.getElementById("sitetime").innerHTML=" 网站已运行 "/*+diffYears+" 年 "*/+diffDays+" 天 "+diffHours+" 小时 "+diffMinutes+" 分钟 "+diffSeconds+" 秒";
+		} else{
+		document.getElementById("sitetime").innerHTML=" 网站已运行 "+diffYears+" 年 "+diffDays+" 天 "+diffHours+" 小时 "+diffMinutes+" 分钟 "+diffSeconds+" 秒";
+		}
+	}
+	siteTime();
+	</script>
 </div>
+
 <div class="busuanzi-count">
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
