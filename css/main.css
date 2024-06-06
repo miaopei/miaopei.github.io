@@ -1228,7 +1228,6 @@ pre code {
   .sidebar {
     background: #222;
     bottom: 0;
-    box-shadow: inset 0 2px 6px #000;
     max-height: 100vh;
     overflow-y: auto;
     position: fixed;
@@ -1257,7 +1256,7 @@ pre code {
     vertical-align: middle;
   }
   .links-of-author a::before {
-    background: #ffffcb;
+    background: #ffb86a;
     display: inline-block;
     margin-right: 3px;
     transform: translateY(-2px);
@@ -1364,6 +1363,32 @@ pre code {
 }
 .sidebar .sidebar-button button i[class^='fa'] {
   margin-right: 5px;
+}
+.feed-link,
+.chat {
+  margin-top: 10px;
+}
+.feed-link a,
+.chat a {
+  display: inline-block;
+  padding: 0 15px;
+  color: #fc6423;
+  border: 1px solid #fc6423 !important;
+  border-radius: 4px;
+}
+.feed-link a i,
+.chat a i {
+  color: #fc6423;
+  font-size: 14px;
+}
+.feed-link a:hover,
+.chat a:hover {
+  color: #fff;
+  background: #fc6423;
+}
+.feed-link a:hover i,
+.chat a:hover i {
+  color: #fff;
 }
 .links-of-blogroll {
   font-size: 0.8125em;
@@ -1682,19 +1707,9 @@ pre code {
 }
 .back-to-top {
   font-size: 12px;
-  align-items: center;
-  bottom: -100px;
-  color: #fff;
-  display: flex;
-  height: 26px;
-  transition: 0.2s ease-in-out;
-  transition-property: bottom;
-  background: #222;
-  cursor: pointer;
-  opacity: 0.6;
-  position: fixed;
-  z-index: 30;
-  left: 30px;
+  margin: 8px -10px -20px;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
 }
 .back-to-top span {
   margin-right: 8px;
@@ -1703,24 +1718,12 @@ pre code {
   text-align: center;
   width: 26px;
 }
-@media (max-width: 991px) {
-  .back-to-top {
-    left: 20px;
-  }
-}
-.back-to-top:hover {
-  opacity: 0.8;
-}
-@media (max-width: 991px) {
-  .back-to-top {
-    opacity: 0.8;
-  }
-}
-.back-to-top:hover {
-  color: #fc6423;
-}
 .back-to-top.back-to-top-on {
-  bottom: 30px;
+  cursor: pointer;
+  opacity: 0.6;
+}
+.back-to-top.back-to-top-on:hover {
+  opacity: 0.8;
 }
 .reading-progress-bar {
   --progress: 0;
@@ -2722,6 +2725,26 @@ header.header {
     border: 0;
     color: #e34603;
   }
+  .feed-link,
+  .chat {
+    border-top: 1px dotted #ccc;
+    border-bottom: 1px dotted #ccc;
+    text-align: center;
+  }
+  .feed-link a,
+  .chat a {
+    color: #fc6423;
+    border: none !important;
+  }
+  .feed-link a:hover,
+  .chat a:hover {
+    background: none;
+    color: #e34603;
+  }
+  .feed-link a:hover i,
+  .chat a:hover i {
+    color: #e34603;
+  }
   .links-of-author {
     display: flex;
     flex-wrap: wrap;
@@ -2747,6 +2770,14 @@ header.header {
   }
   .links-of-author-item a:hover {
     background: var(--body-bg-color);
+  }
+  .back-to-top {
+    background: var(--body-bg-color);
+    margin: -4px -10px -18px;
+    transition-property: bottom, margin-top;
+  }
+  .back-to-top.back-to-top-on {
+    margin-top: 16px;
   }
 }
 .main-inner .sub-menu,
