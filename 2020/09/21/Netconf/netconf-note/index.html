@@ -17,7 +17,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/blue/pace-theme-minimal.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"miaopei.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"always","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"show_result":true,"style":"default"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":{"gitalk":{"order":-2},"disqus":{"text":"Load Disqus","order":-1}},"activeClass":"gitalk"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"miaopei.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"always","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"show_result":true,"style":"default"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":true,"nav":{"gitalk":{"order":-2},"disqus":{"text":"Load Disqus","order":-1}},"activeClass":"gitalk"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
     <meta name="description" content="Netconf 学习笔记1. Netconf简介随着SDN的大热，一个诞生了十年之久的协议焕发了第二春，它就是NETCONF协议。如果你在两年前去搜索NETCONF协议，基本得到的信息都是“这个协议是一个网管协议，主要目的是弥补SNMP协议的不足，希望可以取代SNMP协议”。SNMP有哪些不足，而NETCONF是否真的能够弥补，这都不是重点，重点是NETCONF诞生至今SNMP依旧活的好好的。所以">
 <meta property="og:type" content="article">
@@ -292,7 +292,7 @@
 <p>本质上来说,NETCONF就是利用XML-RPC的通讯机制实现配置客户端和配置服务端之间的通信，实现对网络设备的配置和管理。</p>
 </blockquote>
 <p>NETCONF分为四个层：安全传输层、消息层、操作层、内容层。</p>
-<p><img src="/images/images_netconf/netconf-layer-model-1.png" alt="NETCONF Layering Model And Examplel"></p>
+<p><img data-src="/images/images_netconf/netconf-layer-model-1.png" alt="NETCONF Layering Model And Examplel"></p>
 <ul>
 <li><p><strong>安全传输层</strong>：用于跟交换机安全通信，NETCONF并未规定具体使用哪种传输层协议，所以可以使用SSH、TLS、HTTP等各种协议</p>
 </li>
@@ -330,7 +330,7 @@
 <h2 id="4-Netconf案例使用"><a href="#4-Netconf案例使用" class="headerlink" title="4. Netconf案例使用"></a>4. Netconf案例使用</h2><h3 id="工具lnctool"><a href="#工具lnctool" class="headerlink" title="工具lnctool"></a>工具lnctool</h3><p>假设经过第一步后成功编译出libnetconf和netopeer，这样我们就可以直接运行netopeer。netconf默认监听端口是830端口。</p>
 <p>众所周知，netconf协议支持自定义rpc，因此此步骤需要做的是如何在现有netconf中增加自己的yang模型以及执行自己的rpc？？</p>
 <p>这里就需要用到这个工 <code>lnctool</code>。这个工具是用python实现的，里面代码也比较简单，比如说调用其他应用程序（pyang）或者直接写文件。</p>
-<p><img src="/images/images_netconf/lnctool%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8.png" alt="lnctool工具使用"></p>
+<p><img data-src="/images/images_netconf/lnctool%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8.png" alt="lnctool工具使用"></p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">lnctool --model ./turing-machine.yang transapi --paths ./path</span></span><br></pre></td></tr></table></figure>
 
 <p>另外一个重点是就是实现源文件中相关接口—rpc函数。当经过以上两个步骤之后，就可以进行编译，默认编译出动态库.so文件。</p>
@@ -525,7 +525,7 @@
 <li>Plugin framework for simple development of other outputs, such as code generation.  其他开发输出的框架插件，例如代码生成；</li>
 </ul>
 <h3 id="pyang-命令行简介"><a href="#pyang-命令行简介" class="headerlink" title="pyang 命令行简介"></a>pyang 命令行简介</h3><p>pyang命令行的使用，提供了丰富的文档说明通过pyang –help或者man pyang都能看到非常详细的信息：</p>
-<p><img src="/images/images_netconf/pyangCommad.png" alt="pyang 命令行简介"></p>
+<p><img data-src="/images/images_netconf/pyangCommad.png" alt="pyang 命令行简介"></p>
 <p>普通用户模式转换主要关注如下几个即可：</p>
 <ul>
 <li>-f  输出格式，这里支持的格式包括tree、yang、yin等，用户可以根据需求灵活选择；</li>
@@ -786,6 +786,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.1.0/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lozad.js/1.16.0/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
 <script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
 
