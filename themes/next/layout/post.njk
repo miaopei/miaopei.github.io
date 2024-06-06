@@ -15,7 +15,3 @@
   {{ sidebar_template.render(page.toc.enable) }}
 {% endblock %}
 
-<!-- {### Line 357，如果行数有差异，只需要在 POST END 文章结束后添加即可 ###} -->
-{%- if theme.gitalk.enable %}
-  <div>{%- include 'git-talk.njk' -%}</div>
-{%- endif %}
