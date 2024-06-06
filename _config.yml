@@ -195,14 +195,12 @@ feed:
   path: atom.xml
   limit: 100
     
-#symbols_count_time:
-  #文章内是否显示
-  #  symbols: true
-  #time: true   # 取消估算单篇文章阅读时间
-  # 网页底部是否显示
-  #total_symbols: true
-  #total_time: true  # 取消估算站点总阅读时间
-  #exclude_codeblock: false
+symbols_count_time:
+  symbols: true                # 文章字数统计
+  time: true                   # 文章阅读时长
+  total_symbols: true          # 站点总字数统计
+  total_time: true             # 站点总阅读时长
+  exclude_codeblock: false     # 排除代码字数统计
 
 # Algolia Search API Key
 #algolia:
