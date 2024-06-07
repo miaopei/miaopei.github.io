@@ -2,6 +2,10 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">  
     
   
+    
+  
+    
+  
   <url>  
     <loc>http://miaopei.github.io/about/index.html</loc>  
       
@@ -93,8 +97,6 @@
   
     
   
-    
-  
   <url>  
     <loc>http://miaopei.github.io/messages/index.html</loc>  
       
@@ -105,8 +107,6 @@
       
     <desc></desc>  
   </url>  
-  
-    
   
     
 </urlset>
