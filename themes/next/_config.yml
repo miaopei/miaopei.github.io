@@ -193,9 +193,9 @@ links:
 toc:
   enable: true
   # Automatically add list number to toc.
-  number: true
+  number: false # 关闭目录中的数字编号
   # If true, all words will placed on next lines if header width longer then sidebar width.
-  wrap: false
+  wrap: false # 当设为 true 时，如果标题宽度大于侧边栏宽度，则将文字放在下一行
   # If true, all level of TOC in a post will be displayed, rather than the activated part of it.
   expand_all: false
   # Maximum heading depth of generated toc.
@@ -271,8 +271,8 @@ post_meta:
   item_text: true
   created_at: true
   updated_at:
-    enable: true
-    another_day: true
+    enable: false
+    another_day: false
   categories: true
 
 # Post wordcount display settings
