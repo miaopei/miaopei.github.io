@@ -476,7 +476,7 @@ code.hljs {
   position: absolute;
   transition: opacity 0.2s ease-in-out;
   color: var(--highlight-foreground);
-  font-size: 14px;
+  font-size: 18px;
   right: 0;
   top: 2px;
 }
@@ -541,6 +541,8 @@ code {
   font-size: 0.875em;
   padding: 2px 4px;
   overflow-wrap: break-word;
+  background: #ffc0cb;
+  color: #555;
 }
 kbd {
   border: 2px solid #ccc;
@@ -1249,7 +1251,7 @@ pre code {
     vertical-align: middle;
   }
   .links-of-author a::before {
-    background: #ffff67;
+    background: #ff91ff;
     display: inline-block;
     margin-right: 3px;
     transform: translateY(-2px);
