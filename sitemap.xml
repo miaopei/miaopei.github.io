@@ -2,6 +2,19 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">  
     
   
+  <url>  
+    <loc>http://miaopei.github.io/2017/03/28/Hexo/hexo-%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/</loc>  
+      
+    <lastmod>2024-06-07T11:19:23.149Z</lastmod>  
+      
+    <date>1490691226000</date>  
+    <title>hexo 使用指南 | Mr.Miaow Blog</title>  
+      
+    <desc>1. 安装、初始化和配置1.1 准备工作 git node.js github</desc>  
+  </url>  
+  
+    
+  
     
   
     
@@ -15,19 +28,6 @@
     <title>Mr.Miaow | Mr.Miaow Blog</title>  
       
     <desc>Everything is going to be alright, maybe not today.</desc>  
-  </url>  
-  
-    
-  
-  <url>  
-    <loc>http://miaopei.github.io/2017/03/28/Hexo/hexo-%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/</loc>  
-      
-    <lastmod>2024-06-04T07:52:25.193Z</lastmod>  
-      
-    <date>1490691226000</date>  
-    <title>hexo 使用指南 | Mr.Miaow Blog</title>  
-      
-    <desc>安装、初始化和配置准备工作 git node.js github</desc>  
   </url>  
   
     
