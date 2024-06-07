@@ -1255,7 +1255,7 @@ pre code {
     vertical-align: middle;
   }
   .links-of-author a::before {
-    background: #fffff9;
+    background: #a4c23d;
     display: inline-block;
     margin-right: 3px;
     transform: translateY(-2px);
@@ -2678,7 +2678,7 @@ header.header {
   margin-left: auto;
 }
 .menu .menu-item a.menu-item-active::after {
-  background: #bbb;
+  background: #fc6423;
   border-radius: 50%;
   content: ' ';
   height: 6px;
