@@ -7,9 +7,9 @@ abbrlink: 14289
 date: 2017-03-28 16:53:46
 ---
 
-## 安装、初始化和配置
+## 1. 安装、初始化和配置
 
-### 准备工作
+### 1.1 准备工作
 
 * git
 * node.js
@@ -17,7 +17,7 @@ date: 2017-03-28 16:53:46
 
 <!-- more -->
 
-### 安装和初始化
+### 1.2 安装和初始化
 
 首先确定已经安装好了 `nodejs` 和 `npm` 以及 `git`
 
@@ -31,7 +31,7 @@ $ hexo server
 
 访问[http://localhost:4000](http://localhost:4000)，会看到生成好的博客。
 
-### 主目录结构
+### 1.3 主目录结构
 
 ```python
 |-- _config.yml
@@ -159,7 +159,7 @@ deploy:
   repo: https://github.com/nanshanyi/nanshanyi.github.io.git #github仓库的地址
 ```
 
-### 注意
+### 1.4 注意
 
 **如果页面中出现中文，应以UTF-8无BOM编码格式，所以不要用win自带的记事本，而是用notepad++这种支持编码转换的编辑器。**
 
@@ -169,9 +169,9 @@ deploy:
 
 至此大功告成。
 
-## 写文章&草稿
+## 2. 写文章&草稿
 
-### 文章
+### 2.1 文章
 
 命令行输入：
 
@@ -181,7 +181,7 @@ $ hexo new post "new article"
 
 之后在 `soource/_posts` 目录下面多了一个 `new-article.md` 的文件。
 
-### 文章属性 
+### 2.2 文章属性 
 
 | Setting    | Description | Default   |
 | ---------- | ----------- | --------- |
@@ -196,7 +196,7 @@ $ hexo new post "new article"
 | toc        | 是否开启目录      | true      |
 | reward     | 是否开启打赏      | true      |
 
-### 分类和标签
+### 2.3 分类和标签
 
 ```text
 categories:
@@ -206,11 +206,11 @@ tags:
   - node.js
 ```
 
-### 摘要
+### 2.4 摘要
 
 `<!--more-->` 之上的内容为摘要。
 
-### 草稿
+### 2.5 草稿
 
 草稿相当于很多博客都有的“私密文章”功能。
 
@@ -241,7 +241,7 @@ eg:
 $ hexo publish drafts hexo-使用指南
 ```
 
-## Blog中出入图片和音乐
+## 3. Blog中出入图片和音乐
 
 文章推介：[Hexo 博客中插入音乐/视频](http://www.jianshu.com/p/53e0d2a617da)
 
@@ -290,7 +290,7 @@ $ npm install https://github.com/CodeFalling/hexo-asset-image --save
 
 ![](http://i.imgur.com/i42cvBI.png)
 
-##  代码高亮highlight.js支持
+##  4. 代码高亮highlight.js支持
 
 [highlightjs官网](https://highlightjs.org/)
 
@@ -298,7 +298,7 @@ $ npm install https://github.com/CodeFalling/hexo-asset-image --save
 
 
 
-## 其他
+## 5. 其他
 
 [Hexo，Yilia主题添加站内搜索功能](http://www.yehbeats.com/2015/04/08/hexo-search/)
 
