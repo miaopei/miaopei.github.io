@@ -3,6 +3,71 @@
     
   
   <url>  
+    <loc>http://miaopei.github.io/2018/01/03/DeepLearning/DogsVsCats/</loc>  
+      
+    <lastmod>2024-06-11T06:01:09.250Z</lastmod>  
+      
+    <date>1514945690000</date>  
+    <title>Dogs vs Cats (猫狗大战) | Mr.Miaow Blog</title>  
+      
+    <desc>GitHub 项目地址：Dogs vs Cats (猫狗大战) 项目说明本项目是优达学城的一个毕业项目。项目要求使用深度学习方法识别一张图片是猫还是狗 输入：一张彩色图片 输出：是猫还是狗</desc>  
+  </url>  
+  
+    
+  
+  <url>  
+    <loc>http://miaopei.github.io/2018/01/13/DeepLearning/note-blog-link/</loc>  
+      
+    <lastmod>2024-06-11T05:59:18.985Z</lastmod>  
+      
+    <date>1515809690000</date>  
+    <title>机器学习深度学习-文章收藏 | Mr.Miaow Blog</title>  
+      
+    <desc></desc>  
+  </url>  
+  
+    
+  
+  <url>  
+    <loc>http://miaopei.github.io/2019/07/02/Architect/%E6%9E%B6%E6%9E%84%E5%B8%88%E4%B9%8B%E8%B7%AF/</loc>  
+      
+    <lastmod>2024-06-11T05:58:20.075Z</lastmod>  
+      
+    <date>1562033690000</date>  
+    <title>架构师之路 | Mr.Miaow Blog</title>  
+      
+    <desc></desc>  
+  </url>  
+  
+    
+  
+  <url>  
+    <loc>http://miaopei.github.io/2019/08/27/Android/android-learn-note/</loc>  
+      
+    <lastmod>2024-06-11T05:47:18.775Z</lastmod>  
+      
+    <date>1566900242000</date>  
+    <title>Android学习笔记 | Mr.Miaow Blog</title>  
+      
+    <desc></desc>  
+  </url>  
+  
+    
+  
+  <url>  
+    <loc>http://miaopei.github.io/2017/03/28/Hexo/hexo-operating-guide/</loc>  
+      
+    <lastmod>2024-06-11T05:40:32.128Z</lastmod>  
+      
+    <date>1490691226000</date>  
+    <title>hexo 使用指南 | Mr.Miaow Blog</title>  
+      
+    <desc>1. 安装、初始化和配置1.1 准备工作 git node.js github</desc>  
+  </url>  
+  
+    
+  
+  <url>  
     <loc>http://miaopei.github.io/2020/09/22/Netconf/sysrepo-netconf-node/</loc>  
       
     <lastmod>2024-06-11T05:35:03.197Z</lastmod>  
@@ -37,19 +102,6 @@
     <title>sysrepo note | Mr.Miaow Blog</title>  
       
     <desc>sysrepo sysrepo - 1.4.2 笔记 1. sysrepo 概述Sysrepo 是 Linux/Unix 系统下一个基于 YANG 模型的配置和操作数据库，为应用程序提供统一的操作数据的接口。应用程序使用 YANG 模型来建模，通过利用 YANG 模型完成数据合法性的检查，保证的风格的一致，不需要应用程序直接操作配置文件的一种数据管理方式。</desc>  
-  </url>  
-  
-    
-  
-  <url>  
-    <loc>http://miaopei.github.io/2017/03/28/Hexo/hexo-operating-guide/</loc>  
-      
-    <lastmod>2024-06-11T05:07:56.057Z</lastmod>  
-      
-    <date>1490691226000</date>  
-    <title>hexo 使用指南 | Mr.Miaow Blog</title>  
-      
-    <desc>1. 安装、初始化和配置1.1 准备工作 git node.js github</desc>  
   </url>  
   
     

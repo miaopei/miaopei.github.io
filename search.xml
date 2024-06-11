@@ -1,6 +1,155 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Android学习笔记</title>
+    <url>/2019/08/27/Android/android-learn-note/</url>
+    <content><![CDATA[<h2 id="1-Android-开发者文档"><a href="#1-Android-开发者文档" class="headerlink" title="1. Android 开发者文档"></a>1. Android 开发者文档</h2><blockquote>
+<p><a href="https://developer.android.com/">Android 官方 开发者文档</a></p>
+<p><a href="hukai.me/android-training-course-in-chinese/index.html">中文翻译项目</a></p>
+</blockquote>
+<h2 id="2-Progressive-Web-App"><a href="#2-Progressive-Web-App" class="headerlink" title="2. Progressive Web App"></a>2. Progressive Web App</h2><blockquote>
+<p><a href="https://juejin.im/post/5a6c86e451882573505174e7">简单介绍一下Progressive Web App(PWA)</a></p>
+<p><a href="https://huangxuan.me/2017/02/09/nextgen-web-pwa/">下一代 Web 应用模型 —— Progressive Web App</a></p>
+<p><a href="https://lavas.baidu.com/">LAVAS 基于 Vue.js 的 PWA 解决方案</a></p>
+<p><a href="https://juejin.im/post/5abba6a7f265da239706ec60">PWA超简单入门</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/40236256">PWA，现代前端必会的黑科技</a></p>
+</blockquote>
+<h2 id="3-Java-知识汇总"><a href="#3-Java-知识汇总" class="headerlink" title="3. Java 知识汇总"></a>3. Java 知识汇总</h2><blockquote>
+<p><a href="https://blog.csdn.net/zhandoushi1982/article/details/8458081">JAVA的abstract修饰符 &amp;&amp; 接口interface用法 &amp;&amp; 抽象类和interface的差别</a></p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>Android</category>
+      </categories>
+      <tags>
+        <tag>Android</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>架构师之路</title>
+    <url>/2019/07/02/Architect/%E6%9E%B6%E6%9E%84%E5%B8%88%E4%B9%8B%E8%B7%AF/</url>
+    <content><![CDATA[<h2 id="架构师入门"><a href="#架构师入门" class="headerlink" title="架构师入门"></a>架构师入门</h2><blockquote>
+<p><a href="https://www.jianshu.com/p/a79dc35f4597">我的职业是架构师：12年经验带你入门</a></p>
+<p><a href="http://www.ruanyifeng.com/blog/2016/09/software-architecture.html">软件架构入门 – 阮一峰</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/37078580">成为1个架构师的入门到进阶之路（学习路线图）</a></p>
+</blockquote>
+<blockquote>
+<p><a href="https://mp.weixin.qq.com/s/RahJtAlTF9vkrsj4ZlqPig">架构师之路</a></p>
+<p><a href="https://www.w3cschool.cn/architectroad/architectroad-awk.html">W3Cschool架构师之路</a></p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>架构师</category>
+      </categories>
+      <tags>
+        <tag>架构师</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Dogs vs Cats (猫狗大战)</title>
+    <url>/2018/01/03/DeepLearning/DogsVsCats/</url>
+    <content><![CDATA[<blockquote>
+<p>GitHub 项目地址：<a href="https://github.com/miaopei/cat_vs_dog">Dogs vs Cats (猫狗大战)</a></p>
+</blockquote>
+<h2 id="项目说明"><a href="#项目说明" class="headerlink" title="项目说明"></a>项目说明</h2><p>本项目是优达学城的一个毕业项目。项目要求使用深度学习方法识别一张图片是猫还是狗</p>
+<ul>
+<li>输入：一张彩色图片</li>
+<li>输出：是猫还是狗</li>
+</ul>
+<span id="more"></span>
+
+<h2 id="项目环境"><a href="#项目环境" class="headerlink" title="项目环境"></a>项目环境</h2><p>项目使用Anaconda搭建环境。可是使用environment目录下的yml进行环境安装。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">conda <span class="built_in">env</span> create -f environment.yml</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="数据来源"><a href="#数据来源" class="headerlink" title="数据来源"></a>数据来源</h2><p>数据集来自 kaggle 上的一个竞赛：<a href="https://www.kaggle.com/c/dogs-vs-cats-redux-kernels-edition/data">Dogs vs. Cats Redux: Kernels Edition</a>。</p>
+<p>下载kaggle猫狗数据集解压后分为 3 个文件 train.zip、 test.zip 和 sample_submission.csv。</p>
+<p>train 训练集包含了 25000 张猫狗的图片， 每张图片包含图片本身和图片名。命名规则根据“type.num.jpg”方式命名。</p>
+<p>test 测试集包含了 12500 张猫狗的图片， 每张图片命名规则根据“num.jpg”，需要注意的是测试集编号从 1 开始， 而训练集的编号从 0 开始。</p>
+<p>sample_submission.csv 需要将最终测试集的测试结果写入.csv 文件中，上传至 kaggle 进行打分。</p>
+<h2 id="基准模型"><a href="#基准模型" class="headerlink" title="基准模型"></a>基准模型</h2><p>项目使用ResNet50, Xception, Inception V3 这三个模型完成。本项目的最低要求是 kaggle Public Leaderboard 前10%。在kaggle上，总共有1314只队伍参加了比赛，所以需要最终的结果排在131位之前，131位的得分是0.06127，所以目标是模型预测结果要小于0.06127。</p>
+<h2 id="评估指标"><a href="#评估指标" class="headerlink" title="评估指标"></a>评估指标</h2><p>kaggle 官方的评估标准是 LogLoss，下面的表达式就是二分类问题的 LogLoss 定义。</p>
+<div align="center"><a href="https://www.codecogs.com/eqnedit.php?latex=LogLoss&space;=&space;-\frac{1}{n}\sum_{i=1}^n&space;[y_ilog(\hat{y}_i)&plus;(1-y_i)log(1-&space;\hat{y}_i)]" target="_blank"><img data-src="https://latex.codecogs.com/gif.latex?LogLoss&space;=&space;-\frac{1}{n}\sum_{i=1}^n&space;[y_ilog(\hat{y}_i)&plus;(1-y_i)log(1-&space;\hat{y}_i)]" title="LogLoss = -\frac{1}{n}\sum_{i=1}^n [y_ilog(\hat{y}_i)+(1-y_i)log(1- \hat{y}_i)]" /></a></div>
+
+<p>其中：</p>
+<ul>
+<li><p>n 是测试集中图片数量</p>
+</li>
+<li><p><a href="https://www.codecogs.com/eqnedit.php?latex=\hat{y}_i" target="_blank"><img data-src="https://latex.codecogs.com/gif.latex?\hat{y}_i" title="\hat{y}_i" /></a> 是图片预测为狗的概率</p>
+</li>
+<li><p><a href="https://www.codecogs.com/eqnedit.php?latex=y_i" target="_blank"><img data-src="https://latex.codecogs.com/gif.latex?y_i" title="y_i" /></a> 如果图像是狗，则为1，如果是猫，则为0</p>
+</li>
+<li><p><a href="https://www.codecogs.com/eqnedit.php?latex=log()" target="_blank"><img data-src="https://latex.codecogs.com/gif.latex?log()" title="log()" /></a> 是自然（基数 <a href="https://www.codecogs.com/eqnedit.php?latex=e" target="_blank"><img data-src="https://latex.codecogs.com/gif.latex?e" title="e" /></a>）对数</p>
+</li>
+</ul>
+<p>对数损失越小，代表模型的性能越好。上述评估指标可用于评估该项目的解决方案以及基准模型。</p>
+<h2 id="设计大纲"><a href="#设计大纲" class="headerlink" title="设计大纲"></a>设计大纲</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">cd</span> model_graphviz/</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">make</span></span><br></pre></td></tr></table></figure>
+
+<img data-src="/2018/01/03/DeepLearning/DogsVsCats/model.png" class="" title="model">
+
+<p>整个模型是在本地训练的，训练了三天才完成。建议使用云端 GPU 训练复现实验过程。</p>
+<p><strong>1. 数据预处理</strong></p>
+<ul>
+<li>从kaggle下载好图片</li>
+<li>将猫和狗的图片放在不同的文件夹以示分类，使用创建符号链接的方法</li>
+<li>对图片进行resize，保持输入图片信息大小一致</li>
+</ul>
+<p><strong>2. 模型搭建</strong></p>
+<p>Kera的应用模块Application提供了带有预训练权重的Keras模型，这些模型可以用来进行预测、特征提取和微调整和。</p>
+<ul>
+<li>Xception 默认输入图片大小是 <code>299*299*3</code></li>
+<li>InceptionV3 默认输入图片大小是 <code>299*299*3</code></li>
+<li>ResNet50 默认输入图片大小是 <code>224*224*3</code></li>
+</ul>
+<p>在Keras中载入模型并进行全局平均池化，只需要在载入模型的时候，设置<code>include_top=False</code>, <code>pooling=&#39;avg&#39;</code>. 每个模型都将图片处理成一个<code>1*2048</code>的行向量，将这三个行向量进行拼接，得到一个<code>1*6144</code>的行向量， 作为数据预处理的结果。</p>
+<p><strong>3. 模型训练&amp;模型调参</strong></p>
+<p>载入预处理的数据之后，先进行一次概率为0.5的dropout，然后直接连接输出层，激活函数为Sigmoid，优化器为Adam，输出一个零维张量，表示某张图片中有狗的概率。</p>
+<p><strong>4. 模型评估</strong></p>
+<ul>
+<li>使用$Logloss$进行模型评估,上传Kaggle判断是否符合标准</li>
+</ul>
+<p><strong>5. 可视化</strong></p>
+<ul>
+<li>进行数据探索并且可视化原始数据</li>
+<li>可视化模型训练过程的准确率曲线，损失函数曲线等</li>
+</ul>
+<h2 id="项目部署"><a href="#项目部署" class="headerlink" title="项目部署"></a>项目部署</h2><p>项目使用 Keras 和 Flask 搭建部署一个简单易用的深度学习图像网页应用，可以通过网页导入一张彩色猫或者狗的图片预测是猫或者狗的概率。</p>
+<p>项目目录结构：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">.</span><br><span class="line">├── README.md</span><br><span class="line">├── ResNet50_image_predict.ipynb</span><br><span class="line">├── app.py</span><br><span class="line">├── environmert.yml</span><br><span class="line">├── static</span><br><span class="line">│   ├── css</span><br><span class="line">│   │   └── main.css</span><br><span class="line">│   └── js</span><br><span class="line">│       └── main.js</span><br><span class="line">├── templates</span><br><span class="line">│   ├── base.html</span><br><span class="line">│   └── index.html</span><br><span class="line">├── models</span><br><span class="line">│   └── ResNet50_catdog_model.h5</span><br><span class="line">├── uploads</span><br><span class="line">│   ├── test01.jpg</span><br><span class="line">│   └── test02.jpg</span><br><span class="line">└── webapp_image_predict.ipynb</span><br></pre></td></tr></table></figure>
+
+<h3 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">conda <span class="built_in">env</span> create -f environmert.yml</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">python app.py</span></span><br></pre></td></tr></table></figure>
+
+<p>这时候用浏览器打开 <a href="http://localhost:5000/">http://localhost:5000/</a> 就可以进行网页导入图片预测图片是狗的概率了。</p>
+<h3 id="快速复现webapp预测结果"><a href="#快速复现webapp预测结果" class="headerlink" title="快速复现webapp预测结果"></a>快速复现webapp预测结果</h3><p>如果不想搭建环境复现实验结果，可以按照以下操作分分钟复现实验结果：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">docker pull miaowmiaow/webapp:1.1.0</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">docker run -p 5000:5000 miaowmiaow/webapp:1.1.0</span></span><br></pre></td></tr></table></figure>
+
+<p>到此就可以在浏览器中输入 <a href="http://localhost:5000/">http://localhost:5000</a> 就可以使用网页对导入的猫狗图片做预测了。</p>
+<p>下图为预测的效果图：</p>
+<img data-src="/2018/01/03/DeepLearning/DogsVsCats/webapp.gif" class="" title="webapp">]]></content>
+      <categories>
+        <category>DeepLearning</category>
+      </categories>
+      <tags>
+        <tag>DeepLearning</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>机器学习深度学习-文章收藏</title>
+    <url>/2018/01/13/DeepLearning/note-blog-link/</url>
+    <content><![CDATA[<blockquote>
+<p><a href="https://github.com/Fabsqrt/BitTigerLab">沁原的硅谷创新课</a></p>
+<p><a href="https://ai.yanxishe.com/page/blogDetail/10036">Github项目推荐 | 基于 deepfakes（视频换脸）的非官方项目deepfakes_faceswap</a></p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>DeepLearning</category>
+      </categories>
+      <tags>
+        <tag>DeepLearning</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Hexo + Github 博客多终端同步</title>
     <url>/2017/03/20/Hexo/Hexo-Github-Sync/</url>
     <content><![CDATA[<p><a href="http://blog.csdn.net/Monkey_LZL/article/details/60870891">原文链接</a></p>
@@ -155,13 +304,15 @@
 <p>下面这条命令可以把草稿变成文章，或者页面：</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo publish [layout] &lt;filename&gt;</span><br><span class="line"></span><br><span class="line">eg:</span><br><span class="line">$ hexo publish drafts hexo-使用指南</span><br></pre></td></tr></table></figure>
 
-<h2 id="3-Blog中出入图片和音乐"><a href="#3-Blog中出入图片和音乐" class="headerlink" title="3. Blog中出入图片和音乐"></a>3. Blog中出入图片和音乐</h2><p>文章推介：<a href="http://www.jianshu.com/p/53e0d2a617da">Hexo 博客中插入音乐&#x2F;视频</a></p>
-<p>​		   <a href="http://blog.shiqichan.com/use-qiniu-store-image-for-hexo/">使用七牛为Hexo存储图片</a></p>
-<pre><code>             [hexo主题中添加相册功能](http://www.cnblogs.com/xljzlw/p/5137622.html)
-</code></pre>
-<p>​		   <a href="http://wuchong.me/blog/2014/12/13/hexo-theme-creating-image-styles/?utm_source=tuicool&utm_medium=referral#">为 Hexo 主题添加多种图片样式(主题不错考虑移植)</a></p>
-<p>​		   <a href="https://yq.aliyun.com/articles/8607">Hexo折腾记——基本配置篇</a></p>
-<p>​		   <a href="http://www.cnblogs.com/jarson-7426/p/5515870.html">hexo博客进阶－相册和独立域名</a></p>
+<h2 id="3-Blog中出入图片和音乐"><a href="#3-Blog中出入图片和音乐" class="headerlink" title="3. Blog中出入图片和音乐"></a>3. Blog中出入图片和音乐</h2><p>文章推介：</p>
+<blockquote>
+<p><a href="http://www.jianshu.com/p/53e0d2a617da">Hexo 博客中插入音乐&#x2F;视频</a></p>
+<p><a href="http://blog.shiqichan.com/use-qiniu-store-image-for-hexo/">使用七牛为Hexo存储图片</a></p>
+<p><a href="http://www.cnblogs.com/xljzlw/p/5137622.html">hexo主题中添加相册功能</a></p>
+<p><a href="http://wuchong.me/blog/2014/12/13/hexo-theme-creating-image-styles/?utm_source=tuicool&utm_medium=referral#">为 Hexo 主题添加多种图片样式(主题不错考虑移植)</a></p>
+<p><a href="https://yq.aliyun.com/articles/8607">Hexo折腾记——基本配置篇</a></p>
+<p><a href="http://www.cnblogs.com/jarson-7426/p/5515870.html">hexo博客进阶－相册和独立域名</a></p>
+</blockquote>
 <p>插入图片基本分为两种办法** ：</p>
 <p>（1） 放在本地文件</p>
 <p>首先在根目录下确认 <code>_config.yml</code> 中有 <code>post_asset_folder:true</code> 。<br>在 hexo 目录，执行：</p>

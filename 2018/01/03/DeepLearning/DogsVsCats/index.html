@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.2.0">
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/mrmiaow-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/mrmiaow-16.png">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/blue/pace-theme-minimal.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"miaopei.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"always","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"show_result":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":true,"nav":{"gitalk":{"order":-2}},"activeClass":"gitalk"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="GitHub 项目地址：Dogs vs Cats (猫狗大战)  项目说明本项目是优达学城的一个毕业项目。项目要求使用深度学习方法识别一张图片是猫还是狗  输入：一张彩色图片 输出：是猫还是狗">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Dogs vs Cats (猫狗大战)">
+<meta property="og:url" content="http://miaopei.github.io/2018/01/03/DeepLearning/DogsVsCats/index.html">
+<meta property="og:site_name" content="Mr.Miaow Blog">
+<meta property="og:description" content="GitHub 项目地址：Dogs vs Cats (猫狗大战)  项目说明本项目是优达学城的一个毕业项目。项目要求使用深度学习方法识别一张图片是猫还是狗  输入：一张彩色图片 输出：是猫还是狗">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://latex.codecogs.com/gif.latex?LogLoss&space;=&space;-\frac{1}{n}\sum_{i=1}^n&space;[y_ilog(\hat{y}_i)&plus;(1-y_i)log(1-&space;\hat{y}_i)]">
+<meta property="og:image" content="https://latex.codecogs.com/gif.latex?\hat{y}_i">
+<meta property="og:image" content="https://latex.codecogs.com/gif.latex?y_i">
+<meta property="og:image" content="https://latex.codecogs.com/gif.latex?log()">
+<meta property="og:image" content="https://latex.codecogs.com/gif.latex?e">
+<meta property="og:image" content="http://miaopei.github.io/2018/01/03/DeepLearning/DogsVsCats/model.png">
+<meta property="og:image" content="http://miaopei.github.io/2018/01/03/DeepLearning/DogsVsCats/webapp.gif">
+<meta property="article:published_time" content="2018-01-03T02:14:50.000Z">
+<meta property="article:modified_time" content="2024-06-11T06:01:09.250Z">
+<meta property="article:author" content="Mr.Miaow">
+<meta property="article:tag" content="DeepLearning">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://latex.codecogs.com/gif.latex?LogLoss&space;=&space;-\frac{1}{n}\sum_{i=1}^n&space;[y_ilog(\hat{y}_i)&plus;(1-y_i)log(1-&space;\hat{y}_i)]">
+
+
+<link rel="canonical" href="http://miaopei.github.io/2018/01/03/DeepLearning/DogsVsCats/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://miaopei.github.io/2018/01/03/DeepLearning/DogsVsCats/","path":"2018/01/03/DeepLearning/DogsVsCats/","title":"Dogs vs Cats (猫狗大战)"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Dogs vs Cats (猫狗大战) | Mr.Miaow Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Mr.Miaow Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Mr.Miaow Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Do what you say, say what you do.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-messages"><a href="/messages/" rel="section"><i class="fa fa-comment fa-fw"></i>留言板</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A1%B9%E7%9B%AE%E8%AF%B4%E6%98%8E"><span class="nav-text">项目说明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A1%B9%E7%9B%AE%E7%8E%AF%E5%A2%83"><span class="nav-text">项目环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E6%9D%A5%E6%BA%90"><span class="nav-text">数据来源</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E5%87%86%E6%A8%A1%E5%9E%8B"><span class="nav-text">基准模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%84%E4%BC%B0%E6%8C%87%E6%A0%87"><span class="nav-text">评估指标</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1%E5%A4%A7%E7%BA%B2"><span class="nav-text">设计大纲</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A1%B9%E7%9B%AE%E9%83%A8%E7%BD%B2"><span class="nav-text">项目部署</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="nav-text">环境搭建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%90%E8%A1%8C"><span class="nav-text">运行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BF%AB%E9%80%9F%E5%A4%8D%E7%8E%B0webapp%E9%A2%84%E6%B5%8B%E7%BB%93%E6%9E%9C"><span class="nav-text">快速复现webapp预测结果</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Mr.Miaow"
+      src="https://avatars.githubusercontent.com/u/7922626?v=4">
+  <p class="site-author-name" itemprop="name">Mr.Miaow</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="feed-link motion-element">
+    <a href="/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>
+      RSS
+    </a>
+  </div>
+
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/miaopei" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;miaopei" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/miaopei163@163.com" title="E-Mail → miaopei163@163.com" rel="noopener me"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+          <link rel="stylesheet" href="/dist/APlayer.min.css">
+          <div id="aplayer"></div>
+          <script type="text/javascript" src="/dist/APlayer.min.js"></script>
+          <script type="text/javascript" src="/dist/music.js"></script>
+
+        </div>
+      </div>
+        <div class="back-to-top animated" role="button" aria-label="返回顶部">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://miaopei.github.io/2018/01/03/DeepLearning/DogsVsCats/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://avatars.githubusercontent.com/u/7922626?v=4">
+      <meta itemprop="name" content="Mr.Miaow">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mr.Miaow Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Dogs vs Cats (猫狗大战) | Mr.Miaow Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Dogs vs Cats (猫狗大战)
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-01-03 10:14:50" itemprop="dateCreated datePublished" datetime="2018-01-03T10:14:50+08:00">2018-01-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/DeepLearning/" itemprop="url" rel="index"><span itemprop="name">DeepLearning</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>2.1k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>2 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><blockquote>
+<p>GitHub 项目地址：<a target="_blank" rel="noopener" href="https://github.com/miaopei/cat_vs_dog">Dogs vs Cats (猫狗大战)</a></p>
+</blockquote>
+<h2 id="项目说明"><a href="#项目说明" class="headerlink" title="项目说明"></a>项目说明</h2><p>本项目是优达学城的一个毕业项目。项目要求使用深度学习方法识别一张图片是猫还是狗</p>
+<ul>
+<li>输入：一张彩色图片</li>
+<li>输出：是猫还是狗</li>
+</ul>
+<span id="more"></span>
+
+<h2 id="项目环境"><a href="#项目环境" class="headerlink" title="项目环境"></a>项目环境</h2><p>项目使用Anaconda搭建环境。可是使用environment目录下的yml进行环境安装。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">conda <span class="built_in">env</span> create -f environment.yml</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="数据来源"><a href="#数据来源" class="headerlink" title="数据来源"></a>数据来源</h2><p>数据集来自 kaggle 上的一个竞赛：<a target="_blank" rel="noopener" href="https://www.kaggle.com/c/dogs-vs-cats-redux-kernels-edition/data">Dogs vs. Cats Redux: Kernels Edition</a>。</p>
+<p>下载kaggle猫狗数据集解压后分为 3 个文件 train.zip、 test.zip 和 sample_submission.csv。</p>
+<p>train 训练集包含了 25000 张猫狗的图片， 每张图片包含图片本身和图片名。命名规则根据“type.num.jpg”方式命名。</p>
+<p>test 测试集包含了 12500 张猫狗的图片， 每张图片命名规则根据“num.jpg”，需要注意的是测试集编号从 1 开始， 而训练集的编号从 0 开始。</p>
+<p>sample_submission.csv 需要将最终测试集的测试结果写入.csv 文件中，上传至 kaggle 进行打分。</p>
+<h2 id="基准模型"><a href="#基准模型" class="headerlink" title="基准模型"></a>基准模型</h2><p>项目使用ResNet50, Xception, Inception V3 这三个模型完成。本项目的最低要求是 kaggle Public Leaderboard 前10%。在kaggle上，总共有1314只队伍参加了比赛，所以需要最终的结果排在131位之前，131位的得分是0.06127，所以目标是模型预测结果要小于0.06127。</p>
+<h2 id="评估指标"><a href="#评估指标" class="headerlink" title="评估指标"></a>评估指标</h2><p>kaggle 官方的评估标准是 LogLoss，下面的表达式就是二分类问题的 LogLoss 定义。</p>
+<div align="center"><a href="https://www.codecogs.com/eqnedit.php?latex=LogLoss&space;=&space;-\frac{1}{n}\sum_{i=1}^n&space;[y_ilog(\hat{y}_i)&plus;(1-y_i)log(1-&space;\hat{y}_i)]" target="_blank"><img data-src="https://latex.codecogs.com/gif.latex?LogLoss&space;=&space;-\frac{1}{n}\sum_{i=1}^n&space;[y_ilog(\hat{y}_i)&plus;(1-y_i)log(1-&space;\hat{y}_i)]" title="LogLoss = -\frac{1}{n}\sum_{i=1}^n [y_ilog(\hat{y}_i)+(1-y_i)log(1- \hat{y}_i)]" /></a></div>
+
+<p>其中：</p>
+<ul>
+<li><p>n 是测试集中图片数量</p>
+</li>
+<li><p><a href="https://www.codecogs.com/eqnedit.php?latex=\hat{y}_i" target="_blank"><img data-src="https://latex.codecogs.com/gif.latex?\hat{y}_i" title="\hat{y}_i" /></a> 是图片预测为狗的概率</p>
+</li>
+<li><p><a href="https://www.codecogs.com/eqnedit.php?latex=y_i" target="_blank"><img data-src="https://latex.codecogs.com/gif.latex?y_i" title="y_i" /></a> 如果图像是狗，则为1，如果是猫，则为0</p>
+</li>
+<li><p><a href="https://www.codecogs.com/eqnedit.php?latex=log()" target="_blank"><img data-src="https://latex.codecogs.com/gif.latex?log()" title="log()" /></a> 是自然（基数 <a href="https://www.codecogs.com/eqnedit.php?latex=e" target="_blank"><img data-src="https://latex.codecogs.com/gif.latex?e" title="e" /></a>）对数</p>
+</li>
+</ul>
+<p>对数损失越小，代表模型的性能越好。上述评估指标可用于评估该项目的解决方案以及基准模型。</p>
+<h2 id="设计大纲"><a href="#设计大纲" class="headerlink" title="设计大纲"></a>设计大纲</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">cd</span> model_graphviz/</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">make</span></span><br></pre></td></tr></table></figure>
+
+<img data-src="/2018/01/03/DeepLearning/DogsVsCats/model.png" class="" title="model">
+
+<p>整个模型是在本地训练的，训练了三天才完成。建议使用云端 GPU 训练复现实验过程。</p>
+<p><strong>1. 数据预处理</strong></p>
+<ul>
+<li>从kaggle下载好图片</li>
+<li>将猫和狗的图片放在不同的文件夹以示分类，使用创建符号链接的方法</li>
+<li>对图片进行resize，保持输入图片信息大小一致</li>
+</ul>
+<p><strong>2. 模型搭建</strong></p>
+<p>Kera的应用模块Application提供了带有预训练权重的Keras模型，这些模型可以用来进行预测、特征提取和微调整和。</p>
+<ul>
+<li>Xception 默认输入图片大小是 <code>299*299*3</code></li>
+<li>InceptionV3 默认输入图片大小是 <code>299*299*3</code></li>
+<li>ResNet50 默认输入图片大小是 <code>224*224*3</code></li>
+</ul>
+<p>在Keras中载入模型并进行全局平均池化，只需要在载入模型的时候，设置<code>include_top=False</code>, <code>pooling=&#39;avg&#39;</code>. 每个模型都将图片处理成一个<code>1*2048</code>的行向量，将这三个行向量进行拼接，得到一个<code>1*6144</code>的行向量， 作为数据预处理的结果。</p>
+<p><strong>3. 模型训练&amp;模型调参</strong></p>
+<p>载入预处理的数据之后，先进行一次概率为0.5的dropout，然后直接连接输出层，激活函数为Sigmoid，优化器为Adam，输出一个零维张量，表示某张图片中有狗的概率。</p>
+<p><strong>4. 模型评估</strong></p>
+<ul>
+<li>使用$Logloss$进行模型评估,上传Kaggle判断是否符合标准</li>
+</ul>
+<p><strong>5. 可视化</strong></p>
+<ul>
+<li>进行数据探索并且可视化原始数据</li>
+<li>可视化模型训练过程的准确率曲线，损失函数曲线等</li>
+</ul>
+<h2 id="项目部署"><a href="#项目部署" class="headerlink" title="项目部署"></a>项目部署</h2><p>项目使用 Keras 和 Flask 搭建部署一个简单易用的深度学习图像网页应用，可以通过网页导入一张彩色猫或者狗的图片预测是猫或者狗的概率。</p>
+<p>项目目录结构：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── README.md</span><br><span class="line">├── ResNet50_image_predict.ipynb</span><br><span class="line">├── app.py</span><br><span class="line">├── environmert.yml</span><br><span class="line">├── static</span><br><span class="line">│   ├── css</span><br><span class="line">│   │   └── main.css</span><br><span class="line">│   └── js</span><br><span class="line">│       └── main.js</span><br><span class="line">├── templates</span><br><span class="line">│   ├── base.html</span><br><span class="line">│   └── index.html</span><br><span class="line">├── models</span><br><span class="line">│   └── ResNet50_catdog_model.h5</span><br><span class="line">├── uploads</span><br><span class="line">│   ├── test01.jpg</span><br><span class="line">│   └── test02.jpg</span><br><span class="line">└── webapp_image_predict.ipynb</span><br></pre></td></tr></table></figure>
+
+<h3 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">conda <span class="built_in">env</span> create -f environmert.yml</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">python app.py</span></span><br></pre></td></tr></table></figure>
+
+<p>这时候用浏览器打开 <a target="_blank" rel="noopener" href="http://localhost:5000/">http://localhost:5000/</a> 就可以进行网页导入图片预测图片是狗的概率了。</p>
+<h3 id="快速复现webapp预测结果"><a href="#快速复现webapp预测结果" class="headerlink" title="快速复现webapp预测结果"></a>快速复现webapp预测结果</h3><p>如果不想搭建环境复现实验结果，可以按照以下操作分分钟复现实验结果：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">docker pull miaowmiaow/webapp:1.1.0</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">docker run -p 5000:5000 miaowmiaow/webapp:1.1.0</span></span><br></pre></td></tr></table></figure>
+
+<p>到此就可以在浏览器中输入 <a target="_blank" rel="noopener" href="http://localhost:5000/">http://localhost:5000</a> 就可以使用网页对导入的猫狗图片做预测了。</p>
+<p>下图为预测的效果图：</p>
+<img data-src="/2018/01/03/DeepLearning/DogsVsCats/webapp.gif" class="" title="webapp">
+    </div><div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">------------- 💖 🌞 本 文 结 束 😚 感 谢 您 的 阅 读 🌞 💖 -------------</div>
+    
+</div>
+
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>请我一杯咖啡吧！</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.jpg" alt="Mr.Miaow 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/alipay.jpg" alt="Mr.Miaow 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Mr.Miaow
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://miaopei.github.io/2018/01/03/DeepLearning/DogsVsCats/" title="Dogs vs Cats (猫狗大战)">http://miaopei.github.io/2018/01/03/DeepLearning/DogsVsCats/</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/DeepLearning/" rel="tag"><i class="fa fa-tag"></i> DeepLearning</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2017/03/28/Hexo/hexo-operating-guide/" rel="prev" title="hexo 使用指南">
+                  <i class="fa fa-angle-left"></i> hexo 使用指南
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2018/01/13/DeepLearning/note-blog-link/" rel="next" title="机器学习深度学习-文章收藏">
+                  机器学习深度学习-文章收藏 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+    &copy; 2015 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Mr.Miaow</span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">114k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">1:43</span>
+  </span>
+</div> <div>
+   <span id="sitetime"></span>
+   <span id="year" style="display:none">2016</span> 
+   <span id="month" style="display:none">12</span>   
+   <span id="day" style="display:none">23</span>   
+   <span id="hour" style="display:none">15</span>   
+   <span id="minute" style="display:none">0</span>   
+   <span id="second" style="display:none">0</span>   
+	<script language=javascript>
+	function siteTime(){        
+		window.setTimeout("siteTime()", 1000);
+		var seconds = 1000;
+		var minutes = seconds * 60;
+		var hours = minutes * 60;
+		var days = hours * 24;
+		var years = days * 365;
+		var today = new Date();
+		var todayYear = today.getFullYear();
+		var todayMonth = today.getMonth()+1;
+		var todayDate = today.getDate();
+		var todayHour = today.getHours();
+		var todayMinute = today.getMinutes();
+		var todaySecond = today.getSeconds();
+	    var year = document.getElementById("year").innerHTML;
+		var month = document.getElementById("month").innerHTML;
+		var day = document.getElementById("day").innerHTML;
+		var hour = document.getElementById("hour").innerHTML;
+		var minute = document.getElementById("minute").innerHTML;
+		var second = document.getElementById("second").innerHTML;
+		var t1 = Date.UTC(year,month,day,hour,minute,second); 
+		var t2 = Date.UTC(todayYear,todayMonth,todayDate,todayHour,todayMinute,todaySecond);
+		var diff = t2-t1;
+		var diffYears = Math.floor(diff/years);
+		var diffDays = Math.floor((diff/days)-diffYears*365);
+		var diffHours = Math.floor((diff-(diffYears*365+diffDays)*days)/hours);
+		var diffMinutes = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours)/minutes);
+		var diffSeconds = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours-diffMinutes*minutes)/seconds);
+		if(diffYears==0){
+		document.getElementById("sitetime").innerHTML=" 网站已运行 "/*+diffYears+" 年 "*/+diffDays+" 天 "+diffHours+" 小时 "+diffMinutes+" 分钟 "+diffSeconds+" 秒";
+		} else{
+		document.getElementById("sitetime").innerHTML=" 网站已运行 "+diffYears+" 年 "+diffDays+" 天 "+diffHours+" 小时 "+diffMinutes+" 分钟 "+diffSeconds+" 秒";
+		}
+	}
+	siteTime();
+	</script>
+</div>
+
+<div class="busuanzi-count">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+<!--
+-->
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.1.0/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lozad.js/1.16.0/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  <script src="/js/third-party/pace.js"></script>
+
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"miaopei","repo":"miaopei.github.io","client_id":"Ov23li804qbeklf03KFv","client_secret":"fce69a6b68a24543006d90b37dbe835082db6f23","admin_user":"miaopei","distraction_free_mode":true,"language":"zh-CN","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"8659117b6ec8e4706d71aaa9f9de2f96"}</script>
+<script src="/js/third-party/comments/gitalk.js"></script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true}});</script></body>
+</html>

@@ -255,7 +255,7 @@ hr {
   margin: 40px 0;
 }
 blockquote {
-  border-left: 4px solid #ddd;
+  border-left: 4px solid #40affe;
   color: var(--blockquote-color);
   margin: 0;
   padding: 0 15px;
@@ -1255,7 +1255,7 @@ pre code {
     vertical-align: middle;
   }
   .links-of-author a::before {
-    background: #00cc4e;
+    background: #ff5d63;
     display: inline-block;
     margin-right: 3px;
     transform: translateY(-2px);
