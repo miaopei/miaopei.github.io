@@ -31,7 +31,7 @@ NETCONF是一个基于XML的交换机配置接口，用于替代CLI、SNMP等配
 
 NETCONF分为四个层：安全传输层、消息层、操作层、内容层。
 
-![NETCONF Layering Model And Examplel](/images/images_netconf/netconf-layer-model-1.png)
+![NETCONF Layering Model And Examplel](netconf-note/netconf-layer-model-1.png)
 
 - **安全传输层**：用于跟交换机安全通信，NETCONF并未规定具体使用哪种传输层协议，所以可以使用SSH、TLS、HTTP等各种协议
 
@@ -145,7 +145,7 @@ $ netopeer-manager list
 
 这里就需要用到这个工 `lnctool`。这个工具是用python实现的，里面代码也比较简单，比如说调用其他应用程序（pyang）或者直接写文件。
 
-![lnctool工具使用](/images/images_netconf/lnctool工具使用.png)
+![lnctool工具使用](netconf-note/lnctool工具使用.png)
 
 ```shell
 $ lnctool --model ./turing-machine.yang transapi --paths ./path
@@ -671,13 +671,13 @@ netconf> user-rpc --file=/root/rpc-run.xml
 
 **描述：**
 
-``操作将全部或部分指定配置加载到指定的目标配置数据存储。此操作允许以多种方式表示新配置，例如使用本地文件，远程文件或内联。如果目标配置数据存储不存在，它将被创建。
+操作将全部或部分指定配置加载到指定的目标配置数据存储。此操作允许以多种方式表示新配置，例如使用本地文件，远程文件或内联。如果目标配置数据存储不存在，它将被创建。
 
 如果一个`NETCONF`节点(`peer`)支持：`url`能力（[8.8节](https://tools.ietf.org/html/rfc6241#section-8.8)），那么``元素可以出现而不是``参数。
 
 设备分析源和目标配置并执行所请求的更改。目标配置不一定被替换，就像``消息一样。而是根据源数据和请求的操作来更改目标配置。
 
-如果``操作包含应用于基础数据模型中相同概念节点的多个子操作，则操作的结果是未定义的（即，不在`NETCONF协`议的范围之内）。
+如果`操作包含应用于基础数据模型中相同概念节点的多个子操作，则操作的结果是未定义的`（即，不在NETCONF协议的范围之内）。
 
 **属性：**
 
@@ -691,15 +691,15 @@ netconf> user-rpc --file=/root/rpc-run.xml
 **参数：**
 
 - `target`：正在编辑的配置数据存储的名称，例如``或``。
-- `default-operation`：选择此``请求的默认操作（如“`operation`”属性中所述）。 ``参数的默认值是`“merge`”。``参数是可选的，但是如果提供，它具有以下值之一：
-    - `merge`：``参数中的配置数据与目标数据存储中相应级别的配置合并。这是默认行为。
-    - `replace`：``参数中的配置数据完全替换了目标数据存储中的配置。这对加载以前保存的配置数据很有用。
+- `default-operation`：选择此``请求的默认操作（如“`operation`”属性中所述）。 ``参数的默认值是`“merge`”。参数是可选的，但是如果提供，它具有以下值之一：
+    - `merge`：参数中的配置数据与目标数据存储中相应级别的配置合并。这是默认行为。
+    - `replace`：参数中的配置数据完全替换了目标数据存储中的配置。这对加载以前保存的配置数据很有用。
     - `none`：目标数据存储不受``参数中的配置影响，除非和直到传入的配置数据使用“`operation`”属性请求不同的操作。如果``参数中的配置包含目标数据存储中没有相应级别的数据，则返回``，并带有``缺少数据的值。使用“`none`”允许像“`delete`”这样的操作避免无意中创建要删除的元素的父层次结构。
 - `test-option`：只有当设备公布支持`:validate:1.1`能力时才能指定``元素（[8.6节](https://tools.ietf.org/html/rfc6241#section-8.6)）。``元素具有以下值之一：
     - `test-then-set`：在尝试设置之前执行验证测试。 如果发生验证错误，请不要执行``操作。 这是默认的测试选项。
     - `set`：先执行一个没有验证测试的设置。
     - `test-only`：仅执行验证测试，而不尝试设置。
-- `error-option`：``元素具有以下值之一：
+- `error-option`：元素具有以下值之一：
     - `stop-on-error`：停止第一个错误的``操作。这是默认的错误选项。
     - `continue-on-error`：继续处理错误的配置数据;记录错误，如果发生任何错误，则产生否定响应。
     - `rollback-on-error`：如果发生错误情况，从而生成错误严重性``元素，则服务器将停止处理``操作，并在指定的开始时将指定的配置恢复到完整状态这个``操作。该选项要求服务器支持[8.5节](https://tools.ietf.org/html/rfc6241#section-8.5)中描述的错误回滚功能。
@@ -1228,7 +1228,7 @@ yang很重要，但是用好yang可以选择的工具却并不多，pyang就是�
 
 pyang命令行的使用，提供了丰富的文档说明通过pyang --help或者man pyang都能看到非常详细的信息：
 
-![pyang 命令行简介](/images/images_netconf/pyangCommad.png)
+![pyang 命令行简介](netconf-note/pyangCommad.png)
 
 普通用户模式转换主要关注如下几个即可：
 

@@ -519,7 +519,7 @@ Sysrepo 是一个基于 yang 的 Unix/Linux 系统数据存储。使用 YANG 建
 
 申请使用 Sysrepo 的方法主要有两种。直接方法包括在需要配置数据时从应用程序本身调用 Sysrepo 函数，或者执行特定的回调以对配置更改做出反应。还可以实现一个独立的守护进程，将 Sysrepo 调用转换为应用程序特定的操作。对于现有的应用程序，这种间接方法通常比较容易使用，因为这样就不需要修改它们自己来利用 Sysrepo 数据存储，而代价是需要一个额外的中间进程(守护进程)。如果有几个这样的守护进程，它们可以作为插件编写，然后由一个进程管理。
 
-![Sysrepo application approaches](/images/images_sr/sr_apps.png)
+![Sysrepo application approaches](sysrepo-netconf-node/sr_apps.png)
 
 Sysrepo 是用于 Unix/Linux 应用程序的基于 yang 的配置和操作状态数据存储。
 
@@ -529,7 +529,7 @@ Sysrepo是一个基于YANG模型的配置和操作数据库，为应用程序提
 
 Sysrepo 可以很容易地与管理代理(如 NETCONF 或 RESTCONF 服务器)集成，使用应用程序用于访问其配置的相同的客户端库 API。到目前为止，sysrepo 已经与 Netopeer 2 NETCONF 服务器集成。这意味着使用 sysrepo 存储其配置的应用程序可以自动受益于通过 NETCONF 进行控制的能力。
 
-![](/images/images_sr/high_level_architecture.png)
+![high_level_architecture](sysrepo-netconf-node/high_level_architecture.png)
 
 SYSREPO数据库它提供了以下特性:
 
@@ -1073,7 +1073,7 @@ Sysrepo/Netopeer2 tools and programs:
 - netopeer2-cli
 - netopeer2-server
 
-![](/images/images_sr/syarepo-install.png)
+![syarepo-install](sysrepo-netconf-node/syarepo-install.png)
 
 ## 基于YANG模型的数据库sysrepo介绍
 
@@ -1081,7 +1081,7 @@ Sysrepo/Netopeer2 tools and programs:
 
 Sysrepo是一个基于YANG模型的配置和操作数据库，为应用程序提供一致的操作数据的接口，解决了配置读写困难的问题。应用程序使用YANG模型来建模，这样就可以利用YANG模型完成数据合法性的检查，保证的风格的一致，不需要应用程序直接操作配置文件了。
 
-![](images_sr/high_level_architecture.png)
+![high_level_architecture](sysrepo-netconf-node/high_level_architecture.png)
 
 SYSREPO数据库它提供了以下特性:
 
