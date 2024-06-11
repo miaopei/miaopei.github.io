@@ -243,17 +243,19 @@ $ hexo publish drafts hexo-使用指南
 
 ## 3. Blog中出入图片和音乐
 
-文章推介：[Hexo 博客中插入音乐/视频](http://www.jianshu.com/p/53e0d2a617da)
+文章推介：
 
-​		   [使用七牛为Hexo存储图片](http://blog.shiqichan.com/use-qiniu-store-image-for-hexo/)
-
-  		       [hexo主题中添加相册功能](http://www.cnblogs.com/xljzlw/p/5137622.html)
-
-​		   [为 Hexo 主题添加多种图片样式(主题不错考虑移植)](http://wuchong.me/blog/2014/12/13/hexo-theme-creating-image-styles/?utm_source=tuicool&utm_medium=referral#)
-
-​		   [Hexo折腾记——基本配置篇](https://yq.aliyun.com/articles/8607)
-
-​		   [hexo博客进阶－相册和独立域名](http://www.cnblogs.com/jarson-7426/p/5515870.html)
+> [Hexo 博客中插入音乐/视频](http://www.jianshu.com/p/53e0d2a617da)
+>
+> [使用七牛为Hexo存储图片](http://blog.shiqichan.com/use-qiniu-store-image-for-hexo/)
+>
+> [hexo主题中添加相册功能](http://www.cnblogs.com/xljzlw/p/5137622.html)
+>
+> [为 Hexo 主题添加多种图片样式(主题不错考虑移植)](http://wuchong.me/blog/2014/12/13/hexo-theme-creating-image-styles/?utm_source=tuicool&utm_medium=referral#)
+>
+> [Hexo折腾记——基本配置篇](https://yq.aliyun.com/articles/8607)
+>
+> [hexo博客进阶－相册和独立域名](http://www.cnblogs.com/jarson-7426/p/5515870.html)
 
 插入图片基本分为两种办法** ：
 
