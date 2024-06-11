@@ -286,9 +286,9 @@ $ npm install https://github.com/CodeFalling/hexo-asset-image --save
 //其中的width=298 height=52 均改为0就看不到了，依然可以播放音乐
 ```
 
-![](http://i.imgur.com/Y60twn8.png)
+![](hexo-operating-guide/Y60twn8.png)
 
-![](http://i.imgur.com/i42cvBI.png)
+![](hexo-operating-guide/i42cvBI.png)
 
 ##  4. 代码高亮highlight.js支持
 
