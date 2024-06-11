@@ -25,7 +25,7 @@ date: 2017-03-20 04:20:57
 
 在利用Github+Hexo搭建自己的博客时，新建了一个Hexo的文件夹，并进行相关的配置，这部分主要是将这些配置的文件托管到Github项目的分支上，其中只托管部分用于多终端的同步的文件，如完成的效果图所示：
 
-``` bash
+``` shell
 # 初始化本地仓库
 $ git init
 
@@ -52,7 +52,7 @@ $ git push origin hexo
 
 此时在另一终端更新博客，只需要将Github的hexo分支clone下来，进行初次的相关配置
 
-``` bash
+``` shell
 # 将Github中hexo分支clone到本地
 $ git clone -b hexo https://github.com/yourname/yourname.github.io.git
 
@@ -84,7 +84,7 @@ $ hexo d -g
 在不同的终端已经做完配置，就可以愉快的分享自己更新的博客 
 进入自己相应的文件夹
 
-``` bash
+``` shell
 # 先pull完成本地与远端的融合
 $ git pull origin hexo
 
@@ -98,3 +98,18 @@ $ git push origin hexo
 
 $ hexo d -g
 ```
+
+## 5. 创建新文章
+
+```shell
+$ hexo new page --path test/timages "test_images"
+INFO  Validating config
+INFO  Created: ~/PATH/source/test/timages.md
+
+$ cat source/test/timages.md
+---
+title: test_images
+date: 2024-06-11 09:36:41
+---
+```
+
