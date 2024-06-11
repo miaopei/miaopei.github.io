@@ -3,84 +3,84 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-# ÍøÕ¾ÅäÖÃ
-# ÍøÕ¾±êÌâ
+# ç½‘ç«™é…ç½®
+# ç½‘ç«™æ ‡é¢˜
 title: Mr.Miaow Blog
-# ÍøÕ¾¸±±êÌâ
+# ç½‘ç«™å‰¯æ ‡é¢˜
 subtitle: Do what you say, say what you do.
-# ÍøÕ¾ÃèÊö
+# ç½‘ç«™æè¿°
 description: ''
-# ÍøÕ¾µÄ¹Ø¼ü´Ê¡£Ê¹ÓÃ°ë½Ç¶ººÅ , ·Ö¸ô¶à¸ö¹Ø¼ü´Ê
-keywords: Hexo,Blog,¼¼Êõ·ÖÏí
+# ç½‘ç«™çš„å…³é”®è¯ã€‚ä½¿ç”¨åŠè§’é€—å· , åˆ†éš”å¤šä¸ªå…³é”®è¯
+keywords: Hexo,Blog,æŠ€æœ¯åˆ†äº«
 author: Mr.Miaow
 language: zh-CN
 timezone: Asia/Shanghai
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
-# ÍøÖ·
+# ç½‘å€
 url: http://miaopei.github.io
-#ÍøÕ¾¸ùÄ¿Â¼,Ä¬ÈÏ"/",·ÅÔÚ×ÓÄ¿Â¼"/×ÓÄ¿Â¼/"
+#ç½‘ç«™æ ¹ç›®å½•,é»˜è®¤"/",æ”¾åœ¨å­ç›®å½•"/å­ç›®å½•/"
 #root: /
-# ÎÄÕÂµÄÓÀ¾ÃÁ´½Ó¸ñÊ½
+# æ–‡ç« çš„æ°¸ä¹…é“¾æ¥æ ¼å¼
 permalink: :year/:month/:day/:title/
-# ÓÀ¾ÃÁ´½ÓÖĞ¸÷²¿·ÖµÄÄ¬ÈÏÖµ
+# æ°¸ä¹…é“¾æ¥ä¸­å„éƒ¨åˆ†çš„é»˜è®¤å€¼
 permalink_defaults:
 pretty_urls:
-  trailing_index: true # Set to false to remove trailing 'index.html' from permalinks ÒÆ³ı'index.html'ºó×º
-  trailing_html: true # Set to false to remove trailing '.html' from permalinks ÒÆ³ı'.html'ºó×º
+  trailing_index: true # Set to false to remove trailing 'index.html' from permalinks ç§»é™¤'index.html'åç¼€
+  trailing_html: true # Set to false to remove trailing '.html' from permalinks ç§»é™¤'.html'åç¼€
 
 # Directory
-# ×ÊÔ´ÎÄ¼ş¼Ğ£¬Õâ¸öÎÄ¼ş¼ĞÓÃÀ´´æ·ÅÄÚÈİ
+# èµ„æºæ–‡ä»¶å¤¹ï¼Œè¿™ä¸ªæ–‡ä»¶å¤¹ç”¨æ¥å­˜æ”¾å†…å®¹
 source_dir: source
-# ¹«¹²ÎÄ¼ş¼Ğ£¬Õâ¸öÎÄ¼ş¼ĞÓÃÓÚ´æ·ÅÉú³ÉµÄÕ¾µãÎÄ¼ş
+# å…¬å…±æ–‡ä»¶å¤¹ï¼Œè¿™ä¸ªæ–‡ä»¶å¤¹ç”¨äºå­˜æ”¾ç”Ÿæˆçš„ç«™ç‚¹æ–‡ä»¶
 public_dir: public
-# ±êÇ©ÎÄ¼ş¼Ğ
+# æ ‡ç­¾æ–‡ä»¶å¤¹
 tag_dir: tags
-# ¹éµµÎÄ¼ş¼Ğ
+# å½’æ¡£æ–‡ä»¶å¤¹
 archive_dir: archives
-# ·ÖÀàÎÄ¼ş¼Ğ
+# åˆ†ç±»æ–‡ä»¶å¤¹
 category_dir: categories
-# Include code ÎÄ¼ş¼Ğ£¬source_dir ÏÂµÄ×ÓÄ¿Â¼
+# Include code æ–‡ä»¶å¤¹ï¼Œsource_dir ä¸‹çš„å­ç›®å½•
 code_dir: downloads/code
-# ¹ú¼Ê»¯£¨i18n£©ÎÄ¼ş¼Ğ
+# å›½é™…åŒ–ï¼ˆi18nï¼‰æ–‡ä»¶å¤¹
 i18n_dir: :lang
-# Ìø¹ıÖ¸¶¨ÎÄ¼şµÄäÖÈ¾¡£Æ¥Åäµ½µÄÎÄ¼ş½«»á±»²»×ö¸Ä¶¯µØ¸´ÖÆµ½ public Ä¿Â¼ÖĞ¡£Äú¿ÉÊ¹ÓÃ glob ±í´ïÊ½À´Æ¥ÅäÂ·¾¶
+# è·³è¿‡æŒ‡å®šæ–‡ä»¶çš„æ¸²æŸ“ã€‚åŒ¹é…åˆ°çš„æ–‡ä»¶å°†ä¼šè¢«ä¸åšæ”¹åŠ¨åœ°å¤åˆ¶åˆ° public ç›®å½•ä¸­ã€‚æ‚¨å¯ä½¿ç”¨ glob è¡¨è¾¾å¼æ¥åŒ¹é…è·¯å¾„
 skip_render:
 
 # Writing
-# ÎÄÕÂ
-# ĞÂÎÄÕÂµÄÎÄ¼şÃû³Æ
+# æ–‡ç« 
+# æ–°æ–‡ç« çš„æ–‡ä»¶åç§°
 new_post_name: :title.md # File name of new posts
-# Ô¤Éè²¼¾Ö
+# é¢„è®¾å¸ƒå±€
 default_layout: post
-# °Ñ±êÌâ×ª»»Îª title case
+# æŠŠæ ‡é¢˜è½¬æ¢ä¸º title case
 titlecase: false # Transform title into titlecase
-# ÔÚĞÂ±êÇ©ÖĞ´ò¿ªÁ´½Ó
+# åœ¨æ–°æ ‡ç­¾ä¸­æ‰“å¼€é“¾æ¥
 external_link:
-  enable: true # Open external links in new tab ÔÚĞÂ±êÇ©ÖĞ´ò¿ªÁ´½Ó
-  field: site # Apply to the whole site Õû¸öÍøÕ¾£¨site£©ÉúĞ§»ò½ö¶ÔÎÄÕÂ£¨post£©ÉúĞ§
-  exclude: '' # ĞèÒªÅÅ³ıµÄÓòÃû¡£Ö÷ÓòÃûºÍ×ÓÓòÃûÈç www Ğè·Ö±ğÅäÖÃ
-# °ÑÎÄ¼şÃû³Æ×ª»»Îª (1) Ğ¡Ğ´»ò (2) ´óĞ´
+  enable: true # Open external links in new tab åœ¨æ–°æ ‡ç­¾ä¸­æ‰“å¼€é“¾æ¥
+  field: site # Apply to the whole site æ•´ä¸ªç½‘ç«™ï¼ˆsiteï¼‰ç”Ÿæ•ˆæˆ–ä»…å¯¹æ–‡ç« ï¼ˆpostï¼‰ç”Ÿæ•ˆ
+  exclude: '' # éœ€è¦æ’é™¤çš„åŸŸåã€‚ä¸»åŸŸåå’Œå­åŸŸåå¦‚ www éœ€åˆ†åˆ«é…ç½®
+# æŠŠæ–‡ä»¶åç§°è½¬æ¢ä¸º (1) å°å†™æˆ– (2) å¤§å†™
 filename_case: 0
-# ÏÔÊ¾²İ¸å
+# æ˜¾ç¤ºè‰ç¨¿
 render_drafts: false
-# Æô¶¯ Asset(×ÊÔ´)ÎÄ¼ş¼Ğ
+# å¯åŠ¨ Asset(èµ„æº)æ–‡ä»¶å¤¹
 post_asset_folder: true
-# °ÑÁ´½Ó¸ÄÎªÓë¸ùÄ¿Â¼µÄÏà¶ÔÎ»Ö·
+# æŠŠé“¾æ¥æ”¹ä¸ºä¸æ ¹ç›®å½•çš„ç›¸å¯¹ä½å€
 relative_link: false
-# ÏÔÊ¾Î´À´µÄÎÄÕÂ
+# æ˜¾ç¤ºæœªæ¥çš„æ–‡ç« 
 future: true
 
 syntax_highlighter: highlight.js
-# ´úÂë¿éµÄÉèÖÃ
+# ä»£ç å—çš„è®¾ç½®
 highlight:
-  enable: true # ¿ªÆô´úÂë¿é¸ßÁÁ
-  line_number: true # ÏÔÊ¾ĞĞÊı
-  auto_detect: true # Èç¹ûÎ´Ö¸¶¨ÓïÑÔ£¬ÔòÆôÓÃ×Ô¶¯¼ì²â
-  tab_replace: '' # ÓÃ n ¸ö¿Õ¸ñÌæ»» tabs£»Èç¹ûÖµÎª¿Õ£¬Ôò²»»áÌæ»» tabs
-  wrap: true # ½«´úÂë¿é°ü×°µ½<table>
-  hljs: false # CSSÀàÊ¹ÓÃhljs-*Ç°×º
+  enable: true # å¼€å¯ä»£ç å—é«˜äº®
+  line_number: true # æ˜¾ç¤ºè¡Œæ•°
+  auto_detect: true # å¦‚æœæœªæŒ‡å®šè¯­è¨€ï¼Œåˆ™å¯ç”¨è‡ªåŠ¨æ£€æµ‹
+  tab_replace: '' # ç”¨ n ä¸ªç©ºæ ¼æ›¿æ¢ tabsï¼›å¦‚æœå€¼ä¸ºç©ºï¼Œåˆ™ä¸ä¼šæ›¿æ¢ tabs
+  wrap: true # å°†ä»£ç å—åŒ…è£…åˆ°<table>
+  hljs: false # CSSç±»ä½¿ç”¨hljs-*å‰ç¼€
 prismjs:
   preprocess: false
   line_number: true
@@ -96,12 +96,12 @@ index_generator:
   order_by: -date
 
 # Category & Tag
-# ·ÖÀà & ±êÇ©
-# Ä¬ÈÏ·ÖÀà
+# åˆ†ç±» & æ ‡ç­¾
+# é»˜è®¤åˆ†ç±»
 default_category: uncategorized
-# ·ÖÀà±ğÃû
+# åˆ†ç±»åˆ«å
 category_map:
-# ±êÇ©±ğÃû
+# æ ‡ç­¾åˆ«å
 tag_map:
 
 # Metadata elements
@@ -119,18 +119,18 @@ updated_option: 'mtime'
 
 # Pagination
 ## Set per_page to 0 to disable pagination
-# Ã¿Ò³ÏÔÊ¾µÄÎÄÕÂÁ¿ (0 = ¹Ø±Õ·ÖÒ³¹¦ÄÜ)
+# æ¯é¡µæ˜¾ç¤ºçš„æ–‡ç« é‡ (0 = å…³é—­åˆ†é¡µåŠŸèƒ½)
 per_page: 10
-# ·ÖÒ³Ä¿Â¼
+# åˆ†é¡µç›®å½•
 pagination_dir: page
 
 # Include / Exclude file(s)
 ## include:/exclude: options only apply to the 'source/' folder
-# Hexo Ä¬ÈÏ»áºöÂÔÒş²ØÎÄ¼şºÍÎÄ¼ş¼Ğ£¨°üÀ¨Ãû³ÆÒÔÏÂ»®ÏßºÍ . ¿ªÍ·µÄÎÄ¼şºÍÎÄ¼ş¼Ğ£¬Hexo µÄ _posts ºÍ _data µÈÄ¿Â¼³ıÍâ£©¡£Í¨¹ıÉèÖÃ´Ë×Ö¶Î½«Ê¹ Hexo ´¦ÀíËûÃÇ²¢½«ËüÃÇ¸´ÖÆµ½ source Ä¿Â¼ÏÂ
+# Hexo é»˜è®¤ä¼šå¿½ç•¥éšè—æ–‡ä»¶å’Œæ–‡ä»¶å¤¹ï¼ˆåŒ…æ‹¬åç§°ä»¥ä¸‹åˆ’çº¿å’Œ . å¼€å¤´çš„æ–‡ä»¶å’Œæ–‡ä»¶å¤¹ï¼ŒHexo çš„ _posts å’Œ _data ç­‰ç›®å½•é™¤å¤–ï¼‰ã€‚é€šè¿‡è®¾ç½®æ­¤å­—æ®µå°†ä½¿ Hexo å¤„ç†ä»–ä»¬å¹¶å°†å®ƒä»¬å¤åˆ¶åˆ° source ç›®å½•ä¸‹
 include:
-# Hexo »áºöÂÔÕâĞ©ÎÄ¼şºÍÄ¿Â¼
+# Hexo ä¼šå¿½ç•¥è¿™äº›æ–‡ä»¶å’Œç›®å½•
 exclude:
-# ºöÂÔÎÄ¼ş/ÎÄ¼ş¼Ğ
+# å¿½ç•¥æ–‡ä»¶/æ–‡ä»¶å¤¹
 ignore:
 
 # Extensions
@@ -148,7 +148,7 @@ theme: next
 
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
-# ²¿Êğ²¿·ÖµÄÉèÖÃ
+# éƒ¨ç½²éƒ¨åˆ†çš„è®¾ç½®
 deploy:
   type: git
   repo: git@github.com:miaopei/miaopei.github.io.git
@@ -160,7 +160,7 @@ search:
   format: html
   limit: 10000
 
-# Îª²©¿Í¼ÓÉÏÃÃ×Ó
+# ä¸ºåšå®¢åŠ ä¸Šå¦¹å­
 live2d:
   enable: true
   scriptFrom: local
@@ -196,11 +196,22 @@ feed:
   limit: 100
     
 symbols_count_time:
-  symbols: true                # ÎÄÕÂ×ÖÊıÍ³¼Æ
-  time: true                   # ÎÄÕÂÔÄ¶ÁÊ±³¤
-  total_symbols: true          # Õ¾µã×Ü×ÖÊıÍ³¼Æ
-  total_time: true             # Õ¾µã×ÜÔÄ¶ÁÊ±³¤
-  exclude_codeblock: false     # ÅÅ³ı´úÂë×ÖÊıÍ³¼Æ
+  symbols: true                # æ–‡ç« å­—æ•°ç»Ÿè®¡
+  time: true                   # æ–‡ç« é˜…è¯»æ—¶é•¿
+  total_symbols: true          # ç«™ç‚¹æ€»å­—æ•°ç»Ÿè®¡
+  total_time: true             # ç«™ç‚¹æ€»é˜…è¯»æ—¶é•¿
+  exclude_codeblock: false     # æ’é™¤ä»£ç å­—æ•°ç»Ÿè®¡
+
+# Security
+encrypt: # hexo-blog-encrypt
+  abstract: æœ‰ä¸œè¥¿è¢«åŠ å¯†äº†, è¯·è¾“å…¥å¯†ç æŸ¥çœ‹.
+  message: æ‚¨å¥½, è¿™é‡Œéœ€è¦å¯†ç .
+  #tags:
+  #- {name: tagName, password: å¯†ç A}
+  #- {name: tagName, password: å¯†ç B}
+  theme: xray
+  wrong_pass_message: æŠ±æ­‰, è¿™ä¸ªå¯†ç çœ‹ç€ä¸å¤ªå¯¹, è¯·å†è¯•è¯•.
+  wrong_hash_message: æŠ±æ­‰, è¿™ä¸ªæ–‡ç« ä¸èƒ½è¢«æ ¡éªŒ, ä¸è¿‡æ‚¨è¿˜æ˜¯èƒ½çœ‹çœ‹è§£å¯†åçš„å†…å®¹.
 
 # Algolia Search API Key
 #algolia:
