@@ -3,6 +3,45 @@
     
   
   <url>  
+    <loc>http://miaopei.github.io/2020/09/22/Netconf/sysrepo-netconf-node/</loc>  
+      
+    <lastmod>2024-06-11T05:35:03.197Z</lastmod>  
+      
+    <date>1600775428000</date>  
+    <title>netopper2 note | Mr.Miaow Blog</title>  
+      
+    <desc>Netopper2 安装 环境 centos 1. 基础软件安装</desc>  
+  </url>  
+  
+    
+  
+  <url>  
+    <loc>http://miaopei.github.io/2020/09/21/Netconf/netconf-note/</loc>  
+      
+    <lastmod>2024-06-11T05:28:51.912Z</lastmod>  
+      
+    <date>1600696228000</date>  
+    <title>netconf note | Mr.Miaow Blog</title>  
+      
+    <desc>Netconf 学习笔记1. Netconf简介随着SDN的大热，一个诞生了十年之久的协议焕发了第二春，它就是NETCONF协议。如果你在两年前去搜索NETCONF协议，基本得到的信息都是“这个协议是一个网管协议，主要目的是弥补SNMP协议的不足，希望可以取代SNMP协议”。SNMP有哪些不足，而NETCONF是否真的能够弥补，这都不是重点，重点是NETCONF诞生至今SNMP依旧活的好好的。所以</desc>  
+  </url>  
+  
+    
+  
+  <url>  
+    <loc>http://miaopei.github.io/2020/09/23/Netconf/sysrepo-note/</loc>  
+      
+    <lastmod>2024-06-11T05:20:24.516Z</lastmod>  
+      
+    <date>1600861828000</date>  
+    <title>sysrepo note | Mr.Miaow Blog</title>  
+      
+    <desc>sysrepo sysrepo - 1.4.2 笔记 1. sysrepo 概述Sysrepo 是 Linux/Unix 系统下一个基于 YANG 模型的配置和操作数据库，为应用程序提供统一的操作数据的接口。应用程序使用 YANG 模型来建模，通过利用 YANG 模型完成数据合法性的检查，保证的风格的一致，不需要应用程序直接操作配置文件的一种数据管理方式。</desc>  
+  </url>  
+  
+    
+  
+  <url>  
     <loc>http://miaopei.github.io/2017/03/28/Hexo/hexo-operating-guide/</loc>  
       
     <lastmod>2024-06-11T05:07:56.057Z</lastmod>  
@@ -41,45 +80,6 @@
     <title>Mr.Miaow | Mr.Miaow Blog</title>  
       
     <desc>Everything is going to be alright, maybe not today.</desc>  
-  </url>  
-  
-    
-  
-  <url>  
-    <loc>http://miaopei.github.io/2020/09/22/Netconf/sysrepo-netconf-node/</loc>  
-      
-    <lastmod>2024-05-31T01:39:59.462Z</lastmod>  
-      
-    <date>1600775428000</date>  
-    <title>netopper2 note | Mr.Miaow Blog</title>  
-      
-    <desc>Netopper2 安装 环境 centos 1. 基础软件安装</desc>  
-  </url>  
-  
-    
-  
-  <url>  
-    <loc>http://miaopei.github.io/2020/09/23/Netconf/sysrepo-note/</loc>  
-      
-    <lastmod>2024-05-31T01:39:59.462Z</lastmod>  
-      
-    <date>1600861828000</date>  
-    <title>sysrepo note | Mr.Miaow Blog</title>  
-      
-    <desc>sysrepo sysrepo - 1.4.2 笔记 1. sysrepo 概述Sysrepo 是 Linux/Unix 系统下一个基于 YANG 模型的配置和操作数据库，为应用程序提供统一的操作数据的接口。应用程序使用 YANG 模型来建模，通过利用 YANG 模型完成数据合法性的检查，保证的风格的一致，不需要应用程序直接操作配置文件的一种数据管理方式。</desc>  
-  </url>  
-  
-    
-  
-  <url>  
-    <loc>http://miaopei.github.io/2020/09/21/Netconf/netconf-note/</loc>  
-      
-    <lastmod>2024-05-31T01:39:59.460Z</lastmod>  
-      
-    <date>1600696228000</date>  
-    <title>netconf note | Mr.Miaow Blog</title>  
-      
-    <desc>Netconf 学习笔记1. Netconf简介随着SDN的大热，一个诞生了十年之久的协议焕发了第二春，它就是NETCONF协议。如果你在两年前去搜索NETCONF协议，基本得到的信息都是“这个协议是一个网管协议，主要目的是弥补SNMP协议的不足，希望可以取代SNMP协议”。SNMP有哪些不足，而NETCONF是否真的能够弥补，这都不是重点，重点是NETCONF诞生至今SNMP依旧活的好好的。所以</desc>  
   </url>  
   
     
