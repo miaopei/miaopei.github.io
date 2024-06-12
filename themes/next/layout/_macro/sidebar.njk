@@ -23,6 +23,12 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+          {%- if (page.encrypt) %}
+            <div id="toc-div" style="display:none">
+          {%- else %}
+            <div id="toc-div">
+          {%- endif %}
+
           {%- if display_toc %}
             <div class="post-toc animated">{{ toc }}</div>
           {%- endif %}
