@@ -204,6 +204,7 @@ symbols_count_time:
 
 # Security
 encrypt: # hexo-blog-encrypt
+  silent: true
   abstract: 有东西被加密了, 请输入密码查看.
   message: 您好, 这里需要密码.
   #tags:
