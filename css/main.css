@@ -181,11 +181,12 @@ body {
   height: 100%;
 }
 body {
-  background: url("/images/body_background.jpg");
+  background: url("/images/body_background.webp");
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: 50% 50%;
   background-size: cover;
+  opacity: 0.95;
   box-sizing: border-box;
   color: var(--text-color);
   font-family: Lato, 'PingFang SC', 'Microsoft YaHei', sans-serif;
@@ -1255,7 +1256,7 @@ pre code {
     vertical-align: middle;
   }
   .links-of-author a::before {
-    background: #779e33;
+    background: #8590cd;
     display: inline-block;
     margin-right: 3px;
     transform: translateY(-2px);
@@ -2619,7 +2620,7 @@ header.header {
   }
 }
 .site-brand-container {
-  background: url("/images/site-brand-background.jpg");
+  background: url("/images/site-brand-background.webp");
   background-size: cover;
 }
 @media (max-width: 991px) {
