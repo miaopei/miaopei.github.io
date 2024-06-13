@@ -3,6 +3,19 @@
     
   
   <url>  
+    <loc>http://miaopei.github.io/2019/05/18/FFmpeg/FFmpegSDL%E8%A7%86%E9%A2%91%E6%92%AD%E6%94%BE%E5%99%A8/</loc>  
+      
+    <lastmod>2024-06-13T06:18:27.449Z</lastmod>  
+      
+    <date>1558145690000</date>  
+    <title>FFMPEG+SDL视频播放器 | Mr.Miaow Blog</title>  
+      
+    <desc>GitHub FFmpeg ffmpeg 源代码简单分析 100行代码实现最简单的基于FFMPEG+SDL的视频播放器 simplest_ffmpeg_player 该播放器虽然简单，但是几乎包含了使用FFMPEG播放一个视频所有必备的API，并且使用SDL显示解码出来的视频。</desc>  
+  </url>  
+  
+    
+  
+  <url>  
     <loc>http://miaopei.github.io/2019/04/30/FFmpeg/%E9%9F%B3%E8%A7%86%E9%A2%91%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF/</loc>  
       
     <lastmod>2024-06-13T01:56:19.563Z</lastmod>  
@@ -37,19 +50,6 @@
     <title>Docker 学习笔记 | Mr.Miaow Blog</title>  
       
     <desc>1. Docker基本命令1.1 常用Docker命令</desc>  
-  </url>  
-  
-    
-  
-  <url>  
-    <loc>http://miaopei.github.io/2019/05/18/FFmpeg/FFmpeg+SDL%E8%A7%86%E9%A2%91%E6%92%AD%E6%94%BE%E5%99%A8/</loc>  
-      
-    <lastmod>2024-06-11T06:18:50.098Z</lastmod>  
-      
-    <date>1558145690000</date>  
-    <title>FFMPEG+SDL视频播放器 | Mr.Miaow Blog</title>  
-      
-    <desc>GitHub FFmpeg ffmpeg 源代码简单分析 100行代码实现最简单的基于FFMPEG+SDL的视频播放器 simplest_ffmpeg_player 该播放器虽然简单，但是几乎包含了使用FFMPEG播放一个视频所有必备的API，并且使用SDL显示解码出来的视频。</desc>  
   </url>  
   
     
