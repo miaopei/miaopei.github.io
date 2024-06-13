@@ -5,12 +5,12 @@
   <url>  
     <loc>http://miaopei.github.io/2019/05/27/FFmpeg/FFmpeg%E6%A1%86%E6%9E%B6%E5%87%BD%E6%95%B0%E5%88%86%E6%9E%90/</loc>  
       
-    <lastmod>2024-06-13T07:13:07.431Z</lastmod>  
+    <lastmod>2024-06-13T08:24:26.199Z</lastmod>  
       
     <date>1558923290000</date>  
     <title>FFmpeg框架详解 | Mr.Miaow Blog</title>  
       
-    <desc>[总结]FFMPEG视音频编解码零基础学习方法 架构图FFMPEG+SDL的视频播放器 最简单的基于FFMPEG+SDL的视频播放器 ver2 （采用SDL2.0） FFmpeg 解码一个视频流程：</desc>  
+    <desc>[总结]FFMPEG视音频编解码零基础学习方法 1. 架构图1.1 FFMPEG+SDL的视频播放器 最简单的基于FFMPEG+SDL的视频播放器 ver2 （采用SDL2.0） FFmpeg 解码一个视频流程：</desc>  
   </url>  
   
     
