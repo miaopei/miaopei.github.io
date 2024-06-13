@@ -24,11 +24,11 @@ date: 2019-05-18 10:14:50
 
 并且支持流媒体等多种视频输入，处于简单考虑，没有音频部分，同时视频播放采用直接延时40ms的方式
 
-![播放器解码的流程用图](/images/imageFFmpeg/Thor/播放器解码的流程用图.png)
+![播放器解码的流程用图](FFmpegSDL视频播放器/播放器解码的流程用图.png)
 
-![SDL1.x显示YUV图像的流程图](/images/imageFFmpeg/Thor/SDL显示YUV图像的流程图.png)
+![SDL显示YUV图像的流程图](FFmpegSDL视频播放器/SDL显示YUV图像的流程图.png)
 
-![SDL2.0显示YUV的流程图](/images/imageFFmpeg/Thor/SDL2.0显示YUV的流程图.png)
+![SDL2.0显示YUV的流程图](FFmpegSDL视频播放器/SDL2.0显示YUV的流程图.png)
 
 对比SDL1.2的流程图，发现变化还是很大的。几乎所有的API都发生了变化。但是函数和变量有一定的对应关系：
 
@@ -50,11 +50,11 @@ SDL_Overlay————SDL_Texture
 
 它们的关系如下图所示：
 
-![](/images/imageFFmpeg/Thor/关系图.png)
+![关系图](FFmpegSDL视频播放器/关系图.png)
 
 下图举了个例子，指定了4个SDL_Rect，可以实现4分屏的显示。
 
-![SDL_Rect四分屏显示](/images/imageFFmpeg/Thor/SDL_Rect四分屏显示.png)
+![SDL_Rect四分屏显示](FFmpegSDL视频播放器/SDL_Rect四分屏显示.png)
 
 ## simplest_ffmpeg_player（标准版）代码
 
@@ -587,7 +587,7 @@ int main(int argc, char* argv[])
 
 函数调用结构图：
 
-![av_read_packet](/images/imageFFmpeg/Thor/av_read_packet.png)
+![av_read_packet](FFmpegSDL视频播放器/av_read_packet.png)
 
 ## FFmpeg 源码分析
 
@@ -961,7 +961,7 @@ PS：曾经研究过一阵子 RTMP 协议，以及对应的开源工程 librtmp�
 
 函数调用关系图如下图所示。`av_register_all()` 调用了 `avcodec_register_all()` 。 `avcodec_register_all()` 注册了和编解码器有关的组件：硬件加速器，解码器，编码器，Parser，Bitstream Filter。`av_register_all()` 除了调用 `avcodec_register_all()` 之外，还注册了复用器，解复用器，协议处理器。
 
-![av_register_all 函数调用关系图](/images/imageFFmpeg/Thor/av_register_all.png)
+![av_register_all](FFmpegSDL视频播放器/av_register_all.png)
 
 下面附上复用器，解复用器，协议处理器的代码。
 
@@ -1082,6 +1082,7 @@ static AVCodec *first_avcodec = NULL;
 ```
 
 由此我们可以分析出avcodec_register()的含义，一句话概括就是：遍历链表并把当前的AVCodec加到链表的尾部。
+
 同理，**Parser，BSF（bitstream filters，比特流滤镜），HWACCEL（hardware accelerators，硬件加速器）**的注册方式都是类似的。不再详述。
 
 <details><summary>下面贴出它的原代码：</summary>
@@ -1544,7 +1545,7 @@ void avcodec_register_all(void)
 
 函数的调用关系图如下图所示。`av_register_all()` 调用了 `avcodec_register_all()`。因此如果调用过 `av_register_all() ` 的话就不需要再调用 `avcodec_register_all()` 了。
 
-![av_register_all 函数调用关系图](/images/imageFFmpeg/Thor/av_register_all.png)
+![av_register_all](FFmpegSDL视频播放器/av_register_all.png)
 
 下面附上硬件加速器，编码器/解码器，parser，Bitstream Filter的注册代码。
 
