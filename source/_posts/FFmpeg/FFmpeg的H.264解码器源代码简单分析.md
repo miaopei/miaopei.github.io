@@ -12,19 +12,19 @@ date: 2019-05-28 10:14:50
 
 # 编码 - x264
 
-## 概述
+## 1. 概述
 
 最近正在研究H.264和HEVC的编码方式，因此分析了一下最常见的H.264编码器——x264的源代码。本文简单梳理一下它的结构。X264的源代码量比较大而且涉及到很多的算法，目前还有很多不懂的地方，因此也不能保证分析的完全正确。目前打算先把已经理解的部分整理出来以作备忘。
 
-### 函数调用关系图
+### 1.1 函数调用关系图
 
 <!-- more -->
 
-![X264的函数调用关系图](/images/imageFFmpeg/Thor/X264的函数调用关系图.png)
+![X264的函数调用关系图](FFmpeg的H.264解码器源代码简单分析/X264的函数调用关系图.png)
 
 下面解释一下图中关键标记的含义。
 
-#### 函数背景色
+#### 1.1.1 函数背景色
 
 函数在图中以方框的形式表现出来。不同的背景色标志了该函数不同的作用：
 
@@ -38,7 +38,7 @@ date: 2019-05-28 10:14:50
 
 - **浅蓝色背景函数**：码率控制函数（Rate Control）。对码率进行控制的函数。具体的方法包括了ABR、CBR、CRF等。
 
-#### 区域
+#### 1.1.2 区域
 
 整个关系图可以分为以下几个区域：
 
@@ -49,7 +49,7 @@ date: 2019-05-28 10:14:50
 - **右中间绿色区域**——宏块编码模块。其中包含了针对编码帧的DCT变换，量化，Hadamard变换等；以及针对重建帧的DCT反变换，反量化，Hadamard反变换等。
 - **右下方紫色区域**——熵编码模块。其中包含了CABAC或者CAVLC熵编码。
 
-#### 箭头线
+#### 1.1.3 箭头线
 
 箭头线标志了函数的调用关系：
 
@@ -59,15 +59,15 @@ date: 2019-05-28 10:14:50
 - **绿色箭头线**：宏块编码函数（Encode）之间的调用关系。
 - **紫色箭头线**：熵编码函数（Entropy Coding）之间的调用关系。
 
-#### 函数所在的文件
+#### 1.1.4 函数所在的文件
 
 每个函数标识了它所在的文件路径。
 
-### 几个关键的部分
+### 1.2 几个关键的部分
 
 下文简单记录图中几个关键的部分。
 
-#### x264命令行程序
+#### 1.2.1 x264命令行程序
 
 x264命令行程序指的是x264项目提供的控制台程序。通过这个程序可以调用libx264编码YUV为H.264码流。该程序的入口函数为 `main()`。`main()` 函数首先调用 `parse()` 解析输入的参数，然后调用 `encode()` 编码YUV数据。
 
@@ -77,7 +77,7 @@ x264命令行程序指的是x264项目提供的控制台程序。通过这个程
 
 <font style="color:red;">**encode_frame()**</font>则调用 `x264_encoder_encode()` 将存储YUV数据的 `x264_picture_t` 编码为存储H.264数据的 `x264_nal_t`。
 
-#### <font style="color:#ff6600;">libx264类库的接口</font>
+#### 1.2.2 <font style="color:#ff6600;">libx264类库的接口</font>
 
 在一个x264编码流程中，至少需要调用如下API函数（参考文章《[最简单的视频编码器：基于libx264（编码YUV为H.264）](http://blog.csdn.net/leixiaohua1020/article/details/42078645)》）：
 
@@ -90,7 +90,7 @@ x264_encoder_close()	// 关闭编码器。
 x264_picture_clean()	// 释放x264_picture_alloc()申请的资源。
 ```
 
-#### libx264主干函数
+#### 1.2.3 libx264主干函数
 
 libx264主干函数指的是编码API之后，`x264_slice_write()` 之前的函数。这一部分函数较多，暂时不详细分析，仅仅举几个例子列一下它们的功能。
 
@@ -134,7 +134,7 @@ x264_slices_write() // 编码数据（最关键的步骤）。其中调用了x26
 x264_encoder_frame_end() // 编码结束后做一些后续处理，例如释放一些中间变量以及打印输出一些统计信息。其中调用了x264_frame_push_unused()将fenc重新放回frames.unused[]队列，并且调用x264_ratecontrol_end()关闭码率控制。
 ```
 
-#### x264_slice_write()
+#### 1.2.4 x264_slice_write()
 
 `x264_slice_write()` 用于编码 Slice。该函数中包含了一个很长的 `for()` 循环。该循环每执行一遍编码一个宏块。`x264_slice_write()` 中以下几个函数比较重要：
 
@@ -153,7 +153,7 @@ x264_ratecontrol_mb() // 码率控制。
 x264_nal_end() // 结束写一个NALU。
 ```
 
-#### <font style="color:#ffcccc;">滤波模块</font>
+#### 1.2.5 <font style="color:#ffcccc;">滤波模块</font>
 
 滤波模块对应的函数是 `x264_fdec_filter_row()`。该函数完成了环路滤波，半像素插值，`SSIM/PSNR` 的计算的功能。该函数调用了以下及个比较重要的函数：
 
@@ -164,7 +164,7 @@ x264_pixel_ssd_wxh()		// PSNR计算。
 x264_pixel_ssim_wxh()		// SSIM计算。
 ```
 
-#### <font style="color:#ffcc33;">分析模块</font>
+#### 1.2.6 <font style="color:#ffcc33;">分析模块</font>
 
 分析模块对应的函数是 `x264_macroblock_analyse()`。该函数包含了帧内预测模式分析以及帧间运动估计等。该函数调用了以下比较重要的函数（只列举了几个有代表性的函数）：
 
@@ -180,11 +180,11 @@ x264_mb_analyse_inter_b8x8()	// B8x8宏块帧间预测模式分析。
 x264_mb_analyse_inter_b16x8()	// B16x8宏块帧间预测模式分析。
 ```
 
-#### <font style="color:#33cc00;">宏块编码模块</font>
+#### 1.2.7 <font style="color:#33cc00;">宏块编码模块</font>
 
 宏块编码模块对应的函数是 `x264_macroblock_encode()`。该模块通过对残差的 DCT 变换、量化等方式对宏块进行编码。对于 `Intra16x16` 宏块，调用 `x264_mb_encode_i16x16()` 进行编码，对于 `Intra4x4`，调用 `x264_mb_encode_i4x4()` 进行编码。对于Inter类型的宏块则直接在函数体里面编码。
 
-#### <font style="color:#cc33cc;">熵编码模块</font>
+#### 1.2.8 <font style="color:#cc33cc;">熵编码模块</font>
 
 CABAC 熵编码对应的函数是 `x264_macroblock_write_cabac()`。CAVLC 熵编码对应的函数是 `x264_macroblock_write_cavlc()`。`x264_macroblock_write_cavlc()` 调用了以下几个比较重要的函数：
 
@@ -196,7 +196,7 @@ x264_cavlc_qp_delta()			// 写入QP。
 x264_cavlc_block_residual()		// 写入残差数据。
 ```
 
-#### <font style="color:#66cccc;">码率控制模块</font>
+#### 1.2.9 <font style="color:#66cccc;">码率控制模块</font>
 
 码率控制模块函数分布在x264源代码不同的地方，包含了以下几个比较重要的函数：
 
@@ -209,13 +209,13 @@ x264_encoder_close()	中的 x264_ratecontrol_summary()	// 码率控制信息。
 x264_encoder_close()	中的 x264_ratecontrol_delete()	// 释放码率控制。
 ```
 
-## x264命令行工具
+## 2. x264命令行工具
 
 该命令行工具可以调用 libx264 将 YUV 格式像素数据编码为 H.264 码流。
 
-### 函数调用关系图
+### 2.1 函数调用关系图
 
-![X264命令行工具的源代码的调用关系](/images/imageFFmpeg/Thor/X264命令行工具的源代码的调用关系.png)
+![X264命令行工具的源代码的调用关系](FFmpeg的H.264解码器源代码简单分析/X264命令行工具的源代码的调用关系.png)
 
 从图中可以看出，X264命令行工具调用了libx264的几个API完成了H.264编码工作。使用libx264的API进行编码可以参考《[最简单的视频编码器：基于libx264（编码YUV为H.264）](http://blog.csdn.net/leixiaohua1020/article/details/42078645)》，这个流程中最关键的API包括：
 
@@ -233,11 +233,11 @@ x264_encoder_close()	// 关闭编码器。
 
 `encode()` 首先调用 `x264_encoder_open()` 打开H.264编码器，然后调用 `x264_encoder_headers()` 输出H.264码流的头信息（例如SPS、PPS、SEI），接着进入一个循环并且调用 `encode_frame()` 逐帧编码视频，最后调用 `x264_encoder_close()` 关闭解码器。其中 `encode_frame()` 中又调用了 `x264_encoder_encode()` 完成了具体的编码工作。下文将会对上述流程展开分析。
 
-#### main()
+#### 2.1.1 main()
 
 `main()` 的定义很简单，它主要调用了两个函数：`parse()` 和 `encode()` 。`main()` 首先调用 `parse()` 解析输入的命令行参数，然后调用 `encode()` 进行编码。下面分别分析这两个函数。
 
-#### parse()
+#### 2.1.2 parse()
 
 `parse()` 用于解析命令行输入的参数（存储于 `argv[]` 中）
 
@@ -289,7 +289,7 @@ select_output()
 
 `select_input()` 用于设定输入的文件格式。
 
-#### encode()
+#### 2.1.3 encode()
 
 `encode()` 编码 YUV 为 H.264 码流
 
@@ -332,9 +332,9 @@ x264_encoder_close()	// 关闭H.264编码器。
 
 print_status()的代码不再详细记录，它的输出效果如下图中红框中的文字。
 
-![print_status输出效果](/images/imageFFmpeg/Thor/print_status.png)
+![print_status](FFmpeg的H.264解码器源代码简单分析/print_status.png)
 
-### X264 控制台程序中和输入输出相关的结构体
+### 2.2 X264 控制台程序中和输入输出相关的结构体
 
 在x264控制台程序中有3个和输入输出相关的结构体：
 
@@ -346,13 +346,13 @@ cli_vid_filter_t	// 输入格式滤镜结构体。滤镜可以对输入数据做
 
 在 x264 的编码过程中，调用 `cli_vid_filter_t` 结构体的 `get_frame()` 读取 YUV 数据，调用 `cli_output_t` 的 `write_frame()` 写入数据。
 
-## 编码器主干部分
+## 3. 编码器主干部分
 
 “主干部分”指的就是libx264中最核心的接口函数—— `x264_encoder_encode()` ，以及相关的几个接口函数`x264_encoder_open()`，`x264_encoder_headers()`，和 `x264_encoder_close()`。
 
-### 函数调用关系图
+### 3.1 函数调用关系图
 
-![X264编码器主干部分的函数调用关系](/images/imageFFmpeg/Thor/X264编码器主干部分的函数调用关系.png)
+![X264编码器主干部分的函数调用关系](FFmpeg的H.264解码器源代码简单分析/X264编码器主干部分的函数调用关系.png)
 
 从图中可以看出，x264 主干部分最复杂的函数就是 `x264_encoder_encode()`，该函数完成了编码一帧 YUV 为H.264 码流的工作。与之配合的还有打开编码器的函数 `x264_encoder_open()`，关闭编码器的函数 `x264_encoder_close()`，以及输出 SPS/PPS/SEI 这样的头信息的 `x264_encoder_headers()`。
 
@@ -405,7 +405,7 @@ x264_ratecontrol_summary()	// 汇总码率控制信息。
 x264_ratecontrol_delete()	// 关闭码率控制。
 ```
 
-#### x264_encoder_open()
+#### 3.1.1 x264_encoder_open()
 
 `x264_encoder_open()` 是一个 libx264 的 API。该函数用于打开编码器，其中初始化了 libx264 编码所需要的各种变量。
 
@@ -424,15 +424,15 @@ x264_deblock_init()			// 初始化去块效应滤波器相关的汇编函数。
 mbcmp_init()				// 决定像素比较的时候使用SAD还是SATD。
 ```
 
-#### 相关知识简述
+#### 3.1.2 相关知识简述
 
 简单记录一下帧内预测的方法。帧内预测根据宏块左边和上边的边界像素值推算宏块内部的像素值，帧内预测的效果如下图所示。其中左边的图为图像原始画面，右边的图为经过帧内预测后没有叠加残差的画面。
 
-![帧内预测-01](/images/imageFFmpeg/Thor/帧内预测-01.png)
+![帧内预测-01](FFmpeg的H.264解码器源代码简单分析/帧内预测-01.png)
 
 H.264 中有两种帧内预测模式：`16x16` 亮度帧内预测模式和 `4x4` 亮度帧内预测模式。其中 `16x16` 帧内预测模式一共有 4 种，如下图所示。
 
-![帧内预测-02](/images/imageFFmpeg/Thor/帧内预测-02.png)
+![帧内预测-02](FFmpeg的H.264解码器源代码简单分析/帧内预测-02.png)
 
 这 4 种模式列表如下。
 
@@ -445,7 +445,7 @@ H.264 中有两种帧内预测模式：`16x16` 亮度帧内预测模式和 `4x4`
 
 `4x4` 帧内预测模式一共有 9 种，如下图所示。
 
-![帧内预测-03](/images/imageFFmpeg/Thor/帧内预测-03.png)
+![帧内预测-03](FFmpeg的H.264解码器源代码简单分析/帧内预测-03.png)
 
 简单记录几个像素计算中的概念。SAD 和 SATD 主要用于帧内预测模式以及帧间预测模式的判断。有关 SAD、SATD、SSD 的定义如下：
 
@@ -459,21 +459,21 @@ H.264中使用SAD和SATD进行宏块预测模式的判断。早期的编码器�
 
 使用SAD进行模式选择的示例如下所示。下面这张图代表了一个普通的 `Intra16x16` 的宏块的像素。它的下方包含了使用Vertical，Horizontal，DC和Plane四种帧内预测模式预测的像素。通过计算可以得到这几种预测像素和原始像素之间的SAD（SAE）分别为3985，5097，4991，2539。由于Plane模式的SAD取值最小，由此可以断定Plane模式对于这个宏块来说是最好的帧内预测模式。
 
-![帧内预测-04](/images/imageFFmpeg/Thor/帧内预测-04.png)
+![帧内预测-04](FFmpeg的H.264解码器源代码简单分析/帧内预测-04.png)
 
-![帧内预测-05](/images/imageFFmpeg/Thor/帧内预测-05.png)
+![帧内预测-05](FFmpeg的H.264解码器源代码简单分析/帧内预测-05.png)
 
 简单记录一下DCT相关的知识。DCT变换的核心理念就是把图像的低频信息（对应大面积平坦区域）变换到系数矩阵的左上角，而把高频信息变换到系数矩阵的右下角，这样就可以在压缩的时候（量化）去除掉人眼不敏感的高频信息（位于矩阵右下角的系数）从而达到压缩数据的目的。二维 `8x8` DCT变换常见的示意图如下所示。
 
-![帧内预测-06](/images/imageFFmpeg/Thor/帧内预测-06.png)
+![帧内预测-06](FFmpeg的H.264解码器源代码简单分析/帧内预测-06.png)
 
 早期的DCT变换都使用了 `8x8` 的矩阵（变换系数为小数）。在 H.264 标准中新提出了一种 `4x4` 的矩阵。这种 `4x4` DCT变换的系数都是整数，一方面提高了运算的准确性，一方面也利于代码的优化。`4x4` 整数DCT变换的示意图如下所示（作为对比，右侧为 `4x4` 块的Hadamard变换的示意图）。
 
-![帧内预测-07](/images/imageFFmpeg/Thor/帧内预测-07.png)
+![帧内预测-07](FFmpeg的H.264解码器源代码简单分析/帧内预测-07.png)
 
 简单记录一下半像素插值的知识。《H.264标准》中规定，运动估计为 `1/4` 像素精度。因此在H.264编码和解码的过程中，需要将画面中的像素进行插值——简单地说就是把原先的 1 个像素点拓展成 `4x4` 一共16个点。下图显示了H.264编码和解码过程中像素插值情况。可以看出原先的 G 点的右下方通过插值的方式产生了a、b、c、d等一共 16 个点。
 
-![帧内预测-08](/images/imageFFmpeg/Thor/帧内预测-08.png)
+![帧内预测-08](FFmpeg的H.264解码器源代码简单分析/帧内预测-08.png)
 
 如图所示，`1/4` 像素内插一般分成两步：
 
@@ -500,17 +500,17 @@ j：由cc、dd、h、m、ee、ff计算。需要注意j点的运算量比较大�
 
 在这里有一点需要注意：位于 4 个角的e、g、p、r 四个点并不是通过 j 点计算计算的，而是通过b、h、s、m四个半像素点计算的。
 
-![帧内预测-09](/images/imageFFmpeg/Thor/帧内预测-09.png)
+![帧内预测-09](FFmpeg的H.264解码器源代码简单分析/帧内预测-09.png)
 
-#### x264_encoder_headers()
+#### 3.1.3 x264_encoder_headers()
 
 `x264_encoder_headers()` 是libx264的一个API函数，用于输出 SPS/PPS/SEI 这些 H.264 码流的头信息。
 
-#### x264_encoder_close()
+#### 3.1.4 x264_encoder_close()
 
 `x264_encoder_close()` 是libx264的一个API函数。该函数用于关闭编码器，同时输出一些统计信息。
 
-#### x264_encoder_encode()
+#### 3.1.5 x264_encoder_encode()
 
 `x264_encoder_encode()` 是libx264的API函数，用于编码一帧 YUV 为 H.264 码流。
 
@@ -546,13 +546,13 @@ j：由cc、dd、h、m、ee、ff计算。需要注意j点的运算量比较大�
 
 `x264_slice_write()` 是完成编码工作的函数。该函数中包含了去块效应滤波，运动估计，宏块编码，熵编码等模块。
 
-## x264_slice_write()
+## 4. x264_slice_write()
 
 `x264_slice_write()` 是 x264 项目的核心，它完成了编码了一个 Slice 的工作。根据功能的不同，该函数可以分为滤波（Filter），分析（Analysis），宏块编码（Encode）和熵编码（Entropy Encoding）几个子模块。
 
-### 函数调用关系图
+### 4.1 函数调用关系图
 
-![x264_slice_write](/images/imageFFmpeg/Thor/x264_slice_write.png)
+![x264_slice_write](FFmpeg的H.264解码器源代码简单分析/x264_slice_write.png)
 
 x264_slice_write()调用了如下函数：
 
@@ -592,7 +592,7 @@ x264_nal_end() // 结束写一个NALU。
 
 （5）调用 `x264_nal_end()` 结束输出一个 NALU。
 
-### 重要的数据结构
+### 4.2 重要的数据结构
 
 X264在宏块编码方面涉及到下面几个比较重要的结构体：
 
@@ -601,7 +601,7 @@ X264在宏块编码方面涉及到下面几个比较重要的结构体：
 
 图像半像素点存储空间 `filtered[]` ——位于 `x264_frame_t` 中，用于存储半像素插值后的点。
 
-#### 宏块像素存储缓存 fenc_buf[] 和 fdec_buf[]
+#### 4.2.1 宏块像素存储缓存 fenc_buf[] 和 fdec_buf[]
 
 `fenc_buf[]` 和 `fdec_buf[]` 为 `x264_t.mb.cache` 中的结构体，用于存储一个宏块的像素数据。其中 `fenc_buf[]` 用于存储宏块编码像素数据，而 `fdec_buf[]` 用于存储宏块重建像素数据。他们的定义如下所示。
 
@@ -616,15 +616,15 @@ uint8_t fdec_buf[52*FDEC_STRIDE]
 
 从定义可以看出，`fenc_buf[]` 每行 16 个数据；而 `fdec_buf[]` 每行 32 个数据。在 `x264_t.mb.cache` 中和 `fenc_buf[]` 和 `fdec_buf[]` 相关的指针数组还有 `p_fenc[3]` 和 `p_fdec[3]` ，它们中的 3 个元素 `[0]、[1]、[2]` 分别指向分别指向对应缓存 buf 的 Y、U、V 分量。下图画出了像素格式为 YUV420P 的时候 `fenc_buf[]` 的存储示意图。图中灰色区域存储 Y，蓝色区域存储 U，粉红区域存储 V。`p_fenc[0]` 指向 Y 的存储区域，`p_fenc[1]` 指向 U 的存储区域，`p_fenc[2]` 指向 V 的存储区域，在图中以方框的形式标注了出来。
 
-![像素格式为 YUV420P 的时候 fenc_buf 的存储](/images/imageFFmpeg/Thor/x264-01.png)
+![x264-01](FFmpeg的H.264解码器源代码简单分析/x264-01.png)
 
 下图画出了像素格式为 YUV420P 的时候 `fdec_buf[]` 的存储示意图。图中灰色区域存储 Y，蓝色区域存储 U，粉红区域存储 V。`p_fenc[0]` 指向 Y 的存储区域，`p_fenc[1]` 指向 U 的存储区域，`p_fenc[2]` 指向 V 的存储区域，在图中以方框的形式标注了出来。
 
-![像素格式为 YUV420P 的时候 fdec_buf 的存储](/images/imageFFmpeg/Thor/x264-02.png)
+![x264-02](FFmpeg的H.264解码器源代码简单分析/x264-02.png)
 
 从图中可以看出，`fdec_buf[]` 和 `fenc_buf[]` 主要的区别在于 `fdec_buf[]` 像素块的左边和上边包含了左上方相邻块用于预测的像素。
 
-### 宏块各种信息的缓存Cache 
+### 4.3 宏块各种信息的缓存Cache 
 
 在 x264 中 `x264_t.mb.cache` 结构体中包含了存储宏块信息的各种各样的缓存 Cache。例如：
 
@@ -633,7 +633,7 @@ uint8_t fdec_buf[52*FDEC_STRIDE]
 - **mv**：运动矢量缓存
 - **ref**：运动矢量参考帧的缓存
 
-## 滤波（Filter）部分
+## 5. 滤波（Filter）部分
 
 `x264_fdec_filter_row()` 对应着 x264 中的滤波模块。滤波模块主要完成了下面 3 个方面的功能：
 
@@ -643,9 +643,9 @@ uint8_t fdec_buf[52*FDEC_STRIDE]
 
 （3）视频质量指标PSNR和SSIM的计算
 
-### 函数调用关系图
+### 5.1 函数调用关系图
 
-![滤波（Filter）部分的函数调用关系](/images/imageFFmpeg/Thor/x264_fdec_filter_row.png)
+![x264_fdec_filter_row](FFmpeg的H.264解码器源代码简单分析/x264_fdec_filter_row.png)
 
 从图中可以看出，滤波模块对应的x264_fdec_filter_row()调用了如下函数：
 
@@ -664,7 +664,7 @@ x264_pixel_ssim_wxh()		// SSIM计算。
 
 （3）视频质量 SSIM 和 PSNR 计算。PSNR在这里只计算了 SSD，通过调用 `x264_pixel_ssd_wxh()` 实现；SSIM 的计算则是通过 `x264_pixel_ssim_wxh()` 实现。
 
-## 宏块分析（Analysis）部分-帧内宏块（Intra）
+## 6. 宏块分析（Analysis）部分-帧内宏块（Intra）
 
 `x264_macroblock_analyse()` 对应着 x264 中的分析模块。分析模块主要完成了下面 2 个方面的功能：
 
@@ -672,9 +672,9 @@ x264_pixel_ssim_wxh()		// SSIM计算。
 
 （2）对于帧间宏块，进行运动估计，分析帧间预测模式
 
-### 函数调用关系图
+### 6.1 函数调用关系图
 
-![宏块分析（Analysis）部分的函数调用关系](/images/imageFFmpeg/Thor/x264_macroblock_analyse.png)
+![x264_macroblock_analyse](FFmpeg的H.264解码器源代码简单分析/x264_macroblock_analyse.png)
 
 从图中可以看出，分析模块的 `x264_macroblock_analyse()` 调用了如下函数（只列举了几个有代表性的函数）：
 
@@ -731,7 +731,7 @@ x264_mb_analyse_inter_b16x8()	// B16x8宏块帧间预测模式分析。
 
 （4）将上述 3 中模式的代价进行对比，取最小者为当前宏块的帧内预测模式。
 
-## 宏块分析（Analysis）部分-帧间宏块（Inter）
+## 7. 宏块分析（Analysis）部分-帧间宏块（Inter）
 
 `x264_macroblock_analyse()` 对应着 x264 中的分析模块。分析模块主要完成了下面 2 个方面的功能：
 
@@ -741,13 +741,13 @@ x264_mb_analyse_inter_b16x8()	// B16x8宏块帧间预测模式分析。
 
 > [详细功能说明](<https://blog.csdn.net/leixiaohua1020/article/details/45936267>)
 
-## 宏块编码（Encode）部分
+## 8. 宏块编码（Encode）部分
 
 `x264_macroblock_encode()` 对应着 x264 中的宏块编码模块。宏块编码模块主要完成了 DCT 变换和量化两个步骤。
 
-### 函数调用关系图
+### 8.1 函数调用关系图
 
-![宏块编码（Encode）部分的函数调用关系](/images/imageFFmpeg/Thor/x264_macroblock_encode.png)
+![x264_macroblock_encode](FFmpeg的H.264解码器源代码简单分析/x264_macroblock_encode.png)
 
 从图中可以看出，宏块编码模块的 `x264_macroblock_encode()` 调用了 `x264_macroblock_encode_internal()` ，而 `x264_macroblock_encode_internal()` 完成了如下功能：
 
@@ -818,13 +818,15 @@ x264_mb_encode_chroma()			// 编码色度块。
 
 可以看出 `Intra4x4` 编码的过程就是一个 “DCT变换 + 量化” 的流程。
 
-## 熵编码（Entropy Encoding）部分
+## 9. 熵编码（Entropy Encoding）部分
 
 `x264_macroblock_write_cavlc()` 对应着x264中的熵编码模块。熵编码模块主要完成了编码数据输出的功能。
 
-### 函数调用关系图
+### 9.1 函数调用关系图
 
-![熵编码（Entropy Encoding）部分的函数调用关系](/images/imageFFmpeg/Thor/x264_macroblock_write_cavlc.png)
+熵编码（Entropy Encoding）部分的函数调用关系：
+
+![x264_macroblock_write_cavlc](FFmpeg的H.264解码器源代码简单分析/x264_macroblock_write_cavlc.png)
 
 从图中可以看出，熵编码模块包含两个函数 `x264_macroblock_write_cabac()` 和`x264_macroblock_write_cavlc()`。如果输出设置为 CABAC 编码，则会调用`x264_macroblock_write_cabac()`；如果输出设置为 CAVLC 编码，则会调用 `x264_macroblock_write_cavlc()` 。本文选择 CAVLC 编码输出函数 `x264_macroblock_write_cavlc()` 进行分析。该函数调用了如下函数：
 
@@ -848,13 +850,13 @@ x264_cavlc_block_residual()		// 写入残差数据。
 
 （3）调用 `x264_cavlc_block_residual()` 输出 CAVLC 编码的残差数据
 
-## FFmpeg与libx264接口源代码简单分析
+## 10. FFmpeg与libx264接口源代码简单分析
 
 本文简单记录一下 FFmpeg 的 libavcodec 中与 libx264 接口部分的源代码。该部分源代码位于 “libavcodec/libx264.c” 中。正是有了这部分代码，使得 FFmpeg 可以调用 libx264 编码 H.264 视频。
 
-### 函数调用关系图
+### 10.1 函数调用关系图
 
-![FFmpeg的libavcodec中的libx264.c的函数调用关系](/images/imageFFmpeg/Thor/[FFmpeg的libavcodec中的libx264的函数调用关系.png)
+![FFmpeg的libavcodec中的libx264的函数调用关系](FFmpeg的H.264解码器源代码简单分析/FFmpeg的libavcodec中的libx264的函数调用关系.png)
 
 从图中可以看出，libx264 对应的 AVCodec 结构体 `ff_libx264_encoder` 中设定编码器初始化函数是 `X264_init()`，编码一帧数据的函数是 `X264_frame()`，编码器关闭函数是 `X264_close()`。
 
@@ -885,28 +887,28 @@ encode_nals() 	// 将编码后得到的x264_nal_t转换为AVPacket。
 
 # 解码 - libavcodec H.264 解码器
 
-## 概述
+## 1. 概述
 
 本文简单记录 FFmpeg 中 libavcodec 的 H.264 解码器（H.264 Decoder）的源代码。这个 H.264 解码器十分重要，可以说 FFmpeg 项目今天可以几乎“垄断”视音频编解码技术，很大一部分贡献就来自于这个 H.264 解码器。这个 H.264 解码器一方面功能强大，性能稳定；另一方面源代码也比较复杂，难以深入研究。本文打算梳理一下这个 H.264 解码器的源代码结构，以方便以后深入学习 H.264 使用。
 
 > PS：这部分代码挺复杂的，还有不少地方还比较模糊，还需要慢慢学习......
 
-### 函数调用关系图
+### 1.1 函数调用关系图
 
 H.264解码器的函数调用关系图如下所示。
 
-![H.264解码器的函数调用关系图](/images/imageFFmpeg/Thor/H.264解码器的函数调用关系图.png)
+![H.264解码器的函数调用关系图](FFmpeg的H.264解码器源代码简单分析/H.264解码器的函数调用关系图.png)
 
 下面解释一下图中关键标记的含义。
 
-#### 作为接口的结构体
+#### 1.1.1 作为接口的结构体
 
 FFmpeg和H.264解码器之间作为接口的结构体有2个：
 
 - `ff_h264_parser`：用于解析 H.264 码流的 AVCodecParser 结构体。
 - `ff_h264_decoder`：用于解码 H.264 码流的 AVCodec 结构体。
 
-#### 函数背景色
+#### 1.1.2 函数背景色
 
 函数在图中以方框的形式表现出来。不同的背景色标志了该函数不同的作用：
 
@@ -917,7 +919,7 @@ FFmpeg和H.264解码器之间作为接口的结构体有2个：
 - 黄色背景的函数：环路滤波函数（Loop Filter）。这些函数对解码后的数据进行滤波，去除方块效应。
 - 蓝色背景函数：汇编函数（Assembly）。这些函数是做过汇编优化的函数。图中主要画出了这些函数的C语言版本，此外这些函数还包含MMX版本、SSE版本、NEON版本等。
 
-#### 箭头线
+#### 1.1.3 箭头线
 
 箭头线标志了函数的调用关系：
 
@@ -927,15 +929,15 @@ FFmpeg和H.264解码器之间作为接口的结构体有2个：
 - 绿色箭头线：解码函数（Decode）之间的调用关系。
 - 黄色箭头线：环路滤波函数（Loop Filter）之间的调用关系。
 
-#### 函数所在的文件
+#### 1.1.4 函数所在的文件
 
 每个函数标识了它所在的文件路径。
 
-### 几个关键部分
+### 1.2 几个关键部分
 
 下文简单记录几个关键的部分。
 
-#### FFmpeg和H.264解码器之间作为接口的结构体
+#### 1.2.1 FFmpeg和H.264解码器之间作为接口的结构体
 
 FFmpeg和H.264解码器之间作为接口的结构体有2个：ff_h264_parser和ff_h264_decoder。
 
@@ -968,7 +970,7 @@ ff_h264_decoder是用于解码H.264码流的AVCodec结构体。AVCodec中包含�
 
 - **h264_decode_end()：关闭H.264解码器。**
 
-#### 普通内部函数
+#### 1.2.2 普通内部函数
 
 普通内部函数指的是H.264解码器中还没有进行分类的函数。下面举几个例子。
 
@@ -994,7 +996,7 @@ ff_h264_parser中h264_parse()逐层调用的和解析Slice相关的函数：
 
 - **parse_nal_units()：解析一个NALU。**
 
-#### <font style="color:rgb(255,153,255);">解析函数（Parser）</font>
+#### 1.2.3 <font style="color:rgb(255,153,255);">解析函数（Parser）</font>
 解析函数（Parser）用于解析H.264码流中的一些信息（例如SPS、PPS、Slice Header等）。在parse_nal_units()和decode_nal_units()中都调用这些解析函数完成了解析。下面举几个解析函数的例子。
 
 - **ff_h264_decode_nal()：解析NALU。这个函数是后几个解析函数的前提。**
@@ -1003,14 +1005,14 @@ ff_h264_parser中h264_parse()逐层调用的和解析Slice相关的函数：
 - **ff_h264_decode_seq_parameter_set()：解析SPS。**
 - **ff_h264_decode_picture_parameter_set()：解析PPS。**
 
-#### <font style="color:#993399;">熵解码函数（Entropy Decoding）</font>
+#### 1.2.4 <font style="color:#993399;">熵解码函数（Entropy Decoding）</font>
 
 熵解码函数（Entropy Decoding）读取码流数据并且进行CABAC或者CAVLC熵解码。CABAC解码函数是ff_h264_decode_mb_cabac()，CAVLC解码函数是ff_h264_decode_mb_cavlc()。熵解码函数中包含了很多的读取指数哥伦布编码数据的函数，例如get_ue_golomb_long()，get_ue_golomb()，get_se_golomb()，get_ue_golomb_31()等等。
 
 在获取残差数据的时候需要进行CAVLC/CABAC解码。例如解码CAVLC的时候，会调用decode_residual()函数，而decode_residual()会调用get_vlc2()函数，get_vlc2()会调用OPEN_READER()，UPDATE_CACHE()，GET_VLC()，CLOSE_READER()几个函数读取CAVLC格式的数据。
 此外，在获取运动矢量的时候，会调用pred_motion()以及类似的几个函数获取运动矢量相关的信息。
 
-#### <font style="color:#009900;">解码函数（Decode）</font>
+#### 1.2.5 <font style="color:#009900;">解码函数（Decode）</font>
 
 解码函数（Decode）通过帧内预测、帧间预测、DCT反变换等方法解码压缩数据。解码函数是`ff_h264_hl_decode_mb()`。其中跟宏块类型的不同，会调用几个不同的函数，最常见的就是调用`hl_decode_mb_simple_8()`。
 
@@ -1020,7 +1022,7 @@ ff_h264_parser中h264_parse()逐层调用的和解析Slice相关的函数：
 
 随后 `FUNC(hl_decode_mb)()` 会调用 `hl_decode_mb_idct_luma()` 等几个函数对数据进行DCT反变换工作。
 
-#### <font style="color:#ffcc00;">环路滤波函数（Loop Filter）</font>
+#### 1.2.6 <font style="color:#ffcc00;">环路滤波函数（Loop Filter）</font>
 
 环路滤波函数（Loop Filter）对解码后的数据进行滤波，去除方块效应。环路滤波函数是loop_filter()。其中调用了ff_h264_filter_mb()和ff_h264_filter_mb_fast()。ff_h264_filter_mb_fast()中又调用了h264_filter_mb_fast_internal()。而h264_filter_mb_fast_internal()中又调用了下面几个函数进行滤波：
 
@@ -1030,7 +1032,7 @@ ff_h264_parser中h264_parse()逐层调用的和解析Slice相关的函数：
 
 - **filter_mb_edgecv()：色度垂直滤波**
 
-#### <font style="color:#3333ff;">汇编函数（Assembly）</font>
+#### 1.2.7 <font style="color:#3333ff;">汇编函数（Assembly）</font>
 
 汇编函数（Assembly）是做过汇编优化的函数。为了提高效率，整个H.264解码器中（主要在解码部分和环路滤波部分）包含了大量的汇编函数。实际解码的过程中，FFmpeg会根据系统的特性调用相应的汇编函数（而不是C语言函数）以提高解码的效率。如果系统不支持汇编优化的话，FFmpeg才会调用C语言版本的函数。例如在帧内预测的时候，对于16x16亮度DC模式，有以下几个版本的函数：
 
@@ -1039,21 +1041,21 @@ ff_h264_parser中h264_parse()逐层调用的和解析Slice相关的函数：
 - MMXEXT版本的ff_pred16x16_dc_8_mmxext()
 - SSE2版本的ff_pred16x16_dc_8_sse2()
 
-### 附录
+### 1.3 附录
 
 在网上找到一张图（出处不详），分析了FFmpeg的H.264解码器每个函数运行的耗时情况，比较有参考意义，在这里附上。
 
-![H.264解码器每个函数运行的耗时情况](/images/imageFFmpeg/Thor/H.264解码器每个函数运行的耗时情况.png)
+![H.264解码器每个函数运行的耗时情况](FFmpeg的H.264解码器源代码简单分析/H.264解码器每个函数运行的耗时情况.png)
 
 从图中可以看出，熵解码、宏块解码、环路滤波耗时比例分别为：23.64%、51.85%、22.22%。
 
-## 解析器（Parser）部分
+## 2. 解析器（Parser）部分
 
 本文继续分析FFmpeg中libavcodec的H.264解码器（H.264 Decoder）。上篇文章概述了FFmpeg中H.264解码器的结构；从这篇文章开始，具体研究H.264解码器的源代码。本文分析H.264解码器中解析器（Parser）部分的源代码。这部分的代码用于分割H.264的NALU，并且解析SPS、PPS、SEI等信息。解析H.264码流（对应AVCodecParser结构体中的函数）和解码H.264码流（对应AVCodec结构体中的函数）的时候都会调用该部分的代码完成相应的功能。
 
-### 函数调用关系图
+### 2.1 函数调用关系图
 
-![解析器（Parser）部分的源代码的调用关系](/images/imageFFmpeg/Thor/解析器部分的源代码的调用关系.png)
+![解析器部分的源代码的调用关系](FFmpeg的H.264解码器源代码简单分析/解析器部分的源代码的调用关系.png)
 
 从图中可以看出，H.264的解析器（Parser）在解析数据的时候调用 `h264_parse()`，`h264_parse()` 调用了`parse_nal_units()`，`parse_nal_units()` 则调用了一系列解析特定 NALU 的函数。H.264 的解码器（Decoder）在解码数据的时候调用 `h264_decode_frame()`，`h264_decode_frame()` 调用了`decode_nal_units()`，`decode_nal_units()` 也同样调用了一系列解析不同 NALU 的函数。
 
@@ -1068,7 +1070,7 @@ ff_h264_decode_sei()					// 解析 SEI
 
 H.264 解码器与 H.264 解析器最主要的不同的地方在于它调用了 `ff_h264_execute_decode_slices()` 函数进行了解码工作。这篇文章只分析 H.264 解析器的源代码，至于 H.264 解码器的源代码，则在后面几篇文章中再进行分析。
 
-#### h264_find_frame_end()
+#### 2.1.1 h264_find_frame_end()
 
 `h264_find_frame_end()` 用于查找 H.264 码流中的 “起始码”（start code）。在 H.264 码流中有两种起始码： `0x000001` 和 `0x00000001`。其中 4Byte 的长度的起始码最为常见。只有当一个完整的帧被编为多个 slice 的时候，包含这些 slice 的 NALU 才会使用 3Byte 的起始码。`h264_find_frame_end()` 的定义位于`libavcodec\h264_parser.c`
 
@@ -1086,7 +1088,7 @@ H.264 解码器与 H.264 解析器最主要的不同的地方在于它调用了 
 
 这些状态之间的状态转移图如下所示。图中粉红色代表初始状态，绿色代表找到“起始码”的状态。
 
-![状态之间的状态转移](/images/imageFFmpeg/Thor/h264_find_frame_end状态转移.png)
+![h264_find_frame_end状态转移](FFmpeg的H.264解码器源代码简单分析/h264_find_frame_end状态转移.png)
 
 如图所示，`h264_find_frame_end()` 初始化时候位于状态 “7”；当找到 1 个 “0” 之后，状态从 “7” 变为 “2”；在状态 “2” 下，如果再次找到 1 个 “0”，则状态变为 “1”；在状态 “1” 下，如果找到 “1”，则状态变换为 “4”，表明找到了 “0x000001” 起始码；在状态 “1” 下，如果找到 “0”，则状态变换为 “0”；在状态 “0” 下，如果找到 “1”，则状态变换为 “5” ，表明找到了 “0x000001” 起始码。
 
@@ -1102,13 +1104,13 @@ H.264 解码器与 H.264 解析器最主要的不同的地方在于它调用了 
 
 - d)解析 IDR Slice / Slice 的时候，获取 slice_type 等一些信息。
 
-## 解码器主干部分
+## 3. 解码器主干部分
 
 本文分析FFmpeg的H.264解码器的主干部分。“主干部分” 是相对于 “熵解码”、“宏块解码”、“环路滤波” 这些细节部分而言的。它包含了 H.264 解码器直到 `decode_slice()` 前面的函数调用关系（`decode_slice()` 后面就是H.264解码器的细节部分，主要包含了 “熵解码”、“宏块解码”、“环路滤波” 3个部分）。
 
-### 函数调用关系图
+### 3.1 函数调用关系图
 
-![解码器主干部分的源代码的调用关系](/images/imageFFmpeg/Thor/解码器主干部分的源代码的调用关系.png)
+![解码器主干部分的源代码的调用关系](FFmpeg的H.264解码器源代码简单分析/解码器主干部分的源代码的调用关系.png)
 
 从图中可以看出，H.264解码器（Decoder）在初始化的时候调用了 `ff_h264_decode_init()`，`ff_h264_decode_init()` 又调用了下面几个函数进行解码器汇编函数的初始化工作（仅举了几个例子）：
 
@@ -1181,13 +1183,13 @@ ff_h264_execute_decode_slices()	// 解码Slice。
 
 至此，`decode_nal_units()` 函数的调用流程就基本分析完毕了。`h264_decode_frame()` 在调用完 `decode_nal_units()` 之后，还需要把解码后得到的 H264Picture 转换为 AVFrame 输出出来，这时候会调用一个相对比较简单的函数 `output_frame()`。
 
-## 熵解码（Entropy Decoding）部分
+## 4. 熵解码（Entropy Decoding）部分
 
 FFmpeg的H.264解码器调用 `decode_slice()` 函数完成了解码工作。这些解码工作可以大体上分为3个步骤：熵解码，宏块解码以及环路滤波。本文分析这3个步骤中的第1个步骤。
 
-### 函数调用关系图
+### 4.1 函数调用关系图
 
-![熵解码（Entropy Decoding）部分的源代码的调用关系](/images/imageFFmpeg/Thor/熵解码部分的源代码的调用关系.png)
+![熵解码部分的源代码的调用关系](FFmpeg的H.264解码器源代码简单分析/熵解码部分的源代码的调用关系.png)
 
 从图中可以看出，FFmpeg的熵解码方面的函数有两个：`ff_h264_decode_mb_cabac()` 和 `ff_h264_decode_mb_cavlc()`。
 
@@ -1260,7 +1262,7 @@ FFmpeg的H.264解码器调用 `decode_slice()` 函数完成了解码工作。这
 
 （6）将宏块的各种信息输出到整个图片相应的变量中
 
-#### 各种 Cache（缓存）
+#### 4.1.1 各种 Cache（缓存）
 在 H.264 解码器中包含了各种各样的 Cache（缓存）。例如：
 
 ```c
@@ -1272,13 +1274,13 @@ ref_cache					// 运动矢量参考帧的缓存
 
 > [其他知识查看](<https://blog.csdn.net/leixiaohua1020/article/details/45114453>)
 
-## 宏块解码（Decode）部分-帧内宏块（Intra）
+## 5. 宏块解码（Decode）部分-帧内宏块（Intra）
 
 FFmpeg的H.264解码器调用 `decode_slice()` 函数完成了解码工作。这些解码工作可以大体上分为3个步骤：熵解码，宏块解码以及环路滤波。本文分析这3个步骤中的第2个步骤。由于宏块解码部分的内容比较多，因此将本部分内容拆分成两篇文章：一篇文章记录帧内预测宏块（Intra）的宏块解码，另一篇文章记录帧间预测宏块（Inter）的宏块解码。
 
-### 函数调用关系图
+### 5.1 函数调用关系图
 
-![宏块解码（Decode）部分的源代码的调用关系](/images/imageFFmpeg/Thor/宏块解码部分的源代码的调用关系.png)
+![宏块解码部分的源代码的调用关系](FFmpeg的H.264解码器源代码简单分析/宏块解码部分的源代码的调用关系.png)
 
 宏块解码函数（Decode）通过帧内预测、帧间预测、DCT 反变换等方法解码压缩数据。解码函数是 `ff_h264_hl_decode_mb()`。其中跟宏块类型的不同，会调用几个不同的函数，最常见的就是调用 `hl_decode_mb_simple_8()`。
 
@@ -1341,11 +1343,11 @@ PS：该流程中有一个重要的贯穿始终的内存指针 `dest_y`，其指
 
 PS：需要注意的是 `h264_idct_add16intra()` 和 `h264_idct_add16()` 只有微小的区别，它们的基本逻辑都是把 `16x16` 的块划分为 16 个 `4x4` 的块再进行 DCT 反变换。此外还有一点需要注意：函数名中的 “add” 的含义是将 DCT 反变换之后的残差像素数据直接叠加到已有数据之上。
 
-## 宏块解码（Decode）部分-帧间宏块（Inter）
+## 6. 宏块解码（Decode）部分-帧间宏块（Inter）
 
 本文分析FFmpeg的H.264解码器的宏块解码（Decode）部分。FFmpeg的H.264解码器调用 `decode_slice()` 函数完成了解码工作。这些解码工作可以大体上分为3个步骤：熵解码，宏块解码以及环路滤波。本文分析这3个步骤中的第2个步骤：宏块解码。上一篇文章已经记录了帧内预测宏块（Intra）的宏块解码，本文继续上一篇文章的内容，记录帧间预测宏块（Inter）的宏块解码。
 
-### 函数调用关系图
+### 6.1 函数调用关系图
 
 参考宏块解码（Decode）部分的源代码的调用关系图
 
@@ -1421,13 +1423,13 @@ qpix_put[3]存储的是2x2方块的运动补偿函数；
 
 （5）h264qpel_template.c（展开“`H264_MC(put_, 8)`”宏）：`1/4`像素运动补偿
 
-## 环路滤波（Loop Filter）部分
+## 7. 环路滤波（Loop Filter）部分
 
 本文分析FFmpeg的H.264解码器的环路滤波（Loop Filter）部分。FFmpeg的H.264解码器调用decode_slice()函数完成了解码工作。这些解码工作可以大体上分为3个步骤：熵解码，宏块解码以及环路滤波。本文分析这3个步骤中的第3个步骤。
 
-### 函数调用关系图
+### 7.1 函数调用关系图
 
-![环路滤波（Loop Filter）部分的源代码的调用关系](/images/imageFFmpeg/Thor/环路滤波部分的源代码的调用关系.png)
+![环路滤波部分的源代码的调用关系](FFmpeg的H.264解码器源代码简单分析/环路滤波部分的源代码的调用关系.png)
 
 环路滤波主要用于滤除方块效应。`decode_slice()` 在解码完一行宏块之后，会调用 `loop_filter()` 函数完成环路滤波功能。`loop_filter()` 函数会遍历该行宏块中的每一个宏块，并且针对每一个宏块调用 `ff_h264_filter_mb_fast()`。`ff_h264_filter_mb_fast()` 又会调用 `h264_filter_mb_fast_internal()`。
 
@@ -1455,27 +1457,27 @@ qpix_put[3]存储的是2x2方块的运动补偿函数；
 
 总体说来，一个宏块内部的滤波顺序如下图所示。图中的 “0”、“1”、“2”、“3” 为滤波的顺序。可以看出首先对垂直边界进行滤波，然后对水平边界进行滤波。垂直边界滤波按照从左到右的顺序进行，而水平边界的滤波按照从上到下的顺序进行。
 
-![宏块内部的滤波顺序](/images/imageFFmpeg/Thor/宏块内部的滤波顺序.png)
+![宏块内部的滤波顺序](FFmpeg的H.264解码器源代码简单分析/宏块内部的滤波顺序.png)
 
 #  H.264 中的 NAL 技术
-## NAL 技术
+## 1. NAL 技术
 
-### NAL 概述
+### 1.1 NAL 概述
 
 NAL 全称 Network Abstract Layer，即网络抽象层。在 H.264/AVC 视频编码标准中，整个系统框架被分为了两个层面：视频编码层面（VCL）和网络抽象层面（NAL）。其中，前者负责有效表示视频数据的内容，而后者则负责格式化数据并提供头信息，以保证数据适合各种信道和存储介质上的传输。
 
 现实中的传输系统是多样化的，其可靠性，服务质量，封装方式等特征各不相同，NAL 这一概念的提出提供了一个视频编码器和传输系统的友好接口，使得编码后的视频数据能够有效地在各种不同的网络环境中传输。
 
-### NAL 单元
+### 1.2 NAL 单元
 
 NAL 单元是 NAL 的基本语法结构，它包含一个字节的头信息和一系列来自 VCL 的称为原始字节序列载荷
 （RBSP）的字节流。头信息中包含着一个可否丢弃的指示标记，标识着该 NAL 单元的丢弃能否引起错误扩散，一般，如果 NAL 单元中的信息不用于构建参考图像，则认为可以将其丢弃；最后包含的是NAL 单元的类型信息，暗示着其内含有效载荷的内容。 送到解码器端的 NAL 单元必须遵守严格的顺序，如果应用程序接收到的 NAL 单元处于乱序，则必须提供一种恢复其正确顺序的方法。
 
-### NAL 实现编解码器与传输网络的结合
+### 1.3 NAL 实现编解码器与传输网络的结合
 
 NAL 提供了一个编解码器与传输网络的通用接口，而对于不同的网络环境，具体的实现方案是不同的。对于基于流的传输系统如 H.320、MPEG 等，需要按照解码顺序组织 NAL 单元，并为每个 NAL 单元增加若干比特字节对齐的前缀以形成字节流；对于 RTP/UDP/IP 系统，则可以直接将编码器输出的 NAL 单元作为 RTP 的有效载荷；而对于同时提供多个逻辑信道的传输系统，甚至可以根据重要性将不同类型的NAL 单元在不同服务质量的信道中传输。
 
-### 结论
+### 1.4 结论
 为了实现编解码器良好的网络适应性，需要做两方面的工作：
 
 第一、在 Codec 中将 NAL 这一技术完整而有效的实现；
@@ -1484,7 +1486,7 @@ NAL 提供了一个编解码器与传输网络的通用接口，而对于不同�
 
 如果实现了以上两个目标，所实现的就不仅仅是一种视频编解码技术，而是一套适用范围很广的多媒体传输方案，该方案适用于如视频会议，数据存储，电视广播，流媒体，无线通信，远程监控等多种领域。
 
-## NALU 类型
+## 2. NALU 类型
 
 标识 NAL 单元中的 RBSP 数据类型，其中，nal_unit_type 为 1， 2， 3， 4， 5 的 NAL 单元称为 VCL 的 NAL单元，其他类型的 NAL 单元为非 VCL 的 NAL 单元。
 
@@ -1510,19 +1512,19 @@ NAL 提供了一个编解码器与传输网络的通用接口，而对于不同�
 - 21 – 23：保留
 - 24 – 31：未规定
 
-### SPS 详析
+### 2.1 SPS 详析
 
 TODO
 
-### PPS 详析
+### 2.2 PPS 详析
 
 TODO
 
-### SEI 详析
+### 2.3 SEI 详析
 
 TODO
 
-## NAL 在多媒体传输、存储系统中的应用
+## 3. NAL 在多媒体传输、存储系统中的应用
 
 NAL 的头占用了一个字节，按照比特自高至低排列可以表示如下：
 

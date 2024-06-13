@@ -22,9 +22,13 @@ date: 2019-05-27 10:14:50
 
 ![FFmpeg解码一个视频流程](/images/imageFFmpeg/Thor/播放器解码的流程用图.png)
 
+
+
 **SDL2.0 显示 YUV 的流程：**
 
 ![SDL2.0显示YUV的流程](/images/imageFFmpeg/Thor/SDL2.0显示YUV的流程图.png)
+
+
 
 ## FFMPEG的视频编码器（YUV编码为H.264）
 

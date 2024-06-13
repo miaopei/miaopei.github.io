@@ -14,7 +14,7 @@ date: 2019-05-18 10:14:50
 >
 > [ffmpeg 源代码简单分析](<https://blog.csdn.net/leixiaohua1020/article/details/12677129>)
 
-# 100行代码实现最简单的基于FFMPEG+SDL的视频播放器
+# 1. 100行代码实现最简单的基于FFMPEG+SDL的视频播放器
 
 > [simplest_ffmpeg_player](<https://github.com/leixiaohua1020/simplest_ffmpeg_player>)
 
@@ -56,7 +56,7 @@ SDL_Overlay————SDL_Texture
 
 ![SDL_Rect四分屏显示](FFmpegSDL视频播放器/SDL_Rect四分屏显示.png)
 
-## simplest_ffmpeg_player（标准版）代码
+## 1.1 simplest_ffmpeg_player（标准版）代码
 
 <details><summary>最基础的版本，学习的开始。</summary>
 
@@ -294,7 +294,7 @@ int main(int argc, char* argv[])
 
 </details>
 
-## simplest_ffmpeg_player_su（SU版）代码
+## 1.2 simplest_ffmpeg_player_su（SU版）代码
 
 标准版的基础之上引入了 SDL 的 Event。
 
@@ -577,7 +577,7 @@ int main(int argc, char* argv[])
 
 </details>
 
-### av_read_packet()
+### 1.2.1 av_read_packet()
 
 通过 `av_read_packet()`，读取一个包，需要说明的是此函数必须是包含整数帧的，不存在半帧的情况。
 
@@ -589,9 +589,9 @@ int main(int argc, char* argv[])
 
 ![av_read_packet](FFmpegSDL视频播放器/av_read_packet.png)
 
-## FFmpeg 源码分析
+## 1.3 FFmpeg 源码分析
 
-### av_register_all()
+### 1.3.1 av_register_all()
 
 - `av_register_all()` - ffmpeg注册复用器，编码器
 
@@ -1006,7 +1006,7 @@ int ffurl_register_protocol(URLProtocol *protocol)
 }
 ```
 
-### avcodec_register_all()
+### 1.3.2 avcodec_register_all()
 
 ffmpeg注册编解码器等的函数 `avcodec_register_all()`（注意不是 `av_register_all()`，那是注册所有东西的）。该函数在所有基于ffmpeg的应用程序中几乎都是第一个被调用的。只有调用了该函数，才能使用编解码器等。
 
