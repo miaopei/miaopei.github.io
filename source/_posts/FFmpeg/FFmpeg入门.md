@@ -10,27 +10,27 @@ date: 2019-04-20 10:14:50
 
 > 本文以文档的形式来描述FFmpeg怎么入门，这也是为以后写文档做的一个大题框架格式。
 
-# 文档介绍
+# 1. 文档介绍
 
-## 文档目的
+## 1.1 文档目的
 
 整理出开源代码 ffmpeg 的资料，方便公司同事后续使用。
 
 <!-- more -->
 
-## 文档范围
+## 1.2 文档范围
 
 较为详细的介绍 ffmpeg 的功能、使用以及二次开发。
 
-## 读者对象
+## 1.3 读者对象
 
 希望了解 ffmpeg 知识，从事 USM 及 IPTV 的同事。
 
-## 参考文献
+## 1.4 参考文献
 
 TODO
 
-## 术语与缩写解释
+## 1.5 术语与缩写解释
 
 | 缩略语/术语 | 全 称               | 说 明                        |
 | ----------- | ------------------- | ---------------------------- |
@@ -39,11 +39,11 @@ TODO
 | ffserver    | Fast forword server | 用 ffmpeg 实现的 rstp 服务器 |
 | ffprobe     | Fast forword probe  | 用来输入分析输入流。         |
 
-# FFmpeg 支持能力说明
+# 2. FFmpeg 支持能力说明
 
-## FFmpeg 介绍及安装
+## 2.1 FFmpeg 介绍及安装
 
-### FFmpeg 简介
+### 2.1.1 FFmpeg 简介
 
 FFmpeg 是一个开源免费跨平台的视频和音频流方案，属于自由软件，采用 LGPL 或 GPL 许可证（依据你选择的组件）。它提供了录制、转换以及流化音视频的完整解决方案。它包含了非常先进的音频/视频编解码库 libavcodec，为了保证高可移植性和编解码质量，libavcodec 里很多 codec 都是从头开发的。
 
@@ -59,7 +59,7 @@ FFmpeg 项目由以下几部分组成:
 
 （5）libavformat 一个包含了所有的普通音视格式的解析器和产生器的库
 
-### FFmpeg 安装
+### 2.1.2 FFmpeg 安装
 
 将所有源代码压缩在一个文件夹中，例如 `/绝对路径/ffmpeg`。
 
@@ -83,8 +83,8 @@ $ configure --prefix=/usr/local
 $ make && make install
 ```
 
-## FFmpeg 参数说明
-### 通用选项
+## 2.2 FFmpeg 参数说明
+### 2.2.1 通用选项
 
 ```shell
 -L license
@@ -106,7 +106,7 @@ $ make && make install
 	[-]hh:mm:ss[.xxx] 的格式也支持
 ```
 
-### 视频选项
+### 2.2.2 视频选项
 
 ```shell
 -b bitrate 设置比特率，缺省 200kb/s
@@ -130,7 +130,7 @@ $ make && make install
 -passlogfile file 选择两遍的纪录文件名为 file
 ```
 
-### 高级视频选项
+### 2.2.3 高级视频选项
 
 ```shell
 -g gop_size 设置图像组大小
@@ -190,7 +190,7 @@ $ make && make install
 -vhook module 插入视频处理模块 module 包括了模块名和参数，用空格分开
 ```
 
-### 音频选项
+### 2.2.4 音频选项
 
 ```shell
 -ab bitrate 设置音频码率
@@ -200,7 +200,7 @@ $ make && make install
 -acodec codec 使用 codec 编解码
 ```
 
-### 音频/视频捕获选项
+### 2.2.5 音频/视频捕获选项
 
 ```shell
 -vd device 设置视频捕获设备。比如/dev/video0
@@ -210,7 +210,7 @@ $ make && make install
 -av device 设置音频设备 比如/dev/dsp
 ```
 
-### 高级选项
+### 2.2.6 高级选项
 
 ```shell
 -map file:stream 设置输入流映射
@@ -223,7 +223,7 @@ $ make && make install
 -loop 循环输入流。只工作于图像流，用于 ffserver 测试
 ```
 
-### FFmpeg 参数实例
+### 2.2.7 FFmpeg 参数实例
 
 ```shell
 $ ./ffmpeg -y -i /rootVideoConverter/123.avi -ab 56 -ar 22050 -b 1500 -r 15 -qscale 10 –s 480x350 /root/VideoConverter/234.flv
@@ -251,9 +251,9 @@ $ ./ffmpeg -y -i /rootVideoConverter/123.avi -ab 56 -ar 22050 -b 1500 -r 15 -qsc
 ```
 
 
-## FFmpeg 支持能力说明
+## 2.3 FFmpeg 支持能力说明
 
-### FFmpeg 对编码解码器的支持
+### 2.3.1 FFmpeg 对编码解码器的支持
 
 ffmpeg 支持的编解码器种类共有 280 多种，涵盖了几乎所有常见音视频编码格式，能解码几乎所有的音视频，每种音视频编解码器的实现都在 libavcodec 目录下有具体的C 语言实现，具体的支持情况参见：
 
@@ -262,13 +262,13 @@ ffmpeg 支持的编解码器种类共有 280 多种，涵盖了几乎所有常�
 注：编码器和解码器的名称不是完全匹配的，因此有些编码器没有对应相同名称的解码器，反之，
 解码器也一样。即使编码和解码都支持也不一定是完全对应的，例如 h263 解码器对应有 h263p 和 h263 编码器。
 
-### FFmpeg 对容器格式的支持
+### 2.3.2 FFmpeg 对容器格式的支持
 
 ffmpeg 支持对绝大多数的容器格式的读写操作，共计 190 多种，涵盖了互联网上各种常见媒体格式及日常生活中及专业应用中的各种媒体格式。详细的支持情况参见：
 
 > [FFmpeg支持的媒体文件格式]()
 
-### FFmpeg 对过滤器的支持
+### 2.3.3 FFmpeg 对过滤器的支持
 
 | Filters     | 说明                                                         |
 | ----------- | ------------------------------------------------------------ |
@@ -319,15 +319,15 @@ ffmpeg 支持对绝大多数的容器格式的读写操作，共计 190 多种�
 | buffersink  | Buffer video frames， and make them available to the end of the filter graph. |
 | nullsink    | Do absolutely nothing with the input video.                  |
 
-### FFmpeg 对图像颜色空间的支持
+### 2.3.4 FFmpeg 对图像颜色空间的支持
 
 ffmpeg 支持常见的图像颜色空间，并且在 libavswcale 中定义了颜色空间转换的相关函数实现各种颜色模式的互转。具体的支持情况见:
 
 > [FFmpeg支持的图像颜色空间]()
 
-## FFmpeg 功能及使用说明
+## 2.4 FFmpeg 功能及使用说明
 
-### ffplay 对多媒体的支持能力验证
+### 2.4.1 ffplay 对多媒体的支持能力验证
 
 **一、视频**
 
@@ -412,13 +412,13 @@ BMP 		支持
 ```
 
 
-### FFmpeg 格式转换
+### 2.4.2 FFmpeg 格式转换
 
 **第一步：准备媒体**
 
 前面已经讲的很清楚了，ffmpeg 如何安装不在赘述。准备好相应的文件，如图 2-1所示。
 
-![图 2-1](/images/imageFFmpeg/Thor/2-1.png)
+![2-1](FFmpeg入门/2-1.png)
 
 **第二步：启动 ffmpeg**
 
@@ -432,9 +432,9 @@ $ ./ffmpeg –i test.avi –r 25 –s 720x400 test.mpg
 
 同时还可以在转换格式时进行强制的音视频转换，如 `–vcodec + 格式`，将会强制将视频按指定格式编码，`-acodec +格式`，将会强制按指定格式编码音频信息。在转换中有很多其他参数可以指定，如码率、分辨率、帧率等，具体按照 ffmpeg 的参数说明指定参数即可。但有一条转低不转高的原则需要注意，即品质差的音视频转换不建议转换到品质好的音视频。
 
-![图 2-2](/images/imageFFmpeg/Thor/2-2.png)
+![2-2](FFmpeg入门/2-2.png)
 
-![图 2-3](/images/imageFFmpeg/Thor/2-3.png)
+![2-3](FFmpeg入门/2-3.png)
 
 再说说如何在转换视频的时候将音频合成到视频中，且覆盖其原来的音频。这个现在摸索出两种方法。
 
@@ -466,7 +466,7 @@ $ ./ffmpeg –i test.avi –i test.mp3 –vcodec copy –acodec copy –r 25 tes
 
 播放我们转换的媒体，看看是否满足我们当初的愿望，不出什么差错的话，是完全能够满足我们的要求的。
 
-### FFmpeg 视频截图
+### 2.4.3 FFmpeg 视频截图
 
 截取一张 `300x200` 尺寸大小的格式为 jpg 的一张图片：
 
@@ -496,7 +496,7 @@ $ ./ffmpeg –i test.avi –pix_fmt rgb24 –ss 10 –t 5 –y –f gif test.gif
 
 上面两种动态 gif 都是只播一次，想让其一直播，可再加一个参数：`-loop_output 0`。
 
-### FFmpeg 屏幕录制
+### 2.4.4 FFmpeg 屏幕录制
 
 屏幕录制其命令为：
 
@@ -508,7 +508,7 @@ $ ./ffmpeg -f x11grab -r 25 -s wxga -i :0.0 /tmp/outputFile.mpg
 
 注：ffmpeg 的屏幕录制功能只能在 Linux 环境下有效。并且在配置时需要添加 `–enable-x11grub` 指令，默认关闭。
 
-### FFmpeg 音视频采集
+### 2.4.5 FFmpeg 音视频采集
 
 把摄像头的实时视频录制下来，存储为文件
 
@@ -522,9 +522,9 @@ $ ./ffmpeg -f video4linux -s 320x240 -r 10 -i /dev/video0 test.asf
 $ ./ffmpeg –i /dev/dsp -f oss test.mp3
 ```
 
-## FFmpeg 应用实例
+## 2.5 FFmpeg 应用实例
 
-### 用 FFserver 从文件生成流媒体
+### 2.5.1 用 FFserver 从文件生成流媒体
 
 **一、安装 ffmpeg**
 
@@ -569,7 +569,7 @@ NoVideo
 
 在终端中输入 `ffplay http://localhost:8090/test.mp3` 可播放流媒体.
 
-### 用 FFserver 从设备生成实时流
+### 2.5.2 用 FFserver 从设备生成实时流
 
 **一、准备媒体**
 
@@ -653,11 +653,11 @@ $ ./ffmpeg -f oss -i /dev/dsp -f video4linux2 -r 25 -i /dev/video0 /tmp/feed1.ff
 
 在终端中输入 `ffplay http://localhost:8090/test.swf` 可播放流媒体.
 
-# FFmpeg 架构
+# 3. FFmpeg 架构
 
-## FFmpeg 文件结构
+## 3.1 FFmpeg 文件结构
 
-![markdown table](/images/imageFFmpeg/Thor/markdown-table.png)
+![markdown-table](FFmpeg入门/markdown-table.png)
 
 <table>
     <tr>
@@ -825,15 +825,15 @@ $ ./ffmpeg -f oss -i /dev/dsp -f video4linux2 -r 25 -i /dev/video0 /tmp/feed1.ff
 </table>
 
 
-##  I\O 模块分析
+##  3.2 I\O 模块分析
 
-### 概述
+### 3.2.1 概述
 
 ffmpeg 项目的数据 IO 部分主要是在 libavformat 库中实现，某些对于内存的操作部分在 libavutil 库中。数据 IO 是基于文件格式（Format）以及文件传输协议(Protocol)的，与具体的编解码标准无关。
 
 ffmpeg 工程转码时数据 IO 层次关系如图所示：
 
-![ffmpeg转码数据IO流程](/images/imageFFmpeg/Thor/ffmpeg转码数据IO流程.png)
+![ffmpeg转码数据IO流程](FFmpeg入门/ffmpeg转码数据IO流程.png)
 
 对于上面的数据 IO 流程，具体可以用下面的例子来说明，我们从一个 http 服务器获取音视频数据，格式是 flv 的，需要通过转码后变成 avi 格式，然后通过 udp 协议进行发布。其过程就如下所示：
 
@@ -843,11 +843,11 @@ ffmpeg 工程转码时数据 IO 层次关系如图所示：
 - 按照目标格式 avi 进行封装；
 - 通过 udp 协议发送出去。
 
-### 相关数据结构介绍
+### 3.2.2 相关数据结构介绍
 
 在 libavformat 库中与数据 IO 相关的数据结构主要有 URLProtocol、URLContext、ByteIOContext、AVFormatContext 等，各结构之间的关系如图所示。
 
-![libavformat库中IO相关数据结构之间的关系](/images/imageFFmpeg/Thor/libavformat库中IO相关数据结构之间的关系.png)
+![libavformat库中IO相关数据结构之间的关系](FFmpeg入门/libavformat库中IO相关数据结构之间的关系.png)
 
 **1、URLProtocol 结构**
 
@@ -1022,13 +1022,13 @@ uint64_t get_be64(ByteIOContext *s);
 这些 put_xxx 及 get_xxx 函数是用于从缓冲区 buffer 中写入或者读取若干个字节，对于读写整型数据，分别实现了大端和小端字节序的版本。而缓冲区 buffer 中的数据又是从何而来呢，有一个 fill_buffer 的函数，在 fill_buffer 函数中调用了ByteIOContext 结构的 read_packet 接口。在调用 put_xxx 函数时，并没有直接进行真
 正写入操作，而是先缓存起来，直到缓存达到最大限制或调用 flush_buffer 函数对缓冲区进行刷新，才使用 write_packet 函数进行写入操作。
 
-## Demuxer 和 muxer 模块分析
+## 3.3 Demuxer 和 muxer 模块分析
 
-### 概述
+### 3.3.1 概述
 
 ffmpeg 的 demuxer 和 muxer 接口分别在 AVInputFormat 和 AVOutputFormat 两个结构体中实现，在 av_register_all()函数中将两个结构分别静态初始化为两个链表，保存在全局变量：first_iformat 和 first_oformat 两个变量中。在 FFmpeg 的文件转换或者打开过程中，首先要做的就是根据传入文件和传出文件的后缀名匹配合适的 demuxer和 muxer，得到合适的信息后保存在 AVFormatContext 中。
 
-### 相关数据结构介绍
+### 3.3.2 相关数据结构介绍
 
 **1、AVInputFormat**
 
@@ -1162,9 +1162,9 @@ int av_write_frame(AVFormatContext *s， AVPacket *pkt);
 
 由上可见，对 AVFormatContext 的读写操作最终是通过 ByteIOContext 来实现的，这样，AVFormatContext 与 URLContext 就由 ByteIOContext 结构联系到一起了。在AVFormat 结构体中有一个 packet 的缓冲区 raw_packet_buffer，是 AVPackList 的指针类型，av_read_packet 函数将读到的包添加至 raw_packet_buffer 链表末尾。
 
-## Decoder/Encoder 模块
+## 3.4 Decoder/Encoder 模块
 
-### 概述
+### 3.4.1 概述
 
 编解码模块主要包含的数据结构为：AVCodec、AVCodecContext 每一个解码类型都会有自己的 Codec 静态对像，Codec 的 int priv_data_size 记录该解码器上下文的结构大小，如 MsrleContext 。这些都是编译时确定的，程序运行时通过avcodec_register_all()将所有的解码器注册成一个链表。在 av_open_input_stream()函数中调用 AVInputFormat 的 read_header()中读文件头信息时，会读出数据流的CodecID，即确定了他的解码器 Codec。
 
@@ -1176,7 +1176,7 @@ AVInputStream->AVStream *st->AVCodecContext *codec->struct AVCodec *codec
 与 AVOutputStream->AVStream *st->AVCodecContext *codec->struct AVCodec *codec 变量。
 ```
 
-### 相关数据结构的初始化
+### 3.4.2 相关数据结构的初始化
 
 AVCodecContext 结构
 
@@ -1220,9 +1220,9 @@ if (amv_file_format)
 ```
 
 
-## 其他重要数据结构的初始化
+## 3.5 其他重要数据结构的初始化
 
-### AVStream
+### 3.5.1 AVStream
 
 AVStream 结构保存与数据流相关的编解码器，数据段等信息。比较重要的有如下二个成员：
 
@@ -1241,11 +1241,11 @@ st->priv_data = asf_st;
 ```
 
 
-### AVInputStream/ AVOutputStream
+### 3.5.2 AVInputStream/ AVOutputStream
 
 根据输入和输出流的不同，前述的 AVStream 结构都是封装在 AVInputStream 和AVOutputStream 结构中，在 av_encode( )函数中使用。AVInputStream 中还保存的有与时间有关的信息。AVOutputStream 中还保存有与音视频同步等相关的信息。
 
-### AVPacket
+### 3.5.3 AVPacket
 
 AVPacket 结构定义如下，其是用于保存读取的 packet 数据。
 
@@ -1267,13 +1267,13 @@ typedef struct AVPacket
 
 在 av_encode() 函数中，调用 AVInputFormat 的 `(*read_packet)(struct AVFormatContext *， AVPacket *pkt)` 接口，读取输入文件的一帧数据保存在当前输入 AVFormatContext 的 AVPacket 成员中。
 
-# FFmpeg 裁剪说明
+# 4. FFmpeg 裁剪说明
 
 本文对 ffmpeg 进行裁剪采用的是配置所需的接口，不需要的不配置，而不是采用修改源代码的方式。
 
-## configure 参数
+## 4.1 configure 参数
 
-###  通用选项
+###  4.1.1 通用选项
 
 在 linux 下进入终端，找到 ffmpeg 解压位置，输入如下命令：
 
@@ -1375,7 +1375,7 @@ $ ./configure –help
 --disable-parsers 禁用所有剖析器 | disables all parsers
 ```
 
-### 基本选项介绍
+### 4.1.2 基本选项介绍
 
 以下为配置 ffmpeg 的基本选项，其含义如下：
 
@@ -1596,7 +1596,7 @@ $ ./configure --without-gnu-ld
 
 类似的，`--x-libraries` 选项提供了向 configure 脚本指明包含 X11 库的目录的方法。
 
-## FFmpeg 裁剪优化实例
+## 4.2 FFmpeg 裁剪优化实例
 
 对 ffmpeg 的裁剪优化主要是对 ffplay 的裁剪优化，我们制定的需求是能播放测试文件（视频为 mpeg4 编码、音频为 mp2 编码，且为 AVI 复用），根据需求，找到相应的选项，或禁用或启用，最后的命令如下：
 
@@ -1635,11 +1635,11 @@ $ ./configure --disable-yasm --disable-parsers --disable-decoders
 
 通过以上配置之后，编译，安装，就生成了我们要求的 ffplay，其大小为 1.8M（1864012 字节）。此次是在 linux 环境下进行的，在以后的配置中，如果需要其他的什么编码器或什么的，按照选项要求进行配置即可。
 
-## 裁剪优化前后文件比较
+## 4.3 裁剪优化前后文件比较
 
 前面已经提到本次裁剪优化的内容。经过裁剪优化之后，对其文件夹进行比较，主要有 3 个地方不同，分别是 config.fate、config.h 和 config.mak。在 config.fate 中，其记录的是配置命令，由于前后两次配置命令不同，故相应内容也不同。在config.h 中，其主要是根据配置命令来改变相应预定义的值，达到裁剪优化之效果。在 config.mak 中，改变的也是配置命令中需要改变的选项。
 
-# FFmpeg SDK 
+# 5. FFmpeg SDK 
 
 FFMpeg 中比较重要的函数以及数据结构如下：
 
@@ -1715,7 +1715,7 @@ FFMpeg 中比较重要的函数以及数据结构如下：
 
 (2) ImgReSampleContext() 
 
-# FFmpeg 编译
+# 6. FFmpeg 编译
 
 ```shell
 $ git clone http://source.ffmpeg.org/git/ffmpeg.git ffmpeg
