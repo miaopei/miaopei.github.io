@@ -10,17 +10,17 @@ date: 2019-05-25 10:14:50
 
 > 特别说明，此文参考至[雷神笔记](<https://blog.csdn.net/leixiaohua1020/article/details/44220151>)，做一个备忘录。
 
-## FFmpeg源代码结构图 - 解码
+## 1. FFmpeg源代码结构图 - 解码
 
 下图表明了 FFmpeg 在解码一个视频的时候的函数调用流程。为了保证结构清晰，其中仅列出了最关键的函数，剔除了其它不是特别重要的函数。
 
 <!-- more -->
 
-![FFmpeg源代码结构图 - 解码](/images/imageFFmpeg/Thor/FFmpeg源码API结构图-解码.png)
+![FFmpeg源码API结构图-解码](FFmpeg源代码结构note/FFmpeg源码API结构图-解码.png)
 
 下面解释一下图中关键标记的含义。
 
-### 函数背景色
+### 1.1 函数背景色
 
 函数在图中以方框的形式表现出来。不同的背景色标志了该函数不同的作用：
 
@@ -32,7 +32,7 @@ date: 2019-05-25 10:14:50
 
 > PS：URLProtocol，AVInputFormat，AVCodec在FFmpeg开始运行并且注册完组件之后，都会分别被连接成一个个的链表。因此实际上是有很多的URLProtocol，AVInputFormat，AVCodec的。图中画出了解码一个输入协议是“文件”（其实就是打开一个文件。“文件”也被当做是一种广义的协议），封装格式为FLV，视频编码格式是H.264的数据的函数调用关系。
 
-### 区域
+### 1.2 区域
 
 整个架构图可以分为以下几个区域：
 
@@ -41,7 +41,7 @@ date: 2019-05-25 10:14:50
 - **右边中间绿色区域——封装格式处理函数区域**：不同的封装格式（MKV，FLV，MPEGTS，AVI）会调用不同的封装格式处理函数。
 - **右边下方蓝色区域——编解码函数区域**：不同的编码标准（HEVC，H.264，MPEG2）会调用不同的编解码函数。
 
-### 箭头线
+### 1.3 箭头线
 
 为了把调用关系表示的更明显，图中的箭头线也使用了不同的颜色：
 
@@ -54,17 +54,17 @@ date: 2019-05-25 10:14:50
   - 调用 AVInputFormat 结构体中的函数用**绿色箭头线**标识；
   - 调用 AVCodec 结构体中的函数用**蓝色箭头线**标识。
 
-### 函数所在的文件
+### 1.4 函数所在的文件
 
 每个函数旁边标识了它所在的文件的路径。
 
 此外，还有一点需要注意的是，一些 API 函数内部也调用了另一些API函数。也就是说，API函数并不一定全部都调用FFmpeg的内部函数，他也有可能调用其他的API函数。例如从图中可以看出来， `avformat_close_input()` 调用了 `avformat_free_context()` 和 `avio_close()`。这些在内部代码中被调用的API函数也标记为粉红色。
 
-### 函数调用关系
+### 1.5 函数调用关系
 
 下面简单列出几个区域中函数之间的调用关系（函数之间的调用关系使用缩进的方式表现出来）。详细的函数分析可以参考相关的《FFmpeg源代码分析》系列文章。
 
-#### 左边区域（FFmpeg架构函数）
+#### 1.5.1 左边区域（FFmpeg架构函数）
 
 **<font color=red>1.  av_register_all()【函数简单分析】</font>>**
 
@@ -170,7 +170,7 @@ date: 2019-05-25 10:14:50
     - **a) ffurl_closep()**
       - **<font color=#FFC000>URLProtocol->url_close()</font>**
 
-#### 右上区域（URLProtocol协议处理函数）
+#### 1.5.2 右上区域（URLProtocol协议处理函数）
 
 URLProtocol结构体包含如下协议处理函数指针：
 
@@ -212,7 +212,7 @@ url_seek() -> udp_close()
 url_close() -> udp_close()
 ```
 
-#### 右中区域（AVInputFormat封装格式处理函数）
+#### 1.5.3 右中区域（AVInputFormat封装格式处理函数）
 
 AVInputFormat包含如下封装格式处理函数指针：
 
@@ -263,7 +263,7 @@ read_seek() -> avi_read_seek()
 read_close() -> avi_read_close()
 ```
 
-#### 右下区域（AVCodec编解码函数）
+#### 1.5.4 右下区域（AVCodec编解码函数）
 
 AVCodec包含如下编解码函数指针：
 
@@ -305,21 +305,21 @@ decode() -> mpeg_decode_frame()
 close() -> mpeg_decode_end()
 ```
 
-### avformat_open_input() 函数
+### 1.6 avformat_open_input() 函数
 
-![avformat_open_input](/images/imageFFmpeg/Thor/avformat_open_input.png)
+![avformat_open_input](FFmpeg源代码结构note/avformat_open_input.png)
 
-## FFmpeg源代码结构图 - 编码
+## 2. FFmpeg源代码结构图 - 编码
 
-### 函数调用关系图
+### 2.1 函数调用关系图
 
 下图表明了FFmpeg在编码一个视频的时候的函数调用流程。为了保证结构清晰，其中仅列出了最关键的函数，剔除了其它不是特别重要的函数。
 
-![FFmpeg源代码结构图 - 编码](/images/imageFFmpeg/Thor/FFmpeg源码API结构图-编码.png)
+![FFmpeg源码API结构图-编码](FFmpeg源代码结构note/FFmpeg源码API结构图-编码.png)
 
 下面解释一下图中关键标记的含义。
 
-### 函数背景色
+### 2.2 函数背景色
 
 函数在图中以方框的形式表现出来。不同的背景色标志了该函数不同的作用：
 
@@ -329,7 +329,7 @@ close() -> mpeg_decode_end()
 - 绿色背景的函数：AVOutputFormat 结构体中的函数，包含了读写各种封装格式的功能。
 - 蓝色背景的函数：AVCodec 结构体中的函数，包含了编解码的功能。
 
-### 区域
+### 2.3 区域
 
 整个关系图可以分为以下几个区域：
 
@@ -338,7 +338,7 @@ close() -> mpeg_decode_end()
 - **右边中间绿色区域——封装格式处理函数区域**：不同的封装格式（MKV，FLV，MPEG2TS，AVI）会调用不同的封装格式处理函数。
 - **右边下方蓝色区域——编解码函数区域**：不同的编码标准（HEVC，H.264，MPEG2）会调用不同的编解码函数。
 
-### 箭头线
+### 2.4 箭头线
 
 为了把调用关系表示的更明显，图中的箭头线也使用了不同的颜色：
 
@@ -349,15 +349,15 @@ close() -> mpeg_decode_end()
   - 调用 AVOutputFormat 结构体中的函数用**绿色箭头线**标识；
   - 调用 AVCodec 结构体中的函数用**蓝色箭头线**标识。
 
-### 函数所在的文件
+### 2.5 函数所在的文件
 
 每个函数标识了它所在的文件路径。
 
-### 函数功能简述
+### 2.6 函数功能简述
 
 下面简单列出几个区域中函数之间的调用关系（函数之间的调用关系使用缩进的方式表现出来）。详细的函数分析可以参考相关的《FFmpeg源代码分析》系列文章。
 
-#### 左边区域（架构函数）
+#### 2.6.1 左边区域（架构函数）
 
 **<font color=red>1. av_register_all()【函数简单分析】</font>**
 
@@ -462,7 +462,7 @@ close() -> mpeg_decode_end()
   - **(a) ffurl_closep()**
     - **<font color=#FFC000>a) URLProtocol->url_close()</font>**
 
-#### 右上区域（URLProtocol协议处理函数）
+#### 2.6.2 右上区域（URLProtocol协议处理函数）
 
 URLProtocol结构体包含如下协议处理函数指针：
 
@@ -504,7 +504,7 @@ url_seek() -> udp_close()
 url_close() -> udp_close()
 ```
 
-#### 右中区域（AVOutputFormat封装格式处理函数）
+#### 2.6.3 右中区域（AVOutputFormat封装格式处理函数）
 
 AVOutputFormat包含如下封装格式处理函数指针：
 
@@ -546,7 +546,7 @@ write_packet() –> avi_write_packet()
 write_trailer() -> avi_write_trailer()
 ```
 
-#### 右下区域（AVCodec编解码函数）
+#### 2.6.4 右下区域（AVCodec编解码函数）
 
 AVCodec包含如下编解码函数指针：
 
