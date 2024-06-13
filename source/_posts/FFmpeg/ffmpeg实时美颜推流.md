@@ -6,6 +6,7 @@ categories: FFmpeg
 toc: true
 abbrlink: 39639
 date: 2019-05-19 10:14:50
+password: Mrmiaow
 ---
 
 > [基于FFmpeg进行RTMP推流（二）](<https://www.jianshu.com/p/6b9ab2652147>)
@@ -18,31 +19,31 @@ date: 2019-05-19 10:14:50
 
 <!-- more -->
 
-<img src="/images/imageFFmpeg/直播.png">
+![直播](ffmpeg实时美颜推流/直播.png)
 
 rtmp 延时一般 1-3 秒
 
-<img src="/images/imageFFmpeg/推流流程.png">
+![推流流程](ffmpeg实时美颜推流/推流流程.png)
 
 ### 1.2 直播 rtmp 协议分析
 
-<img src="/images/imageFFmpeg/协议.png">
+![协议](ffmpeg实时美颜推流/协议.png)
 
-<img src="/images/imageFFmpeg/传输协议.png">
+![传输协议](ffmpeg实时美颜推流/传输协议.png)
 
-<img src="/images/imageFFmpeg/RTMP.png">
+![RTMP](ffmpeg实时美颜推流/RTMP.png)
 
-<img src="/images/imageFFmpeg/RTMP优缺点.png">
+![RTMP优缺点](ffmpeg实时美颜推流/RTMP优缺点.png)
 
-<img src="/images/imageFFmpeg/RTMP协议类型.png">
+![RTMP协议类型](ffmpeg实时美颜推流/RTMP协议类型.png)
 
-<img src="/images/imageFFmpeg/握手.png">
+![握手](ffmpeg实时美颜推流/握手.png)
 
-<img src="/images/imageFFmpeg/推流.png">
+![推流](ffmpeg实时美颜推流/推流.png)
 
 ## 2. 直播服务器讲解和配置
 
-<img src="/images/imageFFmpeg/流媒体服务器.png">
+![流媒体服务器](ffmpeg实时美颜推流/流媒体服务器.png)
 
 ### 2.1 直播服务器介绍 crtmpserver 编译运行
 
@@ -82,7 +83,7 @@ $ make
 $ make install
 ```
 
-<img src="/images/imageFFmpeg/ffmpeg工具推流测试.png">
+![ffmpeg工具推流测试](ffmpeg实时美颜推流/ffmpeg工具推流测试.png)
 
 ```shell
 # nginx.conf 配置
@@ -131,19 +132,19 @@ Waiting on exit process
 
 ### 3.1 ffmpeg SDK开发环境准备
 
-<img src="/images/imageFFmpeg/使用FFMpegSDK推流.png">
+![使用FFMpegSDK推流](ffmpeg实时美颜推流/使用FFMpegSDK推流.png)
 
-<img src="/images/imageFFmpeg/avformat_open_input.png">
+![avformat_open_input](ffmpeg实时美颜推流/avformat_open_input.png)
 
-<img src="/images/imageFFmpeg/AVFormatContext.png">
+![AVFormatContext](ffmpeg实时美颜推流/AVFormatContext.png)
 
-<img src="/images/imageFFmpeg/AVStream.png">
+![AVStream](ffmpeg实时美颜推流/AVStream.png)
 
-<img src="/images/imageFFmpeg/AVPacket.png">
+![AVPacket](ffmpeg实时美颜推流/AVPacket.png)
 
-<img src="/images/imageFFmpeg/GOP.png">
+![GOP](ffmpeg实时美颜推流/GOP.png)
 
-<img src="/images/imageFFmpeg/基于海康或大华相机推流.png">
+![基于海康或大华相机推流](ffmpeg实时美颜推流/基于海康或大华相机推流.png)
 
 ## 4. OpencvSDK 基础
 
@@ -188,67 +189,67 @@ clean: ; rm -f test_version.o test_version
 
 </details>
 
-<img src="/images/imageFFmpeg/第一个例子显示图片.png">
+![第一个例子显示图片](ffmpeg实时美颜推流/第一个例子显示图片.png)
 
-<img src="/images/imageFFmpeg/waitKey.png">
+![waitKey](ffmpeg实时美颜推流/waitKey.png)
 
 ### 4.1 VideoCapture打开摄像头接口讲解和源码分析
 
-<img src="/images/imageFFmpeg/打开摄像头接口说明和源码分析.png">
+![打开摄像头接口说明和源码分析](ffmpeg实时美颜推流/打开摄像头接口说明和源码分析.png)
 
-<img src="/images/imageFFmpeg/创建和清理mat空间.png">
+![创建和清理mat空间](ffmpeg实时美颜推流/创建和清理mat空间.png)
 
-<img src="/images/imageFFmpeg/图像存放方式-连续.png">
+![图像存放方式-连续](ffmpeg实时美颜推流/图像存放方式-连续.png)
 
-<img src="/images/imageFFmpeg/isContinuous.png">
+![isContinuous](ffmpeg实时美颜推流/isContinuous.png)
 
-<img src="/images/imageFFmpeg/直接地址访问连续空间.png">
+![直接地址访问连续空间](ffmpeg实时美颜推流/直接地址访问连续空间.png)
 
-<img src="/images/imageFFmpeg/读取一帧视频.png">
+![读取一帧视频](ffmpeg实时美颜推流/读取一帧视频.png)
 
 ## 5. 视频采集编码推流和类封装
 
-<img src="/images/imageFFmpeg/基于opencv采集推流.png">
+![基于opencv采集推流](ffmpeg实时美颜推流/基于opencv采集推流.png)
 
-<img src="/images/imageFFmpeg/opencv采集rtsp解码.png">
+![opencv采集rtsp解码](ffmpeg实时美颜推流/opencv采集rtsp解码.png)
 
-<img src="/images/imageFFmpeg/sws_getCachedContext.png">
+![sws_getCachedContext](ffmpeg实时美颜推流/sws_getCachedContext.png)
 
-<img src="/images/imageFFmpeg/sws_scale.png">
+![sws_scale](ffmpeg实时美颜推流/sws_scale.png)
 
-<img src="/images/imageFFmpeg/avcodec_find_encoder.png">
+![avcodec_find_encoder](ffmpeg实时美颜推流/avcodec_find_encoder.png)
 
-<img src="/images/imageFFmpeg/avcodec_alloc_context3.png">
+![avcodec_alloc_context3](ffmpeg实时美颜推流/avcodec_alloc_context3.png)
 
-<img src="/images/imageFFmpeg/avcodec_alloc_context3-01.png">
+![avcodec_alloc_context3-01](ffmpeg实时美颜推流/avcodec_alloc_context3-01.png)
 
-<img src="/images/imageFFmpeg/gop-01.png">
+![gop-01](ffmpeg实时美颜推流/gop-01.png)
 
-<img src="/images/imageFFmpeg/avcodec_send_frame.png">
+![avcodec_send_frame](ffmpeg实时美颜推流/avcodec_send_frame.png)
 
 ## 6. 音频录制编码推流和类封装
 
-<img src="/images/imageFFmpeg/音频.png">
+![音频](ffmpeg实时美颜推流/音频.png)
 
-<img src="/images/imageFFmpeg/样本类型planar.png">
+![样本类型planar](ffmpeg实时美颜推流/样本类型planar.png)
 
-<img src="/images/imageFFmpeg/大小端模式.png">
+![大小端模式](ffmpeg实时美颜推流/大小端模式.png)
 
-<img src="/images/imageFFmpeg/一帧数据量.png">
+![一帧数据量](ffmpeg实时美颜推流/一帧数据量.png)
 
 QT音频录制接口：
 
-<img src="/images/imageFFmpeg/QAudioFormat.png">
+![QAudioFormat](ffmpeg实时美颜推流/QAudioFormat.png)
 
-<img src="/images/imageFFmpeg/QAudioInput.png">
+![QAudioInput](ffmpeg实时美颜推流/QAudioInput.png)
 
-<img src="/images/imageFFmpeg/QIODevice.png">
+![QIODevice](ffmpeg实时美颜推流/QIODevice.png)
 
 ## 7. 音视频同步编码推流处理
 
-<img src="/images/imageFFmpeg/视频录制接口封装.png">
+![视频录制接口封装](ffmpeg实时美颜推流/视频录制接口封装.png)
 
-<img src="/images/imageFFmpeg/音视频同步.png">
+![音视频同步](ffmpeg实时美颜推流/音视频同步.png)
 
 ## 8. XRtmpStreamer 项目完成（界面和美颜）
 
@@ -260,15 +261,15 @@ QT音频录制接口：
 
 美颜算法一般都是基于GPU做的
 
-<img src="/images/imageFFmpeg/使用opencv磨皮.png">
+![使用opencv磨皮](ffmpeg实时美颜推流/使用opencv磨皮.png)
 
-<img src="/images/imageFFmpeg/bilateralFilter双边滤波-边缘平滑.png">
+![bilateralFilter双边滤波-边缘平滑](ffmpeg实时美颜推流/bilateralFilter双边滤波-边缘平滑.png)
 
-<img src="/images/imageFFmpeg/自定义过滤器类XFilter.png">
+![自定义过滤器类XFilter](ffmpeg实时美颜推流/自定义过滤器类XFilter.png)
 
-<img src="/images/imageFFmpeg/XController.png">
+![XController](ffmpeg实时美颜推流/XController.png)
 
-<img src="/images/imageFFmpeg/类图.png">
+![类图](ffmpeg实时美颜推流/类图.png)
 
 **头文件尽量不用引用命名空间，因为不知道谁来调用，可能会出现问题**。
 
@@ -321,7 +322,7 @@ RTP 不象 http 和 ftp 可完整的下载整个影视文件，它是以固定�
 
 RTSP 与 RTP 最大的区别在于：RTSP 是一种双向实时数据传输协议，它允许客户端向服务器端发送请求，如回放、快进、倒退等操作。当然，RTSP 可基于 RTP 来传送数据，还可以选择 TCP、UDP、组播 UDP 等通道来发送数据，具有很好的扩展性。它是一种类似与 http 协议的网络应用层协议。目前碰到的一个应用：服务器端实时采集、编码并发送两路视频，客户端接收并显示两路视频。由于客户端不必对视频数据做任何回放、倒退等操作，可直接采用 UDP + RTP + 组播实现。
 
-<img src="/images/imageFFmpeg/RTSP和RTP的关系.png">
+![RTSP和RTP的关系](ffmpeg实时美颜推流/RTSP和RTP的关系.png)
 
 RTP：实时传输协议（Real-time Transport Protocol） 
 
