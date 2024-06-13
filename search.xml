@@ -1531,7 +1531,7 @@
 <li>直播相关</li>
 </ul>
 <p>除了 FFMPEG 的基本信息查询命令外，其它命令都按下图所示的流程处理音视频。</p>
-<img data-src="/images/imageFFmpeg/音视频处理流程.png">
+<img data-src="/2019/05/04/FFmpeg/FFmpeg%E5%91%BD%E4%BB%A4%E5%A4%A7%E5%85%A8/%E9%9F%B3%E8%A7%86%E9%A2%91%E5%A4%84%E7%90%86%E6%B5%81%E7%A8%8B.png" class="" title="音视频处理流程">
 
 <p>然后将编码的数据包传送给解码器（除非为数据流选择了流拷贝，请参阅进一步描述）。 解码器产生未压缩的帧（原始视频&#x2F; PCM音频&#x2F; …），可以通过滤波进一步处理（见下一节）。 在过滤之后，帧被传递到编码器，编码器并输出编码的数据包。 最后，这些传递给复用器，将编码的数据包写入输出文件。</p>
 <p>默认情况下，ffmpeg只包含输入文件中每种类型（视频，音频，字幕）的一个流，并将其添加到每个输出文件中。 它根据以下标准挑选每一个的“最佳”：对于视频，它是具有最高分辨率的流，对于音频，它是具有最多channel的流，对于字幕，是第一个字幕流。 在相同类型的几个流相等的情况下，选择具有最低索引的流。</p>
@@ -1788,7 +1788,7 @@
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">ffmpeg  -f avfoundation -i :0 -ar 44100 -f s16le out.pcm</span></span><br></pre></td></tr></table></figure>
 
 <h2 id="8-分解与复用"><a href="#8-分解与复用" class="headerlink" title="8. 分解与复用"></a>8. 分解与复用</h2><p>流拷贝是通过将 copy 参数提供给-codec选项来选择流的模式。它使得ffmpeg省略了指定流的解码和编码步骤，所以它只能进行多路分解和多路复用。 这对于更改容器格式或修改容器级元数据很有用。 在这种情况下，上图将简化为：</p>
-<img data-src="/images/imageFFmpeg/分解与复用.png">
+<img data-src="/2019/05/04/FFmpeg/FFmpeg%E5%91%BD%E4%BB%A4%E5%A4%A7%E5%85%A8/%E5%88%86%E8%A7%A3%E4%B8%8E%E5%A4%8D%E7%94%A8.png" class="" title="分解与复用">
 
 <p>由于没有解码或编码，速度非常快，没有质量损失。 但是，由于许多因素，在某些情况下可能无法正常工作。 应用过滤器显然也是不可能的，因为过滤器处理未压缩的数据。</p>
 <p><strong>抽取音频流</strong></p>
@@ -1836,14 +1836,14 @@
 
 <h2 id="10-滤镜"><a href="#10-滤镜" class="headerlink" title="10. 滤镜"></a>10. <strong>滤镜</strong></h2><p>在编码之前，ffmpeg 可以使用 libavfilter 库中的过滤器处理原始音频和视频帧。 几个链式过滤器形成一个过滤器图形。 ffmpeg 区分两种类型的过滤器图形：简单和复杂。</p>
 <h3 id="10-1-简单滤镜"><a href="#10-1-简单滤镜" class="headerlink" title="10.1 简单滤镜"></a>10.1 简单滤镜</h3><p>简单的过滤器图是那些只有一个输入和输出，都是相同的类型。 在上面的图中，它们可以通过在解码和编码之间插入一个额外的步骤来表示：</p>
-<img data-src="/images/imageFFmpeg/简单滤镜.png">
+<img data-src="/2019/05/04/FFmpeg/FFmpeg%E5%91%BD%E4%BB%A4%E5%A4%A7%E5%85%A8/%E7%AE%80%E5%8D%95%E6%BB%A4%E9%95%9C.png" class="" title="简单滤镜">
 
 <p>简单的 filtergraphs 配置了 per-stream-filter 选项（分别为视频和音频使用 <code>-vf</code> 和 <code>-af</code> 别名）。 一个简单的视频 filtergraph 可以看起来像这样的例子：</p>
-<img data-src="/images/imageFFmpeg/简单滤镜-01.png">
+<img data-src="/2019/05/04/FFmpeg/FFmpeg%E5%91%BD%E4%BB%A4%E5%A4%A7%E5%85%A8/%E7%AE%80%E5%8D%95%E6%BB%A4%E9%95%9C-01.png" class="" title="简单滤镜-01">
 
 <p>请注意，某些滤镜会更改帧属性，但不会改变帧内容。 例如。 上例中的 fps 过滤器会改变帧数，但不会触及帧内容。 另一个例子是 setpts 过滤器，它只设置时间戳，否则不改变帧。</p>
 <h3 id="10-2-复杂滤镜"><a href="#10-2-复杂滤镜" class="headerlink" title="10.2 复杂滤镜"></a>10.2 复杂滤镜</h3><p>复杂的过滤器图是那些不能简单描述为应用于一个流的线性处理链的过滤器图。 例如，当图形有多个输入和&#x2F;或输出，或者当输出流类型与输入不同时，就是这种情况。 他们可以用下图来表示：</p>
-<img data-src="/images/imageFFmpeg/复杂滤镜.png">
+<img data-src="/2019/05/04/FFmpeg/FFmpeg%E5%91%BD%E4%BB%A4%E5%A4%A7%E5%85%A8/%E5%A4%8D%E6%9D%82%E6%BB%A4%E9%95%9C.png" class="" title="复杂滤镜">
 
 <p>复杂的过滤器图使用 <code>-filter_complex</code> 选项进行配置。 请注意，此选项是全局性的，因为复杂的过滤器图形本质上不能与单个流或文件明确关联。</p>
 <p><code>-lavfi</code> 选项等同于 <code>-filter_complex</code>。</p>
