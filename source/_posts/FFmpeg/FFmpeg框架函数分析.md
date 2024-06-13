@@ -10,9 +10,9 @@ date: 2019-05-27 10:14:50
 
 > [[总结]FFMPEG视音频编解码零基础学习方法](<https://blog.csdn.net/leixiaohua1020/article/details/84499632>)
 
-# 架构图
+# 1. 架构图
 
-## FFMPEG+SDL的视频播放器
+## 1.1 FFMPEG+SDL的视频播放器
 
 > [最简单的基于FFMPEG+SDL的视频播放器 ver2 （采用SDL2.0）](<https://blog.csdn.net/leixiaohua1020/article/details/38868499>)
 
@@ -20,17 +20,13 @@ date: 2019-05-27 10:14:50
 
 <!-- more -->
 
-![FFmpeg解码一个视频流程](/images/imageFFmpeg/Thor/播放器解码的流程用图.png)
-
-
+![播放器解码的流程用图](FFmpeg框架函数分析/播放器解码的流程用图.png)
 
 **SDL2.0 显示 YUV 的流程：**
 
-![SDL2.0显示YUV的流程](/images/imageFFmpeg/Thor/SDL2.0显示YUV的流程图.png)
+![SDL2.0显示YUV的流程图](FFmpeg框架函数分析/SDL2.0显示YUV的流程图.png)
 
-
-
-## FFMPEG的视频编码器（YUV编码为H.264）
+## 1.2 FFMPEG的视频编码器（YUV编码为H.264）
 
 > [最简单的基于FFMPEG的视频编码器（YUV编码为H.264）](<https://blog.csdn.net/leixiaohua1020/article/details/25430425>)
 >
@@ -38,11 +34,11 @@ date: 2019-05-27 10:14:50
 >
 > [最简单的基于FFmpeg的编码器-纯净版（不包含libavformat）](<https://blog.csdn.net/leixiaohua1020/article/details/42181271>)
 
-### FFmpeg编码视频的流程图
+### 1.2.1 FFmpeg编码视频的流程图
 
 通过该流程，不仅可以编码H.264/H.265的码流，而且可以编码MPEG4/MPEG2/VP9/VP8等多种码流。实际上使用FFmpeg编码视频的方式都是一样的。图中蓝色背景的函数是实际输出数据的函数。浅绿色的函数是视频编码的函数。
 
-![FFmpeg编码视频的流程图](/images/imageFFmpeg/Thor/FFmpeg编码视频的流程图.png)
+![FFmpeg编码视频的流程图](FFmpeg框架函数分析/FFmpeg编码视频的流程图.png)
 
 简单介绍一下流程中各个函数的意义：
 
@@ -60,7 +56,7 @@ flush_encoder()  // 输入的像素数据读取完成后调用此函数。用于
 av_write_trailer()  // 写文件尾（对于某些没有文件头的封装格式，不需要此函数。比如说MPEG2TS）。
 ```
 
-### “纯净”的基于FFmpeg的视频编码器
+### 1.2.2 “纯净”的基于FFmpeg的视频编码器
 
 以下记录一个更加 “纯净” 的基于 FFmpeg 的视频编码器。此前记录过一个基于 FFmpeg 的视频编码器：
 
@@ -74,7 +70,7 @@ av_write_trailer()  // 写文件尾（对于某些没有文件头的封装格式
 
 **仅使用libavcodec（不使用libavformat）编码视频的流程：**
 
-![仅使用libavcodec（不使用libavformat）编码视频的流程](/images/imageFFmpeg/Thor/仅使用libavcodec编码视频的流程.png)
+![仅使用libavcodec编码视频的流程](FFmpeg框架函数分析/仅使用libavcodec编码视频的流程.png)
 
 流程图中关键函数的作用如下所列：
 
@@ -121,37 +117,37 @@ avcodec_alloc_context3()  // 创建AVCodecContext结构体。
 
 可以看出，相比于“完整”的编码器，这个纯净的编码器函数调用更加简单，功能相对少一些，相对来说更加的“轻量”。
 
-## 解码框架图
+## 1.3 解码框架图
 
-![FFmpeg解码](/images/imageFFmpeg/Thor/FFmpeg源码API结构图-解码.png)
+![FFmpeg源码API结构图-解码](FFmpeg框架函数分析/FFmpeg源码API结构图-解码.png)
 
-## 编码框架图
+## 1.4 编码框架图
 
-![FFmpeg编码](/images/imageFFmpeg/Thor/FFmpeg源码API结构图-编码.png)
+![FFmpeg源码API结构图-编码](FFmpeg框架函数分析/FFmpeg源码API结构图-编码.png)
 
-# 通用函数解析
+# 2. 通用函数解析
 
 > [函数解析](<https://blog.csdn.net/leixiaohua1020/article/details/44220151>)
 
-## av_register_all()
+## 2.1 av_register_all()
 
 ffmpeg 注册复用器，编码器等的函数 `av_register_all()`。该函数在所有基于ffmpeg的应用程序中几乎都是第一个被调用的。只有调用了该函数，才能使用复用器，编码器等。
 
 函数调用关系图如下图所示。`av_register_all()` 调用了 `avcodec_register_all()`。`avcodec_register_all()` 注册了和编解码器有关的组件：硬件加速器，解码器，编码器，Parser，Bitstream Filter。`av_register_all()` 除了调用 `avcodec_register_all()` 之外，还注册了复用器，解复用器，协议处理器。
 
-![av_register_all](/images/imageFFmpeg/Thor/av_register_all.png)
+![av_register_all](FFmpeg框架函数分析/av_register_all.png)
 
-## 内存的分配和释放（av_malloc()、av_free()等）
+## 2.2 内存的分配和释放（av_malloc()、av_free()等）
 
 内存操作的常见函数位于 `libavutil\mem.c` 中。本文记录FFmpeg开发中最常使用的几个函数：`av_malloc()`，`av_realloc()`，`av_mallocz()`，`av_calloc()`，`av_free()`，`av_freep()`。
 
 `av_malloc()` 就是简单的封装了系统函数malloc()，并做了一些错误检查工作。
 
-### 关于size_t
+### 2.2.1 关于size_t
 
 size _t  这个类型在 FFmpeg 中多次出现，简单解释一下其作用。size _t 是为了增强程序的可移植性而定义的。不同系统上，定义 size_t 可能不一样。它实际上就是 unsigned int。
 
-### 为什么要内存对齐？
+### 2.2.2 为什么要内存对齐？
 
 FFmpeg 内存分配方面多次涉及到 “内存对齐”（memory alignment）的概念。
 
@@ -159,11 +155,11 @@ FFmpeg 内存分配方面多次涉及到 “内存对齐”（memory alignment�
 
 程序员通常认为内存就是一个字节数组，每次可以一个一个字节存取内存。例如在 C 语言中使用 `char *` 指代 “一块内存”，Java 中使用 `byte[]` 指代一块内存。如下所示。
 
-![](/images/imageFFmpeg/Thor/内存对齐-01.png)
+![内存对齐-01](FFmpeg框架函数分析/内存对齐-01.png)
 
 但那实际上计算机处理器却不是这样认为的。处理器相对比较 “懒惰”，它会以 2 字节，4 字节，8 字节，16 字节甚至 32 字节来存取内存。例如下图显示了以 4 字节为单位读写内存的处理器 “看待” 上述内存的方式。
 
-![](/images/imageFFmpeg/Thor/内存对齐-02.png)
+![内存对齐-02](FFmpeg框架函数分析/内存对齐-02.png)
 
 上述的存取单位的大小称之为内存存取粒度。
 
@@ -171,17 +167,17 @@ FFmpeg 内存分配方面多次涉及到 “内存对齐”（memory alignment�
 
 从程序员的角度来看，读取方式如下图所示。
 
-![](/images/imageFFmpeg/Thor/内存对齐-03.png)
+![内存对齐-03](FFmpeg框架函数分析/内存对齐-03.png)
 
 而 2 字节存取粒度的处理器的读取方式如下图所示。
 
-![](/images/imageFFmpeg/Thor/内存对齐-04.png)
+![内存对齐-04](FFmpeg框架函数分析/内存对齐-04.png)
 
 可以看出 2 字节存取粒度的处理器从地址 0 读取 4 个字节一共读取 2 次；从地址 1 读取 4 个字节一共读取了 3 次。由于每次读取的开销是固定的，因此从地址 1 读取 4 字节的效率有所下降。
 
 4 字节存取粒度的处理器的读取方式如下图所示。
 
-![](/images/imageFFmpeg/Thor/内存对齐-05.png)
+![内存对齐-05](FFmpeg框架函数分析/内存对齐-05.png)
 
 可以看出 4 字节存取粒度的处理器从地址 0 读取 4 个字节一共读取 1 次；从地址 1 读取 4 个字节一共读取了 2 次。从地址 1 读取的开销比从地址 0 读取多了一倍。由此可见内存不对齐对 CPU 的性能是有影响的。 
 
@@ -194,7 +190,7 @@ av_free()  // 用于释放申请的内存
 av_freep()  // 简单封装了av_free()。并且在释放内存之后将目标指针设置为NULL
 ```
 
-## 常见结构体的初始化和销毁（AVFormatContext，AVFrame等）
+## 2.3 常见结构体的初始化和销毁（AVFormatContext，AVFrame等）
 
 > [FFMPEG中最关键的结构体之间的关系](http://blog.csdn.net/leixiaohua1020/article/details/11693997)
 
@@ -219,7 +215,7 @@ AVPacket
 
 他们之间的关系如下图所示：
 
-![常见结构体之间的关系](/images/imageFFmpeg/Thor/常见结构体之间的关系.png)
+![常见结构体之间的关系](FFmpeg框架函数分析/常见结构体之间的关系.png)
 
 简单分析一下上述几个结构体的初始化和销毁函数。这些函数列表如下。
 
@@ -232,7 +228,7 @@ AVPacket
 | AVFrame         | av_frame_alloc();<br />av_image_fill_arrays() | av_frame_free()         |
 | AVPacket        | av_init_packet();<br />av_new_packet()        | av_free_packet()        |
 
-### avformat_alloc_context()
+### 2.3.1 avformat_alloc_context()
 
 `avformat_alloc_context()` 的定义位于 `libavformat\options.c`。
 
@@ -242,7 +238,7 @@ AVPacket
 
 `avformat_alloc_context()` 代码的函数调用关系如下图所示。
 
-![avformat_alloc_context](/images/imageFFmpeg/Thor/avformat_alloc_context.png)
+![avformat_alloc_context](FFmpeg框架函数分析/avformat_alloc_context.png)
 
 `avformat_free_context()` 的声明位于 `libavformat\avformat.h`
 
@@ -252,7 +248,7 @@ AVPacket
 
 在这里看一个释放 AVStream 的函数 `ff_free_stream()`。该函数的定义位于 `libavformat\options.c`（其实就在 `avformat_free_context()` 上方）, 与释放 AVFormatContext 类似，释放 AVStream 的时候，也是调用了 `av_freep()`，`av_dict_free()` 这些函数释放有关的字段。如果使用了 parser 的话，会调用 `av_parser_close()` 关闭该 parser。
 
-### avio_alloc_context()
+### 2.3.2 avio_alloc_context()
 
 AVIOContext 的初始化函数是 `avio_alloc_context()`，销毁的时候使用 `av_free()` 释放掉其中的缓存即可。它的声明位于 `libavformat\avio.h` 中
 
@@ -260,7 +256,7 @@ AVIOContext 的初始化函数是 `avio_alloc_context()`，销毁的时候使用
 
 `avio_alloc_context()` 首先调用 `av_mallocz()` 为 AVIOContext 分配内存。而后调用了一个函数 `ffio_init_context()` 。该函数完成了真正的初始化工作
 
-### avformat_new_stream()
+### 2.3.3 avformat_new_stream()
 
 `avformat_new_stream()` 的声明位于 `libavformat\avformat.h` 中
 
@@ -270,7 +266,7 @@ AVStream 的初始化函数是 `avformat_new_stream()`，销毁函数使用销�
 
 `avformat_new_stream()` 首先调用 `av_mallocz()`  为 AVStream 分配内存。接着给新分配的AVStream 的各个字段赋上默认值。然后调用了另一个函数 `avcodec_alloc_context3()` 初始化 AVStream 中的 AVCodecContext。
 
-### avcodec_alloc_context3()
+### 2.3.4 avcodec_alloc_context3()
 
 `avcodec_alloc_context3()` 的声明位于 `libavcodec\avcodec.h` 中
 
@@ -280,9 +276,9 @@ AVStream 的初始化函数是 `avformat_new_stream()`，销毁函数使用销�
 
 `avformat_new_stream()` 函数的调用结构如下所示：
 
-![avformat_new_stream](/images/imageFFmpeg/Thor/avformat_new_stream.png)
+![avformat_new_stream](FFmpeg框架函数分析/avformat_new_stream.png)
 
-### av_frame_alloc()
+### 2.3.5 av_frame_alloc()
 
 AVFrame 的初始化函数是 `av_frame_alloc()`，销毁函数是 `av_frame_free()`。在这里有一点需要注意，旧版的 FFmpeg 都是使用 `avcodec_alloc_frame()` 初始化 AVFrame 的，但是我在写这篇文章的时候，`avcodec_alloc_frame()` 已经被标记为 “过时的” 了，为了保证与时俱进，决定分析新的`API——av_frame_alloc()`。
 
@@ -296,9 +292,9 @@ AVFrame 的初始化函数是 `av_frame_alloc()`，销毁函数是 `av_frame_fre
 
 `av_frame_alloc()` 函数的调用结构如下所示：
 
-![av_frame_alloc](/images/imageFFmpeg/Thor/av_frame_alloc.png)
+![av_frame_alloc](FFmpeg框架函数分析/av_frame_alloc.png)
 
-#### avpicture_fill()
+#### 2.3.5.1 avpicture_fill()
 
 `avpicture_fill()` 的声明位于 `libavcodec\avcodec.h`
 
@@ -306,7 +302,7 @@ AVFrame 的初始化函数是 `av_frame_alloc()`，销毁函数是 `av_frame_fre
 
 `avpicture_fill()` 仅仅是简单调用了一下 `av_image_fill_arrays()`。也就是说这两个函数实际上是等同的
 
-#### av_image_fill_arrays()
+#### 2.3.5.2 av_image_fill_arrays()
 
 `av_image_fill_arrays()` 的声明位于 `libavutil\imgutils.h` 中
 
@@ -316,15 +312,15 @@ AVFrame 的初始化函数是 `av_frame_alloc()`，销毁函数是 `av_frame_fre
 
 `avpicture_fill()` 函数调用关系如下图所示：
 
-![avpicture_fill](/images/imageFFmpeg/Thor/avpicture_fill.png)
+![avpicture_fill](FFmpeg框架函数分析/avpicture_fill.png)
 
-### av_init_packet()
+### 2.3.6 av_init_packet()
 
 `av_init_packet()` 的声明位于 `libavcodec\avcodec.h`
 
 `av_init_packet()` 的定义位于 `libavcodec\avpacket.c`
 
-### av_new_packet()
+### 2.3.7 av_new_packet()
 
 `av_new_packet()` 的声明位于 `libavcodec\avcodec.h`
 
@@ -338,7 +334,7 @@ PS：发现 AVPacket 的结构随着 FFmpeg 的发展越发复杂了。原先 AV
 
 `av_new_packet()` 代码的函数调用关系如下图所示：
 
-![av_new_packet](/images/imageFFmpeg/Thor/av_new_packet.png)
+![av_new_packet](FFmpeg框架函数分析/av_new_packet.png)
 
 `av_free_packet()` 的声明位于 `libavcodec\avcodec.h`
 
@@ -346,7 +342,7 @@ PS：发现 AVPacket 的结构随着 FFmpeg 的发展越发复杂了。原先 AV
 
 `av_free_packet()` 调用 `av_buffer_unref()` 释放 AVPacket 中的数据，而后还调用了`av_packet_free_side_data()` 释放了 side_data（存储封装格式可以提供的额外的数据）。
 
-## avio_open2() 
+## 2.4 avio_open2() 
 
 该函数用于打开 FFmpeg 的输入输出文件。`avio_open2()` 的声明位于 `libavformat\avio.h` 文件中
 
@@ -370,9 +366,9 @@ options：目前还没有用过。
 
 函数调用结构图：
 
-![avio_open2](/images/imageFFmpeg/Thor/avio_open2.png)
+![avio_open2](FFmpeg框架函数分析/avio_open2.png)
 
-## av_find_decoder() 和 av_find_encoder()
+## 2.5 av_find_decoder() 和 av_find_encoder()
 
 `avcodec_find_encoder()` 用于查找 FFmpeg 的编码器，
 
@@ -396,7 +392,7 @@ AVCodec *avcodec_find_decoder(enum AVCodecID id);
 
 `avcodec_find_encoder()` 和 `avcodec_find_decoder()` 的函数调用关系图如下所示：
 
-![函数调用关系图](/images/imageFFmpeg/Thor/avcodec_find_encoder.png)
+![avcodec_find_encoder](FFmpeg框架函数分析/avcodec_find_encoder.png)
 
 `avcodec_find_encoder()` 的源代码位于 `libavcodec\utils.c`
 
@@ -418,7 +414,7 @@ AVCodec *avcodec_find_decoder(enum AVCodecID id);
 
 `avcodec_find_decoder()` 同样调用了 `find_encdec()`，只是第 2 个参数设置为 0。
 
-## avcodec_open2()
+## 2.6 avcodec_open2()
 
 该函数用于初始化一个视音频编解码器的 AVCodecContext。
 
@@ -438,7 +434,7 @@ options：一些选项。例如使用 libx264 编码的时候，“preset”，�
 
 `avcodec_open2()` 函数调用关系非常简单，如下图所示：
 
-![avcodec_open2](/images/imageFFmpeg/Thor/avcodec_open2.png)
+![avcodec_open2](FFmpeg框架函数分析/avcodec_open2.png)
 
 `avcodec_open2()` 的定义位于 `libavcodec\utils.c`
 
@@ -458,7 +454,7 @@ options：一些选项。例如使用 libx264 编码的时候，“preset”，�
 
 前几步比较简单，不再分析。在这里我们分析一下第4步和第5步。
 
-### 检查输入参数是否符合编码器要求
+### 2.6.1 检查输入参数是否符合编码器要求
 
 在这里简单分析一下第 4 步，即 “检查输入参数是否符合编码器的要求”。这一步中检查了很多的参数，在这里我们随便选一个参数 pix_fmts（像素格式）看一下，如下所示。
 
@@ -517,7 +513,7 @@ static const enum AVPixelFormat pix_fmts_8bit[] = {
 
 现在回到 “检查输入 `pix_fmt` 是否符合编码器的要求” 的那段代码。如果 `for()` 循环从 `AVCodec->pix_fmts` 数组中找到了符合 `AVCodecContext->pix_fmt` 的像素格式，或者完成了 `AVCodec->pix_fmts` 数组的遍历，都会跳出循环。如果发现 `AVCodec->pix_fmts` 数组中索引为 `i` 的元素是 AV_PIX_FMT_NONE（即最后一个元素，取值为 -1）的时候，就认为没有找到合适的像素格式，并且最终提示错误信息。
 
-### AVCodec->init()
+### 2.6.2 AVCodec->init()
 `avcodec_open2()` 中最关键的一步就是调用 AVCodec 的 `init()` 方法初始化具体的编码器。AVCodec 的 `init()` 是一个函数指针，指向具体编解码器中的初始化函数。这里我们以 libx264 为例，看一下它对应的 AVCodec 的定义。
 
 libx264 对应的 AVCodec 的定义位于 `libavcodec\libx264.c`
@@ -552,7 +548,7 @@ AVCodec ff_libx264_encoder = {
 
 最后附上 X264Context 的定义，位于 `libavcodec\libx264.c`
 
-## avcodec_close()
+## 2.7 avcodec_close()
 
 该函数用于关闭编码器。`avcodec_close()` 函数的声明位于 `libavcodec\avcodec.h`
 
@@ -564,15 +560,15 @@ int avcodec_close(AVCodecContext *avctx);
 
 函数的调用关系图如下所示：
 
-![avcodec_close](/images/imageFFmpeg/Thor/avcodec_close.png)
+![avcodec_close](FFmpeg框架函数分析/avcodec_close.png)
 
 `avcodec_close()` 的定义位于 `libavcodec\utils.c`
 
 从 `avcodec_close()` 的定义可以看出，该函数释放 AVCodecContext 中有关的变量，并且调用了 AVCodec 的 `close()` 关闭了解码器。
 
-# 解码
+# 3. 解码
 
-## 图解 FFMPEG 打开媒体的函数 avformat_open_input
+## 3.1 图解 FFMPEG 打开媒体的函数 avformat_open_input
 
 FFMPEG打开媒体的的过程开始于avformat_open_input，因此该函数的重要性不可忽视。
 
@@ -590,7 +586,7 @@ FFMPEG打开媒体的的过程开始于avformat_open_input，因此该函数的�
 
 以下是通过 eclipse+MinGW 调试 FFMPEG 源代码获得的函数调用关系图：
 
-![](/images/imageFFmpeg/Thor/图解FFMPEG打开媒体的函数avformat_open_input.png)
+![图解FFMPEG打开媒体的函数avformat_open_input](FFmpeg框架函数分析/图解FFMPEG打开媒体的函数avformat_open_input.png)
 
 可见最终都调用了 URLProtocol 结构体中的函数指针。
 
@@ -668,7 +664,7 @@ URLProtocol ff_rtmp_protocol = {
 
 因此 `avformat_open_input` 只需调用 url_open, url_read 这些函数就可以完成各种具体输入协议的 open, read 等操作了
 
-## avformat_open_input()
+## 3.2 avformat_open_input()
 
 > [FFMPEG源码分析：avformat_open_input()（媒体打开函数）](<https://blog.csdn.net/leixiaohua1020/article/details/11885813>)
 >
@@ -695,7 +691,7 @@ dictionay：附加的一些选项，一般情况下可以设置为 NULL。
 
 函数调用结构图如下所示：
 
-![avformat_open_input](/images/imageFFmpeg/Thor/avformat_open_input.png)
+![avformat_open_input](FFmpeg框架函数分析/avformat_open_input.png)
 
 `avformat_open_input()` 定义位于 `libavformat\utils.c` 中
 
@@ -705,7 +701,7 @@ dictionay：附加的一些选项，一般情况下可以设置为 NULL。
 
 - **`s->iformat->read_header()`**：读取多媒体数据文件头，根据视音频流创建相应的 AVStream。
 
-### init_input()
+### 3.2.1 init_input()
 
 `init_input()` 作为一个内部函数，竟然包含了一行注释（一般内部函数都没有注释），足可以看出它的重要性。它的主要工作就是打开输入的视频数据并且探测视频的格式。该函数的定义位于 `libavformat\utils.c`
 
@@ -773,7 +769,7 @@ FFmpeg 内部判断封装格式的原理实际上是对每种 AVInputFormat 给�
 
 （3）如果发现通过文件路径判断不出来文件格式，那么就需要打开文件探测文件格式了，这个时候会首先调用 `avio_open2()` 打开文件，然后调用 `av_probe_input_buffer2()` 推测 AVInputFormat。
 
-## avformat_find_stream_info()
+## 3.3 avformat_find_stream_info()
 
 该函数可以读取一部分视音频数据并且获得一些相关的信息。
 
@@ -796,7 +792,7 @@ PS：由于该函数比较复杂，所以只看了一部分代码，以后有时
 
 函数的调用关系如下图所示：
 
-![avformat_find_stream_info](/images/imageFFmpeg/Thor/avformat_find_stream_info.png)
+![avformat_find_stream_info](FFmpeg框架函数分析/avformat_find_stream_info.png)
 
 `avformat_find_stream_info()` 的定义位于 `libavformat\utils.c`
 
@@ -812,7 +808,7 @@ PS：由于该函数比较复杂，所以只看了一部分代码，以后有时
 
 - 解码一些压缩编码数据：`try_decode_frame()`
 
-## av_read_frame()
+## 3.4 av_read_frame()
 
 ffmpeg 中的 `av_read_frame()` 的作用是读取码流中的音频若干帧或者视频一帧。例如，解码视频的时候，每解码一个视频帧，需要先调用 `av_read_frame()` 获得一帧视频的压缩数据，然后才能对该数据进行解码（例如 H.264 中一帧压缩数据通常对应一个 NAL）。
 
@@ -837,7 +833,7 @@ pkt：输出的AVPacket
 
 函数调用结构图如下所示：
 
-![av_read_frame](/images/imageFFmpeg/Thor/av_read_frame.png)
+![av_read_frame](FFmpeg框架函数分析/av_read_frame.png)
 
 `av_read_frame()` 的定义位于 `libavformat\utils.c`
 
@@ -874,17 +870,17 @@ AVInputFormat ff_flv_demuxer = {
 
 PS：原图是网上找的，感觉画的很清晰，比官方的 Video File Format Specification 更加通俗易懂。但是图中有一个错误，就是 TagHeader 中的 StreamID 字段的长度写错了（查看了一下官方标准，应该是 3 字节，现在已经改过来了）。
 
-![FLV封装格式](/images/imageFFmpeg/Thor/FLV封装格式.png)
+![FLV封装格式](FFmpeg框架函数分析/FLV封装格式.png)
 
 从图中可以看出，FLV 文件体部分是由一个一个的 Tag 连接起来的（中间间隔着 Previous Tag Size）。每个 Tag 包含了 Tag Header 和 Tag Data 两个部分。
 
 Tag Data 根据 Tag 的 Type 不同而不同：可以分为音频 Tag Data，视频 Tag Data 以及 Script Tag Data。下面简述一下音频 Tag Data 和视频 Tag Data。
 
-### Audio Tag Data
+### 3.4.1 Audio Tag Data
 
 Audio Tag在官方标准中定义如下。
 
-![Audio Tag](/images/imageFFmpeg/Thor/AudioTag.png)
+![AudioTag](FFmpeg框架函数分析/AudioTag.png)
 
 Audio Tag 开始的第 1 个字节包含了音频数据的参数信息，从第 2 个字节开始为音频流数据。
 第 1 个字节的前 4 位的数值表示了音频数据格式：
@@ -913,13 +909,13 @@ Audio Tag 开始的第 1 个字节包含了音频数据的参数信息，从第 
 
 其中，当音频编码为 AAC 的时候，第一个字节后面存储的是 AACAUDIODATA，格式如下所示。
 
-![AACAUDIODATA格式](/images/imageFFmpeg/Thor/AACAUDIODATA格式.png)
+![AACAUDIODATA格式](FFmpeg框架函数分析/AACAUDIODATA格式.png)
 
-### Video Tag Data
+### 3.4.2 Video Tag Data
 
 Video Tag在官方标准中的定义如下：
 
-![Video Tag](/images/imageFFmpeg/Thor/VideoTag.png)
+![VideoTag](FFmpeg框架函数分析/VideoTag.png)
 
 Video Tag 也用开始的第 1 个字节包含视频数据的参数信息，从第 2 个字节为视频流数据。
 
@@ -947,7 +943,7 @@ Video Tag 也用开始的第 1 个字节包含视频数据的参数信息，从�
 
 其中，当音频编码为 AVC（H.264）的时候，第一个字节后面存储的是 AVCVIDEOPACKET，格式如下所示。
 
-![AVCVIDEOPACKET格式](/images/imageFFmpeg/Thor/AVCVIDEOPACKET格式.png)
+![AVCVIDEOPACKET格式](FFmpeg框架函数分析/AVCVIDEOPACKET格式.png)
 
 了解了 FLV 的基本格式之后，就可以看一下 FLV 解析 Tag 的函数 `flv_read_packet()了`。
 
@@ -959,7 +955,7 @@ Video Tag 也用开始的第 1 个字节包含视频数据的参数信息，从�
 
 从代码中可以看出，最终调用了相应 AVCodecParser 的 `av_parser_parse2()` 函数，解析出来 AVPacket。此后根据解析的信息还进行了一系列的赋值工作，不再详细叙述。
 
-## avcodec_decode_video2()
+## 3.5 avcodec_decode_video2()
 
 ffmpeg 中的 `avcodec_decode_video2()` 的作用是解码一帧视频数据。输入一个压缩编码的结构体 AVPacket，输出一个解码后的结构体 AVFrame。该函数的声明位于 `libavcodec\avcodec.h`
 
@@ -1010,13 +1006,13 @@ AVCodec ff_h264_decoder = {
 
 从 `h264_decode_frame()` 的定义可以看出，它调用了 `decode_nal_units()` 完成了具体的 H.264 解码工作。
 
-## avformat_close_input()
+## 3.6 avformat_close_input()
 
 该函数用于关闭一个 AVFormatContext，一般情况下是和 `avformat_open_input()` 成对使用的。
 
 函数的调用关系如下图所示：
 
-![avformat_close_input](/images/imageFFmpeg/Thor/avformat_close_input.png)
+![avformat_close_input](FFmpeg框架函数分析/avformat_close_input.png)
 
 `avformat_close_input()` 的源代码位于 `libavformat\utils.c`
 
@@ -1028,9 +1024,9 @@ AVCodec ff_h264_decoder = {
 
 （3）调用 `avio_close()` 关闭并且释放 AVIOContext
 
-# 编码
+# 4. 编码
 
-## avformat_alloc_output_context2()
+## 4.1 avformat_alloc_output_context2()
 
 在基于 FFmpeg 的视音频编码器程序中，该函数通常是第一个调用的函数（除了组件注册函数 `av_register_all()`）。
 
@@ -1055,7 +1051,7 @@ filename：指定输出文件的名称。根据文件名称，FFmpeg会推测输
 
 首先贴出来最终分析得出的函数调用结构图，如下所示：
 
-![avformat_alloc_output_context2](/images/imageFFmpeg/Thor/avformat_alloc_output_context2.png)
+![avformat_alloc_output_context2](FFmpeg框架函数分析/avformat_alloc_output_context2.png)
 
 `avformat_alloc_output_context2()` 的函数定义位于 `libavformat\mux.c`
 
@@ -1105,7 +1101,7 @@ AVOutputFormat ff_flv_muxer = {
 
 </details>
 
-## avformat_write_header()
+## 4.2 avformat_write_header()
 
 FFmpeg 的写文件用到的 3 个函数：
 
@@ -1136,7 +1132,7 @@ options：额外的选项，目前没有深入研究过，一般为NULL。
 
 `avformat_write_header()` 的调用关系如下图所示：
 
-![avformat_write_header](/images/imageFFmpeg/Thor/avformat_write_header.png)
+![avformat_write_header](FFmpeg框架函数分析/avformat_write_header.png)
 
 `avformat_write_header()` 的定义位于 `libavformat\mux.c`
 
@@ -1173,9 +1169,9 @@ options：额外的选项，目前没有深入研究过，一般为NULL。
 
 可以参考下图中 FLV 文件头的定义比对一下上面的代码。
 
-![FLV Header.png](/images/imageFFmpeg/Thor/FLVHeader.png)
+![FLVHeader](FFmpeg框架函数分析/FLVHeader.png)
 
-## avcodec_encode_video()
+## 4.3 avcodec_encode_video()
 
 该函数用于编码一帧视频数据。`avcodec_encode_video2()` 函数的声明位于 `libavcodec\avcodec.h`
 
@@ -1197,7 +1193,7 @@ got_packet_ptr：成功编码一个AVPacket的时候设置为1。
 
 函数的调用关系如下图所示：
 
-![avcodec_encode_video](/images/imageFFmpeg/Thoreavcodec_encode_video.png)
+![avcodec_encode_video](FFmpeg框架函数分析/avcodec_encode_video.png)
 
 `avcodec_encode_video2()` 的定义位于 `libavcodec\utils.c`
 
@@ -1211,7 +1207,7 @@ AVCodec 的 `encode2()` 是一个函数指针，指向特定编码器的编码�
 
 `X264_frame()` 函数的定义位于 `libavcodec\libx264.c`
 
-## av_write_frame()
+## 4.4 av_write_frame()
 
 `av_write_frame()` 用于输出一帧视音频数据，它的声明位于 `libavformat\avformat.h`
 
@@ -1230,7 +1226,7 @@ pkt：等待输出的AVPacket。
 
 `av_write_frame()` 的调用关系如下图所示：
 
-![av_write_frame](/images/imageFFmpeg/Thor/av_write_frame.png)
+![av_write_frame](FFmpeg框架函数分析/av_write_frame.png)
 
 `av_write_frame()` 的定义位于 `libavformat\mux.c`
 
@@ -1257,7 +1253,7 @@ pkt：等待输出的AVPacket。
 
 从 `ff_flv_muxer` 的定义可以看出，`write_packet()` 指向的是 `flv_write_packet()` 函数。在看 `flv_write_packet()` 函数的定义之前，先回顾一下 FLV 封装格式的结构。
 
-## av_write_trailer()
+## 4.5 av_write_trailer()
 
 `av_write_trailer()` 用于输出文件尾，它的声明位于 `libavformat\avformat.h`
 
@@ -1271,7 +1267,7 @@ int av_write_trailer(AVFormatContext *s);
 
 `av_write_trailer()` 的调用关系如下图所示：
 
-![av_write_trailer](/images/imageFFmpeg/Thor/av_write_trailer.png)
+![av_write_trailer](FFmpeg框架函数分析/av_write_trailer.png)
 
 `av_write_trailer()` 的定义位于 `libavformat\mux.c`
 
@@ -1299,23 +1295,23 @@ AVOutputFormat 的 `write_trailer()` 是一个函数指针，指向特定的 AVO
 
 可以参考 FLV 封装格式理解上述函数。由于前面的文章中已经描述过 FLV 封装格式，在这里不再重复叙述，在这里仅在此记录一下 AVCVIDEOPACKET 的格式，如下所示。
 
-![AVCVIDEOPACKET格式](/images/imageFFmpeg/Thor/AVCVIDEOPACKET格式.png)
+![AVCVIDEOPACKET格式](FFmpeg框架函数分析/AVCVIDEOPACKET格式.png)
 
 可以看出包含 EOS NALU 的 AVCVIDEOPACKET 的 AVCPacketType 为 2。在这种情况下， AVCVIDEOPACKET 的 CompositionTime 字段取 0，并且无需包含 Data 字段。
 
-# 日志输出系统
+# 5. 日志输出系统
 
 > [日志输出系统](<https://blog.csdn.net/leixiaohua1020/article/details/44243155>)
 
-## av_log()
+## 5.1 av_log()
 
 本文分析一下 FFmpeg 的日志（Log）输出系统的源代码。日志输出部分的核心函数只有一个： `av_log()`。使用 `av_log()` 在控制台输出日志的效果如下图所示。
 
-![av_log控制台日志输出](/images/imageFFmpeg/Thor/av_log控制台日志输出.png)
+![av_log控制台日志输出](FFmpeg框架函数分析/av_log控制台日志输出.png)
 
 FFmpeg 日志输出系统的函数调用结构图如图所示：
 
-![FFmpeg 日志输出系统的函数调用结构图](/images/imageFFmpeg/Thor/av_log.png)
+![av_log](FFmpeg框架函数分析/av_log.png)
 
 `av_log()` 是 FFmpeg 中输出日志的函数。随便打开一个 FFmpeg 的源代码文件，就会发现其中遍布着 `av_log()` 函数。一般情况下 FFmpeg 类库的源代码中是不允许使用 `printf()` 这种的函数的，所有的输出一律使用 `av_log()`。
 
@@ -1372,44 +1368,42 @@ av_log()每个字段的含义如下：
 
 可以通过 `av_log_set_level()` 设置当前 Log 的级别。
 
-# 接头体成员管理系统
+# 6. 接头体成员管理系统
 
-## AVClass
+## 6.1 AVClass
 
 > [FFmpeg源代码简单分析：结构体成员管理系统-AVClass](<https://blog.csdn.net/leixiaohua1020/article/details/44268323>)
 
 TODO
 
-## AVOption
+## 6.2 AVOption
 
 > [FFmpeg源代码简单分析：结构体成员管理系统-AVOption](<https://blog.csdn.net/leixiaohua1020/article/details/44279329>)
 
 TODO
 
-# libswscale
+# 7. libswscale
 
-## sws_getContext()
+## 7.1 sws_getContext()
 
 > [FFmpeg源代码简单分析：libswscale的sws_getContext()](<https://blog.csdn.net/leixiaohua1020/article/details/44305697>)
 
 TODO
 
-## sws_scale()
+## 7.2 sws_scale()
 
 > [FFmpeg源代码简单分析：libswscale的sws_scale()](<https://blog.csdn.net/leixiaohua1020/article/details/44346687>)
 
 TODO
 
-# libavdevice
+# 8. libavdevice
 
-## avdevice_register_all()
+## 8.1 avdevice_register_all()
 
 > [FFmpeg源代码简单分析：libavdevice的avdevice_register_all()](<https://blog.csdn.net/leixiaohua1020/article/details/41211121>)
 
-## gdigrab
+## 8.2 gdigrab
 
 > [FFmpeg源代码简单分析：libavdevice的gdigrab](<https://blog.csdn.net/leixiaohua1020/article/details/44597955>)
 
 
-
-![](/images/imageFFmpeg/Thor/)
