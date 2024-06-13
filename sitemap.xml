@@ -5,12 +5,12 @@
   <url>  
     <loc>http://miaopei.github.io/2019/04/20/FFmpeg/FFmpeg%E5%85%A5%E9%97%A8/</loc>  
       
-    <lastmod>2024-06-13T08:33:57.080Z</lastmod>  
+    <lastmod>2024-06-13T08:46:04.848Z</lastmod>  
       
     <date>1555726490000</date>  
     <title>FFmpeg入门 | Mr.Miaow Blog</title>  
       
-    <desc>本文以文档的形式来描述FFmpeg怎么入门，这也是为以后写文档做的一个大题框架格式。 文档介绍文档目的整理出开源代码 ffmpeg 的资料，方便公司同事后续使用。</desc>  
+    <desc>本文以文档的形式来描述FFmpeg怎么入门，这也是为以后写文档做的一个大题框架格式。 1. 文档介绍1.1 文档目的整理出开源代码 ffmpeg 的资料，方便公司同事后续使用。</desc>  
   </url>  
   
     
