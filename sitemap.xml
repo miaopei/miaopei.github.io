@@ -3,6 +3,19 @@
     
   
   <url>  
+    <loc>http://miaopei.github.io/2019/05/25/FFmpeg/FFmpeg%E6%BA%90%E4%BB%A3%E7%A0%81%E7%BB%93%E6%9E%84note/</loc>  
+      
+    <lastmod>2024-06-13T09:55:58.861Z</lastmod>  
+      
+    <date>1558750490000</date>  
+    <title>FFmpeg 源代码结构（编解码解析） | Mr.Miaow Blog</title>  
+      
+    <desc>特别说明，此文参考至雷神笔记，做一个备忘录。 1. FFmpeg源代码结构图 - 解码下图表明了 FFmpeg 在解码一个视频的时候的函数调用流程。为了保证结构清晰，其中仅列出了最关键的函数，剔除了其它不是特别重要的函数。</desc>  
+  </url>  
+  
+    
+  
+  <url>  
     <loc>http://miaopei.github.io/2019/05/19/FFmpeg/ffmpeg%E5%AE%9E%E6%97%B6%E7%BE%8E%E9%A2%9C%E6%8E%A8%E6%B5%81/</loc>  
       
     <lastmod>2024-06-13T09:47:31.392Z</lastmod>  
@@ -115,19 +128,6 @@
     <title>Docker 学习笔记 | Mr.Miaow Blog</title>  
       
     <desc>1. Docker基本命令1.1 常用Docker命令</desc>  
-  </url>  
-  
-    
-  
-  <url>  
-    <loc>http://miaopei.github.io/2019/05/25/FFmpeg/FFmpeg%E6%BA%90%E4%BB%A3%E7%A0%81%E7%BB%93%E6%9E%84note/</loc>  
-      
-    <lastmod>2024-06-11T06:18:50.098Z</lastmod>  
-      
-    <date>1558750490000</date>  
-    <title>FFmpeg 源代码结构（编解码解析） | Mr.Miaow Blog</title>  
-      
-    <desc>特别说明，此文参考至雷神笔记，做一个备忘录。 FFmpeg源代码结构图 - 解码下图表明了 FFmpeg 在解码一个视频的时候的函数调用流程。为了保证结构清晰，其中仅列出了最关键的函数，剔除了其它不是特别重要的函数。</desc>  
   </url>  
   
     
