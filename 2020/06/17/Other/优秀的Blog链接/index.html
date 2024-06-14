@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.2.0">
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/mrmiaow-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/mrmiaow-16.png">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/blue/pace-theme-minimal.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"miaopei.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"always","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"show_result":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":true,"nav":{"gitalk":{"order":-2}},"activeClass":"gitalk"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="1. 前端 设计模式  2. 后端 现代web开发  3. Git 使用 Git原理简介和常用命令 图解git原理与日常实用指南 图解Git[强烈推荐] 常用 Git 命令清单  4. 不吹不黑！逛 GitHub 必看 10 个开源项目4.1 build Your Own X GitHub Star：61,300 GitHub：https:&#x2F;&#x2F;github.com&#x2F;danistefanovic&#x2F;b">
+<meta property="og:type" content="article">
+<meta property="og:title" content="优秀的Blog链接">
+<meta property="og:url" content="http://miaopei.github.io/2020/06/17/Other/%E4%BC%98%E7%A7%80%E7%9A%84Blog%E9%93%BE%E6%8E%A5/index.html">
+<meta property="og:site_name" content="Mr.Miaow Blog">
+<meta property="og:description" content="1. 前端 设计模式  2. 后端 现代web开发  3. Git 使用 Git原理简介和常用命令 图解git原理与日常实用指南 图解Git[强烈推荐] 常用 Git 命令清单  4. 不吹不黑！逛 GitHub 必看 10 个开源项目4.1 build Your Own X GitHub Star：61,300 GitHub：https:&#x2F;&#x2F;github.com&#x2F;danistefanovic&#x2F;b">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-06-17T08:58:17.000Z">
+<meta property="article:modified_time" content="2024-06-14T05:31:36.996Z">
+<meta property="article:author" content="Mr.Miaow">
+<meta property="article:tag" content="Hexo,Blog,技术分享">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://miaopei.github.io/2020/06/17/Other/%E4%BC%98%E7%A7%80%E7%9A%84Blog%E9%93%BE%E6%8E%A5/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://miaopei.github.io/2020/06/17/Other/%E4%BC%98%E7%A7%80%E7%9A%84Blog%E9%93%BE%E6%8E%A5/","path":"2020/06/17/Other/优秀的Blog链接/","title":"优秀的Blog链接"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>优秀的Blog链接 | Mr.Miaow Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Mr.Miaow Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Mr.Miaow Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Do what you say, say what you do.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-messages"><a href="/messages/" rel="section"><i class="fa fa-comment fa-fw"></i>留言板</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E5%89%8D%E7%AB%AF"><span class="nav-text">1. 前端</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%90%8E%E7%AB%AF"><span class="nav-text">2. 后端</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-Git-%E4%BD%BF%E7%94%A8"><span class="nav-text">3. Git 使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E4%B8%8D%E5%90%B9%E4%B8%8D%E9%BB%91%EF%BC%81%E9%80%9B-GitHub-%E5%BF%85%E7%9C%8B-10-%E4%B8%AA%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE"><span class="nav-text">4. 不吹不黑！逛 GitHub 必看 10 个开源项目</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-build-Your-Own-X"><span class="nav-text">4.1 build Your Own X</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-Free-Programming-Books"><span class="nav-text">4.2 Free Programming Books</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-Oh-My-Zsh"><span class="nav-text">4.3 Oh My Zsh</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-4-Coding-Interview-University"><span class="nav-text">4.4 Coding Interview University</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-5-Gitignore"><span class="nav-text">4.5 Gitignore</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-6-System-Design-Primer"><span class="nav-text">4.6 System Design Primer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-7-Public-API"><span class="nav-text">4.7 Public API</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-8-The-Art-of-Command-Line"><span class="nav-text">4.8 The Art of Command Line</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-9-Developer-Roadmap"><span class="nav-text">4.9 Developer Roadmap</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-10-JavaScript-%E7%AE%97%E6%B3%95%E5%92%8C%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="nav-text">4.10 JavaScript 算法和数据结构</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E6%8A%80%E6%9C%AF%E7%B1%BB%E9%80%9F%E6%9F%A5%E8%A1%A8"><span class="nav-text">5. 技术类速查表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-Other"><span class="nav-text">6. Other</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Mr.Miaow"
+      src="https://avatars.githubusercontent.com/u/7922626?v=4">
+  <p class="site-author-name" itemprop="name">Mr.Miaow</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">38</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="feed-link motion-element">
+    <a href="/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>
+      RSS
+    </a>
+  </div>
+
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/miaopei" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;miaopei" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/miaopei163@163.com" title="E-Mail → miaopei163@163.com" rel="noopener me"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+          <link rel="stylesheet" href="/dist/APlayer.min.css">
+          <div id="aplayer"></div>
+          <script type="text/javascript" src="/dist/APlayer.min.js"></script>
+          <script type="text/javascript" src="/dist/music.js"></script>
+
+        </div>
+      </div>
+        <div class="back-to-top animated" role="button" aria-label="返回顶部">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://miaopei.github.io/2020/06/17/Other/%E4%BC%98%E7%A7%80%E7%9A%84Blog%E9%93%BE%E6%8E%A5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://avatars.githubusercontent.com/u/7922626?v=4">
+      <meta itemprop="name" content="Mr.Miaow">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mr.Miaow Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="优秀的Blog链接 | Mr.Miaow Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          优秀的Blog链接
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-06-17 16:58:17" itemprop="dateCreated datePublished" datetime="2020-06-17T16:58:17+08:00">2020-06-17</time>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>2.5k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>2 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h2 id="1-前端"><a href="#1-前端" class="headerlink" title="1. 前端"></a>1. 前端</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://refactoringguru.cn/design-patterns">设计模式</a></li>
+</ul>
+<h2 id="2-后端"><a href="#2-后端" class="headerlink" title="2. 后端"></a>2. 后端</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://fullstackopen.com/zh/about/">现代web开发</a></li>
+</ul>
+<h2 id="3-Git-使用"><a href="#3-Git-使用" class="headerlink" title="3. Git 使用"></a>3. Git 使用</h2><ul>
+<li><a target="_blank" rel="noopener" href="http://cloverkim.com/git-principle.html">Git原理简介和常用命令</a></li>
+<li><a target="_blank" rel="noopener" href="https://juejin.im/post/5c714d18f265da2d98090503">图解git原理与日常实用指南</a></li>
+<li><a target="_blank" rel="noopener" href="https://my.oschina.net/xdev/blog/114383">图解Git[强烈推荐]</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2015/12/git-cheat-sheet.html">常用 Git 命令清单</a></li>
+</ul>
+<h2 id="4-不吹不黑！逛-GitHub-必看-10-个开源项目"><a href="#4-不吹不黑！逛-GitHub-必看-10-个开源项目" class="headerlink" title="4. 不吹不黑！逛 GitHub 必看 10 个开源项目"></a>4. 不吹不黑！逛 GitHub 必看 10 个开源项目</h2><h3 id="4-1-build-Your-Own-X"><a href="#4-1-build-Your-Own-X" class="headerlink" title="4.1 build Your Own X"></a>4.1 build Your Own X</h3><ul>
+<li>GitHub Star：61,300</li>
+<li>GitHub：<a target="_blank" rel="noopener" href="https://github.com/danistefanovic/build-your-own-x">https://github.com/danistefanovic/build-your-own-x</a></li>
+</ul>
+<p>自己动手，丰衣足食。</p>
+<p>该库收集了诸多优质资源，教你如何构建一些属于自己的东西，内容主要分为增强现实、区块链、机器人、编辑器、命令行工具、神经网络、操作系统等几大类别。</p>
+<h3 id="4-2-Free-Programming-Books"><a href="#4-2-Free-Programming-Books" class="headerlink" title="4.2 Free Programming Books"></a>4.2 Free Programming Books</h3><ul>
+<li>GitHub Star：139,000</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/EbookFoundation/free-programming-books">https://github.com/EbookFoundation/free-programming-books</a></li>
+</ul>
+<p>从名字中可以看出，这个仓库主要是为开发者推荐一些免费编程书籍，但除此同时，上面也会推荐一些免费的编程课程、播客、网站等学习资源。</p>
+<h3 id="4-3-Oh-My-Zsh"><a href="#4-3-Oh-My-Zsh" class="headerlink" title="4.3 Oh My Zsh"></a>4.3 Oh My Zsh</h3><ul>
+<li>GitHub Star：106,000</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/ohmyzsh/ohmyzsh">https://github.com/ohmyzsh/ohmyzsh</a></li>
+</ul>
+<p>我们都知道，Linux 默认终端配置的是 bash，但是，自从 Oh My Zsh 横空出世后，不少开发者都将 bash 换成 Oh My Zsh 了。</p>
+<p>究其原因，主要是因为 Oh My Zsh 上面提供了非常强大的插件系统，不少插件用上之后，能够大幅提升生产力。</p>
+<p>当然，最主要的原因，还是因为 Oh My Zsh 的界面太酷炫了，装上之后简直逼格满满。</p>
+<p>如果用这款终端的水友比较多，我们会考虑后面在公众号出一期专题文章，专门讲讲上面都有哪些比较好用的插件。</p>
+<h3 id="4-4-Coding-Interview-University"><a href="#4-4-Coding-Interview-University" class="headerlink" title="4.4 Coding Interview University"></a>4.4 Coding Interview University</h3><ul>
+<li>GitHub Star：104,000</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/jwasham/coding-interview-university">https://github.com/jwasham/coding-interview-university</a></li>
+</ul>
+<p>这个项目此前我们也在 GitHubDaily 公众号上分享过，该项目作者 John 为了希望获得进入 Google 工作的机会，投入了大量精力去学习。</p>
+<p>学习过程中，他接触到了大量与编程相关的知识与教学资源，秉着前人栽树后人乘凉的精神，John 在 GitHub 上开源了这份学习指南。</p>
+<p>最后，虽然 John 没去成 Google，去了 Amazon，但他开源的这份资源让无数开发者受益匪浅。</p>
+<p>John 的个人成长与学习经历也颇为精彩，感兴趣的同学，可看我们之前的分享过的这篇文章：</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/sinat_33224091/article/details/96936470">GitHub 标星 8w！学完这份指南后，你就可以去 Google 面试了！</a></p>
+<h3 id="4-5-Gitignore"><a href="#4-5-Gitignore" class="headerlink" title="4.5 Gitignore"></a>4.5 Gitignore</h3><ul>
+<li><p>GitHub Star：97,100</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/github/gitignore">https://github.com/github/gitignore</a></p>
+</li>
+</ul>
+<p>相信大部分初用 Git 的工程师，都有着一个苦恼，每次都得针对不同项目、不同语言类型来重复写 <code>.gitignore</code>，以忽略一些无需纳入 Git 管理的文件。</p>
+<p>这个项目诞生的意义，就是帮工程师解决这个问题的。每次你需要为项目创建 <code>.gitignore</code> 文件时，只需要打开这个项目，针对你当前所用编程语言或框架，去寻找对应 <code>.gitignore</code> 模板替换即可。</p>
+<p>如果你觉得挨个模板查阅很费劲，这里再跟大家推荐一个网站：gitignore.io。</p>
+<p><a target="_blank" rel="noopener" href="https://www.gitignore.io/">https://www.gitignore.io/</a></p>
+<p>支持一键搜索你所需的 gitignore 模板。</p>
+<h3 id="4-6-System-Design-Primer"><a href="#4-6-System-Design-Primer" class="headerlink" title="4.6 System Design Primer"></a>4.6 System Design Primer</h3><ul>
+<li>GitHub Star：86,200</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/donnemartin/system-design-primer">https://github.com/donnemartin/system-design-primer</a></li>
+</ul>
+<p>学习如何设计可扩展的系统将会有助于你成为一个更好的工程师。</p>
+<p>系统设计是一个很宽泛的话题。在互联网上，关于系统设计原则的资源也是多如牛毛。</p>
+<p>这个仓库就是这些资源的组织收集，它可以帮助你学习如何构建可扩展的系统。</p>
+<h3 id="4-7-Public-API"><a href="#4-7-Public-API" class="headerlink" title="4.7 Public API"></a>4.7 Public API</h3><ul>
+<li><p>GitHub Star：73,100</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/public-apis/public-apis">https://github.com/public-apis/public-apis</a></p>
+</li>
+</ul>
+<p>这个项目收集了一些可用在 Web 或软件开发的开放 API 接口。</p>
+<p>其中包含动画、音乐、书籍、新闻、游戏等多个不同领域的开放 API。</p>
+<p>如果你觉得文档看起来不够直观，没关系，小 G 再给你推荐个网站，让你可以直接一键搜索查询开放的 API。</p>
+<p><a target="_blank" rel="noopener" href="https://public-apis.xyz/">https://public-apis.xyz</a></p>
+<h3 id="4-8-The-Art-of-Command-Line"><a href="#4-8-The-Art-of-Command-Line" class="headerlink" title="4.8 The Art of Command Line"></a>4.8 The Art of Command Line</h3><ul>
+<li><p>GitHub Star：70,100</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/jlevy/the-art-of-command-line">https://github.com/jlevy/the-art-of-command-line</a></p>
+</li>
+</ul>
+<p>对于工程师来说，用好命令行能剩下我们不少开发时间，大大解放生产力。</p>
+<p>如果你想学好命令行，除了看《鸟哥的私房菜》，还可以看看这个项目。</p>
+<p>该项目主要总结一些命令行使用的技巧，内容覆盖面广包括基础、日常使用、文件及数据处理等等，且还给出了具体最常用的例子，无论你是新手还是具有经验的人都值得学习下。</p>
+<p>目前该项目已提供多国翻译版本，即使你看英文比较吃力，也不用过于担心。</p>
+<h3 id="4-9-Developer-Roadmap"><a href="#4-9-Developer-Roadmap" class="headerlink" title="4.9 Developer Roadmap"></a>4.9 Developer Roadmap</h3><ul>
+<li>GitHub Star：98,600</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/kamranahmedse/developer-roadmap">https://github.com/kamranahmedse/developer-roadmap</a></li>
+</ul>
+<p>GitHub 之前爆发过一波热潮：技术路线图。</p>
+<h3 id="4-10-JavaScript-算法和数据结构"><a href="#4-10-JavaScript-算法和数据结构" class="headerlink" title="4.10 JavaScript 算法和数据结构"></a>4.10 JavaScript 算法和数据结构</h3><ul>
+<li><p>GitHub Star：64,700</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/trekhleb/javascript-algorithms">https://github.com/trekhleb/javascript-algorithms</a></p>
+</li>
+</ul>
+<p>算法与数据结构一直是另工程师颇为头疼的问题。因此，不少工程师在 GitHub 上开放了不少诸如 x-algorithms 的算法与数据结构仓库，目的就是为了帮助大家更好的学习与攻克这些问题的。</p>
+<p>下面推荐的这个仓库，从名称上你也可以看出，其实现代码主要还是以 JavaScript 为主。</p>
+<h2 id="5-技术类速查表"><a href="#5-技术类速查表" class="headerlink" title="5. 技术类速查表"></a>5. 技术类速查表</h2><p><a target="_blank" rel="noopener" href="https://devhints.io/">这个网站里面收集了非常多技术类型的速查表</a>。</p>
+<p>你能很轻松的从上面找到具体某项技术的快捷命令与基础语法，用上之后，相信能大幅提升开发效率。</p>
+<h2 id="6-Other"><a href="#6-Other" class="headerlink" title="6. Other"></a>6. Other</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://fuun.fun/">有趣的H5例子</a></li>
+</ul>
+
+    </div><div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">------------- 💖 🌞 本 文 结 束 😚 感 谢 您 的 阅 读 🌞 💖 -------------</div>
+    
+</div>
+
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>请我一杯咖啡吧！</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.jpg" alt="Mr.Miaow 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/alipay.jpg" alt="Mr.Miaow 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Mr.Miaow
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://miaopei.github.io/2020/06/17/Other/%E4%BC%98%E7%A7%80%E7%9A%84Blog%E9%93%BE%E6%8E%A5/" title="优秀的Blog链接">http://miaopei.github.io/2020/06/17/Other/优秀的Blog链接/</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/02/10/Other/%E6%89%A7%E8%A1%8C%E6%96%87%E4%BB%B6%E5%87%BA%E7%8E%B0lib%E5%BA%93%E7%BC%BA%E5%A4%B1%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/" rel="prev" title="执行文件出现lib库缺失问题解决">
+                  <i class="fa fa-angle-left"></i> 执行文件出现lib库缺失问题解决
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/08/29/Git/GitNote/" rel="next" title="Git note">
+                  Git note <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+    &copy; 2015 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Mr.Miaow</span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">452k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">6:51</span>
+  </span>
+</div> <div>
+   <span id="sitetime"></span>
+   <span id="year" style="display:none">2016</span> 
+   <span id="month" style="display:none">12</span>   
+   <span id="day" style="display:none">23</span>   
+   <span id="hour" style="display:none">15</span>   
+   <span id="minute" style="display:none">0</span>   
+   <span id="second" style="display:none">0</span>   
+	<script language=javascript>
+	function siteTime(){        
+		window.setTimeout("siteTime()", 1000);
+		var seconds = 1000;
+		var minutes = seconds * 60;
+		var hours = minutes * 60;
+		var days = hours * 24;
+		var years = days * 365;
+		var today = new Date();
+		var todayYear = today.getFullYear();
+		var todayMonth = today.getMonth()+1;
+		var todayDate = today.getDate();
+		var todayHour = today.getHours();
+		var todayMinute = today.getMinutes();
+		var todaySecond = today.getSeconds();
+	    var year = document.getElementById("year").innerHTML;
+		var month = document.getElementById("month").innerHTML;
+		var day = document.getElementById("day").innerHTML;
+		var hour = document.getElementById("hour").innerHTML;
+		var minute = document.getElementById("minute").innerHTML;
+		var second = document.getElementById("second").innerHTML;
+		var t1 = Date.UTC(year,month,day,hour,minute,second); 
+		var t2 = Date.UTC(todayYear,todayMonth,todayDate,todayHour,todayMinute,todaySecond);
+		var diff = t2-t1;
+		var diffYears = Math.floor(diff/years);
+		var diffDays = Math.floor((diff/days)-diffYears*365);
+		var diffHours = Math.floor((diff-(diffYears*365+diffDays)*days)/hours);
+		var diffMinutes = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours)/minutes);
+		var diffSeconds = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours-diffMinutes*minutes)/seconds);
+		if(diffYears==0){
+		document.getElementById("sitetime").innerHTML=" 网站已运行 "/*+diffYears+" 年 "*/+diffDays+" 天 "+diffHours+" 小时 "+diffMinutes+" 分钟 "+diffSeconds+" 秒";
+		} else{
+		document.getElementById("sitetime").innerHTML=" 网站已运行 "+diffYears+" 年 "+diffDays+" 天 "+diffHours+" 小时 "+diffMinutes+" 分钟 "+diffSeconds+" 秒";
+		}
+	}
+	siteTime();
+	</script>
+</div>
+
+<div class="busuanzi-count">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+<!--
+-->
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.1.0/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lozad.js/1.16.0/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  <script src="/js/third-party/pace.js"></script>
+
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"miaopei","repo":"miaopei.github.io","client_id":"Ov23li804qbeklf03KFv","client_secret":"fce69a6b68a24543006d90b37dbe835082db6f23","admin_user":"miaopei","distraction_free_mode":true,"language":"zh-CN","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"635b79a41f48e7aa0e19448d0deece7f"}</script>
+<script src="/js/third-party/comments/gitalk.js"></script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true}});</script></body>
+</html>
