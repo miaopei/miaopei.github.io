@@ -10,9 +10,9 @@ date: 2016-05-05 10:14:50
 
 <!-- more -->
 
-<img src="/images/imageProgramC/03_C语言概述.png">
+![03_C语言概述](compile/03_C语言概述.png)
 
-# 建立ARM交叉编译环境arm-none-linux-gnueabi-gcc
+# 1. 建立ARM交叉编译环境arm-none-linux-gnueabi-gcc
 
 ```shell
 # add2line：将你要找的地址转成文件和行号，它要使用 debug 信息
@@ -58,11 +58,11 @@ arm-none-linux-gnueabi-size
 arm-none-linux-gnueabi-strip
 ```
 
-# C调用C++库和C++调用C库的方法
+# 2. C调用C++库和C++调用C库的方法
 
 > [C调用C++库和C++调用C库的方法](https://blog.csdn.net/shaosunrise/article/details/81176880)
 
-## C++调用C的静态库/动态库
+## 2.1 C++调用C的静态库/动态库
 
 C++ 调用 C 的函数比较简单，直接使用 `extern "C" {}` 告诉编译器用 C 的规则去调用 C 函数就可以了。
 
@@ -142,7 +142,7 @@ g++ -o cppmain cppmain.cpp -L. -lCAdd
 
 ```
 
-## C 调用 C++ 的静态库
+## 2.2 C 调用 C++ 的静态库
 
 C 语言没法直接调用 C++ 的函数，**但可以使用包裹函数来实现**。C++ 文件 `.cpp` 中可以调用 C 和 C++ 的函数，但是 C 代码 `.c` 只能调用 C 的函数，所以可以用包裹函数去包裹C ++ 函数，然后把这个包裹函数以 C 的规则进行编译，这样 C 就可以调用这个包裹函数了。
 
@@ -238,7 +238,7 @@ gcc -o main main.c -L. -lCppAddWrapper  # 只需要连接libCppAddWrapper.a即�
 
 如果是 C 调用 C++ 的 so 动态库的话，类似于调用静态库的方法应该也是有效的，太麻烦我没试过。
 
-## 总结
+## 2.3 总结
 
 **C/C++ 函数符号的区别**
 
@@ -288,13 +288,11 @@ $ nm hello2.o
 
 动态链接库是程序执行的时候直接调用的“插件”，使用命令 `gcc -shared -o libadd.so add.c` 生成 so 动态库。动态库链接的时候可以像静态库一样链接，告诉编译器函数的定义在这个静态库中（避免找不到函数定义的错误），只是不把这个 so 打包到可执行文件中。如果没有头文件的话，可以使用 `dlopen/dlsum` 函数手动去加载相应的动态库。详细做法参考上一篇文章《[C语言调用so动态库的两种方式](https://blog.csdn.net/shaosunrise/article/details/81161064)》。
 
-
-
-# ar nm 命令的详细解释
+# 3. ar nm 命令的详细解释
 
 功能说明：建立或修改备存文件，或是从备存文件中抽取文件。
 
-语　　法：`ar[-dmpqrtx][cfosSuvV][a<成员文件>][b<成员文件>][i<成员文件>][备存文件][成员文件]`
+语法：`ar[-dmpqrtx][cfosSuvV][a<成员文件>][b<成员文件>][i<成员文件>][备存文件][成员文件]`
 
 补充说明：ar 可让您集合许多文件，成为单一的备存文件。在备存文件中，所有成员文件皆保有原来的属性与权限。
 
@@ -324,7 +322,7 @@ $ nm hello2.o
 　V 　显示版本信息。
 ```
 
-## ar基本用法
+## 3.1 ar基本用法
 
 ar命令可以用来创建、修改库，也可以从库中提出单个模块。库是一单独的文件，里面包含了按照特定的结构组织起来的其它的一些文件（称做此库文件的member）。原始文件的内容、模式、时间戳、属主、组等属性都保留在库文件中。
 
@@ -363,7 +361,7 @@ $ ar [-]{dmpqrtx}[abcfilNoPsSuvV][membername] [count] archive files...
 - v：该选项用来显示执行操作选项的附加信息。
 - V：显示ar的版本。
 
-## nm基本用法命令
+## 3.2 nm基本用法命令
 
 nm用来列出目标文件的符号清单。下面是nm命令的格式：
 

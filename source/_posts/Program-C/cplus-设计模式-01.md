@@ -10,6 +10,8 @@ date: 2016-06-28 10:14:50
 
 > [【设计模式】C++设计模式（全26讲）](<https://www.bilibili.com/video/av52251106/>)
 
+<!-- more -->
+
 ## 单例模式
 
 > 单例模式(Singleton Pattern，也称为单件模式)，使用最广泛的设计模式之一。其意图是保证一个类仅有一个实例，并提供一个访问它的全局访问点，该实例被所有程序模块共享。
@@ -250,7 +252,7 @@ int main() {
 
 </details>
 
-![简单运算工厂](/images/imageProgramC/简单运算工厂.png)
+![简单运算工厂](cplus-设计模式-01/简单运算工厂.png)
 
 ```c++
 class OperationFactory {
