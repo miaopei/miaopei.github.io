@@ -1,3 +1,4 @@
+---
 title: 计算机算法--图算法介绍
 tags:  algorithm
 reward: true
@@ -5,6 +6,7 @@ categories:  algorithm
 toc: true
 abbrlink: 61505
 date: 2018-03-08 18:02:52
+---
 
 ## 1. 图的定义：
 
