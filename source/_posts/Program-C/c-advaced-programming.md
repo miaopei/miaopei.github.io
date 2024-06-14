@@ -8,7 +8,7 @@ abbrlink: 39639
 date: 2016-07-03 10:14:50
 ---
 
-## 整形溢出和提升
+## 1. 整形溢出和提升
 
 大部分 C 程序员都以为基本的整形操作都是安全的其实不然,看下面这个例子,
 
@@ -30,7 +30,7 @@ int main(int argc, char** argv) {
     return 0;
 }
 ```
-当一个变量转换成无符号整形时,i的值不再是-1,而是 size_t的最大值,因为sizeof操作返回的是一个 size_t类型的无符号数。
+当一个变量转换成无符号整形时, `i` 的值不再是 `-1`,而是 `size_t` 的最大值,因为 `sizeof` 操作返回的是一个 `size_t` 类型的无符号数。
 
 在C99/C11标准里写道:
 
@@ -39,7 +39,7 @@ int main(int argc, char** argv) {
 > with signed integer type is converted to the type of the operand with
 > unsigned integer type."
 
-在 C 标准里面 size_t 至少是一个 16 位的无符号整数, 对于给定的架构 size_t 一般对应 long, 所以sizeof（int）和 size_t 至少相等, 这就带来了可移植性的问题, C 标准没有定义 short, int, long, longlong 的大小, 只是说明了他们的最小长度, 对于 x86_64 架构, long 在Linux下是 64 位, 而在 64 位 Windows 下是 32 位。一般的方法是采用固定长度的类型比如定义在 C99 头文件stdint.h中的uint16_t, int32_t, uint_least16_t, uint_fast16_t 等。
+在 C 标准里面 `size_t` 至少是一个 `16` 位的无符号整数, 对于给定的架构 `size_t` 一般对应 long, 所以`sizeof（int）`和 `size_t` 至少相等, 这就带来了可移植性的问题, C 标准没有定义 short, int, long, longlong 的大小, 只是说明了他们的最小长度, **对于 x86_64 架构, long 在Linux下是 64 位, 而在 64 位 Windows 下是 32 位**。**一般的方法是采用固定长度的类型比如定义在 C99 头文件stdint.h中的uint16_t, int32_t, uint_least16_t, uint_fast16_t 等**。
 
 
 如果 int 可以表示原始类型的所有值,那么这个操作数会转换成 int, 否则他会转换成 unsigned int。下面这个函数在 32 位平台返回 65536, 但是在 16 位系统返回 0。
@@ -53,18 +53,20 @@ uint32_t sum()
 }
 ```
 
-对于char 类型到底是 signed 还是 unsigned 取决于硬件架构和操作系统,通常
-由特定平台的 ABI(Application Binary Interface) 指定,如果是 signed char,下面的代码输出-128 和-127,否则输出 128,129(x86 架构)。
+对于char 类型到底是 signed 还是 unsigned 取决于硬件架构和操作系统,通常由特定平台的 ABI(Application Binary Interface) 指定,如果是 signed char,下面的代码输出`-128` 和 `-127`,否则输出 `128,129(x86 架构)`。
 
-    char c = 128;
-    char d = 129;
-    printf("%d,%d\n",c,d);
+```c++
+char c = 128;
+char d = 129;
+printf("%d,%d\n",c,d);
+```
 
 ----------
-## 内存管理和分配
+## 2. 内存管理和分配
 
-malloc 函数分配制定字节大小的内存,对象未被初始化,如果 size 是 0 取
-决与系统实现。malloc(0) 返回一个空指针或者 unique pointer, 如果 size 是表达式的运算结果, 确保没有整形溢出。
+malloc 函数分配制定字节大小的内存,对象未被初始化,如果 size 是 0 取决与系统实现。
+
+`malloc(0)` 返回一个空指针或者 unique pointer, 如果 size 是表达式的运算结果, 确保没有整形溢出。
 
 > “If the size of the space requested is 0, the behavior is
 > implementation- defined: the value returned shall be either a null
@@ -166,18 +168,18 @@ int grow_vector(struct vector *vc) {
 
 ----------
 
-## 避免重大错误
+## 3. 避免重大错误
 
 
  1. 使用未初始化的变量
 
-  C 语言要求所有变量在使用之前要初始化，使用未初始化的变量会造成为定义的行为，这和 C++ 不同，C++ 保证所有变量在使用之前都得到初始化，Java **尽量保证** 变量使用前的得到初始化，如类基本数据成员会被初始化为默认值。
+    C 语言要求所有变量在使用之前要初始化，使用未初始化的变量会造成为定义的行为，这和 C++ 不同，C++ 保证所有变量在使用之前都得到初始化，Java **尽量保证** 变量使用前的得到初始化，如类基本数据成员会被初始化为默认值。
 
  2. free 错误
 
-  对空指针调用 free, 对不是由 malloc family 函数分配的指针调用 free,或者对已经调用 free 的指针再次调用 free。
+    对空指针调用 free, 对不是由 malloc family 函数分配的指针调用 free,或者对已经调用 free 的指针再次调用 free。
 
-  一开始初始化指针为 NULL 可以减少错误, GCC 和 Clang 编译器有 -Wuninitialized 选项来对未初始化的变量显示警告信息, 另外不要将同一个指针用于静态变量和动态变量。
+    一开始初始化指针为 NULL 可以减少错误, GCC 和 Clang 编译器有 -Wuninitialized 选项来对未初始化的变量显示警告信息, 另外不要将同一个指针用于静态变量和动态变量。
 
 ```c
 char *ptr = NULL;
@@ -199,13 +201,13 @@ void nullfree(void **pptr) {
 
 ----------
 
-## 防止内存泄漏
+## 4. 防止内存泄漏
 
 内存泄漏发生在程序不再使用的动态内存没有得到释放，这需要我们掌握动态分配对象的作用域，尤其是什么时候该调用 free 来释放内存，常用的几种方法如下：
 
  1. 在程序启动的时候分配
 
-在程序启动的时候分配需要的 heap memory，程序退出时把释放的任务交给操作系统，这种方法一般适用于程序运行后马上退出的那种。
+    在程序启动的时候分配需要的 heap memory，程序退出时把释放的任务交给操作系统，这种方法一般适用于程序运行后马上退出的那种。
 
  2. 使用变长数组（VLA）
 
@@ -364,7 +366,7 @@ void pool_free(mem_pool_t* pool){
 
 ----------
 
-## 指针和数组
+## 5. 指针和数组
 
 我们一般的概念里指针和数组名是可互换的，但是在编译器里他们被不同的对待，当我们说一个对象或者表达式具有某种类型的时候我们一般是说这个对象是个左值（lvalue），当对象不是 const 的时候，左值是可以修改的，比如对象是复制操作符的左参数，而数组名是一个 const 左值，指向地一个元素的 const 指针，所以你不能给数组名赋值或者意图改变数组名，如果表达式是数组类型，数组名通常转换成指向地一个元素的指针。
 

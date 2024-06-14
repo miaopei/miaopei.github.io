@@ -9,84 +9,148 @@ description: 虽然对于优化 C 代码有很多有效的指导方针，但是�
 date: 2016-07-06 10:14:50
 ---
 
+> [编写高效的 C 和 C 代码优化](https://www.codeproject.com/Articles/6154/Writing-Efficient-C-and-C-Code-Optimization)
+
+## 1. 整型数
+
+整型数 / Integers
+
+在我们知道使用的数不可能是负数的时候，应该使用 unsigned int 取代 int，一些处理器处理整数算数运算的时候 unsigned int 比 int 快，于是，在一个紧致的循环里面定义一个整型变量，最好这样写代码：
+
 <!-- more -->
 
-<p><span style="color: #000000">虽然对于优化C代码有很多有效的指导方针，但是对于彻底地了解编译器和你工作的机器依然无法取代，通常，加快程序的速度也会加大代码量。这些增加的代码也会影响一个程序的复杂度和可读性，这是不可接受的，比如你在一些小型的设备上编程，例如：移动设备、PDA……，这些有着严格的内存限制，于是，在优化的座右铭是:写代码在内存和速度都应该优化。</span></p>
-<h2>整型数 / Integers</h2>
-<p>在我们知道使用的数不可能是负数的时候，应该使用unsigned int取代int，一些处理器处理整数算数运算的时候unsigned int比int快，于是，在一个紧致的循环里面定义一个整型变量，最好这样写代码：</p>
-<pre class="brush: c; gutter: true">register unsigned int variable_name;</pre>
-<p>然而，我们不能保证编译器会注意到那个register关键字，也有可能，对某种处理器来说，有没有unsigned是一样的。这两个关键字并不是可以在所有的编译器中应用。</p>**记住，整形数运算要比浮点数运算快得多，因为处理器可以直接进行整型数运算，浮点数运算需要依赖于外部的浮点数处理器或者浮点数数学库。**<p>我们处理小数的时候要精确点些（比如我们在做一个简单的统计程序时），要限制结果不能超过100，要尽可能晚的把它转化成浮点数。</p>
-<p>还有一个整形提升的问题，比如下面这个例子：
-<pre class="brush: c; gutter: true">size_t n = 10;
+```c++
+register unsigned int variable_name;
+```
+
+然而，我们不能保证编译器会注意到那个 register 关键字，也有可能，对某种处理器来说，有没有 unsigned 是一样的。这两个关键字并不是可以在所有的编译器中应用。
+
+**记住，整形数运算要比浮点数运算快得多，因为处理器可以直接进行整型数运算，浮点数运算需要依赖于外部的浮点数处理器或者浮点数数学库。**
+
+我们处理小数的时候要精确点些（比如我们在做一个简单的统计程序时），要限制结果不能超过 100，要尽可能晚的把它转化成浮点数。
+
+还有一个整形提升的问题，比如下面这个例子：
+
+```c++
+size_t n = 10;
 int i ;
 for(i = -1; i < n; ++i)
 {
-printf("%d\n",i);
-}</pre>
-这段代码实际上什么也不会输出，因为size_t是unsigned int类型，i会自动转换成unsigned int就变成了一个很大的正数，所以和n比较自然什么都不会输出。
-</p>
-<p>在算术运算中，char和short会自动转换成int，转换的原则就是如果int类型能过包括操作数类型的所有范围，则操作数（比如unsigned short）转换成int，否则转换成unsigned int，int和long类型运算以此类推，**总是向着精度更高、位更长的类型转换。**
-</P>
-<h2>除法和余数 / Division and Remainder</h2>
-<p>在标准的处理器中，根据分子和分母的不同，一个32位的除法需要20-140个时钟周期来执行完成，等于一个固定的时间加上每个位被除的时间。</p>
-<p>Time (分子/ 分母) = C0 + C1* log<sub>2</sub> (分子/分母)</p>
-<p>= C0 + C1 * (log<sub>2</sub> (分子) &#8211; log<sub>2</sub> (分母)).<br />
-现在的ARM处理器需要消耗20+4.3N个时钟周期，这是一个非常费时的操作，要尽可能的避免。在有些情况下，除法表达式可以用乘法表达是来重写。比方说，(a/b)&gt;c可以写成a&gt;(c*b),条件是我们已经知道b为非负数而且b*c不会超过整型数的取值范围。如果我们能够确定其中的一个操作数为unsigned，那么使用无符号除法将会更好，因为它要比有符号除法快得多。</p>
-<h2>合并除法运算和取余运算 / Combining division and remainder</h2>
-<p>在一些情况下，除法运算和取余运算都需要用到，在这种情况下，编译器会将除法运算和取余运算合并，因为除法运算总是同时返回商和余数。如果两个运算都要用到，我们可以将他们写到一起。</p>
-<pre class="brush: c; gutter: true">typedef unsigned int uint;
+    printf("%d\n",i);
+}
+```
+
+这段代码实际上什么也不会输出，因为 size_t 是 unsigned int 类型，i 会自动转换成 unsigned int 就变成了一个很大的正数，所以和 n 比较自然什么都不会输出。
+
+在算术运算中，char 和 short 会自动转换成 int，转换的原则就是如果 int 类型能过包括操作数类型的所有范围，则操作数（比如 unsigned short）转换成 int，否则转换成 unsigned int，int 和 long 类型运算以此类推，**总是向着精度更高、位更长的类型转换。**
+
+## 2. 除法和余数
+
+除法和余数 / Division and Remainder
+
+在标准的处理器中，根据分子和分母的不同，一个 32 位的除法需要 20-140 个时钟周期来执行完成，等于一个固定的时间加上每个位被除的时间。
+
+`Time (分子 / 分母) = C0 + C1* log2 (分子 / 分母) = C0 + C1 * (log2 (分子) – log2 (分母))`
+
+现在的 ARM 处理器需要消耗 `20+4.3N` 个时钟周期，这是一个非常费时的操作，要尽可能的避免。在有些情况下，除法表达式可以用乘法表达是来重写。比方说，`(a/b)>c` 可以写成 `a>(c*b)`, 条件是我们已经知道 b 为非负数而且 `b*c` 不会超过整型数的取值范围。如果我们能够确定其中的一个操作数为 unsigned，那么使用无符号除法将会更好，因为它要比有符号除法快得多。
+
+## 3. 合并除法运算和取余运算
+
+合并除法运算和取余运算 / Combining division and remainder
+
+在一些情况下，除法运算和取余运算都需要用到，在这种情况下，编译器会将除法运算和取余运算合并，因为除法运算总是同时返回商和余数。如果两个运算都要用到，我们可以将他们写到一起。
+
+```c++
+typedef unsigned int uint;
 uint div32u (uint a) {
      return a / 32;
 }
 int div32s (int a) {
      return a / 32;
-}</pre>
-<p>这两种除法都会避免调用除法函数（进行移位操作），另外，无符号的除法要比有符号的除法使用更少的指令。有符号的除法要耗费更多的时间，因为这种除法是使最终结果趋向于零的，而移位则是趋向于负无穷。</p>
-<h2>取模运算的替换 / An alternative for modulo arithmetic</h2>
-<p>我们一般使用取余运算进行取模，不过，有时候使用 if 语句来重写也是可行的。考虑下面的两个例子：</p>
-<pre class="brush: c; gutter: true">uint modulo_func1 (uint count)
+}
+```
+
+这两种除法都会避免调用除法函数（进行移位操作），另外，无符号的除法要比有符号的除法使用更少的指令。有符号的除法要耗费更多的时间，因为这种除法是使最终结果趋向于零的，而移位则是趋向于负无穷。
+
+## 4. 取模运算的替换
+
+取模运算的替换 / An alternative for modulo arithmetic
+
+我们一般使用取余运算进行取模，不过，有时候使用 if 语句来重写也是可行的。考虑下面的两个例子：
+
+```c++
+uint modulo_func1 (uint count)
 {
     return (++count % 60);
 }
 uint modulo_func2 (uint count)
 {
-    if (++count &gt;= 60)
+    if (++count >= 60)
         count = 0;
     return (count);
-}</pre>
-<p>第二个例子要比第一个更可取，因为由它产生的代码会更快，注意：这只是在count取值范围在0 – 59之间的时候才行。</p>
-<p>但是我们可以使用如下的代码（笔者补充）实现等价的功能：</p>
-<pre class="brush: c; gutter: true">uint modulo_func3 (uint count)
+}
+```
+
+第二个例子要比第一个更可取，因为由它产生的代码会更快，注意：这只是在 count 取值范围在 `0 – 59` 之间的时候才行。
+
+但是我们可以使用如下的代码（笔者补充）实现等价的功能：
+
+```c++
+uint modulo_func3 (uint count)
 {
-    if (++count &gt;= 60)
+    if (++count >= 60)
         count %= 60;
     return (count);
-}</pre>
-<h2>使用数组索引 / Using array indices</h2>
-<p>假设你要依据某个变量的值，设置另一个变量的取值为特定的字符，你可能会这样做：</p>
-<pre class="brush: c; gutter: true">switch(queue) {
-    case 0 :   letter = &#039;W&#039;;
+}
+```
+
+## 5. 使用数组索引
+
+使用数组索引 / Using array indices
+
+假设你要依据某个变量的值，设置另一个变量的取值为特定的字符，你可能会这样做：
+
+```c++
+switch(queue) {
+    case 0 :   letter = 'W';
         break;
-    case 1 :   letter = &#039;S&#039;;
+    case 1 :   letter = 'S';
         break;
-    case 2 :   letter = &#039;U&#039;;
+    case 2 :   letter = 'U';
         break;
-}</pre>
-<p>或者这样：</p>
-<pre class="brush: c; gutter: true">if(queue == 0)
-    letter = &#039;W&#039;;
+}
+```
+
+或者这样：
+
+```c++
+if(queue == 0)
+    letter = 'W';
 else if ( queue == 1 )
-    letter = &#039;S&#039;;
+    letter = 'S';
 else
-    letter = &#039;U&#039;;</pre>
-<p>有一个简洁且快速的方式是简单的将变量的取值做成一个字符串索引，例如：</p>
-<pre class="brush: c; gutter: true">static char *classes = &quot;WSU&quot;;
-letter = classes[queue];</pre>
-<h2> 全局变量 / Global variables</h2>
-<p>全局变量不会被分配在寄存器上，修改全局变量需要通过指针或者调用函数的方式间接进行。所以编译器不会将全局变量存储在寄存器中，那样会带来额外的、不必要的负担和存储空间。所以在比较关键的循环中，我们要不使用全局变量。<br /></p>****
+    letter = 'U';
+```
+
+有一个简洁且快速的方式是简单的将变量的取值做成一个字符串索引，例如：
+
+```c++
+static char *classes = "WSU";
+letter = classes[queue];
+```
+
+## 6. 全局变量
+
+全局变量 / Global variables
+
+全局变量不会被分配在寄存器上，修改全局变量需要通过指针或者调用函数的方式间接进行。所以编译器不会将全局变量存储在寄存器中，那样会带来额外的、不必要的负担和存储空间。所以在比较关键的循环中，我们要不使用全局变量。
+
 **如果一个函数要频繁的使用全局变量，我们可以使用局部变量，作为全局变量的拷贝，这样就可以使用寄存器了。条件是本函数调用的任何子函数不使用这些全局变量。**
-<p>举个例子：</p>
-<pre class="brush: c; gutter: true">int f(void);
+
+举个例子：
+
+```c++
+int f(void);
 int g(void);
 int errs;
 void test1(void)
@@ -100,41 +164,78 @@ void test2(void)
     localerrs += f();
     localerrs += g();
     errs = localerrs;
-}</pre>
-<p>可以看到test1()中每次加法都需要读取和存储全局变量errs，而在test2()中，localerrs分配在寄存器上，只需要一条指令。</p>
-<h2>使用别名 / Using Aliases</h2>
-<p>考虑下面的例子：</p>
-<pre class="brush: c; gutter: true">void func1( int *data )
+}
+```
+
+可以看到 `test1 ()` 中每次加法都需要读取和存储全局变量 errs，而在 `test2 ()` 中，localerrs 分配在寄存器上，只需要一条指令。
+
+## 7. 使用别名
+
+使用别名 / Using Aliases
+
+考虑下面的例子：
+
+```c++
+void func1( int *data )
 {
     int i;
-    for(i = 0; i &lt; 10; i++)
+    for(i = 0; i < 10; i++)
         anyfunc(*data, i);
-}</pre>
-<p>即使*data从来没有变化，编译器却不知道anyfunc()没有修改它，于是程序每次用到它的时候，都要把它从内存中读出来，可能它只是某些变量的别名，这些变量在程序的其他部分被修改。如果能够确定它不会被改变，我们可以这样写：</p>
-<pre class="brush: c; gutter: true">void func1( int *data )
+}
+```
+
+即使 `* data` 从来没有变化，编译器却不知道 `anyfunc ()` 没有修改它，于是程序每次用到它的时候，都要把它从内存中读出来，可能它只是某些变量的别名，这些变量在程序的其他部分被修改。如果能够确定它不会被改变，我们可以这样写：
+
+```c++
+void func1( int *data )
 {
-int i;
-int localdata;
-localdata = *data;
-for(i=0; i&lt;10; i++)
-anyfunc(localdata, i);
-}</pre>
-<p>这样会给编译器优化工作更多的选择余地。</p>
-<h2>活跃变量和泄漏 / Live variables and spilling</h2>
-<p>寄存器的数量在每个处理器当中都是固定的，所以在程序的某个特定的位置，可以保存在寄存器中的变量的数量是有限制的。有些编译器支持“生命周期分割”（live-range splitting），也就是说在函数的不同部分，变量可以被分配到不同的寄存器或者内存中。变量的生存范围被定义成：起点是对该变量的一次空间分配，终点是在下次空间分配之前的最后一次使用之间。在这个范围内，变量的值是合法的，是活的。在生存范围之外，变量不再被使用，是死的，它的寄存器可以供其他变量使用，这样，编译器就可以安排更多的变量到寄存器当中。<br />
-可分配到寄存器的变量需要的寄存器数量等于经过生命范围重叠的变量的数目，如果这个数目超过可用的寄存器的数量，有些变量就必须被暂时的存储到内存中。这种处理叫做“泄漏(spilling)”。<br />
-编译器优先释放最不频繁使用的变量，将释放的代价降到最低。可以通过以下方式避免变量的“释放”：</p>
-<ul>
-<li>限制活跃变量的最大数目：通常可以使用简单小巧的表达式，在函数内部不使用太多的变量。把大的函数分割成更加简单的、更加小巧的多个函数，也可能会有所帮助。</li>
-<li>使用关键字register修饰最经常使用的变量：告诉编译器这个变量将会被经常用到，要求编译器使用非常高的优先级将此变量分配到寄存器中。尽管如此，在某些情况下，变量还是可能被泄漏。</li>
-</ul>
-<h2>变量类型 / Variable Types</h2>
-<p>C编译器支持基本的变量类型：char、short、int、long(signed、unsigned)、float、double。为变量定义最恰当的类型，非常重要，因为这样可以减少代码和数据的长度，可以非常显著的提高效率。</p>
-<h2>局部变量 / Local variables</h2>
-<p>如果可能，局部变量要避免使用char和short。对于char和short类型，编译器在每次分配空间以后，都要将这种局部变量的尺寸减少到8位或16位。这对于符号变量来说称为符号扩展，对无符号变量称为无符号扩展。这种操作是通过将寄存器左移24或16位，然后再有符号（或无符号的）右移同样的位数来实现的，需要两条指令（无符号字节变量的无符号扩展需要一条指令）。<br />
-这些移位操作可以通过使用int和unsigned int的局部变量来避免。这对于那些首先将数据调到局部变量然后利用局部变量进行运算的情况尤其重要。即使数据以8位或16位的形式输入或输出，把他们当作32位来处理仍是有意义的。<br />
-我们来考虑下面的三个例子函数：</p>
-<pre class="brush: c; gutter: true">int wordinc (int a)
+    int i;
+    int localdata;
+    localdata = *data;
+    for(i=0; i<10; i++)
+        anyfunc(localdata, i);
+}
+```
+
+这样会给编译器优化工作更多的选择余地。
+
+## 8. 活跃变量和泄漏 
+
+活跃变量和泄漏 / Live variables and spilling
+
+寄存器的数量在每个处理器当中都是固定的，所以在程序的某个特定的位置，可以保存在寄存器中的变量的数量是有限制的。有些编译器支持 “生命周期分割”（live-range splitting），也就是说在函数的不同部分，变量可以被分配到不同的寄存器或者内存中。
+
+变量的生存范围被定义成：起点是对该变量的一次空间分配，终点是在下次空间分配之前的最后一次使用之间。在这个范围内，变量的值是合法的，是活的。在生存范围之外，变量不再被使用，是死的，它的寄存器可以供其他变量使用，这样，编译器就可以安排更多的变量到寄存器当中。
+
+可分配到寄存器的变量需要的寄存器数量等于经过生命范围重叠的变量的数目，如果这个数目超过可用的寄存器的数量，有些变量就必须被暂时的存储到内存中。这种处理叫做 “泄漏 (spilling)”。
+
+编译器优先释放最不频繁使用的变量，将释放的代价降到最低。可以通过以下方式避免变量的 “释放”：
+
+- 限制活跃变量的最大数目：通常可以使用简单小巧的表达式，在函数内部不使用太多的变量。把大的函数分割成更加简单的、更加小巧的多个函数，也可能会有所帮助。
+- 使用关键字 register 修饰最经常使用的变量：告诉编译器这个变量将会被经常用到，要求编译器使用非常高的优先级将此变量分配到寄存器中。尽管如此，在某些情况下，变量还是可能被泄漏。
+
+## 9. 变量类型 
+
+变量类型 / Variable Types
+
+C 编译器支持基本的变量类型：`char、short、int、long (signed、unsigned)、float、double`。为变量定义最恰当的类型，非常重要，因为这样可以减少代码和数据的长度，可以非常显著的提高效率。
+
+## 10. 局部变量
+
+局部变量 / Local variables
+
+**如果可能，局部变量要避免使用 char 和 short**。
+
+对于 char 和 short 类型，编译器在每次分配空间以后，都要将这种局部变量的尺寸减少到 8 位或 16 位。
+
+这对于符号变量来说称为符号扩展，对无符号变量称为无符号扩展。这种操作是通过将寄存器左移 24 或 16 位，然后再有符号（或无符号的）右移同样的位数来实现的，需要两条指令（无符号字节变量的无符号扩展需要一条指令）。
+
+这些移位操作可以通过使用 int 和 unsigned int 的局部变量来避免。这对于那些首先将数据调到局部变量然后利用局部变量进行运算的情况尤其重要。即使数据以 8 位或 16 位的形式输入或输出，把他们当作 32 位来处理仍是有意义的。
+
+我们来考虑下面的三个例子函数：
+
+```c++
+int wordinc (int a)
 { 
     return a + 1;
 }
@@ -145,96 +246,173 @@ short shortinc (short a)
 char charinc (char a)
 { 
     return a + 1;
-}</pre>
-<p>他们的运算结果是相同的，但是第一个代码片断要比其他片断运行的要快。</p>
-<h2>指针 / Pointers</h2>
-<p>如果可能，我们应该使用结构体的引用作为参数，也就是结构体的指针，否则，整个结构体就会被压入堆栈，然后传递，这会降低速度。程序适用值传递可能需要几K字节，而一个简单的指针也可以达到同样的目的，只需要几个字节就可以了。<br />
-如果在函数内部不会改变结构体的内容，那么就应该将参数声明为const型的指针。举个例子：</p>
-<pre class="brush: c; gutter: true">void print_data_of_a_structure (const Thestruct  *data_pointer)
+}
+```
+
+他们的运算结果是相同的，但是第一个代码片断要比其他片断运行的要快。
+
+## 11. 指针
+
+指针 / Pointers
+
+如果可能，我们应该使用结构体的引用作为参数，也就是结构体的指针，否则，整个结构体就会被压入堆栈，然后传递，这会降低速度。程序适用值传递可能需要几 K 字节，而一个简单的指针也可以达到同样的目的，只需要几个字节就可以了。
+
+如果在函数内部不会改变结构体的内容，那么就应该将参数声明为 const 型的指针。举个例子：
+
+```c++
+void print_data_of_a_structure (const Thestruct  *data_pointer)
 {
      ...printf contents of the structure...
-}</pre>
-<p>这个例子代码告知编译器在函数内部不会改变外部结构体的内容，访问他们的时候，不需要重读。还可以确保编译器捕捉任何修改这个只读结构体的代码，给结构体以额外的保护。</p>
-<h2>指针链 / Pointer chains</h2>
-<p>指针链经常被用来访问结构体的信息，比如，下面的这段常见的代码：</p>
-<pre class="brush: c; gutter: true">typedef struct { int x, y, z; } Point3;
+}
+```
+
+这个例子代码告知编译器在函数内部不会改变外部结构体的内容，访问他们的时候，不需要重读。还可以确保编译器捕捉任何修改这个只读结构体的代码，给结构体以额外的保护。
+
+## 12. 指针链
+
+指针链 / Pointer chains
+
+指针链经常被用来访问结构体的信息，比如，下面的这段常见的代码：
+
+```c++
+typedef struct { int x, y, z; } Point3;
 typedef struct { Point3 *pos, *direction; } Object;
 void InitPos1(Object *p)
 {
-    p-&gt;pos-&gt;x = 0;
-    p-&gt;pos-&gt;y = 0;
-    p-&gt;pos-&gt;z = 0;
-}</pre>
-<p>代码中，处理器在每次赋值操作的时候都要重新装载p-&gt;pos，因为编译器不知道p-&gt;pos-&gt;x不是p-&gt;pos的别名。更好的办法是将p-&gt;pos缓存成一个局部变量，如下：</p>
-<pre class="brush: c; gutter: true">void InitPos2(Object *p)
+    p->pos->x = 0;
+    p->pos->y = 0;
+    p->pos->z = 0;
+}
+```
+
+代码中，处理器在每次赋值操作的时候都要重新装载 `p->pos`，因为编译器不知道 `p->pos->x` 不是 `p->pos` 的别名。更好的办法是将 `p->pos` 缓存成一个局部变量，如下：
+
+```c++
+void InitPos2(Object *p)
 { 
-    Point3 *pos = p-&gt;pos;
-    pos-&gt;x = 0; 
-    pos-&gt;y = 0;
-    pos-&gt;z = 0;
-}</pre>
-<p>另一个可能的方法是将Point3结构体包含在Object结构体中，完全避免指针的使用。</p>
-<h2>条件的执行 / Conditional Execution</h2>
-<p>条件执行主要用在if语句中，同时也会用到由关系运算(&lt;,==,&gt;等)或bool运算(&amp;&amp;, !等)组成的复杂的表达式。尽可能的保持if和else语句的简单是有好处的，这样才能很好的条件化。关系表达式应该被分成包含相似条件的若干块。<br />
-下面的例子演示了编译器如何使用条件执行：</p>
-<pre class="brush: c; gutter: true">int g(int a, int b, int c, int d)
+    Point3 *pos = p->pos;
+    pos->x = 0; 
+    pos->y = 0;
+    pos->z = 0;
+}
+```
+
+另一个可能的方法是将 Point3 结构体包含在 Object 结构体中，完全避免指针的使用。
+
+## 13. 条件的执行
+
+条件的执行 / Conditional Execution
+
+条件执行主要用在 if 语句中，同时也会用到由关系运算` (<,==,> 等) `或 bool 运算` (&&, ! 等)` 组成的复杂的表达式。尽可能的保持 if 和 else 语句的简单是有好处的，这样才能很好的条件化。关系表达式应该被分成包含相似条件的若干块。
+
+下面的例子演示了编译器如何使用条件执行：
+
+```c++
+int g(int a, int b, int c, int d)
 {
-    if(a &gt; 0 &amp;&amp; b &gt; 0 &amp;&amp; c &lt; 0 &amp;&amp; d &lt; 0)  //分组化的条件被捆绑在一起
+    if(a > 0 && b > 0 && c < 0 && d < 0)  //分组化的条件被捆绑在一起
         return a + b + c + d;
     return -1;
-}</pre>
-<p>条件被分组，便以其能够条件化他们。</p>
-<h2>Boolean表达式和范围检查 / Boolean Expressions &amp; Range checking</h2>
-<p>有一种常见的boolean表达式被用来检查是否一个变量取值在某个特定的范围内，比方说，检查一个点是否在一个窗口内。</p>
-<pre class="brush: c; gutter: true">bool PointInRectangelArea (Point p, Rectangle *r)
+}
+```
+
+条件被分组，便以其能够条件化他们。
+
+## 14. Boolean 表达式和范围检查
+
+Boolean 表达式和范围检查 / Boolean Expressions & Range checking
+
+有一种常见的 boolean 表达式被用来检查是否一个变量取值在某个特定的范围内，比方说，检查一个点是否在一个窗口内。
+
+```c++
+bool PointInRectangelArea (Point p, Rectangle *r)
 {
-    return (p.x &gt;= r-&gt;xmin &amp;&amp; p.x &lt; r-&gt;xmax &amp;&amp; p.y &gt;= r-&gt;ymin &amp;&amp; p.y &lt; r-&gt;ymax);
-}</pre>
-<p>这里还有一个更快的方法：把(x &gt;= min &amp;&amp; x &lt; max) 转换成 (unsigned)(x-min) &lt; (max-min). 尤其是min为0时，更为有效。下面是优化后的代码：</p>
-<pre class="brush: c; gutter: true">bool PointInRectangelArea (Point p, Rectangle *r)
+    return (p.x >= r->xmin && p.x < r->xmax && p.y >= r->ymin && p.y < r->ymax);
+}
+```
+
+这里还有一个更快的方法：把` (x>= min && x < max)` 转换成 `(unsigned)(x-min) < (max-min)`. 尤其是 min 为 0 时，更为有效。下面是优化后的代码：
+
+```c++
+bool PointInRectangelArea (Point p, Rectangle *r)
 {
-    return ((unsigned) (p.x - r-&gt;xmin) &lt; r-&gt;xmax &amp;&amp; (unsigned) (p.y - r-&gt;ymin) &lt; r-&gt;ymax);
-}</pre>
-<h2>Boolean表达式&amp;与零的比较 / Boolean Expressions &amp; Compares with zero</h2>
-<p>在比较(CMP)指令后，相应的处理器标志位就会被设置。这些标志位也可以被其他的指令设置，诸如MOV, ADD, AND, MUL, 也就是基本的数学和逻辑运算指令（数据处理指令）。假如一条数据处理指令要设置这些标志位，那么N和Z标志位的设置方法跟把数字和零比较的设置方法是一样的。N标志位表示结果是不是负数，Z标志位表示结果是不是零。<br />
-在C语言中，处理器中的N和Z标志位对应的有符号数的关系运算符是x &lt; 0, x &gt;= 0, x == 0, x != 0，无符号数对应的是x == 0, x != 0 (or x &gt; 0)。<br />
-C语言中，每用到一个关系运算符，编译器就会产生一个比较指令。如果关系运算符是上面的其中一个，在数据处理指令紧跟比较指令的情况下，编译器就会将比较指令优化掉。比如：</p>
-<pre class="brush: c; gutter: true">int aFunction(int x, int y)
+    return ((unsigned) (p.x - r->xmin) < r->xmax && (unsigned) (p.y - r->ymin) < r->ymax);
+}
+```
+
+## 15. Boolean 表达式 & 与零的比较 
+
+Boolean 表达式 & 与零的比较 / Boolean Expressions & Compares with zero
+
+在比较 (CMP) 指令后，相应的处理器标志位就会被设置。这些标志位也可以被其他的指令设置，诸如 MOV, ADD, AND, MUL, 也就是基本的数学和逻辑运算指令（数据处理指令）。
+
+假如一条数据处理指令要设置这些标志位，那么 N 和 Z 标志位的设置方法跟把数字和零比较的设置方法是一样的。N 标志位表示结果是不是负数，Z 标志位表示结果是不是零。
+
+在 C 语言中，处理器中的 N 和 Z 标志位对应的有符号数的关系运算符是 `x <0, x>= 0, x == 0, x != 0`，无符号数对应的是 `x == 0, x != 0 (or x > 0)`。
+
+C 语言中，每用到一个关系运算符，编译器就会产生一个比较指令。如果关系运算符是上面的其中一个，在数据处理指令紧跟比较指令的情况下，编译器就会将比较指令优化掉。比如：
+
+```c++
+int aFunction(int x, int y)
 {
-    if (x + y &lt; 0)
+    if (x + y < 0)
         return 1;
     else
         return 0;
-}</pre>
-<p>这样做，会在关键循环中节省比较指令，使代码长度减少，效率增加。C语言中没有借位(carry)标志位和溢出(overflow)标志位的概念，所以如果不使用内嵌汇编语言，要访问C和V标志位是不可能的。尽管如此，编译器支持借位标志位（无符号数溢出），比方说：</p>
-<pre class="brush: c; gutter: true">int sum(int x, int y)
+}
+```
+
+这样做，会在关键循环中节省比较指令，使代码长度减少，效率增加。C 语言中没有借位 (carry) 标志位和溢出 (overflow) 标志位的概念，所以如果不使用内嵌汇编语言，要访问 C 和 V 标志位是不可能的。尽管如此，编译器支持借位标志位（无符号数溢出），比方说：
+
+```c++
+int sum(int x, int y)
 {
      int res;
      res = x + y;
-     if ((unsigned) res &lt; (unsigned) x) // carry set?  //
+     if ((unsigned) res < (unsigned) x) // carry set?  //
         res++;
      return res;
-}</pre>
-<h2>惰性评估计算 / Lazy Evaluation Exploitation</h2>
-<p>在类似与这样的 if(a&gt;10 &amp;&amp; b=4) 语句中, 确保AND表达式的第一部分最有可能为false, 结果第二部分极有可能不被执行.</p>
-<p>用switch() 代替if&#8230;else&#8230;，在条件选择比较多的情况下，可以用if…else…else…，像这样：</p>
-<pre class="brush: c; gutter: true">if( val == 1)
+}
+```
+
+## 16. 惰性评估计算
+
+惰性评估计算 / Lazy Evaluation Exploitation
+
+在类似与这样的 `if (a>10 && b=4)` 语句中，确保 AND 表达式的第一部分最有可能为 false, 结果第二部分极有可能不被执行.
+
+用 `switch ()` 代替 `if…else…`，在条件选择比较多的情况下，可以用 `if…else…else…`，像这样：
+
+```c++
+if( val == 1)
     dostuff1();
 else if (val == 2)
     dostuff2();
 else if (val == 3)
-    dostuff3();</pre>
-<p>使用switch可以更快：</p>
-<pre class="brush: c; gutter: true">switch( val )
+    dostuff3();
+```
+
+使用 switch 可以更快：
+
+```c++
+switch( val )
 {
     case 1: dostuff1(); break;
     case 2: dostuff2(); break;
     case 3: dostuff3(); break;
-}</pre>
-<p>在if语句中，即使是最后一个条件成立，也要先判断所有前面的条件是否成立。Switch语句能够去除这些额外的工作。如果你不得不使用if…else，那就把最可能的成立的条件放在前面。</p>
-<h2>二分分解 / Binary Breakdown</h2>
-<p>把判断条件做成二进制的风格，比如，不要使用下面的列表：</p>
-<pre class="brush: c; gutter: true">if(a == 1) { 
+}
+```
+
+在 if 语句中，即使是最后一个条件成立，也要先判断所有前面的条件是否成立。Switch 语句能够去除这些额外的工作。如果你不得不使用 `if…else`，那就把最可能的成立的条件放在前面。
+
+## 17. 二分分解
+
+二分分解 / Binary Breakdown
+
+把判断条件做成二进制的风格，比如，不要使用下面的列表：
+
+```c++
+if(a == 1) { 
     } else if(a == 2) { 
     } else if(a == 3) { 
     } else if(a == 4) { 
@@ -243,9 +421,13 @@ else if (val == 3)
     } else if(a == 7) { 
     } else if(a == 8) { 
     }
-}</pre>
-<p>而采用：</p>
-<pre class="brush: c; gutter: true">if(a &lt;= 4) { 
+}
+```
+
+而采用：
+
+```c++
+if(a <= 4) { 
     if(a == 1) { 
     } else if(a == 2) { 
     } else if(a == 3) { 
@@ -257,10 +439,14 @@ else if (val == 3)
     } else if(a == 7) { 
     } else if(a == 8) { 
     } 
-}</pre>
-<p>甚至：</p>
-<pre class="brush: c; gutter: true">if(a &lt;= 4) { 
-    if(a &lt;= 2) { 
+}
+```
+
+甚至：
+
+```c++
+if(a <= 4) { 
+    if(a <= 2) { 
         if(a == 1) { 
                 /* a is 1 */ 
         } else { 
@@ -274,7 +460,7 @@ else if (val == 3)
         } 
     } 
 } else { 
-    if(a &lt;= 6) { 
+    if(a <= 6) { 
         if(a == 5) { 
                 /* a is 5 */ 
         } else { 
@@ -287,25 +473,33 @@ else if (val == 3)
                 /* a must be 8 */ 
         } 
     } 
-}</pre>
-<p>慢速、低效：</p>
-<pre class="brush: c; gutter: true">c = getch();
+}
+```
+
+慢速、低效：
+
+```c++
+c = getch();
 switch(c){
-    case &#039;A&#039;: {
+    case 'A': {
         do something;  
         break;  
     } 
-    case &#039;H&#039;: {
+    case 'H': {
         do something;
         break;
     }  
-    case &#039;Z&#039;: { 
+    case 'Z': { 
         do something; 
         break; 
     }
-}</pre>
-<p>快速、高效：</p>
-<pre class="brush: c; gutter: true">c = getch();
+}
+```
+
+快速、高效：
+
+```c++
+c = getch();
 switch(c) {
     case 0: {
         do something;
@@ -319,224 +513,329 @@ switch(c) {
         do something; 
         break; 
     }
-}</pre>
-<p>以上是两个case语句之间的比较</p>
-<h2>switch语句和查找表 / Switch statement vs. lookup tables</h2>
-<p>switch语句通常用于以下情况：</p>
-<ul>
-<li>调用几个函数中的一个</li>
-<li>设置一个变量或返回值</li>
-<li>执行几个代码片断中的一个</li>
-</ul>
-<p>如果case表示是密集的，在使用switch语句的前两种情况中，可以使用效率更高的查找表。比如下面的两个实现汇编代码转换成字符串的例程：</p>
-<pre class="brush: c; gutter: true">char * Condition_String1(int condition) {
+}
+```
+
+以上是两个 case 语句之间的比较
+
+## 18. switch 语句和查找表
+
+switch 语句和查找表 / Switch statement vs. lookup tables
+
+switch 语句通常用于以下情况：
+
+- 调用几个函数中的一个
+- 设置一个变量或返回值
+- 执行几个代码片断中的一个
+
+如果 case 表示是密集的，在使用 switch 语句的前两种情况中，可以使用效率更高的查找表。比如下面的两个实现汇编代码转换成字符串的例程：
+
+```c++
+char * Condition_String1(int condition) {
     switch(condition) {
-         case 0: return &quot;EQ&quot;;
-         case 1: return &quot;NE&quot;;
-         case 2: return &quot;CS&quot;;
-         case 3: return &quot;CC&quot;;
-         case 4: return &quot;MI&quot;;
-         case 5: return &quot;PL&quot;;
-         case 6: return &quot;VS&quot;;
-         case 7: return &quot;VC&quot;;
-         case 8: return &quot;HI&quot;;
-         case 9: return &quot;LS&quot;;
-         case 10: return &quot;GE&quot;;
-         case 11: return &quot;LT&quot;;
-         case 12: return &quot;GT&quot;;
-         case 13: return &quot;LE&quot;;
-         case 14: return &quot;&quot;;
+         case 0: return "EQ";
+         case 1: return "NE";
+         case 2: return "CS";
+         case 3: return "CC";
+         case 4: return "MI";
+         case 5: return "PL";
+         case 6: return "VS";
+         case 7: return "VC";
+         case 8: return "HI";
+         case 9: return "LS";
+         case 10: return "GE";
+         case 11: return "LT";
+         case 12: return "GT";
+         case 13: return "LE";
+         case 14: return "";
          default: return 0;
     }
 }
 char * Condition_String2(int condition) {
-    if((unsigned) condition &gt;= 15) return 0;
+    if((unsigned) condition >= 15) return 0;
     return
-          &quot;EQNECSCCMIPLVSVCHILSGELTGTLE&quot; +
+          "EQNECSCCMIPLVSVCHILSGELTGTLE" +
            3 * condition;
-}</pre>
-<p>第一个例程需要240个字节，第二个只需要72个。</p>
-<h2>循环终止 / Loop termination</h2>
-<p>如果不加留意地编写循环终止条件，就可能会给程序带来明显的负担。我们应该尽量使用“倒数到零”的循环，使用简单的循环终止条件。循环终止条件相对简单，程序在执行的时候也会消耗相对少的时间。拿下面两个计算n!的例子来说，第一个例子使用递增循环，第二个使用递减循环。</p>
-<pre class="brush: c; gutter: true">int fact1_func (int n)
-{
+}
+```
+
+第一个例程需要 240 个字节，第二个只需要 72 个。
+
+## 19. 循环终止
+
+循环终止 / Loop termination
+
+循环是大多数程序中的常见结构。大量的执行时间通常花在循环上。因此，值得关注时间关键的循环。
+
+如果不加留意地编写循环终止条件，就可能会给程序带来明显的负担。我们应该尽量使用 “倒数到零” 的循环，使用简单的循环终止条件。循环终止条件相对简单，程序在执行的时候也会消耗相对少的时间。拿下面两个计算 `n!` 的例子来说，第一个例子使用递增循环，第二个使用递减循环。
+
+```c++
+int fact1_func (int n) {
     int i, fact = 1;
-    for (i = 1; i &lt;= n; i++)
+    for (i = 1; i <= n; i++)
         fact *= i;
     return (fact);
 }
 
-int fact2_func(int n)
-{
-    int i, fact = 1;
-    for (i = n; i != 0; i--)
-        fact *= i;
+int fact2_func(int n) {    
+    int i, fact = 1;    
+    for (i = n; i != 0; i--)        
+        fact *= i;    
     return (fact);
-}</pre>
-<p>结果是，第二个例子要比第一个快得多。</p>
-<h2>更快的for()循环 / Faster for() loops</h2>
-<p>这是一个简单而有效的概念，通常情况下，我们习惯把for循环写成这样：</p>
-<pre class="brush: c; gutter: true">for( i = 0;  i &lt; 10;  i++){ ... }</pre>
-<p>i 值依次为：0,1,2,3,4,5,6,7,8,9</p>
-<p>在不在乎循环计数器顺序的情况下，我们可以这样：</p>
-<pre class="brush: c; gutter: true">for( i = 10;  i--; ) { ... }</pre>
-<p>i 值依次为: 9,8,7,6,5,4,3,2,1,0,而且循环要更快</p>
-<p>这种方法是可行的，因为它是用更快的i&#8211;作为测试条件的，也就是说“i是否为非零数，如果是减一，然后继续”。相对于原先的代码，处理器不得不“把i减去10，结果是否为非零数，如果是，增加i，然后继续”，在紧密循环(tight loop)中，这会产生显著的区别。<br />
-这种语法看起来有一点陌生，却完全合法。循环中的第三条语句是可选的（无限循环可以写成这样for(;;)）,下面的写法也可以取得同样的效果：</p>
-<pre class="brush: c; gutter: true">for(i = 10;  i;  i--){}</pre>
-<p>或者:</p>
-<pre class="brush: c; gutter: true">for(i = 10;  i != 0;  i--){}</pre>
-<p>我们唯一要小心的地方是要记住循环需要停止在0（如果循环是从50-80，这样做就不行了），而且循环的计数器为倒计数方式。</p>
-<p>另外，我们还可以把计数器分配到寄存器上，可以产生更为有效的代码。这种将循环计数器初始化成循环次数，然后递减到零的方法，同样适用于while和do语句。</p>
-<h2>混合循环/ Loop jamming</h2>
-<p>在可以使用一个循环的场合，决不要使用两个。但是如果你要在循环中进行大量的工作，超过处理器的指令缓冲区，在这种情况下，使用两个分开的循环可能会更快，因为有可能这两个循环都被完整的保存在指令缓冲区里了。</p>
-<pre class="brush: c; gutter: true">//原先的代码
-for(i = 0; i &lt; 100; i++){
+}
+```
+
+结果是，第二个例子要比第一个快得多。
+
+## 20. 更快的 for () 循环
+
+更快的 for () 循环 / Faster for () loops
+
+这是一个简单而有效的概念，通常情况下，我们习惯把 for 循环写成这样：
+
+```c++
+for( i = 0;  i < 10;  i++){ ... }
+```
+
+`i` 值依次为：`0,1,2,3,4,5,6,7,8,9`
+
+在不在乎循环计数器顺序的情况下，我们可以这样：
+
+```c++
+for( i = 10;  i--; ) { ... }
+```
+
+`i` 值依次为: `9,8,7,6,5,4,3,2,1,0`, 而且循环要更快
+
+这种方法是可行的，因为它是用更快的 `i--`作为测试条件的，也就是说 “i 是否为非零数，如果是减一，然后继续”。相对于原先的代码，处理器不得不 “把 i 减去 10，结果是否为非零数，如果是，增加 i，然后继续”，在紧密循环 (tight loop) 中，这会产生显著的区别。
+
+这种语法看起来有一点陌生，却完全合法。循环中的第三条语句是可选的（无限循环可以写成这样 `for (;;)`）, 下面的写法也可以取得同样的效果：
+
+```c++
+for(i = 10;  i;  i--){}
+```
+
+或者:
+
+```c++
+for(i = 10;  i != 0;  i--){}
+```
+
+我们唯一要小心的地方是要记住循环需要停止在 0（如果循环是从 `50-80`，这样做就不行了），而且循环的计数器为倒计数方式。
+
+另外，我们还可以把计数器分配到寄存器上，可以产生更为有效的代码。这种将循环计数器初始化成循环次数，然后递减到零的方法，同样适用于 while 和 do 语句。
+
+## 21. 混合循环
+
+混合循环 / Loop jamming
+
+在可以使用一个循环的场合，决不要使用两个。但是如果你要在循环中进行大量的工作，超过处理器的指令缓冲区，在这种情况下，使用两个分开的循环可能会更快，因为有可能这两个循环都被完整的保存在指令缓冲区里了。
+
+```c++
+//原先的代码
+for(i = 0; i < 100; i++){
     stuff();
 }
-for(i = 0; i &lt; 100; i++){
+for(i = 0; i < 100; i++){
     morestuff();
 }        
 //更好的做法
-for(i = 0; i &lt; 100; i++){
+for(i = 0; i < 100; i++){
     stuff();
     morestuff();
-}</pre>
-<h2>函数循环 / Function Looping</h2>
-<p>调用函数的时候，在性能上就会付出一定的代价。不光要改变程序指针，还要将那些正在使用的变量压入堆栈，分配新的变量空间。为了提高程序的效率，在程序的函数结构上，有很多工作可以做。保证程序的可读性的同时，还要尽量控制程序的大小。<br />
-如果一个函数在一个循环中被频繁调用，就可以考虑将这个循环放在函数的里面，这样可以免去重复调用函数的负担，比如：</p>
-<pre class="brush: c; gutter: true">for(i = 0 ; i &lt; 100 ; i++) 
-{ 
+}
+```
+
+## 22. 函数循环
+
+函数循环 / Function Looping
+
+调用函数的时候，在性能上就会付出一定的代价。不光要改变程序指针，还要将那些正在使用的变量压入堆栈，分配新的变量空间。为了提高程序的效率，在程序的函数结构上，有很多工作可以做。保证程序的可读性的同时，还要尽量控制程序的大小。
+
+如果一个函数在一个循环中被频繁调用，就可以考虑将这个循环放在函数的里面，这样可以免去重复调用函数的负担，比如：
+
+```c++
+for(i = 0 ; i < 100 ; i++) { 
     func(t,i); 
 }
-void func(int w, d) 
-{ 
+void func(int w, d) { 
     lots of stuff. 
-}</pre>
-<p>可以写成：</p>
-<pre class="brush: c; gutter: true">func(t);
-void func(w) 
-{ 
-    for(i = 0; i &lt; 100; i++) { 
+}
+```
+
+可以写成：
+
+```c++
+func(t);
+void func(w) { 
+    for(i = 0; i < 100; i++) { 
         //lots of stuff. 
     } 
-}</pre>
-<h2>展开循环 / Loop unrolling</h2>
-<p>为了提高效率，可以将小的循环解开，不过这样会增加代码的尺寸。循环被拆开后，会降低循环计数器更新的次数，减少所执行的循环的分支数目。如果循环只重复几次，那它完全可以被拆解开，这样，由循环所带来的额外开销就会消失。</p>
-<p>比如:</p>
-<pre class="brush: c; gutter: true">for(i = 0; i &lt; 3; i++){ 
+}
+```
+
+## 23. 展开循环
+
+展开循环 / Loop unrolling
+
+为了提高效率，可以将小的循环解开，不过这样会增加代码的尺寸。循环被拆开后，会降低循环计数器更新的次数，减少所执行的循环的分支数目。如果循环只重复几次，那它完全可以被拆解开，这样，由循环所带来的额外开销就会消失。
+
+比如:
+
+```c++
+for(i = 0; i < 3; i++){ 
     something(i);
 }
 //更高效的方式：
 something(0);
 something(1);
-something(2);</pre>
-<p>因为在每次的循环中，i 的值都会增加，然后检查是否有效。编译器经常会把这种简单的循环解开，前提是这些循环的次数是固定的。对于这样的循环：</p>
-<pre class="brush: c; gutter: true">for(i = 0; i &lt;  limit; i++) { ... }</pre>
-<p>就不可能被拆解，因为我们不知道它循环的次数到底是多少。不过，将这种类型的循环拆解开并不是不可能的。</p>
-<p>与简单循环相比，下面的代码的长度要长很多，然而具有高得多的效率。选择8作为分块大小，只是用来演示，任何合适的长度都是可行的。例子中，循环的成立条件每八次才被检验一次，而不是每次都要检验。如果需要处理的数组的大小是确定的，我们就可以使用数组的大小作为分块的大小（或者是能够整除数组长度的数值）。不过，分块的大小跟系统的缓存大小有关。</p>
-<pre class="brush: c; gutter: true">#include&lt;stdio.H&gt; #define BLOCKSIZE (8) 
+something(2);
+```
 
-int main(void)
-{ 
-    int i = 0; 
-    int limit = 33;  /* could be anything */ 
+因为在每次的循环中，i 的值都会增加，然后检查是否有效。编译器经常会把这种简单的循环解开，前提是这些循环的次数是固定的。对于这样的循环：
+
+```c++
+for(i = 0; i <  limit; i++) { ... }
+```
+
+就不可能被拆解，因为我们不知道它循环的次数到底是多少。不过，将这种类型的循环拆解开并不是不可能的。
+
+与简单循环相比，下面的代码的长度要长很多，然而具有高得多的效率。选择 8 作为分块大小，只是用来演示，任何合适的长度都是可行的。例子中，循环的成立条件每八次才被检验一次，而不是每次都要检验。如果需要处理的数组的大小是确定的，我们就可以使用数组的大小作为分块的大小（或者是能够整除数组长度的数值）。不过，分块的大小跟系统的缓存大小有关。
+
+```c++
+//Example 1
+#include<STDIO.H>
+#define BLOCKSIZE (8)
+
+void main(void) {
+    int i = 0;
+    int limit = 33;  /* could be anything */
     int blocklimit;
 
-    /* The limit may not be divisible by BLOCKSIZE, 
-      go as near as we can first, then tidy up.
-     */ 
+    /* The limit may not be divisible by BLOCKSIZE,
+ 	 * go as near as we can first, then tidy up.
+ 	 */
     blocklimit = (limit / BLOCKSIZE) * BLOCKSIZE;
-    
-    /* unroll the loop in blocks of 8 */ 
-    while(i &lt; blocklimit) { 
-        printf(&quot;process(%d)\n&quot;, i); 
-        printf(&quot;process(%d)\n&quot;, i+1); 
-        printf(&quot;process(%d)\n&quot;, i+2); 
-        printf(&quot;process(%d)\n&quot;, i+3); 
-        printf(&quot;process(%d)\n&quot;, i+4); 
-        printf(&quot;process(%d)\n&quot;, i+5); 
-        printf(&quot;process(%d)\n&quot;, i+6); 
-        printf(&quot;process(%d)\n&quot;, i+7); 
-        /* update the counter */ 
-        i += 8; 
-    } 
-    /* 
-     * There may be some left to do.
-     * This could be done as a simple for() loop, 
-     * but a switch is faster (and more interesting) 
-     */ 
-    if( i &lt; limit ) 
-    { 
-        /* Jump into the case at the place that will allow
-         * us to finish off the appropriate number of items. 
-         */ 
-        switch( limit - i ) 
-        { 
-            case 7 : printf(&quot;process(%d)\n&quot;, i); i++; 
-            case 6 : printf(&quot;process(%d)\n&quot;, i); i++; 
-            case 5 : printf(&quot;process(%d)\n&quot;, i); i++; 
-            case 4 : printf(&quot;process(%d)\n&quot;, i); i++; 
-            case 3 : printf(&quot;process(%d)\n&quot;, i); i++; 
-            case 2 : printf(&quot;process(%d)\n&quot;, i); i++; 
-            case 1 : printf(&quot;process(%d)\n&quot;, i); 
-        }
-    } 
-    return 0;
-}</pre>
-<p>&nbsp;</p>
-<h2>计算非零位的个数 / counting the number of bits set</h2>
-<p>例1：测试单个的最低位，计数，然后移位。</p>
-<pre class="brush: c; gutter: true">//example1
-int countbit1(uint n)
-{
-    int bits = 0;
-    while (n != 0) {
-        if(n &amp; 1) bits++;
-            n &gt;&gt;= 1;
+
+    /* unroll the loop in blocks of 8 */
+    while( i < blocklimit ) {
+        printf("process(%d)\n", i);
+        printf("process(%d)\n", i+1);
+        printf("process(%d)\n", i+2);
+        printf("process(%d)\n", i+3);
+        printf("process(%d)\n", i+4);
+        printf("process(%d)\n", i+5);
+        printf("process(%d)\n", i+6);
+        printf("process(%d)\n", i+7);
+
+        /* update the counter */
+        i += 8;
     }
-      return bits;
-}</pre>
-<p>例2：先除4，然后计算被4处的每个部分。循环拆解经常会给程序优化带来新的机会。</p>
-<pre class="brush: c; gutter: true">//example - 2
-int countbit2(uint n)
-{
+
+    /*
+ 	 * There may be some left to do.
+ 	 * This could be done as a simple for() loop,
+ 	 * but a switch is faster (and more interesting)
+ 	 */
+    if( i < limit ) {
+        /* Jump into the case at the place that will allow
+     	 * us to finish off the appropriate number of items.
+     	 */
+        switch( limit - i ) {
+            case 7 : printf("process(%d)\n", i); i++;
+            case 6 : printf("process(%d)\n", i); i++;
+            case 5 : printf("process(%d)\n", i); i++;
+            case 4 : printf("process(%d)\n", i); i++;
+            case 3 : printf("process(%d)\n", i); i++;
+            case 2 : printf("process(%d)\n", i); i++;
+            case 1 : printf("process(%d)\n", i);
+        }
+    }
+}
+```
+
+## 24. 计算非零位的个数 
+
+计算非零位的个数 /counting the number of bits set
+
+例 1：测试单个的最低位，计数，然后移位。
+
+```c++
+//example1
+int countbit1(uint n) {
     int bits = 0;
     while (n != 0) {
-        if (n &amp; 1) bits++;
-        if (n &amp; 2) bits++;
-        if (n &amp; 4) bits++;
-        if (n &amp; 8) bits++;
-            n &gt;&gt;= 4;
+        if(n & 1) bits++;
+        n >>= 1;
     }
     return bits;
-}</pre>
-<h2>尽早地退出循环 / Early loop breaking</h2>
-<p>通常没有必要遍历整个循环。举例来说，在数组中搜索一个特定的值，我们可以在找到我们需要值之后立刻退出循环。下面的例子在10000个数字中搜索-99。</p>
-<pre class="brush: c; gutter: true">found = FALSE; 
-for(i=0;i&lt;10000;i++) 
-{ 
+}
+```
+
+例 2：先除 4，然后计算被 4 处的每个部分。循环拆解经常会给程序优化带来新的机会。
+
+```c++
+//example - 2
+int countbit2(uint n) {
+    int bits = 0;
+    while (n != 0) {
+        if (n & 1) bits++;
+        if (n & 2) bits++;
+        if (n & 4) bits++;
+        if (n & 8) bits++;
+        n >>= 4;
+    }
+    return bits;
+}
+```
+
+## 25. 尽早地退出循环
+
+尽早地退出循环 / Early loop breaking
+
+通常没有必要遍历整个循环。举例来说，在数组中搜索一个特定的值，我们可以在找到我们需要值之后立刻退出循环。下面的例子在 10000 个数字中搜索 `- 99`。
+
+```c++
+found = FALSE; 
+for(i=0;i<10000;i++) { 
     if(list[i] == -99) { 
-         found = TRUE; 
+        found = TRUE; 
     } 
 } 
-if(found) printf(&quot;Yes, there is a -99. Hooray!\n&quot;);</pre>
-<p>这样做是可行的，但是不管这个被搜索到的项目出现在什么位置，都会搜索整个数组。跟好的方法是，再找到我们需要的数字以后，立刻退出循环。</p>
-<pre class="brush: c; gutter: true">found = FALSE; 
-for(i = 0; i &lt; 10000; i++) 
-{ 
+if(found) printf("Yes, there is a -99. Hooray!\n");
+```
+
+这样做是可行的，但是不管这个被搜索到的项目出现在什么位置，都会搜索整个数组。跟好的方法是，再找到我们需要的数字以后，立刻退出循环。
+
+```c++
+found = FALSE; 
+for(i = 0; i < 10000; i++) { 
     if( list[i] == -99 ) { 
         found = TRUE; 
         break; 
     } 
 } 
-if( found ) printf(&quot;Yes, there is a -99. Hooray!\n&quot;);</pre>
-<p>如果数字出现在位置23上，循环就会终止，忽略剩下的9977个。</p>
-<h2>函数设计 / Function Design</h2>
-<p>保持函数短小精悍，是对的。这可以使编译器能够跟高效地进行其他的优化，比如寄存器分配。</p>
-<h2>调用函数的开销 / Function call overhead</h2>
-<p>对处理器而言，调用函数的开销是很小的，通常，在被调用函数所进行的工作中，所占的比例也很小。能够使用寄存器传递的函数参数个数是有限制的。这些参数可以是整型兼容的（char,short,int以及float都占用一个字），或者是4个字以内的结构体（包括2个字的double和long long）。假如参数的限制是4，那么第5个及后面的字都会被保存到堆栈中。这会增加在调用函数是存储这些参数的，以及在被调用函数中恢复这些参数的代价。</p>
-<pre class="brush: c; gutter: true">int f1(int a, int b, int c, int d) { 
+if( found ) printf("Yes, there is a -99. Hooray!\n");
+```
+
+如果数字出现在位置 23 上，循环就会终止，忽略剩下的 9977 个。
+
+## 26. 函数设计
+
+函数设计 / Function Design
+
+保持函数短小精悍，是对的。这可以使编译器能够跟高效地进行其他的优化，比如寄存器分配。
+
+## 27. 调用函数的开销
+
+调用函数的开销 / Function call overhead
+
+对处理器而言，调用函数的开销是很小的，通常，在被调用函数所进行的工作中，所占的比例也很小。能够使用寄存器传递的函数参数个数是有限制的。这些参数可以是整型兼容的（char,short,int 以及 float 都占用一个字），或者是 4 个字以内的结构体（包括 2 个字的 double 和 long long）。
+
+假如参数的限制是 4，那么第 5 个及后面的字都会被保存到堆栈中。这会增加在调用函数是存储这些参数的，以及在被调用函数中恢复这些参数的代价。
+
+```c++
+int f1(int a, int b, int c, int d) { 
     return a + b + c + d;
 }
 int g1(void) {
@@ -547,103 +846,132 @@ int f2(int a, int b, int c, int d, int e, int f) {
 }
 ing g2(void) {
     return f2(1, 2, 3, 4, 5, 6);
-}</pre>
-<p>g2函数中，第5、6个参数被保存在堆栈中，在f2中被恢复，每个参数带来2次内存访问。</p>
-<h2>最小化参数传递的开销 / Minimizing parameter passing overhead</h2>
-<p>为了将传递参数给函数的代价降至最低，我们可以：<br />
-尽可能确保函数的形参不多于四个，甚至更少，这样就不会使用堆栈来传递参数。<br />
-如果一个函数形参多于四个，那就确保在这个函数能够做大量的工作，这样就可以抵消由传递堆栈参数所付出的代价。<br />
-用指向结构体的指针作形参，而不是结构体本身。<br />
-把相关的参数放到一个结构里里面，然后把它的指针传给函数，可以减少参数的个数，增加程序的可读性。<br />
-将long类型的参数的个数降到最小，因为它使用两个参数的空间。对于double也同样适用。<br />
-避免出现参数的一部分使用寄存器传输，另一部分使用堆栈传输的情况。这种情况下参数将被全部压到堆栈里。<br />
-避免出现函数的参数个数不定的情况。这种情况下，所有参数都使用堆栈。</p>
-<h2>叶子函数 / Leaf functions</h2>
-<p>如果一个函数不再调用其他函数，这样的函数被称为叶子函数。在许多应用程序中，大约一半的函数调用是对叶子函数的调用。叶子函数在所有平台上都可以得到非常高效的编译，因为他们不需要进行参数的保存和恢复。在入口压栈和在出口退栈的代价，跟一个足够复杂的需要4个或者5个参数的叶子函数所完成的工作相比，是非常小的。如果可能的话，我们就要尽量安排经常被调用的函数成为叶子函数。函数被调用的次数可以通过模型工具（profiling facility）来确定。这里有几种方法可以确保函数被编译成叶子函数：</p>
-<ul>
-<li>不调用其他函数：包括那些被转换成调用C语言库函数的运算，比如除法、浮点运算。</li>
-<li>使用关键字__inline修饰小的函数。</li>
-</ul>
-<h2>内联函数 / Inline functions</h2>
-<p>对于所有调试选项，内嵌函数是被禁止的。使用inline关键字修饰函数后，跟普通的函数调用不同，代码中对该函数的调用将会被函数体本身代替。这会使代码更快，另一方面它会影响代码的长度，尤其是内嵌函数比较大而且经常被调用的情况下。</p>
-<pre class="brush: c; gutter: true">__inline int square(int x) {
+}
+```
+
+`g2` 函数中，第 5、6 个参数被保存在堆栈中，在 `f2` 中被恢复，每个参数带来 2 次内存访问。
+
+## 28. 最小化参数传递的开销
+
+最小化参数传递的开销 / Minimizing parameter passing overhead
+
+为了将传递参数给函数的代价降至最低，我们可以：
+
+- 尽可能确保函数的形参不多于四个，甚至更少，这样就不会使用堆栈来传递参数。
+
+- 如果一个函数形参多于四个，那就确保在这个函数能够做大量的工作，这样就可以抵消由传递堆栈参数所付出的代价。
+
+- 用指向结构体的指针作形参，而不是结构体本身。
+
+- 把相关的参数放到一个结构里里面，然后把它的指针传给函数，可以减少参数的个数，增加程序的可读性。
+
+- 将 long 类型的参数的个数降到最小，因为它使用两个参数的空间。对于 double 也同样适用。
+
+- 避免出现参数的一部分使用寄存器传输，另一部分使用堆栈传输的情况。这种情况下参数将被全部压到堆栈里。
+
+- 避免出现函数的参数个数不定的情况。这种情况下，所有参数都使用堆栈。
+
+## 29. 叶子函数
+
+叶子函数 / Leaf functions
+
+如果一个函数不再调用其他函数，这样的函数被称为叶子函数。在许多应用程序中，大约一半的函数调用是对叶子函数的调用。
+
+叶子函数在所有平台上都可以得到非常高效的编译，因为他们不需要进行参数的保存和恢复。在入口压栈和在出口退栈的代价，跟一个足够复杂的需要 4 个或者 5 个参数的叶子函数所完成的工作相比，是非常小的。
+
+**如果可能的话，我们就要尽量安排经常被调用的函数成为叶子函数**。函数被调用的次数可以通过模型工具（profiling facility）来确定。这里有几种方法可以确保函数被编译成叶子函数：
+
+- 不调用其他函数：包括那些被转换成调用 C 语言库函数的运算，比如除法、浮点运算。
+- 使用关键字 `__inline` 修饰小的函数。
+
+## 30. 内联函数
+
+内联函数 / Inline functions
+
+对于所有调试选项，内嵌函数是被禁止的。使用 `inline` 关键字修饰函数后，跟普通的函数调用不同，代码中对该函数的调用将会被函数体本身代替。这会使代码更快，另一方面它会影响代码的长度，尤其是内嵌函数比较大而且经常被调用的情况下。
+
+```c++
+__inline int square(int x) {
     return x * x;
 }
 double length(int x, int y){
     return sqrt(square(x) + square(y));
-}</pre>
-<p>使用内嵌函数有几个优点：</p>
-<ul>
-<li>没有调用函数的开销。</li>
-</ul>
-<p>因为函数被直接代替，没有任何额外的开销，比如存储和恢复寄存器。</p>
-<ul>
-<li>更低的参数赋值开销。</li>
-</ul>
-<p>参数传递的开销通常会更低，因为它不需要复制变量。如果其中一些参数是常量，编译器还可以作进一步的优化。</p>
-<p>内嵌函数的缺点是如果函数在许多地方被调用，将会增加代码的长度。长度差别的大小非常依赖于内嵌函数的大小和调用的次数。</p>
-<p>仅将少数关键函数设置成内嵌函数是明智的。如果设置得当，内嵌函数可以减少代码的长度，一次函数调用需要一定数量的指令，但是，使用优化过的内嵌函数可以编译成更少的指令。</p>
-<h2>使用查找表 / Using Lookup Tables</h2>
-<p>有些函数可以近似成查找表，这样可以显著的提高效率。查找表的精度一般比计算公式的精度低，不过在大多数程序中，这种精度就足够了。<br />
-许多信号处理软件（比如MODEM调制软件）会大量的使用sin和cos函数，这些函数会带来大量的数学运算。对于实时系统来说，精度不是很重要，sin/cos查找表显得更加实用。使用查找表的时候，尽量将相近的运算合并成一个查找表，这样要比使用多个查找表要更快和使用更少的空间。</p>
-<h2>浮点运算 / Floating-Point Arithmetic</h2>
-<p>尽管浮点运算对于任何处理器来讲都是很费时间的，有的时候，我们还是不得不用到浮点运算，比方说实现信号处理。尽管如此，编写浮点运算代码的时候，我们要牢记：</p>
-<ul>
-<li>浮点除法是慢的</li>
-</ul>
-<p>除法要比加法或者乘法慢两倍，我们可以把被一个常数除的运算写成被这个数的倒数乘（比如，x=x/3.0写成x=x*(1.0/3.0)）。倒数的计算在编译阶段就被完成。</p>
-<ul>
-<li>使用float代替double</li>
-</ul>
-<p>Float型变量消耗更少的内存和寄存器，而且因为它的低精度所以具有更高的效率。在精度足够的情况下，就要使用float。</p>
-<ul>
-<li>不要使用先验函数（transcendental functions），</li>
-</ul>
-<p>先验函数（比如sin，cos，log）是通过使用一系列的乘法和加法实现的，所以这些运算会比普通的乘法慢10倍以上。</p>
-<ul>
-<li>简化浮点表达式</li>
-</ul>
-<p>编译器在整型跟浮点型混合的运算中不会进行太多的优化。比如3 * (x / 3) 不会被优化成x，因为浮点运算通常会导致精度的降低，甚至表达式的顺序都是重要的： (a + b) 　　  + c 不等于 a + (b + c)。因此，进行手动的优化是有好处的。</p>
-<p>不过，在特定的场合下，浮点运算的效率达不到指定的水平，这种情况下，最好的办法可能是放弃浮点运算，转而使用定点运算。当变量的变化范围足够的小，定点运算要比浮点运算精度更高、速度更快。</p>
-<h2>其他的技巧 / Misc tips</h2>
+}
+```
 
+使用内嵌函数有几个优点：
 
-- 一般情况下，可以用存储空间换取时间。你可以缓存那些经常用到的数据，而不是每次都重新计算、或者重新装载。比如sin/cos表，或者伪随机数的表（如果你不是真的需要随机数，你可以在开始的时候计算1000个，在随后的代码中重复利用就是了）
+- 没有调用函数的开销。
+
+因为函数被直接代替，没有任何额外的开销，比如存储和恢复寄存器。
+
+- 更低的参数赋值开销。
+
+参数传递的开销通常会更低，因为它不需要复制变量。如果其中一些参数是常量，编译器还可以作进一步的优化。
+
+内嵌函数的缺点是如果函数在许多地方被调用，将会增加代码的长度。长度差别的大小非常依赖于内嵌函数的大小和调用的次数。
+
+仅将少数关键函数设置成内嵌函数是明智的。如果设置得当，内嵌函数可以减少代码的长度，一次函数调用需要一定数量的指令，但是，使用优化过的内嵌函数可以编译成更少的指令。
+
+## 31. 使用查找表
+
+使用查找表 / Using Lookup Tables
+
+有些函数可以近似成查找表，这样可以显著的提高效率。查找表的精度一般比计算公式的精度低，不过在大多数程序中，这种精度就足够了。
+
+许多信号处理软件（比如 MODEM 调制软件）会大量的使用 sin 和 cos 函数，这些函数会带来大量的数学运算。对于实时系统来说，精度不是很重要，sin/cos 查找表显得更加实用。使用查找表的时候，尽量将相近的运算合并成一个查找表，这样要比使用多个查找表要更快和使用更少的空间。
+
+## 32. 浮点运算
+
+浮点运算 / Floating-Point Arithmetic
+
+尽管浮点运算对于任何处理器来讲都是很费时间的，有的时候，我们还是不得不用到浮点运算，比方说实现信号处理。尽管如此，编写浮点运算代码的时候，我们要牢记：
+
+- 浮点除法是慢的
+
+    除法要比加法或者乘法慢两倍，我们可以把被一个常数除的运算写成被这个数的倒数乘（比如，`x=x/3.0 写成 x=x*(1.0/3.0)`）。倒数的计算在编译阶段就被完成。
+
+- 使用 float 代替 double
+
+    Float 型变量消耗更少的内存和寄存器，而且因为它的低精度所以具有更高的效率。在精度足够的情况下，就要使用 float。
+
+- 不要使用先验函数（transcendental functions），
+
+    先验函数（比如 sin，cos，log）是通过使用一系列的乘法和加法实现的，所以这些运算会比普通的乘法慢 10 倍以上。
+
+- 简化浮点表达式
+
+    编译器在整型跟浮点型混合的运算中不会进行太多的优化。比如 `3 * (x / 3)` 不会被优化成 x，因为浮点运算通常会导致精度的降低，甚至表达式的顺序都是重要的： `(a + b) + c` 不等于 `a + (b + c)`。因此，进行手动的优化是有好处的。
+
+不过，在特定的场合下，浮点运算的效率达不到指定的水平，这种情况下，最好的办法可能是放弃浮点运算，转而使用定点运算。当变量的变化范围足够的小，定点运算要比浮点运算精度更高、速度更快。
+
+## 33. 其他的技巧
+
+其他的技巧 / Misc tips
+
+- 一般情况下，可以用存储空间换取时间。你可以缓存那些经常用到的数据，而不是每次都重新计算、或者重新装载。比如 sin/cos 表，或者伪随机数的表（如果你不是真的需要随机数，你可以在开始的时候计算 1000 个，在随后的代码中重复利用就是了）
 - 尽量少的使用全局变量。
 - 将一个文件内部的变量声明成静态的，除非它有必要成为全局的。
 - 不要使用递归。递归可以使代码非常整齐和美观，但会产生大量的函数调用和开销。
 - 访问单维数组要比多维数组快
-- 使用#defined宏代替经常用到的小函数。
+- 使用 #defined 宏代替经常用到的小函数。
 
-----------
-<h2>引用/References</h2>
-<ul>
-<li><a href="http://www.arm.com/pdfs/DAI0034A_efficient_c.pdf" target="_blank">Writing Efficient C for ARM</a>
-<ul>
-<li>Document number: ARM DAI 0034A</li>
-<li>Issued: January 1998</li>
-<li>Copyright Advanced RISC Machines Ltd. (ARM) 1998</li>
-</ul>
-</li>
-<li><a href="http://www.rddvs.com/FasterC/" target="_blank">Richard&#8217;s C Optimization page</a> OR: How to make your C, C++ or Java program run faster with little effort.</li>
-<li><a href="http://www.tldp.org/LDP/LG/issue71/joshi.html" target="_blank">Code Optimization Using the GNU C Compiler</a> By Rahul U Joshi.</li>
-<li><a href="http://www.cs.princeton.edu/software/lcc/doc/linux.html" target="_blank">Compile C Faster on Linux</a> [Christopher W. Fraser (Microsoft Research), David R. Hanson (Princeton University)]</li>
-<li>CODE OPTIMIZATION &#8211; COMPILER [<a href="http://www.ibiblio.org/pub/languages/fortran/ch1-10.html" target="_blank">1</a>] [<a href="http://www.ibiblio.org/pub/languages/fortran/ch1-9.html" target="_blank">2</a>][Thanks to Craig Burley for the excellent comments. Thanks to Timothy Prince for the note on architectures with Instruction Level Parallelism].</li>
-<li><a href="http://www.coyotegulch.com/acovea/" target="_blank">An Evolutionary Analysis of GNU C Optimizations</a> [Using Natural Selection to Investigate Software Complexities by Scott Robert Ladd. Updated: 16 December 2003]</li>
-</ul>
-<h2>其他网络资源 / Other URLs</h2>
-<p><a href="http://www.xs4all.nl/~ekonijn/loopy.html">http://www.xs4all.nl/~ekonijn/loopy.html</a><br />
-<a href="http://www.public.asu.edu/~sshetty/Optimizing_Code_Manual.doc">http://www.public.asu.edu/~sshetty/Optimizing_Code_Manual.doc</a><br />
-<a href="http://www.abarnett.demon.co.uk/tutorial.html">http://www.abarnett.demon.co.uk/tutorial.html</a></p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
+------
 
-----------
+## 引用 / References
 
-本文翻译自： [codeproject](http://www.codeproject.com/Articles/6154/Writing-Efficient-C-and-C-Code-Optimization )，感谢codingwu的整理，转载请注明[出处](http://coolshell.info/2014/12/c-code-opt.html)。
+- Writing Efficient C for ARM
+    - Document number: ARM DAI 0034A
+    - Issued: January 1998
+    - Copyright Advanced RISC Machines Ltd. (ARM) 1998
+- [Richard’s C Optimization page](http://www.rddvs.com/FasterC/) OR: How to make your C, C++ or Java program run faster with little effort.
+- [Code Optimization Using the GNU C Compiler](http://www.tldp.org/LDP/LG/issue71/joshi.html) By Rahul U Joshi.
+- [Compile C Faster on Linux](http://www.cs.princeton.edu/software/lcc/doc/linux.html) [Christopher W. Fraser (Microsoft Research), David R. Hanson (Princeton University)]
+- CODE OPTIMIZATION – COMPILER [[1](http://www.ibiblio.org/pub/languages/fortran/ch1-10.html)] [[2](http://www.ibiblio.org/pub/languages/fortran/ch1-9.html)][Thanks to Craig Burley for the excellent comments. Thanks to Timothy Prince for the note on architectures with Instruction Level Parallelism].
+- [An Evolutionary Analysis of GNU C Optimizations](http://www.coyotegulch.com/acovea/) [Using Natural Selection to Investigate Software Complexities by Scott Robert Ladd. Updated: 16 December 2003]
+
+## 其他网络资源 / Other URLs
+
+http://www.xs4all.nl/~ekonijn/loopy.html
+http://www.public.asu.edu/~sshetty/Optimizing_Code_Manual.doc
+http://www.abarnett.demon.co.uk/tutorial.html
