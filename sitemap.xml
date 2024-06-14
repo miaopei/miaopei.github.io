@@ -3,6 +3,19 @@
     
   
   <url>  
+    <loc>http://miaopei.github.io/2018/03/08/Other/graph/</loc>  
+      
+    <lastmod>2024-06-14T05:44:50.095Z</lastmod>  
+      
+    <date>1520503372000</date>  
+    <title>计算机算法--图算法介绍 | Mr.Miaow Blog</title>  
+      
+    <desc>1. 图的定义：图（graph）由顶点（vertex）和边（edge）的集合组成，每一条边就是一个点对（v,w)。 图的种类：地图，电路图，调度图，事物，网络，程序结构 图的属性：有V个顶点的图最多有V*（V-1）&#x2F;2条边</desc>  
+  </url>  
+  
+    
+  
+  <url>  
     <loc>http://miaopei.github.io/2017/04/13/Other/Linux%E5%91%BD%E4%BB%A4eval%E7%9A%84%E7%94%A8%E6%B3%95/</loc>  
       
     <lastmod>2024-06-14T05:41:05.063Z</lastmod>  
