@@ -3,6 +3,19 @@
     
   
   <url>  
+    <loc>http://miaopei.github.io/2016/06/05/Program-C/algorithm/</loc>  
+      
+    <lastmod>2024-06-14T07:18:32.297Z</lastmod>  
+      
+    <date>1465092890000</date>  
+    <title>重拾十大经典排序算法 | Mr.Miaow Blog</title>  
+      
+    <desc>最近在工作中偶然间涉及到数据库的存储和访问，数据库里存放着员工的指纹、年龄以及姓名等信息，当然指纹是通过md5加密存储的。目前需要对员工的年龄、学历、工作年限等进行排序，如果只有几十个上百个样本，应该不会那么麻烦；关键这是几万名员工的数据，这个量很大，马虎不得。悄悄的告诉你，别惹我，我懂得删库跑路哦。 脑海中对排序的记忆有点模糊，只对「归并排序」印象较为深刻，为了加深理解，重拾「数据结构与算法」，</desc>  
+  </url>  
+  
+    
+  
+  <url>  
     <loc>http://miaopei.github.io/2016/06/03/Program-C/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/</loc>  
       
     <lastmod>2024-06-14T06:41:43.534Z</lastmod>  
@@ -24,19 +37,6 @@
     <title>C 基础 | Mr.Miaow Blog</title>  
       
     <desc>C 语言基础一、C 语言概述</desc>  
-  </url>  
-  
-    
-  
-  <url>  
-    <loc>http://miaopei.github.io/2016/06/08/Program-C/interview/</loc>  
-      
-    <lastmod>2024-06-14T05:51:11.268Z</lastmod>  
-      
-    <date>1465352090000</date>  
-    <title>Interview C C++ | Mr.Miaow Blog</title>  
-      
-    <desc>C&#x2F;C++ 面试知识总结C&#x2F;C++ 面试知识总结，只为复习、分享。部分知识点与图片来自网络，侵删。 勘误新增请 Issue、PR，建议、讨论请 #issues&#x2F;12，排版使用 中文文案排版指北 使用建议： Ctrl + F：快速查找定位知识点 TOC 导航：jawil&#x2F;GayHub 插件快速目录跳转</desc>  
   </url>  
   
     
@@ -94,6 +94,19 @@
     
   
   <url>  
+    <loc>http://miaopei.github.io/2016/06/08/Program-C/interview/</loc>  
+      
+    <lastmod>2024-06-14T05:51:11.268Z</lastmod>  
+      
+    <date>1465352090000</date>  
+    <title>Interview C C++ | Mr.Miaow Blog</title>  
+      
+    <desc>C&#x2F;C++ 面试知识总结C&#x2F;C++ 面试知识总结，只为复习、分享。部分知识点与图片来自网络，侵删。 勘误新增请 Issue、PR，建议、讨论请 #issues&#x2F;12，排版使用 中文文案排版指北 使用建议： Ctrl + F：快速查找定位知识点 TOC 导航：jawil&#x2F;GayHub 插件快速目录跳转</desc>  
+  </url>  
+  
+    
+  
+  <url>  
     <loc>http://miaopei.github.io/2016/05/24/Program-C/program-c-advance/</loc>  
       
     <lastmod>2024-06-14T05:51:11.268Z</lastmod>  
@@ -107,19 +120,6 @@
     
   
   <url>  
-    <loc>http://miaopei.github.io/2018/06/08/Program-C/c-open-project/</loc>  
-      
-    <lastmod>2024-06-14T05:51:11.266Z</lastmod>  
-      
-    <date>1528424090000</date>  
-    <title>值得推荐的C/C++框架和库 | Mr.Miaow Blog</title>  
-      
-    <desc>Webbench是一个在linux下使用的非常简单的网站压测工具。它使用fork()模拟多个客户端同时访问我们设定的URL，测试网站在压力下工作的性能，最多可以模拟3万个并发连接去测试网站的负载能力。Webbench使用C语言编写, 代码实在太简洁，源码加起来不到600行。</desc>  
-  </url>  
-  
-    
-  
-  <url>  
     <loc>http://miaopei.github.io/2016/05/05/Program-C/compile/</loc>  
       
     <lastmod>2024-06-14T05:51:11.266Z</lastmod>  
@@ -128,6 +128,19 @@
     <title>Program-C 交叉编译 | Mr.Miaow Blog</title>  
       
     <desc></desc>  
+  </url>  
+  
+    
+  
+  <url>  
+    <loc>http://miaopei.github.io/2018/06/08/Program-C/c-open-project/</loc>  
+      
+    <lastmod>2024-06-14T05:51:11.266Z</lastmod>  
+      
+    <date>1528424090000</date>  
+    <title>值得推荐的C/C++框架和库 | Mr.Miaow Blog</title>  
+      
+    <desc>Webbench是一个在linux下使用的非常简单的网站压测工具。它使用fork()模拟多个客户端同时访问我们设定的URL，测试网站在压力下工作的性能，最多可以模拟3万个并发连接去测试网站的负载能力。Webbench使用C语言编写, 代码实在太简洁，源码加起来不到600行。</desc>  
   </url>  
   
     
@@ -185,19 +198,6 @@
     
   
   <url>  
-    <loc>http://miaopei.github.io/2016/06/05/Program-C/algorithm/</loc>  
-      
-    <lastmod>2024-06-14T05:51:11.258Z</lastmod>  
-      
-    <date>1465092890000</date>  
-    <title>重拾十大经典排序算法 | Mr.Miaow Blog</title>  
-      
-    <desc>最近在工作中偶然间涉及到数据库的存储和访问，数据库里存放着员工的指纹、年龄以及姓名等信息，当然指纹是通过md5加密存储的。目前需要对员工的年龄、学历、工作年限等进行排序，如果只有几十个上百个样本，应该不会那么麻烦；关键这是几万名员工的数据，这个量很大，马虎不得。悄悄的告诉你，别惹我，我懂得删库跑路哦。 脑海中对排序的记忆有点模糊，只对「归并排序」印象较为深刻，为了加深理解，重拾「数据结构与算法」，</desc>  
-  </url>  
-  
-    
-  
-  <url>  
     <loc>http://miaopei.github.io/2016/07/03/Program-C/c-advaced-programming/</loc>  
       
     <lastmod>2024-06-14T05:51:11.258Z</lastmod>  
@@ -211,19 +211,6 @@
     
   
   <url>  
-    <loc>http://miaopei.github.io/2016/07/16/Program-C/Cplus%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%9D%8E%E5%BB%BA%E5%BF%A0%E7%AC%94%E8%AE%B0/</loc>  
-      
-    <lastmod>2024-06-14T05:51:11.251Z</lastmod>  
-      
-    <date>1468664090000</date>  
-    <title>C++设计模式(李建忠视频笔记) | Mr.Miaow Blog</title>  
-      
-    <desc>【设计模式】C++设计模式（全26讲） 设计模式的软件处理的核心：抽象稳定，隔离变化。实现可扩展、灵活、低耦合、稳定的框架。 设计模式简介目标： 理解松耦合设计思想 掌握面向对象设计原则 掌握重构技法改善设计 掌握GOF 核心设计模式</desc>  
-  </url>  
-  
-    
-  
-  <url>  
     <loc>http://miaopei.github.io/2019/09/03/Program-C/HouJieCPlus/</loc>  
       
     <lastmod>2024-06-14T05:51:11.251Z</lastmod>  
@@ -232,6 +219,19 @@
     <title>侯捷C++讲义 | Mr.Miaow Blog</title>  
       
     <desc></desc>  
+  </url>  
+  
+    
+  
+  <url>  
+    <loc>http://miaopei.github.io/2016/07/16/Program-C/Cplus%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%9D%8E%E5%BB%BA%E5%BF%A0%E7%AC%94%E8%AE%B0/</loc>  
+      
+    <lastmod>2024-06-14T05:51:11.251Z</lastmod>  
+      
+    <date>1468664090000</date>  
+    <title>C++设计模式(李建忠视频笔记) | Mr.Miaow Blog</title>  
+      
+    <desc>【设计模式】C++设计模式（全26讲） 设计模式的软件处理的核心：抽象稳定，隔离变化。实现可扩展、灵活、低耦合、稳定的框架。 设计模式简介目标： 理解松耦合设计思想 掌握面向对象设计原则 掌握重构技法改善设计 掌握GOF 核心设计模式</desc>  
   </url>  
   
     
