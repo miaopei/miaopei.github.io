@@ -19,15 +19,15 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"miaopei.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"always","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"show_result":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":true,"nav":{"gitalk":{"order":-2}},"activeClass":"gitalk"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="整形溢出和提升大部分 C 程序员都以为基本的整形操作都是安全的其实不然,看下面这个例子,">
+    <meta name="description" content="1. 整形溢出和提升大部分 C 程序员都以为基本的整形操作都是安全的其实不然,看下面这个例子,">
 <meta property="og:type" content="article">
 <meta property="og:title" content="C 语言高级编程指南">
 <meta property="og:url" content="http://miaopei.github.io/2016/07/03/Program-C/c-advaced-programming/index.html">
 <meta property="og:site_name" content="Mr.Miaow Blog">
-<meta property="og:description" content="整形溢出和提升大部分 C 程序员都以为基本的整形操作都是安全的其实不然,看下面这个例子,">
+<meta property="og:description" content="1. 整形溢出和提升大部分 C 程序员都以为基本的整形操作都是安全的其实不然,看下面这个例子,">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2016-07-03T02:14:50.000Z">
-<meta property="article:modified_time" content="2024-06-14T05:51:11.258Z">
+<meta property="article:modified_time" content="2024-06-14T07:26:00.720Z">
 <meta property="article:author" content="Mr.Miaow">
 <meta property="article:tag" content="c&#x2F;c++">
 <meta name="twitter:card" content="summary">
@@ -141,7 +141,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B4%E5%BD%A2%E6%BA%A2%E5%87%BA%E5%92%8C%E6%8F%90%E5%8D%87"><span class="nav-text">整形溢出和提升</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E5%92%8C%E5%88%86%E9%85%8D"><span class="nav-text">内存管理和分配</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%81%BF%E5%85%8D%E9%87%8D%E5%A4%A7%E9%94%99%E8%AF%AF"><span class="nav-text">避免重大错误</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%98%B2%E6%AD%A2%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F"><span class="nav-text">防止内存泄漏</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8C%87%E9%92%88%E5%92%8C%E6%95%B0%E7%BB%84"><span class="nav-text">指针和数组</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E6%95%B4%E5%BD%A2%E6%BA%A2%E5%87%BA%E5%92%8C%E6%8F%90%E5%8D%87"><span class="nav-text">1. 整形溢出和提升</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E5%92%8C%E5%88%86%E9%85%8D"><span class="nav-text">2. 内存管理和分配</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E9%81%BF%E5%85%8D%E9%87%8D%E5%A4%A7%E9%94%99%E8%AF%AF"><span class="nav-text">3. 避免重大错误</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E9%98%B2%E6%AD%A2%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F"><span class="nav-text">4. 防止内存泄漏</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E6%8C%87%E9%92%88%E5%92%8C%E6%95%B0%E7%BB%84"><span class="nav-text">5. 指针和数组</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -292,27 +292,26 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><h2 id="整形溢出和提升"><a href="#整形溢出和提升" class="headerlink" title="整形溢出和提升"></a>整形溢出和提升</h2><p>大部分 C 程序员都以为基本的整形操作都是安全的其实不然,看下面这个例子,</p>
+    <div class="post-body" itemprop="articleBody"><h2 id="1-整形溢出和提升"><a href="#1-整形溢出和提升" class="headerlink" title="1. 整形溢出和提升"></a>1. 整形溢出和提升</h2><p>大部分 C 程序员都以为基本的整形操作都是安全的其实不然,看下面这个例子,</p>
 <span id="more"></span>
 
 <p>你觉得输出结果是什么:</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span>** argv)</span> &#123;</span><br><span class="line">    <span class="type">long</span> i = <span class="number">-1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (i &lt; <span class="keyword">sizeof</span>(i)) &#123;</span><br><span class="line">         <span class="built_in">printf</span>(<span class="string">&quot;OK\n&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">         <span class="built_in">printf</span>(<span class="string">&quot;error\n&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>当一个变量转换成无符号整形时,i的值不再是-1,而是 size_t的最大值,因为sizeof操作返回的是一个 size_t类型的无符号数。</p>
+<p>当一个变量转换成无符号整形时, <code>i</code> 的值不再是 <code>-1</code>,而是 <code>size_t</code> 的最大值,因为 <code>sizeof</code> 操作返回的是一个 <code>size_t</code> 类型的无符号数。</p>
 <p>在C99&#x2F;C11标准里写道:</p>
 <blockquote>
 <p>“If the operand that has unsigned integer type has rank greater or<br>equal to the rank of the type of the other operand, then the operand<br>with signed integer type is converted to the type of the operand with<br>unsigned integer type.”</p>
 </blockquote>
-<p>在 C 标准里面 size_t 至少是一个 16 位的无符号整数, 对于给定的架构 size_t 一般对应 long, 所以sizeof（int）和 size_t 至少相等, 这就带来了可移植性的问题, C 标准没有定义 short, int, long, longlong 的大小, 只是说明了他们的最小长度, 对于 x86_64 架构, long 在Linux下是 64 位, 而在 64 位 Windows 下是 32 位。一般的方法是采用固定长度的类型比如定义在 C99 头文件stdint.h中的uint16_t, int32_t, uint_least16_t, uint_fast16_t 等。</p>
+<p>在 C 标准里面 <code>size_t</code> 至少是一个 <code>16</code> 位的无符号整数, 对于给定的架构 <code>size_t</code> 一般对应 long, 所以<code>sizeof（int）</code>和 <code>size_t</code> 至少相等, 这就带来了可移植性的问题, C 标准没有定义 short, int, long, longlong 的大小, 只是说明了他们的最小长度, <strong>对于 x86_64 架构, long 在Linux下是 64 位, 而在 64 位 Windows 下是 32 位</strong>。<strong>一般的方法是采用固定长度的类型比如定义在 C99 头文件stdint.h中的uint16_t, int32_t, uint_least16_t, uint_fast16_t 等</strong>。</p>
 <p>如果 int 可以表示原始类型的所有值,那么这个操作数会转换成 int, 否则他会转换成 unsigned int。下面这个函数在 32 位平台返回 65536, 但是在 16 位系统返回 0。</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">uint32_t</span> <span class="title function_">sum</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">uint16_t</span> a = <span class="number">65535</span>;</span><br><span class="line">    <span class="type">uint16_t</span> b = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">return</span> a+b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>对于char 类型到底是 signed 还是 unsigned 取决于硬件架构和操作系统,通常<br>由特定平台的 ABI(Application Binary Interface) 指定,如果是 signed char,下面的代码输出-128 和-127,否则输出 128,129(x86 架构)。</p>
-<pre><code>char c = 128;
-char d = 129;
-printf(&quot;%d,%d\n&quot;,c,d);
-</code></pre>
+<p>对于char 类型到底是 signed 还是 unsigned 取决于硬件架构和操作系统,通常由特定平台的 ABI(Application Binary Interface) 指定,如果是 signed char,下面的代码输出<code>-128</code> 和 <code>-127</code>,否则输出 <code>128,129(x86 架构)</code>。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">char</span> c = <span class="number">128</span>;</span><br><span class="line"><span class="type">char</span> d = <span class="number">129</span>;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%d,%d\n&quot;</span>,c,d);</span><br></pre></td></tr></table></figure>
+
 <hr>
-<h2 id="内存管理和分配"><a href="#内存管理和分配" class="headerlink" title="内存管理和分配"></a>内存管理和分配</h2><p>malloc 函数分配制定字节大小的内存,对象未被初始化,如果 size 是 0 取<br>决与系统实现。malloc(0) 返回一个空指针或者 unique pointer, 如果 size 是表达式的运算结果, 确保没有整形溢出。</p>
+<h2 id="2-内存管理和分配"><a href="#2-内存管理和分配" class="headerlink" title="2. 内存管理和分配"></a>2. 内存管理和分配</h2><p>malloc 函数分配制定字节大小的内存,对象未被初始化,如果 size 是 0 取决与系统实现。</p>
+<p><code>malloc(0)</code> 返回一个空指针或者 unique pointer, 如果 size 是表达式的运算结果, 确保没有整形溢出。</p>
 <blockquote>
 <p>“If the size of the space requested is 0, the behavior is<br>implementation- defined: the value returned shall be either a null<br>pointer or a unique pointer.”</p>
 </blockquote>
@@ -330,15 +329,15 @@ printf(&quot;%d,%d\n&quot;,c,d);
 </details>
 
 <hr>
-<h2 id="避免重大错误"><a href="#避免重大错误" class="headerlink" title="避免重大错误"></a>避免重大错误</h2><ol>
-<li>使用未初始化的变量</li>
+<h2 id="3-避免重大错误"><a href="#3-避免重大错误" class="headerlink" title="3. 避免重大错误"></a>3. 避免重大错误</h2><ol>
+<li><p>使用未初始化的变量</p>
+<p>C 语言要求所有变量在使用之前要初始化，使用未初始化的变量会造成为定义的行为，这和 C++ 不同，C++ 保证所有变量在使用之前都得到初始化，Java <strong>尽量保证</strong> 变量使用前的得到初始化，如类基本数据成员会被初始化为默认值。</p>
+</li>
+<li><p>free 错误</p>
+<p>对空指针调用 free, 对不是由 malloc family 函数分配的指针调用 free,或者对已经调用 free 的指针再次调用 free。</p>
+<p>一开始初始化指针为 NULL 可以减少错误, GCC 和 Clang 编译器有 -Wuninitialized 选项来对未初始化的变量显示警告信息, 另外不要将同一个指针用于静态变量和动态变量。</p>
+</li>
 </ol>
-<p>  C 语言要求所有变量在使用之前要初始化，使用未初始化的变量会造成为定义的行为，这和 C++ 不同，C++ 保证所有变量在使用之前都得到初始化，Java <strong>尽量保证</strong> 变量使用前的得到初始化，如类基本数据成员会被初始化为默认值。</p>
-<ol start="2">
-<li>free 错误</li>
-</ol>
-<p>  对空指针调用 free, 对不是由 malloc family 函数分配的指针调用 free,或者对已经调用 free 的指针再次调用 free。</p>
-<p>  一开始初始化指针为 NULL 可以减少错误, GCC 和 Clang 编译器有 -Wuninitialized 选项来对未初始化的变量显示警告信息, 另外不要将同一个指针用于静态变量和动态变量。</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">char</span> *ptr = <span class="literal">NULL</span>;</span><br><span class="line"><span class="type">void</span> <span class="title function_">nullfree</span><span class="params">(<span class="type">void</span> **pptr)</span> &#123;</span><br><span class="line">    <span class="type">void</span> *ptr = *pptr;</span><br><span class="line">    assert(ptr != <span class="literal">NULL</span>)</span><br><span class="line">    <span class="built_in">free</span>(ptr);</span><br><span class="line">    *pptr = <span class="literal">NULL</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <ol start="3">
@@ -350,12 +349,11 @@ printf(&quot;%d,%d\n&quot;,c,d);
 </li>
 </ol>
 <hr>
-<h2 id="防止内存泄漏"><a href="#防止内存泄漏" class="headerlink" title="防止内存泄漏"></a>防止内存泄漏</h2><p>内存泄漏发生在程序不再使用的动态内存没有得到释放，这需要我们掌握动态分配对象的作用域，尤其是什么时候该调用 free 来释放内存，常用的几种方法如下：</p>
+<h2 id="4-防止内存泄漏"><a href="#4-防止内存泄漏" class="headerlink" title="4. 防止内存泄漏"></a>4. 防止内存泄漏</h2><p>内存泄漏发生在程序不再使用的动态内存没有得到释放，这需要我们掌握动态分配对象的作用域，尤其是什么时候该调用 free 来释放内存，常用的几种方法如下：</p>
 <ol>
-<li>在程序启动的时候分配</li>
-</ol>
+<li><p>在程序启动的时候分配</p>
 <p>在程序启动的时候分配需要的 heap memory，程序退出时把释放的任务交给操作系统，这种方法一般适用于程序运行后马上退出的那种。</p>
-<ol start="2">
+</li>
 <li><p>使用变长数组（VLA）</p>
 <p> 如果你需要一块变长大小的空间并且作用域在函数中，变长数组可以帮到你，但是也有一个限制，一个函数中的变长数组内存大小一般不超过几百字节，这个数字 C 标准没有明确的定义，最好是把内存分配到栈上，在栈上允许分配的最大 VLA 内存是 SIZE_MAX，掌握目标平台的栈大小可以有效的防止栈溢出。</p>
 </li>
@@ -391,7 +389,7 @@ printf(&quot;%d,%d\n&quot;,c,d);
 </li>
 </ol>
 <hr>
-<h2 id="指针和数组"><a href="#指针和数组" class="headerlink" title="指针和数组"></a>指针和数组</h2><p>我们一般的概念里指针和数组名是可互换的，但是在编译器里他们被不同的对待，当我们说一个对象或者表达式具有某种类型的时候我们一般是说这个对象是个左值（lvalue），当对象不是 const 的时候，左值是可以修改的，比如对象是复制操作符的左参数，而数组名是一个 const 左值，指向地一个元素的 const 指针，所以你不能给数组名赋值或者意图改变数组名，如果表达式是数组类型，数组名通常转换成指向地一个元素的指针。</p>
+<h2 id="5-指针和数组"><a href="#5-指针和数组" class="headerlink" title="5. 指针和数组"></a>5. 指针和数组</h2><p>我们一般的概念里指针和数组名是可互换的，但是在编译器里他们被不同的对待，当我们说一个对象或者表达式具有某种类型的时候我们一般是说这个对象是个左值（lvalue），当对象不是 const 的时候，左值是可以修改的，比如对象是复制操作符的左参数，而数组名是一个 const 左值，指向地一个元素的 const 指针，所以你不能给数组名赋值或者意图改变数组名，如果表达式是数组类型，数组名通常转换成指向地一个元素的指针。</p>
 <p>但是也有例外，什么情况下数组名不是一个指针呢？</p>
 <ol>
 <li>当它是 sizeof 操作符的操作数时，返回数组占的内存字节数</li>
@@ -503,13 +501,13 @@ printf(&quot;%d,%d\n&quot;,c,d);
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">821k</span>
+    <span title="站点总字数">822k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">12:26</span>
+    <span title="站点阅读时长">12:28</span>
   </span>
 </div> <div>
    <span id="sitetime"></span>
