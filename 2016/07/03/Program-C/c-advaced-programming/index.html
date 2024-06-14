@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.2.0">
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/mrmiaow-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/mrmiaow-16.png">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/blue/pace-theme-minimal.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"miaopei.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"always","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"show_result":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":true,"nav":{"gitalk":{"order":-2}},"activeClass":"gitalk"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="整形溢出和提升大部分 C 程序员都以为基本的整形操作都是安全的其实不然,看下面这个例子,">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C 语言高级编程指南">
+<meta property="og:url" content="http://miaopei.github.io/2016/07/03/Program-C/c-advaced-programming/index.html">
+<meta property="og:site_name" content="Mr.Miaow Blog">
+<meta property="og:description" content="整形溢出和提升大部分 C 程序员都以为基本的整形操作都是安全的其实不然,看下面这个例子,">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2016-07-03T02:14:50.000Z">
+<meta property="article:modified_time" content="2024-06-14T05:51:11.258Z">
+<meta property="article:author" content="Mr.Miaow">
+<meta property="article:tag" content="c&#x2F;c++">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://miaopei.github.io/2016/07/03/Program-C/c-advaced-programming/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://miaopei.github.io/2016/07/03/Program-C/c-advaced-programming/","path":"2016/07/03/Program-C/c-advaced-programming/","title":"C 语言高级编程指南"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>C 语言高级编程指南 | Mr.Miaow Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Mr.Miaow Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Mr.Miaow Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Do what you say, say what you do.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-messages"><a href="/messages/" rel="section"><i class="fa fa-comment fa-fw"></i>留言板</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B4%E5%BD%A2%E6%BA%A2%E5%87%BA%E5%92%8C%E6%8F%90%E5%8D%87"><span class="nav-text">整形溢出和提升</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E5%92%8C%E5%88%86%E9%85%8D"><span class="nav-text">内存管理和分配</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%81%BF%E5%85%8D%E9%87%8D%E5%A4%A7%E9%94%99%E8%AF%AF"><span class="nav-text">避免重大错误</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%98%B2%E6%AD%A2%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F"><span class="nav-text">防止内存泄漏</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8C%87%E9%92%88%E5%92%8C%E6%95%B0%E7%BB%84"><span class="nav-text">指针和数组</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Mr.Miaow"
+      src="https://avatars.githubusercontent.com/u/7922626?v=4">
+  <p class="site-author-name" itemprop="name">Mr.Miaow</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">58</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="feed-link motion-element">
+    <a href="/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>
+      RSS
+    </a>
+  </div>
+
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/miaopei" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;miaopei" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/miaopei163@163.com" title="E-Mail → miaopei163@163.com" rel="noopener me"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+          <link rel="stylesheet" href="/dist/APlayer.min.css">
+          <div id="aplayer"></div>
+          <script type="text/javascript" src="/dist/APlayer.min.js"></script>
+          <script type="text/javascript" src="/dist/music.js"></script>
+
+        </div>
+      </div>
+        <div class="back-to-top animated" role="button" aria-label="返回顶部">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://miaopei.github.io/2016/07/03/Program-C/c-advaced-programming/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://avatars.githubusercontent.com/u/7922626?v=4">
+      <meta itemprop="name" content="Mr.Miaow">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mr.Miaow Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="C 语言高级编程指南 | Mr.Miaow Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          C 语言高级编程指南
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2016-07-03 10:14:50" itemprop="dateCreated datePublished" datetime="2016-07-03T10:14:50+08:00">2016-07-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/c-c/" itemprop="url" rel="index"><span itemprop="name">c/c++</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>8.5k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>8 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h2 id="整形溢出和提升"><a href="#整形溢出和提升" class="headerlink" title="整形溢出和提升"></a>整形溢出和提升</h2><p>大部分 C 程序员都以为基本的整形操作都是安全的其实不然,看下面这个例子,</p>
+<span id="more"></span>
+
+<p>你觉得输出结果是什么:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span>** argv)</span> &#123;</span><br><span class="line">    <span class="type">long</span> i = <span class="number">-1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (i &lt; <span class="keyword">sizeof</span>(i)) &#123;</span><br><span class="line">         <span class="built_in">printf</span>(<span class="string">&quot;OK\n&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">         <span class="built_in">printf</span>(<span class="string">&quot;error\n&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当一个变量转换成无符号整形时,i的值不再是-1,而是 size_t的最大值,因为sizeof操作返回的是一个 size_t类型的无符号数。</p>
+<p>在C99&#x2F;C11标准里写道:</p>
+<blockquote>
+<p>“If the operand that has unsigned integer type has rank greater or<br>equal to the rank of the type of the other operand, then the operand<br>with signed integer type is converted to the type of the operand with<br>unsigned integer type.”</p>
+</blockquote>
+<p>在 C 标准里面 size_t 至少是一个 16 位的无符号整数, 对于给定的架构 size_t 一般对应 long, 所以sizeof（int）和 size_t 至少相等, 这就带来了可移植性的问题, C 标准没有定义 short, int, long, longlong 的大小, 只是说明了他们的最小长度, 对于 x86_64 架构, long 在Linux下是 64 位, 而在 64 位 Windows 下是 32 位。一般的方法是采用固定长度的类型比如定义在 C99 头文件stdint.h中的uint16_t, int32_t, uint_least16_t, uint_fast16_t 等。</p>
+<p>如果 int 可以表示原始类型的所有值,那么这个操作数会转换成 int, 否则他会转换成 unsigned int。下面这个函数在 32 位平台返回 65536, 但是在 16 位系统返回 0。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">uint32_t</span> <span class="title function_">sum</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">uint16_t</span> a = <span class="number">65535</span>;</span><br><span class="line">    <span class="type">uint16_t</span> b = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">return</span> a+b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>对于char 类型到底是 signed 还是 unsigned 取决于硬件架构和操作系统,通常<br>由特定平台的 ABI(Application Binary Interface) 指定,如果是 signed char,下面的代码输出-128 和-127,否则输出 128,129(x86 架构)。</p>
+<pre><code>char c = 128;
+char d = 129;
+printf(&quot;%d,%d\n&quot;,c,d);
+</code></pre>
+<hr>
+<h2 id="内存管理和分配"><a href="#内存管理和分配" class="headerlink" title="内存管理和分配"></a>内存管理和分配</h2><p>malloc 函数分配制定字节大小的内存,对象未被初始化,如果 size 是 0 取<br>决与系统实现。malloc(0) 返回一个空指针或者 unique pointer, 如果 size 是表达式的运算结果, 确保没有整形溢出。</p>
+<blockquote>
+<p>“If the size of the space requested is 0, the behavior is<br>implementation- defined: the value returned shall be either a null<br>pointer or a unique pointer.”</p>
+</blockquote>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">size_t</span> computed_size;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (elem_size &amp;&amp; num &gt; SIZE_MAX / elem_size) &#123;</span><br><span class="line">    errno = ENOMEM;</span><br><span class="line">    err(<span class="number">1</span>, <span class="string">&quot;overflow&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">computed_size = elem_size*num;</span><br></pre></td></tr></table></figure>
+
+<p>malloc 不会给分配的内存初始化，如果要对新分配的内存初始化，可以用 calloc 代替 malloc, 一般情况下给序列分配相等大小的元素时, 用 calloc 来代替用表达式计算大小, calloc 会把内存初始化为 0。</p>
+<p>realloc 用来对已经分配内存的对象改变大小,如果新的 size 更大,额外的空间<br>没 有 被 初 始 化 , 如 果 提 供 给 realloc 的 指 针 是 空 指 针 , realloc 就 等 效 于malloc,如果原指针非空而 new size是0,结果依赖于操作系统的具体实现。</p>
+<blockquote>
+<p>“In case of failure realloc shall return NULL and leave provided memory<br>object intact. Thus it is important not only to check for integer<br>overflow of size argument, but also to correctly handle object size if<br>realloc fails.”</p>
+</blockquote>
+<details><summary>下面这段代码可以带你领会 malloc, calloc，realloc, free 的用法：</summary>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdint.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;malloc.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;errno.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> VECTOR_OK            0</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> VECTOR_NULL_ERROR    1</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> VECTOR_SIZE_ERROR    2</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> VECTOR_ALLOC_ERROR   3</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">vector</span> &#123;</span></span><br><span class="line">    <span class="type">int</span> *data;</span><br><span class="line">    <span class="type">size_t</span> size;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">create_vector</span><span class="params">(<span class="keyword">struct</span> <span class="built_in">vector</span> *vc, <span class="type">size_t</span> num)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (vc == <span class="literal">NULL</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> VECTOR_NULL_ERROR;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    vc-&gt;data = <span class="number">0</span>;</span><br><span class="line">    vc-&gt;size = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* check for integer and SIZE_MAX overflow */</span></span><br><span class="line">    <span class="keyword">if</span> (num == <span class="number">0</span> || SIZE_MAX / num &lt; <span class="keyword">sizeof</span>(<span class="type">int</span>)) &#123;</span><br><span class="line">        errno = ENOMEM;</span><br><span class="line">        <span class="keyword">return</span> VECTOR_SIZE_ERROR;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    vc-&gt;data = <span class="built_in">calloc</span>(num, <span class="keyword">sizeof</span>(<span class="type">int</span>));</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* calloc faild */</span></span><br><span class="line">    <span class="keyword">if</span> (vc-&gt;data == <span class="literal">NULL</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> VECTOR_ALLOC_ERROR;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    vc-&gt;size = num * <span class="keyword">sizeof</span>(<span class="type">int</span>);</span><br><span class="line">    <span class="keyword">return</span> VECTOR_OK;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">grow_vector</span><span class="params">(<span class="keyword">struct</span> <span class="built_in">vector</span> *vc)</span> &#123;</span><br><span class="line">    <span class="type">void</span> *newptr = <span class="number">0</span>;</span><br><span class="line">    <span class="type">size_t</span> newsize;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (vc == <span class="literal">NULL</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> VECTOR_NULL_ERROR;</span><br><span class="line">    &#125;</span><br><span class="line">	<span class="comment">/* check for integer and SIZE_MAX overflow */</span></span><br><span class="line">    <span class="keyword">if</span> (vc-&gt;size == <span class="number">0</span> || SIZE_MAX / <span class="number">2</span> &lt; vc-&gt;size) &#123;</span><br><span class="line">    	errno = ENOMEM;</span><br><span class="line">   		<span class="keyword">return</span> VECTOR_SIZE_ERROR;</span><br><span class="line">    &#125;</span><br><span class="line">   </span><br><span class="line">    newsize = vc-&gt;size * <span class="number">2</span>;</span><br><span class="line">    newptr = <span class="built_in">realloc</span>(vc-&gt;data, newsize);</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* realloc faild; vector stays intact size was not changed */</span></span><br><span class="line">    <span class="keyword">if</span> (newptr == <span class="literal">NULL</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> VECTOR_ALLOC_ERROR;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* upon success; update new address and size */</span></span><br><span class="line">    vc-&gt;data = newptr;</span><br><span class="line">    vc-&gt;size = newsize;</span><br><span class="line">    <span class="keyword">return</span> VECTOR_OK;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+
+</details>
+
+<hr>
+<h2 id="避免重大错误"><a href="#避免重大错误" class="headerlink" title="避免重大错误"></a>避免重大错误</h2><ol>
+<li>使用未初始化的变量</li>
+</ol>
+<p>  C 语言要求所有变量在使用之前要初始化，使用未初始化的变量会造成为定义的行为，这和 C++ 不同，C++ 保证所有变量在使用之前都得到初始化，Java <strong>尽量保证</strong> 变量使用前的得到初始化，如类基本数据成员会被初始化为默认值。</p>
+<ol start="2">
+<li>free 错误</li>
+</ol>
+<p>  对空指针调用 free, 对不是由 malloc family 函数分配的指针调用 free,或者对已经调用 free 的指针再次调用 free。</p>
+<p>  一开始初始化指针为 NULL 可以减少错误, GCC 和 Clang 编译器有 -Wuninitialized 选项来对未初始化的变量显示警告信息, 另外不要将同一个指针用于静态变量和动态变量。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">char</span> *ptr = <span class="literal">NULL</span>;</span><br><span class="line"><span class="type">void</span> <span class="title function_">nullfree</span><span class="params">(<span class="type">void</span> **pptr)</span> &#123;</span><br><span class="line">    <span class="type">void</span> *ptr = *pptr;</span><br><span class="line">    assert(ptr != <span class="literal">NULL</span>)</span><br><span class="line">    <span class="built_in">free</span>(ptr);</span><br><span class="line">    *pptr = <span class="literal">NULL</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li><p>对空指针解引用，数组越界访问</p>
+<p>对 NULL 指针或者 free’d 内存解引用，数组越界访问，是很明显的错误，为了消除这种错误，一般的做法就是增加数组越界检查的功能，比如 Java 里的 array 就有下标检查的功能，但是这样会带来严重的性能代价，我们要修改 ABI（application binary interface），让每个指针都跟随着它的范围信息，在数值计算中 cost is terrible。</p>
+</li>
+<li><p>违反类型规则</p>
+<p>把 <code>int*</code> 指针 cast 成 <code>float*</code>，然后对它解引用，在 C 里面会引发 undefined behavior，C 规定这种类型的转换需要使用 memset，C++ 里面有个 reinterpret_cast 函数用于无关类型之间的转换，<code>reinterpret_cast &lt;new_type&gt; (expression)</code></p>
+</li>
+</ol>
+<hr>
+<h2 id="防止内存泄漏"><a href="#防止内存泄漏" class="headerlink" title="防止内存泄漏"></a>防止内存泄漏</h2><p>内存泄漏发生在程序不再使用的动态内存没有得到释放，这需要我们掌握动态分配对象的作用域，尤其是什么时候该调用 free 来释放内存，常用的几种方法如下：</p>
+<ol>
+<li>在程序启动的时候分配</li>
+</ol>
+<p>在程序启动的时候分配需要的 heap memory，程序退出时把释放的任务交给操作系统，这种方法一般适用于程序运行后马上退出的那种。</p>
+<ol start="2">
+<li><p>使用变长数组（VLA）</p>
+<p> 如果你需要一块变长大小的空间并且作用域在函数中，变长数组可以帮到你，但是也有一个限制，一个函数中的变长数组内存大小一般不超过几百字节，这个数字 C 标准没有明确的定义，最好是把内存分配到栈上，在栈上允许分配的最大 VLA 内存是 SIZE_MAX，掌握目标平台的栈大小可以有效的防止栈溢出。</p>
+</li>
+<li><p>使用引用计数</p>
+<p> 引用计数是一个很好的管理内存的方法，特别是当你不希望自己定义的对象被复制时，每一次赋值把引用计数加 1, 每次失去引用就把引用计数减1,当引用计数等于0时，以为的对象已经不再需要了，我们需要释放对象占用的内存，由于C不提供自动的析构函数，我们必须手动释放内存，看一个例子：</p>
+</li>
+</ol>
+<details><summary>例子：</summary>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdint.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> MAX_REF_OBJ 100</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> RC_ERROR -1</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">mem_obj_t</span>&#123;</span></span><br><span class="line">    <span class="type">void</span> *ptr;</span><br><span class="line">    <span class="type">uint16_t</span> count;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="type">static</span> <span class="class"><span class="keyword">struct</span> <span class="title">mem_obj_t</span> <span class="title">references</span>[<span class="title">MAX_REF_OBJ</span>];</span></span><br><span class="line"><span class="type">static</span> <span class="type">uint16_t</span> reference_count = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* create memory object and return handle */</span></span><br><span class="line"><span class="type">uint16_t</span> <span class="title function_">create</span><span class="params">(<span class="type">size_t</span> size)</span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (reference_count &gt;= MAX_REF_OBJ)</span><br><span class="line">        <span class="keyword">return</span> RC_ERROR;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (size)&#123;</span><br><span class="line">      <span class="type">void</span> *ptr = <span class="built_in">calloc</span>(<span class="number">1</span>, size);</span><br><span class="line">    	<span class="keyword">if</span> (ptr != <span class="literal">NULL</span>)&#123;</span><br><span class="line">            references[reference_count].ptr = ptr;</span><br><span class="line">            references[reference_count].count = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">return</span> reference_count++;</span><br><span class="line">        &#125;</span><br><span class="line">	&#125;</span><br><span class="line">    <span class="keyword">return</span> RC_ERROR;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* get memory object and increment reference counter */</span></span><br><span class="line"><span class="type">void</span>* <span class="title function_">retain</span><span class="params">(<span class="type">uint16_t</span> handle)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(handle &lt; reference_count &amp;&amp; handle &gt;= <span class="number">0</span>)&#123;</span><br><span class="line">        references[handle].count++;</span><br><span class="line">        <span class="keyword">return</span> references[handle].ptr;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* decrement reference counter */</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">release</span><span class="params">(<span class="type">uint16_t</span> handle)</span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;release\n&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(handle &lt; reference_count &amp;&amp; handle &gt;= <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="class"><span class="keyword">struct</span> <span class="title">mem_obj_t</span> *<span class="title">object</span> =</span> &amp;references[handle];</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (object-&gt;count &lt;= <span class="number">1</span>)&#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;released\n&quot;</span>);</span><br><span class="line">            <span class="built_in">free</span>(object-&gt;ptr);</span><br><span class="line">            reference_count--;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;decremented\n&quot;</span>);</span><br><span class="line">            object-&gt;count--;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</details>
+
+<p>C++ 标准库有个 <code>auto_ptr</code> 智能指针，能够自动释放指针所指对象的内存，C++ boost 库有个<code>boost::shared_ptr</code> 智能指针，内置引用计数，支持拷贝和赋值，看下面这个例子：</p>
+<blockquote>
+<p> “Objects of shared_ptr types have the ability of taking ownership of a pointer and share that ownership: once they take ownership, the group of owners of a pointer become responsible for its deletion when the last one of them releases that ownership.”</p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;boost/smart_ptr.hpp&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// Basic useage</span></span><br><span class="line">    <span class="function">boost::shared_ptr&lt;<span class="type">int</span>&gt; <span class="title">p1</span><span class="params">(<span class="keyword">new</span> <span class="type">int</span>(<span class="number">10</span>))</span></span>;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;ref count of p1: &quot;</span> &lt;&lt; p1.<span class="built_in">use_count</span>() &lt;&lt; std::endl;</span><br><span class="line">    <span class="function">boost::shared_ptr&lt;<span class="type">int</span>&gt; <span class="title">p2</span><span class="params">(p1)</span></span>; <span class="comment">// or p2 = p1;</span></span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;ref count of p1: &quot;</span> &lt;&lt; p1.<span class="built_in">use_count</span>() &lt;&lt; std::endl;</span><br><span class="line">    *p1 = <span class="number">999</span>;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;*p2: &quot;</span> &lt;&lt; *p2 &lt;&lt; std::endl;</span><br><span class="line">    p2.<span class="built_in">reset</span>();</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;ref count of p1: &quot;</span> &lt;&lt; p1.<span class="built_in">use_count</span>() &lt;&lt; std::endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>内存池，有利于减少内存碎片，看下面这个例子：</li>
+</ol>
+<details><summary>例子：</summary>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdint.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">mem_pool_t</span>&#123;</span></span><br><span class="line">    <span class="type">void</span>* ptr;<span class="comment">//指向内存池起始地址</span></span><br><span class="line">    <span class="type">size_t</span> size;<span class="comment">//内存池大小</span></span><br><span class="line">    <span class="type">size_t</span> used;<span class="comment">//已用内存大小</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//create memory pool</span></span><br><span class="line"><span class="keyword">struct</span> <span class="type">mem_pool_t</span>* <span class="title function_">create_pool</span><span class="params">(<span class="type">size_t</span> size)</span>&#123;</span><br><span class="line">    <span class="type">mem_pool_t</span>* pool=<span class="built_in">calloc</span>(<span class="number">1</span>,<span class="keyword">sizeof</span>(<span class="keyword">struct</span> <span class="type">men_pool_t</span>));</span><br><span class="line">    <span class="keyword">if</span>(pool!=<span class="literal">NULL</span>)&#123;</span><br><span class="line">        <span class="type">void</span>* mem=<span class="built_in">calloc</span>(<span class="number">1</span>,size);</span><br><span class="line">        <span class="keyword">if</span>(mem!=<span class="literal">NULL</span>)&#123;</span><br><span class="line">            pool-&gt;ptr=mem;</span><br><span class="line">            pool-&gt;size=size;</span><br><span class="line">            pool-&gt;used=<span class="number">0</span>;</span><br><span class="line">            <span class="keyword">return</span> pool;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//allocate memory from pool</span></span><br><span class="line"><span class="type">void</span>* <span class="title function_">pool_alloc</span><span class="params">(<span class="type">mem_pool_t</span>* pool,<span class="type">size_t</span> size)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(pool=<span class="literal">NULL</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="type">size_t</span> bytes_left=pool-&gt;size-pool-&gt;used;</span><br><span class="line">    <span class="keyword">if</span>(size&amp;&amp;size&lt;=bytes_left)&#123;</span><br><span class="line">        <span class="type">void</span>* mem=pool-&gt;ptr+pool-&gt;used;</span><br><span class="line">        pool-&gt;used+=size;</span><br><span class="line">        <span class="keyword">return</span> mem;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">NULL</span>；</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">／／release memory of the pool</span><br><span class="line"><span class="type">void</span> pool_free(<span class="type">mem_pool_t</span>* pool)&#123;</span><br><span class="line">	<span class="keyword">if</span>(pool!=<span class="literal">NULL</span>)&#123;</span><br><span class="line">		<span class="built_in">free</span>(pool-&gt;ptr);</span><br><span class="line">		<span class="built_in">free</span>(pool);</span><br><span class="line"> 	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</details>
+
+<ol start="5">
+<li><p>垃圾回收机制</p>
+<p>引用计数采用的方法是当内存不再需要时得到手动释放，垃圾回收发生在内存分配失败或者内存到达一定的水位（watermarks），实现垃圾回收最简单的一个算法是 MARK AND SWEEP 算法，该算法的思路是遍历所有动态分配对象的内存，标记那些还能继续使用的，回收那些没有被标记的内存。</p>
+<p>Java 采用的垃圾回收机制就更复杂了，思路也是回收那些不再使用的内存，JAVA 的垃圾回收和C++ 的析构函数又不一样，C++ 保证对象在使用之前得到初始化，对象超出作用域之后内存得到释放，而 JAVA 不能保证对象一定被析构。</p>
+</li>
+</ol>
+<hr>
+<h2 id="指针和数组"><a href="#指针和数组" class="headerlink" title="指针和数组"></a>指针和数组</h2><p>我们一般的概念里指针和数组名是可互换的，但是在编译器里他们被不同的对待，当我们说一个对象或者表达式具有某种类型的时候我们一般是说这个对象是个左值（lvalue），当对象不是 const 的时候，左值是可以修改的，比如对象是复制操作符的左参数，而数组名是一个 const 左值，指向地一个元素的 const 指针，所以你不能给数组名赋值或者意图改变数组名，如果表达式是数组类型，数组名通常转换成指向地一个元素的指针。</p>
+<p>但是也有例外，什么情况下数组名不是一个指针呢？</p>
+<ol>
+<li>当它是 sizeof 操作符的操作数时，返回数组占的内存字节数</li>
+<li>当它是取地址操作 <code>&amp;</code> 的操作数时，返回一个数组的地址</li>
+</ol>
+<p>看下面这个例子：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">short</span> a[] = &#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>&#125;;</span><br><span class="line"><span class="type">short</span> *pa;</span><br><span class="line"><span class="type">short</span> (*px)[];</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">init</span><span class="params">()</span>&#123;</span><br><span class="line">    pa = a;</span><br><span class="line">    px = &amp;a;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;a:%p; pa:%p; px:%p\n&quot;</span>, a, pa, px);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;a[1]:%i; pa[1]:%i (*px)[1]:%i\n&quot;</span>, a[<span class="number">1</span>], pa[<span class="number">1</span>],(*px)[<span class="number">1</span>]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>a 是一个 short 类型数组，pa 是一个指向 short 类型的指针，px 呢？</p>
+<ul>
+<li><p>px 是一个指向数组类型的指针，在 a 被赋值给 pa 之前，他的值被转换成一个指向数组第一个元素的指针，下面那个 a 却没有转换，因为遇到的是 <code>&amp;</code> 操作符。</p>
+</li>
+<li><p>数组下标 <code>a[1]</code> 等价于 <code>(a+1)</code>, 和 <code>p[1]</code> 一样，也指向 <code>*(p+1)</code>，但是两者还是有区别的，a 是一个数组，它实际上存储的是第一个元素的地址，所以数组 a 是用来定位第一个元素的，而 pa 不一样，它就是一个指针，不是用来定位的。</p>
+</li>
+</ul>
+<p>再比如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> a[<span class="number">10</span>];</span><br><span class="line"><span class="type">int</span> b[<span class="number">10</span>];</span><br><span class="line"><span class="type">int</span> *a;</span><br><span class="line">c=&amp;a[<span class="number">0</span>];	<span class="comment">//c是指向数组a地一个元素的指针</span></span><br><span class="line">c=a;		<span class="comment">//a自动转换成指向第一个元素的指针，实际上是指针拷贝</span></span><br><span class="line">b=a;		<span class="comment">//非法的，你不能用赋值符把一个数组的所有元素赋给另一个数组</span></span><br><span class="line">a=c;		<span class="comment">//非法的，你不能修改const指针的值</span></span><br></pre></td></tr></table></figure>
+
+    </div><div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">------------- 💖 🌞 本 文 结 束 😚 感 谢 您 的 阅 读 🌞 💖 -------------</div>
+    
+</div>
+
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>请我一杯咖啡吧！</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.jpg" alt="Mr.Miaow 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/alipay.jpg" alt="Mr.Miaow 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Mr.Miaow
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://miaopei.github.io/2016/07/03/Program-C/c-advaced-programming/" title="C 语言高级编程指南">http://miaopei.github.io/2016/07/03/Program-C/c-advaced-programming/</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/c-c/" rel="tag"><i class="fa fa-tag"></i> c/c++</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2016/06/28/Program-C/cplus-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-01/" rel="prev" title="CPlusPlus 设计模式">
+                  <i class="fa fa-angle-left"></i> CPlusPlus 设计模式
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2016/07/06/Program-C/c-code-opt/" rel="next" title="C 代码优化小贴士">
+                  C 代码优化小贴士 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+    &copy; 2015 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Mr.Miaow</span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">821k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">12:26</span>
+  </span>
+</div> <div>
+   <span id="sitetime"></span>
+   <span id="year" style="display:none">2016</span> 
+   <span id="month" style="display:none">12</span>   
+   <span id="day" style="display:none">23</span>   
+   <span id="hour" style="display:none">15</span>   
+   <span id="minute" style="display:none">0</span>   
+   <span id="second" style="display:none">0</span>   
+	<script language=javascript>
+	function siteTime(){        
+		window.setTimeout("siteTime()", 1000);
+		var seconds = 1000;
+		var minutes = seconds * 60;
+		var hours = minutes * 60;
+		var days = hours * 24;
+		var years = days * 365;
+		var today = new Date();
+		var todayYear = today.getFullYear();
+		var todayMonth = today.getMonth()+1;
+		var todayDate = today.getDate();
+		var todayHour = today.getHours();
+		var todayMinute = today.getMinutes();
+		var todaySecond = today.getSeconds();
+	    var year = document.getElementById("year").innerHTML;
+		var month = document.getElementById("month").innerHTML;
+		var day = document.getElementById("day").innerHTML;
+		var hour = document.getElementById("hour").innerHTML;
+		var minute = document.getElementById("minute").innerHTML;
+		var second = document.getElementById("second").innerHTML;
+		var t1 = Date.UTC(year,month,day,hour,minute,second); 
+		var t2 = Date.UTC(todayYear,todayMonth,todayDate,todayHour,todayMinute,todaySecond);
+		var diff = t2-t1;
+		var diffYears = Math.floor(diff/years);
+		var diffDays = Math.floor((diff/days)-diffYears*365);
+		var diffHours = Math.floor((diff-(diffYears*365+diffDays)*days)/hours);
+		var diffMinutes = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours)/minutes);
+		var diffSeconds = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours-diffMinutes*minutes)/seconds);
+		if(diffYears==0){
+		document.getElementById("sitetime").innerHTML=" 网站已运行 "/*+diffYears+" 年 "*/+diffDays+" 天 "+diffHours+" 小时 "+diffMinutes+" 分钟 "+diffSeconds+" 秒";
+		} else{
+		document.getElementById("sitetime").innerHTML=" 网站已运行 "+diffYears+" 年 "+diffDays+" 天 "+diffHours+" 小时 "+diffMinutes+" 分钟 "+diffSeconds+" 秒";
+		}
+	}
+	siteTime();
+	</script>
+</div>
+
+<div class="busuanzi-count">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+<!--
+-->
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.1.0/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lozad.js/1.16.0/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  <script src="/js/third-party/pace.js"></script>
+
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"miaopei","repo":"miaopei.github.io","client_id":"Ov23li804qbeklf03KFv","client_secret":"fce69a6b68a24543006d90b37dbe835082db6f23","admin_user":"miaopei","distraction_free_mode":true,"language":"zh-CN","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"e0a5649893d622a706ad0fb1db8a866a"}</script>
+<script src="/js/third-party/comments/gitalk.js"></script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true}});</script></body>
+</html>

@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.2.0">
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/mrmiaow-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/mrmiaow-16.png">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/blue/pace-theme-minimal.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"miaopei.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"always","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"show_result":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":true,"nav":{"gitalk":{"order":-2}},"activeClass":"gitalk"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Epoll 可是当前在 Linux 下开发大规模并发网络程序的热门人选，Epoll 在 Linux2.6 内核中正式引入，和 select 相似，其实都 I&#x2F;O 多路复用技术而已，并没有什么神秘的。 其实在 Linux 下设计并发网络程序，向来不缺少方法，比如典型的 Apache 模型（Process Per Connection，简称 PPC），TPC（Thread Per Conne">
+<meta property="og:type" content="article">
+<meta property="og:title" content="处理并发之一：LINUX Epoll 机制介绍">
+<meta property="og:url" content="http://miaopei.github.io/2016/07/08/Program-C/linux-epoll/index.html">
+<meta property="og:site_name" content="Mr.Miaow Blog">
+<meta property="og:description" content="Epoll 可是当前在 Linux 下开发大规模并发网络程序的热门人选，Epoll 在 Linux2.6 内核中正式引入，和 select 相似，其实都 I&#x2F;O 多路复用技术而已，并没有什么神秘的。 其实在 Linux 下设计并发网络程序，向来不缺少方法，比如典型的 Apache 模型（Process Per Connection，简称 PPC），TPC（Thread Per Conne">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2016-07-08T02:14:50.000Z">
+<meta property="article:modified_time" content="2024-06-14T05:51:11.268Z">
+<meta property="article:author" content="Mr.Miaow">
+<meta property="article:tag" content="c&#x2F;c++">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://miaopei.github.io/2016/07/08/Program-C/linux-epoll/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://miaopei.github.io/2016/07/08/Program-C/linux-epoll/","path":"2016/07/08/Program-C/linux-epoll/","title":"处理并发之一：LINUX Epoll 机制介绍"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>处理并发之一：LINUX Epoll 机制介绍 | Mr.Miaow Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Mr.Miaow Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Mr.Miaow Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Do what you say, say what you do.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-messages"><a href="/messages/" rel="section"><i class="fa fa-comment fa-fw"></i>留言板</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E6%A8%A1%E5%9E%8B%E7%9A%84%E7%BC%BA%E7%82%B9"><span class="nav-text">常用模型的缺点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#PPC-TPC-%E6%A8%A1%E5%9E%8B"><span class="nav-text">PPC&#x2F;TPC 模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#select%E6%A8%A1%E5%9E%8B"><span class="nav-text">select模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#poll-%E6%A8%A1%E5%9E%8B"><span class="nav-text">poll 模型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Epoll-%E7%9A%84%E6%8F%90%E5%8D%87"><span class="nav-text">Epoll 的提升</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Epoll%E4%B8%BA%E4%BB%80%E4%B9%88%E9%AB%98%E6%95%88"><span class="nav-text">Epoll为什么高效</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Epoll-%E5%85%B3%E9%94%AE%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="nav-text">Epoll 关键数据结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-Epoll"><span class="nav-text">使用 Epoll</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E7%A8%8B%E5%BA%8F"><span class="nav-text">测试程序</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Mr.Miaow"
+      src="https://avatars.githubusercontent.com/u/7922626?v=4">
+  <p class="site-author-name" itemprop="name">Mr.Miaow</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">58</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="feed-link motion-element">
+    <a href="/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>
+      RSS
+    </a>
+  </div>
+
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/miaopei" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;miaopei" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/miaopei163@163.com" title="E-Mail → miaopei163@163.com" rel="noopener me"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+          <link rel="stylesheet" href="/dist/APlayer.min.css">
+          <div id="aplayer"></div>
+          <script type="text/javascript" src="/dist/APlayer.min.js"></script>
+          <script type="text/javascript" src="/dist/music.js"></script>
+
+        </div>
+      </div>
+        <div class="back-to-top animated" role="button" aria-label="返回顶部">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://miaopei.github.io/2016/07/08/Program-C/linux-epoll/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://avatars.githubusercontent.com/u/7922626?v=4">
+      <meta itemprop="name" content="Mr.Miaow">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mr.Miaow Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="处理并发之一：LINUX Epoll 机制介绍 | Mr.Miaow Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          处理并发之一：LINUX Epoll 机制介绍
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2016-07-08 10:14:50" itemprop="dateCreated datePublished" datetime="2016-07-08T10:14:50+08:00">2016-07-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/c-c/" itemprop="url" rel="index"><span itemprop="name">c/c++</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>19k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>17 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>Epoll 可是当前在 Linux 下开发大规模并发网络程序的热门人选，Epoll 在 Linux2.6 内核中正式引入，和 select 相似，其实都 I&#x2F;O 多路复用技术而已，并没有什么神秘的。</p>
+<p>其实在 Linux 下设计并发网络程序，向来不缺少方法，比如典型的 Apache 模型（Process Per Connection，简称 PPC），TPC（Thread Per Connection）模型，以及 select 模型和 poll 模型，那为何还要再引入 Epoll 这个东东呢？那还是有得说说的…</p>
+<span id="more"></span>
+
+<h2 id="常用模型的缺点"><a href="#常用模型的缺点" class="headerlink" title="常用模型的缺点"></a>常用模型的缺点</h2><p>如果不摆出来其他模型的缺点，怎么能对比出 Epoll 的优点呢。</p>
+<h3 id="PPC-TPC-模型"><a href="#PPC-TPC-模型" class="headerlink" title="PPC&#x2F;TPC 模型"></a>PPC&#x2F;TPC 模型</h3><p>这两种模型思想类似，就是让每一个到来的连接一边自己做事去，别再来烦我。只是 PPC 是为它开了一个进程，而 TPC 开了一个线程。可是别烦我是有代价的，它要时间和空间啊，连接多了之后，那么多的进程 &#x2F; 线程切换，这开销就上来了；因此这类模型能接受的最大连接数都不会高，一般在几百个左右。</p>
+<h3 id="select模型"><a href="#select模型" class="headerlink" title="select模型"></a>select模型</h3><ol>
+<li><p>最大并发数限制，因为一个进程所打开的 FD（文件描述符）是有限制的，由 FD_SETSIZE 设置，默认值是 1024&#x2F;2048，因此 Select 模型的最大并发数就被相应限制了。自己改改这个FD_SETSIZE？想法虽好，可是先看看下面吧…</p>
+</li>
+<li><p>效率问题，select 每次调用都会线性扫描全部的 FD 集合，这样效率就会呈现线性下降，把FD_SETSIZE 改大的后果就是，大家都慢慢来，什么？都超时了？？！！</p>
+</li>
+<li><p>内核 &#x2F; 用户空间 内存拷贝问题，如何让内核把 FD 消息通知给用户空间呢？在这个问题上 select 采取了内存拷贝方法。</p>
+</li>
+</ol>
+<h3 id="poll-模型"><a href="#poll-模型" class="headerlink" title="poll 模型"></a>poll 模型</h3><p>基本上效率和 select 是相同的，select 缺点的 2 和 3 它都没有改掉。</p>
+<h2 id="Epoll-的提升"><a href="#Epoll-的提升" class="headerlink" title="Epoll 的提升"></a>Epoll 的提升</h2><p>把其他模型逐个批判了一下，再来看看 Epoll 的改进之处吧，其实把 select 的缺点反过来那就是 Epoll 的优点了。</p>
+<ol>
+<li><p>Epoll 没有最大并发连接的限制，上限是最大可以打开文件的数目，这个数字一般远大于 2048,  一般来说这个数目和系统内存关系很大，具体数目可以 <code>cat /proc/sys/fs/file-max</code> 察看。</p>
+</li>
+<li><p>效率提升，Epoll 最大的优点就在于它只管你 “活跃” 的连接，而跟连接总数无关，因此在实际的网络环境中，Epoll 的效率就会远远高于 select 和 poll。</p>
+</li>
+<li><p>内存拷贝，Epoll 在这点上使用了 “共享内存”，这个内存拷贝也省略了。</p>
+</li>
+</ol>
+<h2 id="Epoll为什么高效"><a href="#Epoll为什么高效" class="headerlink" title="Epoll为什么高效"></a>Epoll为什么高效</h2><p>Epoll 的高效和其数据结构的设计是密不可分的，这个下面就会提到。</p>
+<p>首先回忆一下 select 模型，当有 I&#x2F;O 事件到来时，select 通知应用程序有事件到了快去处理，而应用程序必须轮询所有的 FD 集合，测试每个 FD 是否有事件发生，并处理事件；</p>
+<details><summary>代码像下面这样：</summary>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> res = select(maxfd+<span class="number">1</span>, &amp;readfds, <span class="literal">NULL</span>, <span class="literal">NULL</span>, <span class="number">120</span>);</span><br><span class="line"><span class="keyword">if</span>(res &gt; <span class="number">0</span>)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt; MAX_CONNECTION; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(FD_ISSET(allConnection[i],&amp;readfds))</span><br><span class="line">        &#123;</span><br><span class="line">            handleEvent(allConnection[i]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// if(res == 0) handle timeout, res &lt; 0 handle error</span></span><br></pre></td></tr></table></figure>
+
+</details>
+
+<p>Epoll 不仅会告诉应用程序有 I&#x2F;0 事件到来，还会告诉应用程序相关的信息，这些信息是应用程序填充的，因此根据这些信息应用程序就能直接定位到事件，而不必遍历整个 FD 集合。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">intres = epoll_wait(epfd, events, <span class="number">20</span>, <span class="number">120</span>);</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt; res;i++)</span><br><span class="line">&#123;</span><br><span class="line">    handleEvent(events[n]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Epoll-关键数据结构"><a href="#Epoll-关键数据结构" class="headerlink" title="Epoll 关键数据结构"></a>Epoll 关键数据结构</h2><p>前面提到 Epoll 速度快和其数据结构密不可分，其关键数据结构就是：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">epoll_event</span> &#123;</span></span><br><span class="line">    <span class="type">__uint32_t</span> events;      <span class="comment">// Epoll events</span></span><br><span class="line">    <span class="type">epoll_data_t</span> data;      <span class="comment">// User datavariable</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">union</span> <span class="title">epoll_data</span> &#123;</span></span><br><span class="line">   <span class="type">void</span> *ptr;</span><br><span class="line">   <span class="type">int</span> fd;</span><br><span class="line">   <span class="type">__uint32_t</span> u32;</span><br><span class="line">   <span class="type">__uint64_t</span> u64;</span><br><span class="line">&#125; <span class="type">epoll_data_t</span>;</span><br></pre></td></tr></table></figure>
+
+<p>结构体 <code>epoll_event</code> 被用于注册所感兴趣的事件和回传所发生待处理的事件. </p>
+<p>其中 <code>epoll_data</code> 联合体用来保存触发事件的某个文件描述符相关的数据. </p>
+<p>例如一个 client 连接到服务器，服务器通过调用 accept 函数可以得到于这个 client 对应的 socket 文件描述符，可以把这文件描述符赋给 epoll_data 的 fd 字段以便后面的读写操作在这个文件描述符上进行。epoll_event 结构体的 events 字段是表示感兴趣的事件和被触发的事件可能的取值为： </p>
+<ul>
+<li>EPOLLIN ：表示对应的文件描述符可以读；</li>
+<li>EPOLLOUT：表示对应的文件描述符可以写；</li>
+<li>EPOLLPRI：表示对应的文件描述符有紧急的数据可读</li>
+<li>EPOLLERR：表示对应的文件描述符发生错误；</li>
+<li>EPOLLHUP：表示对应的文件描述符被挂断；</li>
+<li>EPOLLET：表示对应的文件描述符有事件发生；</li>
+</ul>
+<p><strong>ET 和 LT 模式</strong></p>
+<p>LT(level triggered) 是缺省的工作方式，并且同时支持 block 和 no-block socket. 在这种做法中，内核告诉你一个文件描述符是否就绪了，然后你可以对这个就绪的 fd 进行 IO 操作。如果你不作任何操作，内核还是会继续通知你的，所以，这种模式编程出错误可能性要小一点。传统的 select&#x2F;poll 都是这种模型的代表。</p>
+<p>ET (edge-triggered) 是高速工作方式，只支持 no-block socket。在这种模式下，当描述符从未就绪变为就绪时，内核通过 epoll 告诉你。然后它会假设你知道文件描述符已经就绪，并且不会再为那个文件描述符发送更多的就绪通知，直到你做了某些操作导致那个文件描述符不再为就绪状态了（比如，你在发送，接收或者接收请求，或者发送接收的数据少于一定量时导致了一个 EWOULDBLOCK 错误）。但是请注意，如果一直不对这个 fd 作 IO 操作（从而导致它再次变成未就绪），内核不会发送更多的通知(only once)，不过在 TCP 协议中，ET 模式的加速效用仍需要更多的 benchmark 确认。</p>
+<p>ET 和 LT 的区别在于 LT 事件不会丢弃，而是只要读 buffer 里面有数据可以让用户读，则不断的通知你。而 ET 则只在事件发生之时通知。可以简单理解为 LT 是水平触发，而 ET 则为边缘触发。</p>
+<p>ET 模式仅当状态发生变化的时候才获得通知,这里所谓的状态的变化并不包括缓冲区中还有未处理的数据,也就是说,如果要采用 ET 模式,需要一直 <code>read/write</code> 直到出错为止, 很多人反映为什么采用 ET 模式只接收了一部分数据就再也得不到通知了, 大多因为这样; 而 LT 模式是只要有数据没有处理就会一直通知下去的.</p>
+<h2 id="使用-Epoll"><a href="#使用-Epoll" class="headerlink" title="使用 Epoll"></a>使用 Epoll</h2><p>既然 Epoll 相比 select 这么好，那么用起来如何呢？会不会很繁琐啊…先看看下面的三个函数吧，就知道 Epoll 的易用了。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">epoll_create</span><span class="params">(<span class="type">int</span> size)</span>;</span><br></pre></td></tr></table></figure>
+
+<p>生成一个 Epoll 专用的文件描述符，其实是申请一个内核空间，用来存放你想关注的 socket fd 上是否发生以及发生了什么事件。size 就是你在这个 Epoll fd 上能关注的最大 socket fd 数，大小自定，只要内存足够。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">epoll_ctl</span><span class="params">(<span class="type">int</span> epfd, <span class="type">int</span> op, <span class="type">int</span> fd, <span class="keyword">struct</span> epoll_event *event)</span>;</span><br></pre></td></tr></table></figure>
+
+<p>epoll的事件注册函数，它不同与select()是在监听事件时告诉内核要监听什么类型的事件，而是在这里先注册要监听的事件类型。第一个参数是epoll_create()的返回值，第二个参数表示动作，用三个宏来表示：</p>
+<ul>
+<li>EPOLL_CTL_ADD：注册新的 fd 到 epfd 中；</li>
+<li>EPOLL_CTL_MOD：修改已经注册的 fd 的监听事件；</li>
+<li>EPOLL_CTL_DEL：从 epfd 中删除一个 fd；</li>
+</ul>
+<p>第三个参数是需要监听的 fd，第四个参数是告诉内核需要监听什么事</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">epoll_wait</span><span class="params">(<span class="type">int</span> epfd,<span class="keyword">struct</span> epoll_event * events,<span class="type">int</span> maxevents,<span class="type">int</span> timeout)</span>;</span><br></pre></td></tr></table></figure>
+
+<p>等待 I&#x2F;O 事件的发生；参数说明：</p>
+<ul>
+<li>epfd: 由 <code>epoll_create()</code> 生成的 Epoll 专用的文件描述符；</li>
+<li>epoll_event: 用于回传代处理事件的数组；</li>
+<li>maxevents: 每次能处理的事件数；</li>
+<li>timeout: 等待 I&#x2F;O 事件发生的超时值；</li>
+<li>返回发生事件数。</li>
+</ul>
+<hr>
+<h2 id="测试程序"><a href="#测试程序" class="headerlink" title="测试程序"></a>测试程序</h2><p>首先对服务端和客户端做下说明：</p>
+<ul>
+<li><p>我想实现的是客户端和服务端并发的程序，客户端通过配置并发数，说明有多少个用户去连接服务端。</p>
+</li>
+<li><p>客户端会发送消息：”Client: i send message Hello Server!”，其中 <code>i</code> 表示哪一个客户端；收到消息：”Recv Server Msg Content:%s\n”。</p>
+</li>
+</ul>
+<p>例如：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">发送：Client: 1 send message &quot;Hello Server!&quot;</span><br><span class="line">接收：Recv Derver Msg Content:Hello, client fd: 6</span><br><span class="line">服务端收到后给客户端回复消息：&quot;Hello, client fd: i&quot;，其中 i 表示服务端接收的 fd, 用户区别是哪一个客户端。接收客户端消息：&quot;Terminal Received Msg Content:%s\n&quot;</span><br></pre></td></tr></table></figure>
+
+<p>例如：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">发送：Hello, client fd: 6</span><br><span class="line">接收：Terminal Received Msg Content:Client: 1 send message &quot;Hello Server!&quot;</span><br></pre></td></tr></table></figure>
+
+<p>备注：这里在接收到消息后，直接打印出消息，如果需要对消息进行处理（如果消息处理比较占用时间，不能立即返回，可以将该消息放入一个队列中，然后开启一个线程从队列中取消息进行处理，这样的话不会因为消息处理而阻塞 epoll）。libenent 好像对这种有 2 中处理方式，一个就是回调，要求回调函数，不占用太多的时间，基本能立即返回，另一种好像也是一个队列实现的，这个还需要研究。</p>
+<p>服务端代码说明：</p>
+<p>服务端在绑定监听后，开启了一个线程，用于负责接收客户端连接，加入到 epoll 中，这样只要 accept 到客户端的连接，就将其 add EPOLLIN 到 epoll 中，然后进入循环调用 epoll_wait，监听到读事件，接收数据，并将事件修改为 EPOLLOUT；反之监听到写事件，发送数据，并将事件修改为EPOLLIN。</p>
+<details><summary>服务器代码：</summary>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//cepollserver.h  </span></span><br><span class="line"><span class="meta">#<span class="keyword">ifndef</span>  C_EPOLL_SERVER_H  </span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>  C_EPOLL_SERVER_H  </span></span><br><span class="line">  </span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/epoll.h&gt;</span>  </span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/socket.h&gt;</span>  </span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;netinet/in.h&gt;</span>  </span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;fcntl.h&gt;</span>  </span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;arpa/inet.h&gt;</span>  </span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span>  </span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span>  </span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span>  </span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;pthread.h&gt;</span>  </span></span><br><span class="line">  </span><br><span class="line"><span class="meta">#<span class="keyword">define</span> _MAX_SOCKFD_COUNT 65535  </span></span><br><span class="line">  </span><br><span class="line"><span class="keyword">class</span> <span class="title class_">CEpollServer</span>  </span><br><span class="line">&#123;  </span><br><span class="line"><span class="keyword">public</span>:  </span><br><span class="line">    <span class="built_in">CEpollServer</span>();  </span><br><span class="line">    ~<span class="built_in">CEpollServer</span>();  </span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">InitServer</span><span class="params">(<span class="type">const</span> <span class="type">char</span>* chIp, <span class="type">int</span> iPort)</span></span>;  </span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">Listen</span><span class="params">()</span></span>;  </span><br><span class="line">    <span class="function"><span class="type">static</span> <span class="type">void</span> <span class="title">ListenThread</span><span class="params">( <span class="type">void</span>* lpVoid )</span></span>;  </span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">Run</span><span class="params">()</span></span>;  </span><br><span class="line">    </span><br><span class="line"><span class="keyword">private</span>:  </span><br><span class="line">    <span class="type">int</span>        m_iEpollFd;  </span><br><span class="line">    <span class="type">int</span>        m_isock;  </span><br><span class="line">    <span class="type">pthread_t</span>       m_ListenThreadId;<span class="comment">// 监听线程句柄  </span></span><br><span class="line">&#125;;  </span><br><span class="line">  </span><br><span class="line"><span class="meta">#<span class="keyword">endif</span>  </span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;cepollserver.h&quot;</span>  </span></span><br><span class="line">  </span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;  </span><br><span class="line">  </span><br><span class="line">CEpollServer::<span class="built_in">CEpollServer</span>()  </span><br><span class="line">&#123;  </span><br><span class="line">&#125;  </span><br><span class="line">  </span><br><span class="line">CEpollServer::~<span class="built_in">CEpollServer</span>()  </span><br><span class="line">&#123;  </span><br><span class="line">    <span class="built_in">close</span>(m_isock);  </span><br><span class="line">&#125;  </span><br><span class="line">  </span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">CEpollServer::InitServer</span><span class="params">(<span class="type">const</span> <span class="type">char</span>* pIp, <span class="type">int</span> iPort)</span>  </span></span><br><span class="line"><span class="function"></span>&#123;  </span><br><span class="line">    m_iEpollFd = <span class="built_in">epoll_create</span>(_MAX_SOCKFD_COUNT);  </span><br><span class="line"></span><br><span class="line">    <span class="comment">//设置非阻塞模式  </span></span><br><span class="line">    <span class="type">int</span> opts = O_NONBLOCK;  </span><br><span class="line">    <span class="keyword">if</span>(<span class="built_in">fcntl</span>(m_iEpollFd,F_SETFL,opts)&lt;<span class="number">0</span>) &#123;  </span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;设置非阻塞模式失败!\n&quot;</span>);  </span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;  </span><br><span class="line">    &#125;  </span><br><span class="line"></span><br><span class="line">    m_isock = <span class="built_in">socket</span>(AF_INET,SOCK_STREAM,<span class="number">0</span>);  </span><br><span class="line">    <span class="keyword">if</span> ( <span class="number">0</span> &gt; m_isock ) &#123;  </span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;socket error!\n&quot;</span>);  </span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;  </span><br><span class="line">    &#125;  </span><br><span class="line">　　  </span><br><span class="line">    sockaddr_in listen_addr;  </span><br><span class="line">    listen_addr.sin_family=AF_INET;  </span><br><span class="line">    listen_addr.sin_port=<span class="built_in">htons</span> ( iPort );  </span><br><span class="line">    listen_addr.sin_addr.s_addr=<span class="built_in">htonl</span>(INADDR_ANY);  </span><br><span class="line">    listen_addr.sin_addr.s_addr=<span class="built_in">inet_addr</span>(pIp);  </span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> ireuseadd_on = <span class="number">1</span>;<span class="comment">//支持端口复用  </span></span><br><span class="line">    <span class="built_in">setsockopt</span>(m_isock, SOL_SOCKET, SO_REUSEADDR, &amp;ireuseadd_on, <span class="built_in">sizeof</span>(ireuseadd_on) );  </span><br><span class="line">　　  </span><br><span class="line">    <span class="keyword">if</span> ( <span class="built_in">bind</span> ( m_isock, ( sockaddr * ) &amp;listen_addr,<span class="built_in">sizeof</span> ( listen_addr ) ) !=<span class="number">0</span> ) &#123;  </span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;bind error\n&quot;</span>);  </span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;  </span><br><span class="line">    &#125;  </span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> ( <span class="built_in">listen</span> ( m_isock, <span class="number">20</span>) &lt;<span class="number">0</span> ) &#123;  </span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;listen error!\n&quot;</span>);  </span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="keyword">else</span> &#123;  </span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;服务端监听中...\n&quot;</span>);  </span><br><span class="line">    &#125;  </span><br><span class="line"></span><br><span class="line">    <span class="comment">// 监听线程，此线程负责接收客户端连接，加入到epoll中  </span></span><br><span class="line">    <span class="keyword">if</span> ( <span class="built_in">pthread_create</span>( &amp;m_ListenThreadId, <span class="number">0</span>, ( <span class="type">void</span> * ( * ) ( <span class="type">void</span> * ) ) ListenThread, <span class="keyword">this</span> ) != <span class="number">0</span> ) &#123;  </span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;Server 监听线程创建失败!!!&quot;</span>);  </span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;  </span><br><span class="line"></span><br><span class="line"><span class="comment">// 监听线程  </span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">CEpollServer::ListenThread</span><span class="params">( <span class="type">void</span>* lpVoid )</span>  </span></span><br><span class="line"><span class="function"></span>&#123;  </span><br><span class="line">    CEpollServer *pTerminalServer = (CEpollServer*)lpVoid;  </span><br><span class="line">    sockaddr_in remote_addr;  </span><br><span class="line">    <span class="type">int</span> len = <span class="built_in">sizeof</span> (remote_addr);  </span><br><span class="line">    <span class="keyword">while</span> ( <span class="literal">true</span> ) &#123;  </span><br><span class="line">        <span class="type">int</span> client_socket = <span class="built_in">accept</span> (pTerminalServer-&gt;m_isock, ( sockaddr * ) &amp;remote_addr,(<span class="type">socklen_t</span>*)&amp;len );  </span><br><span class="line">        <span class="keyword">if</span> ( client_socket &lt; <span class="number">0</span> ) &#123;  </span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;Server Accept失败!, client_socket: %d\n&quot;</span>, client_socket);  </span><br><span class="line">            <span class="keyword">continue</span>;  </span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;  </span><br><span class="line">            <span class="keyword">struct</span> epoll_event    ev;  </span><br><span class="line">            ev.events = EPOLLIN | EPOLLERR | EPOLLHUP;  </span><br><span class="line">            ev.data.fd = client_socket;     <span class="comment">//记录socket句柄  </span></span><br><span class="line">            <span class="built_in">epoll_ctl</span>(pTerminalServer-&gt;m_iEpollFd, EPOLL_CTL_ADD, client_socket, &amp;ev);  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;  </span><br><span class="line">　　  </span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">CEpollServer::Run</span><span class="params">()</span>  </span></span><br><span class="line"><span class="function"></span>&#123;  </span><br><span class="line">    <span class="keyword">while</span> ( <span class="literal">true</span> )  </span><br><span class="line">    &#123;  </span><br><span class="line">        <span class="keyword">struct</span> <span class="title class_">epoll_event</span>    events[_MAX_SOCKFD_COUNT];  </span><br><span class="line">        <span class="type">int</span> nfds = <span class="built_in">epoll_wait</span>( m_iEpollFd, events,  _MAX_SOCKFD_COUNT, <span class="number">-1</span> );  </span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; nfds; i++) </span><br><span class="line">        &#123;  </span><br><span class="line">            <span class="type">int</span> client_socket = events[i].data.fd;  </span><br><span class="line">            <span class="type">char</span> buffer[<span class="number">1024</span>];<span class="comment">//每次收发的字节数小于1024字节  </span></span><br><span class="line">            <span class="built_in">memset</span>(buffer, <span class="number">0</span>, <span class="number">1024</span>);  </span><br><span class="line">            <span class="keyword">if</span> (events[i].events &amp; EPOLLIN)<span class="comment">//监听到读事件，接收数据  </span></span><br><span class="line">            &#123;  </span><br><span class="line">                <span class="type">int</span> rev_size = <span class="built_in">recv</span>(events[i].data.fd,buffer, <span class="number">1024</span>,<span class="number">0</span>);  </span><br><span class="line">                <span class="keyword">if</span>( rev_size &lt;= <span class="number">0</span> )  </span><br><span class="line">                &#123;  </span><br><span class="line">                    cout &lt;&lt; <span class="string">&quot;recv error: recv size: &quot;</span> &lt;&lt; rev_size &lt;&lt; endl;  </span><br><span class="line">                    <span class="keyword">struct</span> <span class="title class_">epoll_event</span> event_del;  </span><br><span class="line">                    event_del.data.fd = events[i].data.fd;  </span><br><span class="line">                    event_del.events = <span class="number">0</span>;  </span><br><span class="line">                    <span class="built_in">epoll_ctl</span>(m_iEpollFd, EPOLL_CTL_DEL, event_del.data.fd, &amp;event_del);  </span><br><span class="line">                &#125;  </span><br><span class="line">                <span class="keyword">else</span>  </span><br><span class="line">                &#123;  </span><br><span class="line">                    <span class="built_in">printf</span>(<span class="string">&quot;Terminal Received Msg Content:%s\n&quot;</span>,buffer);  </span><br><span class="line">                    <span class="keyword">struct</span> <span class="title class_">epoll_event</span>    ev;  </span><br><span class="line">                    ev.events = EPOLLOUT | EPOLLERR | EPOLLHUP;  </span><br><span class="line">                    ev.data.fd = client_socket;     <span class="comment">//记录socket句柄  </span></span><br><span class="line">                    <span class="built_in">epoll_ctl</span>(m_iEpollFd, EPOLL_CTL_MOD, client_socket, &amp;ev);  </span><br><span class="line">                &#125;  </span><br><span class="line">            &#125;  </span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(events[i].events &amp; EPOLLOUT)<span class="comment">//监听到写事件，发送数据  </span></span><br><span class="line">            &#123;  </span><br><span class="line">                <span class="type">char</span> sendbuff[<span class="number">1024</span>];  </span><br><span class="line">                <span class="built_in">sprintf</span>(sendbuff, <span class="string">&quot;Hello, client fd: %d\n&quot;</span>, client_socket);  </span><br><span class="line">                <span class="type">int</span> sendsize = <span class="built_in">send</span>(client_socket, sendbuff, <span class="built_in">strlen</span>(sendbuff)+<span class="number">1</span>, MSG_NOSIGNAL);  </span><br><span class="line">                <span class="keyword">if</span>(sendsize &lt;= <span class="number">0</span>)  </span><br><span class="line">                &#123;  </span><br><span class="line">                    <span class="keyword">struct</span> <span class="title class_">epoll_event</span> event_del;  </span><br><span class="line">                    event_del.data.fd = events[i].data.fd;  </span><br><span class="line">                    event_del.events = <span class="number">0</span>;  </span><br><span class="line">                    <span class="built_in">epoll_ctl</span>(m_iEpollFd, EPOLL_CTL_DEL, event_del.data.fd, &amp;event_del);  </span><br><span class="line">                &#125;  </span><br><span class="line">                <span class="keyword">else</span>  </span><br><span class="line">                &#123;  </span><br><span class="line">                    <span class="built_in">printf</span>(<span class="string">&quot;Server reply msg ok! buffer: %s\n&quot;</span>, sendbuff);  </span><br><span class="line">                    <span class="keyword">struct</span> <span class="title class_">epoll_event</span>    ev;  </span><br><span class="line">                    ev.events = EPOLLIN | EPOLLERR | EPOLLHUP;  </span><br><span class="line">                    ev.data.fd = client_socket;     <span class="comment">//记录socket句柄  </span></span><br><span class="line">                    <span class="built_in">epoll_ctl</span>(m_iEpollFd, EPOLL_CTL_MOD, client_socket, &amp;ev);  </span><br><span class="line">                &#125;  </span><br><span class="line">            &#125;  </span><br><span class="line">            <span class="keyword">else</span>  </span><br><span class="line">            &#123;  </span><br><span class="line">                cout &lt;&lt; <span class="string">&quot;EPOLL ERROR\n&quot;</span> &lt;&lt;endl;  </span><br><span class="line">                <span class="built_in">epoll_ctl</span>(m_iEpollFd, EPOLL_CTL_DEL, events[i].data.fd, &amp;events[i]);  </span><br><span class="line">            &#125;  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;  </span><br></pre></td></tr></table></figure>
+
+</details>
+
+<details><summary>客户端代码：</summary>
+
+<p>说明：测试是两个并发进行测试，每一个客户端都是一个长连接。代码中在连接服务器（ConnectToServer）时将用户 ID 和 socketid 关联起来。用户 ID 和 socketid 是一一对应的关系。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">ifndef</span> _DEFINE_EPOLLCLIENT_H_  </span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> _DEFINE_EPOLLCLIENT_H_  </span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> _MAX_SOCKFD_COUNT 65535  </span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span>  </span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/epoll.h&gt;</span>  </span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/socket.h&gt;</span>  </span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;netinet/in.h&gt;</span>  </span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;fcntl.h&gt;</span>  </span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;arpa/inet.h&gt;</span>  </span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;errno.h&gt;</span>  </span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/ioctl.h&gt;</span>  </span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/time.h&gt;</span>  </span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span>  </span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;  </span><br><span class="line"></span><br><span class="line"><span class="comment">/** </span></span><br><span class="line"><span class="comment">* @brief 用户状态 </span></span><br><span class="line"><span class="comment">*/</span>  </span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">enum</span> <span class="title class_">_EPOLL_USER_STATUS_EM</span>  </span><br><span class="line">&#123;  </span><br><span class="line">    FREE = <span class="number">0</span>,  </span><br><span class="line">    CONNECT_OK = <span class="number">1</span>,<span class="comment">//连接成功  </span></span><br><span class="line">    SEND_OK = <span class="number">2</span>,<span class="comment">//发送成功  </span></span><br><span class="line">    RECV_OK = <span class="number">3</span>,<span class="comment">//接收成功  </span></span><br><span class="line">&#125;EPOLL_USER_STATUS_EM;  </span><br><span class="line"></span><br><span class="line"><span class="comment">/*@brief </span></span><br><span class="line"><span class="comment">*@CEpollClient class 用户状态结构体 </span></span><br><span class="line"><span class="comment">*/</span>  </span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">UserStatus</span>  </span><br><span class="line">&#123;  </span><br><span class="line">    EPOLL_USER_STATUS_EM iUserStatus;<span class="comment">//用户状态  </span></span><br><span class="line">    <span class="type">int</span> iSockFd;<span class="comment">//用户状态关联的socketfd  </span></span><br><span class="line">    <span class="type">char</span> cSendbuff[<span class="number">1024</span>];<span class="comment">//发送的数据内容  </span></span><br><span class="line">    <span class="type">int</span> iBuffLen;<span class="comment">//发送数据内容的长度  </span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">int</span> uEpollEvents;<span class="comment">//Epoll events  </span></span><br><span class="line">&#125;;  </span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">CEpollClient</span>  </span><br><span class="line">&#123;  </span><br><span class="line"><span class="keyword">public</span>:  </span><br><span class="line">    <span class="comment">/** </span></span><br><span class="line"><span class="comment">    * @brief </span></span><br><span class="line"><span class="comment">    * 函数名:CEpollClient </span></span><br><span class="line"><span class="comment">    * 描述:构造函数 </span></span><br><span class="line"><span class="comment">    * @param [in] iUserCount  </span></span><br><span class="line"><span class="comment">    * @param [in] pIP IP地址 </span></span><br><span class="line"><span class="comment">    * @param [in] iPort 端口号 </span></span><br><span class="line"><span class="comment">    * @return 无返回 </span></span><br><span class="line"><span class="comment">    */</span>  </span><br><span class="line">    <span class="built_in">CEpollClient</span>(<span class="type">int</span> iUserCount, <span class="type">const</span> <span class="type">char</span>* pIP, <span class="type">int</span> iPort);  </span><br><span class="line"></span><br><span class="line">    <span class="comment">/** </span></span><br><span class="line"><span class="comment">    * @brief </span></span><br><span class="line"><span class="comment">    * 函数名:CEpollClient </span></span><br><span class="line"><span class="comment">    * 描述:析构函数 </span></span><br><span class="line"><span class="comment">    * @return 无返回 </span></span><br><span class="line"><span class="comment">    */</span>  </span><br><span class="line">    ~<span class="built_in">CEpollClient</span>();  </span><br><span class="line"></span><br><span class="line">    <span class="comment">/** </span></span><br><span class="line"><span class="comment">    * @brief </span></span><br><span class="line"><span class="comment">    * 函数名:RunFun </span></span><br><span class="line"><span class="comment">    * 描述:对外提供的接口，运行epoll类 </span></span><br><span class="line"><span class="comment">    * @return 无返回值 </span></span><br><span class="line"><span class="comment">    */</span>  </span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">RunFun</span><span class="params">()</span></span>;  </span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:  </span><br><span class="line">    <span class="comment">/** </span></span><br><span class="line"><span class="comment">    * @brief </span></span><br><span class="line"><span class="comment">    * 函数名:ConnectToServer </span></span><br><span class="line"><span class="comment">    * 描述:连接到服务器 </span></span><br><span class="line"><span class="comment">    * @param [in] iUserId 用户ID </span></span><br><span class="line"><span class="comment">    * @param [in] pServerIp 连接的服务器IP </span></span><br><span class="line"><span class="comment">    * @param [in] uServerPort 连接的服务器端口号 </span></span><br><span class="line"><span class="comment">    * @return 成功返回socketfd,失败返回的socketfd为-1 </span></span><br><span class="line"><span class="comment">    */</span>  </span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">ConnectToServer</span><span class="params">(<span class="type">int</span> iUserId,<span class="type">const</span> <span class="type">char</span> *pServerIp,<span class="type">unsigned</span> <span class="type">short</span> uServerPort)</span></span>;  </span><br><span class="line"></span><br><span class="line">    <span class="comment">/** </span></span><br><span class="line"><span class="comment">    * @brief </span></span><br><span class="line"><span class="comment">    * 函数名:SendToServerData </span></span><br><span class="line"><span class="comment">    * 描述:给服务器发送用户(iUserId)的数据 </span></span><br><span class="line"><span class="comment">    * @param [in] iUserId 用户ID </span></span><br><span class="line"><span class="comment">    * @return 成功返回发送数据长度 </span></span><br><span class="line"><span class="comment">    */</span>  </span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">SendToServerData</span><span class="params">(<span class="type">int</span> iUserId)</span></span>;  </span><br><span class="line"></span><br><span class="line">    <span class="comment">/** </span></span><br><span class="line"><span class="comment">    * @brief </span></span><br><span class="line"><span class="comment">    * 函数名:RecvFromServer </span></span><br><span class="line"><span class="comment">    * 描述:接收用户回复消息 </span></span><br><span class="line"><span class="comment">    * @param [in] iUserId 用户ID </span></span><br><span class="line"><span class="comment">    * @param [in] pRecvBuff 接收的数据内容 </span></span><br><span class="line"><span class="comment">    * @param [in] iBuffLen 接收的数据长度 </span></span><br><span class="line"><span class="comment">    * @return 成功返回接收的数据长度，失败返回长度为-1 </span></span><br><span class="line"><span class="comment">    */</span>  </span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">RecvFromServer</span><span class="params">(<span class="type">int</span> iUserid,<span class="type">char</span> *pRecvBuff,<span class="type">int</span> iBuffLen)</span></span>;  </span><br><span class="line"></span><br><span class="line">    <span class="comment">/** </span></span><br><span class="line"><span class="comment">    * @brief </span></span><br><span class="line"><span class="comment">    * 函数名:CloseUser </span></span><br><span class="line"><span class="comment">    * 描述:关闭用户 </span></span><br><span class="line"><span class="comment">    * @param [in] iUserId 用户ID </span></span><br><span class="line"><span class="comment">    * @return 成功返回true </span></span><br><span class="line"><span class="comment">    */</span>  </span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">CloseUser</span><span class="params">(<span class="type">int</span> iUserId)</span></span>;  </span><br><span class="line"></span><br><span class="line">    <span class="comment">/** </span></span><br><span class="line"><span class="comment">    * @brief </span></span><br><span class="line"><span class="comment">    * 函数名:DelEpoll </span></span><br><span class="line"><span class="comment">    * 描述:删除epoll事件 </span></span><br><span class="line"><span class="comment">    * @param [in] iSockFd socket FD </span></span><br><span class="line"><span class="comment">    * @return 成功返回true </span></span><br><span class="line"><span class="comment">    */</span>  </span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">DelEpoll</span><span class="params">(<span class="type">int</span> iSockFd)</span></span>;  </span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:  </span><br><span class="line">    <span class="type">int</span>    m_iUserCount;<span class="comment">//用户数量；  </span></span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">UserStatus</span> *m_pAllUserStatus;<span class="comment">//用户状态数组  </span></span><br><span class="line">    <span class="type">int</span>    m_iEpollFd;<span class="comment">//需要创建epollfd  </span></span><br><span class="line">    <span class="type">int</span>    m_iSockFd_UserId[_MAX_SOCKFD_COUNT];<span class="comment">//将用户ID和socketid关联起来  </span></span><br><span class="line">    <span class="type">int</span>    m_iPort;<span class="comment">//端口号  </span></span><br><span class="line">    <span class="type">char</span>   m_ip[<span class="number">100</span>];<span class="comment">//IP地址  </span></span><br><span class="line">&#125;;  </span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span>  </span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;cepollclient.h&quot;</span>  </span></span><br><span class="line"></span><br><span class="line">CEpollClient::<span class="built_in">CEpollClient</span>(<span class="type">int</span> iUserCount, <span class="type">const</span> <span class="type">char</span>* pIP, <span class="type">int</span> iPort)  </span><br><span class="line">&#123;  </span><br><span class="line">    <span class="built_in">strcpy</span>(m_ip, pIP);  </span><br><span class="line">    m_iPort = iPort;  </span><br><span class="line">    m_iUserCount = iUserCount;  </span><br><span class="line">    m_iEpollFd = <span class="built_in">epoll_create</span>(_MAX_SOCKFD_COUNT);  </span><br><span class="line">    m_pAllUserStatus = (<span class="keyword">struct</span> UserStatus*)<span class="built_in">malloc</span>(iUserCount*<span class="built_in">sizeof</span>(<span class="keyword">struct</span> UserStatus));  </span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> iuserid=<span class="number">0</span>; iuserid&lt;iUserCount ; iuserid++) &#123;  </span><br><span class="line">        m_pAllUserStatus[iuserid].iUserStatus = FREE;  </span><br><span class="line">        <span class="built_in">sprintf</span>(m_pAllUserStatus[iuserid].cSendbuff, <span class="string">&quot;Client: %d send message \&quot;Hello Server!\&quot;\r\n&quot;</span>, iuserid);  </span><br><span class="line">        m_pAllUserStatus[iuserid].iBuffLen = <span class="built_in">strlen</span>(m_pAllUserStatus[iuserid].cSendbuff) + <span class="number">1</span>;  </span><br><span class="line">        m_pAllUserStatus[iuserid].iSockFd = <span class="number">-1</span>;  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="built_in">memset</span>(m_iSockFd_UserId, <span class="number">0xFF</span>, <span class="built_in">sizeof</span>(m_iSockFd_UserId));  </span><br><span class="line">&#125;  </span><br><span class="line">  </span><br><span class="line">CEpollClient::~<span class="built_in">CEpollClient</span>()  </span><br><span class="line">&#123;  </span><br><span class="line">    <span class="built_in">free</span>(m_pAllUserStatus);  </span><br><span class="line">&#125;  </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">CEpollClient::ConnectToServer</span><span class="params">(<span class="type">int</span> iUserId,<span class="type">const</span> <span class="type">char</span> *pServerIp,<span class="type">unsigned</span> <span class="type">short</span> uServerPort)</span>  </span></span><br><span class="line"><span class="function"></span>&#123;  </span><br><span class="line">    <span class="keyword">if</span>( (m_pAllUserStatus[iUserId].iSockFd = <span class="built_in">socket</span>(AF_INET,SOCK_STREAM,<span class="number">0</span>) ) &lt; <span class="number">0</span> ) &#123;  </span><br><span class="line">        cout &lt;&lt;<span class="string">&quot;[CEpollClient error]: init socket fail, reason is:&quot;</span>&lt;&lt;<span class="built_in">strerror</span>(errno)&lt;&lt;<span class="string">&quot;,errno is:&quot;</span>&lt;&lt;errno&lt;&lt;endl;  </span><br><span class="line">        m_pAllUserStatus[iUserId].iSockFd = <span class="number">-1</span>;  </span><br><span class="line">        <span class="keyword">return</span>  m_pAllUserStatus[iUserId].iSockFd;  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">sockaddr_in</span> addr;  </span><br><span class="line">    <span class="built_in">bzero</span>(&amp;addr, <span class="built_in">sizeof</span>(addr));  </span><br><span class="line">    addr.sin_family = AF_INET;  </span><br><span class="line">    addr.sin_port = <span class="built_in">htons</span>(uServerPort);  </span><br><span class="line">    addr.sin_addr.s_addr = <span class="built_in">inet_addr</span>(pServerIp);  </span><br><span class="line">  </span><br><span class="line">    <span class="type">int</span> ireuseadd_on = <span class="number">1</span>;<span class="comment">//支持端口复用  </span></span><br><span class="line">    <span class="built_in">setsockopt</span>(m_pAllUserStatus[iUserId].iSockFd, SOL_SOCKET, SO_REUSEADDR, &amp;ireuseadd_on, <span class="built_in">sizeof</span>(ireuseadd_on));  </span><br><span class="line">  </span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> ul = <span class="number">1</span>;  </span><br><span class="line">    <span class="built_in">ioctl</span>(m_pAllUserStatus[iUserId].iSockFd, FIONBIO, &amp;ul); <span class="comment">//设置为非阻塞模式   </span></span><br><span class="line">    <span class="built_in">connect</span>(m_pAllUserStatus[iUserId].iSockFd, (<span class="type">const</span> sockaddr*)&amp;addr, <span class="built_in">sizeof</span>(addr));  </span><br><span class="line">    m_pAllUserStatus[iUserId].iUserStatus = CONNECT_OK;  </span><br><span class="line">    m_pAllUserStatus[iUserId].iSockFd = m_pAllUserStatus[iUserId].iSockFd;  </span><br><span class="line">    <span class="keyword">return</span> m_pAllUserStatus[iUserId].iSockFd;  </span><br><span class="line">&#125;  </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">CEpollClient::SendToServerData</span><span class="params">(<span class="type">int</span> iUserId)</span>  </span></span><br><span class="line"><span class="function"></span>&#123;  </span><br><span class="line">    <span class="built_in">sleep</span>(<span class="number">1</span>);<span class="comment">//此处控制发送频率，避免狂打日志，正常使用中需要去掉  </span></span><br><span class="line">    <span class="type">int</span> isendsize = <span class="number">-1</span>;  </span><br><span class="line">    <span class="keyword">if</span>( CONNECT_OK == m_pAllUserStatus[iUserId].iUserStatus || RECV_OK == m_pAllUserStatus[iUserId].iUserStatus) &#123;  </span><br><span class="line">        isendsize = <span class="built_in">send</span>(m_pAllUserStatus[iUserId].iSockFd, m_pAllUserStatus[iUserId].cSendbuff, m_pAllUserStatus[iUserId  </span><br><span class="line">].iBuffLen, MSG_NOSIGNAL);  </span><br><span class="line">        <span class="keyword">if</span>(isendsize &lt; <span class="number">0</span>) &#123;  </span><br><span class="line">            cout &lt;&lt;<span class="string">&quot;[CEpollClient error]: SendToServerData, send fail, reason is:&quot;</span>&lt;&lt;<span class="built_in">strerror</span>(errno)&lt;&lt;<span class="string">&quot;,errno is:&quot;</span>&lt;&lt;errno&lt;  </span><br><span class="line">&lt;endl;  </span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;  </span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;[CEpollClient info]: iUserId: %d Send Msg Content:%s\n&quot;</span>, iUserId, m_pAllUserStatus[iUserId].cSendbuff  </span><br><span class="line">);  </span><br><span class="line">            m_pAllUserStatus[iUserId].iUserStatus = SEND_OK;  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="keyword">return</span> isendsize;  </span><br><span class="line">&#125;  </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">CEpollClient::RecvFromServer</span><span class="params">(<span class="type">int</span> iUserId,<span class="type">char</span> *pRecvBuff,<span class="type">int</span> iBuffLen)</span> </span></span><br><span class="line"><span class="function"></span>&#123;  </span><br><span class="line">    <span class="type">int</span> irecvsize = <span class="number">-1</span>;  </span><br><span class="line">    <span class="keyword">if</span>(SEND_OK == m_pAllUserStatus[iUserId].iUserStatus) &#123;  </span><br><span class="line">        irecvsize = <span class="built_in">recv</span>(m_pAllUserStatus[iUserId].iSockFd, pRecvBuff, iBuffLen, <span class="number">0</span>);  </span><br><span class="line">        <span class="keyword">if</span>(<span class="number">0</span> &gt; irecvsize) &#123;  </span><br><span class="line">            cout &lt;&lt;<span class="string">&quot;[CEpollClient error]: iUserId: &quot;</span> &lt;&lt; iUserId &lt;&lt; <span class="string">&quot;RecvFromServer, recv fail, reason is:&quot;</span>&lt;&lt;<span class="built_in">strerror</span>(errn  </span><br><span class="line">o)&lt;&lt;<span class="string">&quot;,errno is:&quot;</span>&lt;&lt;errno&lt;&lt;endl;  </span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span>(<span class="number">0</span> == irecvsize) &#123;  </span><br><span class="line">            cout &lt;&lt;<span class="string">&quot;[warning:] iUserId: &quot;</span>&lt;&lt; iUserId &lt;&lt; <span class="string">&quot;RecvFromServer, STB收到数据为0，表示对方断开连接,irecvsize:&quot;</span>&lt;&lt;ire  </span><br><span class="line">cvsize&lt;&lt;<span class="string">&quot;,iSockFd:&quot;</span>&lt;&lt; m_pAllUserStatus[iUserId].iSockFd &lt;&lt; endl;  </span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;  </span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;Recv Server Msg Content:%s\n&quot;</span>, pRecvBuff);  </span><br><span class="line">            m_pAllUserStatus[iUserId].iUserStatus = RECV_OK;  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="keyword">return</span> irecvsize;  </span><br><span class="line">&#125;  </span><br><span class="line">  </span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">CEpollClient::CloseUser</span><span class="params">(<span class="type">int</span> iUserId)</span>  </span></span><br><span class="line"><span class="function"></span>&#123;  </span><br><span class="line">    <span class="built_in">close</span>(m_pAllUserStatus[iUserId].iSockFd);  </span><br><span class="line">    m_pAllUserStatus[iUserId].iUserStatus = FREE;  </span><br><span class="line">    m_pAllUserStatus[iUserId].iSockFd = <span class="number">-1</span>;  </span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;  </span><br><span class="line">&#125;  </span><br><span class="line">      </span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">CEpollClient::RunFun</span><span class="params">()</span>  </span></span><br><span class="line"><span class="function"></span>&#123;  </span><br><span class="line">    <span class="type">int</span> isocketfd = <span class="number">-1</span>;  </span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> iuserid=<span class="number">0</span>; iuserid&lt;m_iUserCount; iuserid++) &#123;  </span><br><span class="line">        <span class="keyword">struct</span> <span class="title class_">epoll_event</span> event;  </span><br><span class="line">        isocketfd = <span class="built_in">ConnectToServer</span>(iuserid, m_ip, m_iPort);  </span><br><span class="line">        <span class="keyword">if</span>(isocketfd &lt; <span class="number">0</span>)  </span><br><span class="line">            cout &lt;&lt;<span class="string">&quot;[CEpollClient error]: RunFun, connect fail&quot;</span> &lt;&lt;endl;  </span><br><span class="line">        m_iSockFd_UserId[isocketfd] = iuserid;<span class="comment">//将用户ID和socketid关联起来  </span></span><br><span class="line">  </span><br><span class="line">        event.data.fd = isocketfd;  </span><br><span class="line">        event.events = EPOLLIN|EPOLLOUT|EPOLLERR|EPOLLHUP;  </span><br><span class="line">  </span><br><span class="line">        m_pAllUserStatus[iuserid].uEpollEvents = event.events;  </span><br><span class="line">        <span class="built_in">epoll_ctl</span>(m_iEpollFd, EPOLL_CTL_ADD, event.data.fd, &amp;event);  </span><br><span class="line">　　&#125;  </span><br><span class="line">    <span class="keyword">while</span>(<span class="number">1</span>)  </span><br><span class="line">    &#123;  </span><br><span class="line">        <span class="keyword">struct</span> <span class="title class_">epoll_event</span> events[_MAX_SOCKFD_COUNT];  </span><br><span class="line">        <span class="type">char</span> buffer[<span class="number">1024</span>];  </span><br><span class="line">        <span class="built_in">memset</span>(buffer,<span class="number">0</span>,<span class="number">1024</span>);  </span><br><span class="line">        <span class="type">int</span> nfds = <span class="built_in">epoll_wait</span>(m_iEpollFd, events, _MAX_SOCKFD_COUNT, <span class="number">100</span> );<span class="comment">//等待epoll事件的产生  </span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> ifd=<span class="number">0</span>; ifd&lt;nfds; ifd++)<span class="comment">//处理所发生的所有事件  </span></span><br><span class="line">        &#123;  </span><br><span class="line">            <span class="keyword">struct</span> <span class="title class_">epoll_event</span> event_nfds;  </span><br><span class="line">            <span class="type">int</span> iclientsockfd = events[ifd].data.fd;  </span><br><span class="line">            cout &lt;&lt; <span class="string">&quot;events[ifd].data.fd: &quot;</span> &lt;&lt; events[ifd].data.fd &lt;&lt; endl;  </span><br><span class="line">            <span class="type">int</span> iuserid = m_iSockFd_UserId[iclientsockfd];<span class="comment">//根据socketfd得到用户ID  </span></span><br><span class="line">            <span class="keyword">if</span>( events[ifd].events &amp; EPOLLOUT )  </span><br><span class="line">            &#123;  </span><br><span class="line">                <span class="type">int</span> iret = <span class="built_in">SendToServerData</span>(iuserid);  </span><br><span class="line">                <span class="keyword">if</span>( <span class="number">0</span> &lt; iret )  </span><br><span class="line">                &#123;  </span><br><span class="line">                    event_nfds.events = EPOLLIN|EPOLLERR|EPOLLHUP;  </span><br><span class="line">                    event_nfds.data.fd = iclientsockfd;  </span><br><span class="line">                    <span class="built_in">epoll_ctl</span>(m_iEpollFd, EPOLL_CTL_MOD, event_nfds.data.fd, &amp;event_nfds);  </span><br><span class="line">                &#125;  </span><br><span class="line">                <span class="keyword">else</span>  </span><br><span class="line">                &#123;  </span><br><span class="line">                    cout &lt;&lt;<span class="string">&quot;[CEpollClient error:] EpollWait, SendToServerData fail, send iret:&quot;</span>&lt;&lt;iret&lt;&lt;<span class="string">&quot;,iuserid:&quot;</span>&lt;&lt;iuser  </span><br><span class="line">                        id&lt;&lt;<span class="string">&quot;,fd:&quot;</span>&lt;&lt;events[ifd].data.fd&lt;&lt;endl;  </span><br><span class="line">                    <span class="built_in">DelEpoll</span>(events[ifd].data.fd);  </span><br><span class="line">                    <span class="built_in">CloseUser</span>(iuserid);  </span><br><span class="line">                &#125;  </span><br><span class="line">            &#125;  </span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>( events[ifd].events &amp; EPOLLIN )<span class="comment">//监听到读事件，接收数据  </span></span><br><span class="line">            &#123;  </span><br><span class="line">                <span class="type">int</span> ilen = <span class="built_in">RecvFromServer</span>(iuserid, buffer, <span class="number">1024</span>);  </span><br><span class="line">                <span class="keyword">if</span>(<span class="number">0</span> &gt; ilen)  </span><br><span class="line">                &#123;  </span><br><span class="line">                    cout &lt;&lt;<span class="string">&quot;[CEpollClient error]: RunFun, recv fail, reason is:&quot;</span>&lt;&lt;<span class="built_in">strerror</span>(errno)&lt;&lt;<span class="string">&quot;,errno is:&quot;</span>&lt;&lt;errno&lt;&lt;e  </span><br><span class="line">                        ndl;  </span><br><span class="line">                    <span class="built_in">DelEpoll</span>(events[ifd].data.fd);  </span><br><span class="line">                    <span class="built_in">CloseUser</span>(iuserid);  </span><br><span class="line">                &#125;  </span><br><span class="line">                <span class="keyword">else</span> <span class="keyword">if</span>(<span class="number">0</span> == ilen)  </span><br><span class="line">                &#123;  </span><br><span class="line">                    cout &lt;&lt;<span class="string">&quot;[CEpollClient warning:] server disconnect,ilen:&quot;</span>&lt;&lt;ilen&lt;&lt;<span class="string">&quot;,iuserid:&quot;</span>&lt;&lt;iuserid&lt;&lt;<span class="string">&quot;,fd:&quot;</span>&lt;&lt;events[  </span><br><span class="line">                        ifd].data.fd&lt;&lt;endl;  </span><br><span class="line">                    <span class="built_in">DelEpoll</span>(events[ifd].data.fd);  </span><br><span class="line">                    <span class="built_in">CloseUser</span>(iuserid);  </span><br><span class="line">                &#125;  </span><br><span class="line">                <span class="keyword">else</span>  </span><br><span class="line">                &#123;  </span><br><span class="line">                    m_iSockFd_UserId[iclientsockfd] = iuserid;<span class="comment">//将socketfd和用户ID关联起来  </span></span><br><span class="line">                    event_nfds.data.fd = iclientsockfd;  </span><br><span class="line">                    event_nfds.events = EPOLLOUT|EPOLLERR|EPOLLHUP;  </span><br><span class="line">                    <span class="built_in">epoll_ctl</span>(m_iEpollFd, EPOLL_CTL_MOD, event_nfds.data.fd, &amp;event_nfds);  </span><br><span class="line">                &#125;  </span><br><span class="line">            &#125;  </span><br><span class="line">            <span class="keyword">else</span>  </span><br><span class="line">            &#123;  </span><br><span class="line">                cout &lt;&lt;<span class="string">&quot;[CEpollClient error:] other epoll error&quot;</span>&lt;&lt;endl;  </span><br><span class="line">                <span class="built_in">DelEpoll</span>(events[ifd].data.fd);  </span><br><span class="line">                <span class="built_in">CloseUser</span>(iuserid);  </span><br><span class="line">            &#125;  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;  </span><br><span class="line">　　  </span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">CEpollClient::DelEpoll</span><span class="params">(<span class="type">int</span> iSockFd)</span>  </span></span><br><span class="line"><span class="function"></span>&#123;  </span><br><span class="line">    <span class="type">bool</span> bret = <span class="literal">false</span>;  </span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">epoll_event</span> event_del;  </span><br><span class="line">    <span class="keyword">if</span>(<span class="number">0</span> &lt; iSockFd)  </span><br><span class="line">    &#123;  </span><br><span class="line">        event_del.data.fd = iSockFd;  </span><br><span class="line">        event_del.events = <span class="number">0</span>;  </span><br><span class="line">        <span class="keyword">if</span>( <span class="number">0</span> == <span class="built_in">epoll_ctl</span>(m_iEpollFd, EPOLL_CTL_DEL, event_del.data.fd, &amp;event_del) )  </span><br><span class="line">        &#123;  </span><br><span class="line">            bret = <span class="literal">true</span>;  </span><br><span class="line">        &#125;  </span><br><span class="line">        <span class="keyword">else</span>  </span><br><span class="line">        &#123;  </span><br><span class="line">            cout &lt;&lt;<span class="string">&quot;[SimulateStb error:] DelEpoll,epoll_ctl error,iSockFd:&quot;</span>&lt;&lt;iSockFd&lt;&lt;endl;  </span><br><span class="line">        &#125;  </span><br><span class="line">        m_iSockFd_UserId[iSockFd] = <span class="number">-1</span>;  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="keyword">else</span>  </span><br><span class="line">    &#123;  </span><br><span class="line">        bret = <span class="literal">true</span>;  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="keyword">return</span> bret;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</details>
+
+<details><summary>服务器主程序：</summary>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span>  </span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;cepollserver.h&quot;</span>  </span></span><br><span class="line">  </span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;  </span><br><span class="line">  </span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span>  </span></span><br><span class="line"><span class="function"></span>&#123;  </span><br><span class="line">    CEpollServer  theApp;  </span><br><span class="line">    theApp.<span class="built_in">InitServer</span>(<span class="string">&quot;127.0.0.1&quot;</span>, <span class="number">8000</span>);  </span><br><span class="line">    theApp.<span class="built_in">Run</span>();  </span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;  </span><br><span class="line">&#125;  </span><br></pre></td></tr></table></figure>
+
+</details>
+
+<details><summary>客户端主程序：</summary>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;cepollclient.h&quot;</span>  </span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> *argv[])</span>  </span></span><br><span class="line"><span class="function"></span>&#123;  </span><br><span class="line">    CEpollClient *pCEpollClient = <span class="keyword">new</span> <span class="built_in">CEpollClient</span>(<span class="number">2</span>, <span class="string">&quot;127.0.0.1&quot;</span>, <span class="number">8000</span>);  </span><br><span class="line">    <span class="keyword">if</span>(<span class="literal">NULL</span> == pCEpollClient)  </span><br><span class="line">    &#123;  </span><br><span class="line">        cout&lt;&lt;<span class="string">&quot;[epollclient error]:main init&quot;</span>&lt;&lt;<span class="string">&quot;Init CEpollClient fail&quot;</span>&lt;&lt;endl;  </span><br><span class="line">    &#125;  </span><br><span class="line"></span><br><span class="line">    pCEpollClient-&gt;<span class="built_in">RunFun</span>();  </span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(<span class="literal">NULL</span> != pCEpollClient)  </span><br><span class="line">    &#123;  </span><br><span class="line">        <span class="keyword">delete</span> pCEpollClient;  </span><br><span class="line">        pCEpollClient = <span class="literal">NULL</span>;  </span><br><span class="line">    &#125;  </span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;  </span><br><span class="line">&#125;  </span><br></pre></td></tr></table></figure>
+
+</details>
+
+
+    </div><div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">------------- 💖 🌞 本 文 结 束 😚 感 谢 您 的 阅 读 🌞 💖 -------------</div>
+    
+</div>
+
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>请我一杯咖啡吧！</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.jpg" alt="Mr.Miaow 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/alipay.jpg" alt="Mr.Miaow 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Mr.Miaow
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://miaopei.github.io/2016/07/08/Program-C/linux-epoll/" title="处理并发之一：LINUX Epoll 机制介绍">http://miaopei.github.io/2016/07/08/Program-C/linux-epoll/</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/c-c/" rel="tag"><i class="fa fa-tag"></i> c/c++</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2016/07/06/Program-C/c-code-opt/" rel="prev" title="C 代码优化小贴士">
+                  <i class="fa fa-angle-left"></i> C 代码优化小贴士
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2016/07/11/Program-C/multi-thread/" rel="next" title="多线程编程">
+                  多线程编程 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+    &copy; 2015 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Mr.Miaow</span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">821k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">12:26</span>
+  </span>
+</div> <div>
+   <span id="sitetime"></span>
+   <span id="year" style="display:none">2016</span> 
+   <span id="month" style="display:none">12</span>   
+   <span id="day" style="display:none">23</span>   
+   <span id="hour" style="display:none">15</span>   
+   <span id="minute" style="display:none">0</span>   
+   <span id="second" style="display:none">0</span>   
+	<script language=javascript>
+	function siteTime(){        
+		window.setTimeout("siteTime()", 1000);
+		var seconds = 1000;
+		var minutes = seconds * 60;
+		var hours = minutes * 60;
+		var days = hours * 24;
+		var years = days * 365;
+		var today = new Date();
+		var todayYear = today.getFullYear();
+		var todayMonth = today.getMonth()+1;
+		var todayDate = today.getDate();
+		var todayHour = today.getHours();
+		var todayMinute = today.getMinutes();
+		var todaySecond = today.getSeconds();
+	    var year = document.getElementById("year").innerHTML;
+		var month = document.getElementById("month").innerHTML;
+		var day = document.getElementById("day").innerHTML;
+		var hour = document.getElementById("hour").innerHTML;
+		var minute = document.getElementById("minute").innerHTML;
+		var second = document.getElementById("second").innerHTML;
+		var t1 = Date.UTC(year,month,day,hour,minute,second); 
+		var t2 = Date.UTC(todayYear,todayMonth,todayDate,todayHour,todayMinute,todaySecond);
+		var diff = t2-t1;
+		var diffYears = Math.floor(diff/years);
+		var diffDays = Math.floor((diff/days)-diffYears*365);
+		var diffHours = Math.floor((diff-(diffYears*365+diffDays)*days)/hours);
+		var diffMinutes = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours)/minutes);
+		var diffSeconds = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours-diffMinutes*minutes)/seconds);
+		if(diffYears==0){
+		document.getElementById("sitetime").innerHTML=" 网站已运行 "/*+diffYears+" 年 "*/+diffDays+" 天 "+diffHours+" 小时 "+diffMinutes+" 分钟 "+diffSeconds+" 秒";
+		} else{
+		document.getElementById("sitetime").innerHTML=" 网站已运行 "+diffYears+" 年 "+diffDays+" 天 "+diffHours+" 小时 "+diffMinutes+" 分钟 "+diffSeconds+" 秒";
+		}
+	}
+	siteTime();
+	</script>
+</div>
+
+<div class="busuanzi-count">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+<!--
+-->
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.1.0/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lozad.js/1.16.0/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  <script src="/js/third-party/pace.js"></script>
+
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"miaopei","repo":"miaopei.github.io","client_id":"Ov23li804qbeklf03KFv","client_secret":"fce69a6b68a24543006d90b37dbe835082db6f23","admin_user":"miaopei","distraction_free_mode":true,"language":"zh-CN","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"8c38dcdc3f18fdaf4a7a354f811a9e3e"}</script>
+<script src="/js/third-party/comments/gitalk.js"></script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true}});</script></body>
+</html>
