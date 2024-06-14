@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.2.0">
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/mrmiaow-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/mrmiaow-16.png">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/blue/pace-theme-minimal.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"miaopei.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"always","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"show_result":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":true,"nav":{"gitalk":{"order":-2}},"activeClass":"gitalk"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="简介lighttpd 提供了一种外部程序调用的接口，即 FastCGI 接口。这是一种独立于平台和服务器的接口，它介于Web应用程序和Web服务器之间。 这就意味着能够在 Apache 服务器上运行的 FastCGI 程序，也一定可以无缝的在 lighttpd 上使用。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="lighttpd+fastcgi">
+<meta property="og:url" content="http://miaopei.github.io/2017/03/31/HTTP/lighttpd-fastcgi/index.html">
+<meta property="og:site_name" content="Mr.Miaow Blog">
+<meta property="og:description" content="简介lighttpd 提供了一种外部程序调用的接口，即 FastCGI 接口。这是一种独立于平台和服务器的接口，它介于Web应用程序和Web服务器之间。 这就意味着能够在 Apache 服务器上运行的 FastCGI 程序，也一定可以无缝的在 lighttpd 上使用。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2017-03-31T04:34:28.000Z">
+<meta property="article:modified_time" content="2024-06-14T03:09:34.976Z">
+<meta property="article:author" content="Mr.Miaow">
+<meta property="article:tag" content="lighttpd">
+<meta property="article:tag" content="FastCGI">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://miaopei.github.io/2017/03/31/HTTP/lighttpd-fastcgi/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://miaopei.github.io/2017/03/31/HTTP/lighttpd-fastcgi/","path":"2017/03/31/HTTP/lighttpd-fastcgi/","title":"lighttpd+fastcgi"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>lighttpd+fastcgi | Mr.Miaow Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Mr.Miaow Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Mr.Miaow Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Do what you say, say what you do.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-messages"><a href="/messages/" rel="section"><i class="fa fa-comment fa-fw"></i>留言板</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B"><span class="nav-text">简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#FastCGI%E4%BB%8B%E7%BB%8D"><span class="nav-text">FastCGI介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#FastCGI-%E6%A8%A1%E5%9D%97"><span class="nav-text">FastCGI 模块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#FastCGI-%E9%85%8D%E7%BD%AE%E9%80%89%E9%A1%B9"><span class="nav-text">FastCGI 配置选项</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE"><span class="nav-text">参考文献</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%99%84%EF%BC%9AQC-V3-PP-%E7%89%88%E6%9C%AC-lighttpd-conf"><span class="nav-text">附：QC V3 PP 版本 lighttpd.conf</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Mr.Miaow"
+      src="https://avatars.githubusercontent.com/u/7922626?v=4">
+  <p class="site-author-name" itemprop="name">Mr.Miaow</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">31</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="feed-link motion-element">
+    <a href="/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>
+      RSS
+    </a>
+  </div>
+
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/miaopei" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;miaopei" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/miaopei163@163.com" title="E-Mail → miaopei163@163.com" rel="noopener me"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+          <link rel="stylesheet" href="/dist/APlayer.min.css">
+          <div id="aplayer"></div>
+          <script type="text/javascript" src="/dist/APlayer.min.js"></script>
+          <script type="text/javascript" src="/dist/music.js"></script>
+
+        </div>
+      </div>
+        <div class="back-to-top animated" role="button" aria-label="返回顶部">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://miaopei.github.io/2017/03/31/HTTP/lighttpd-fastcgi/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://avatars.githubusercontent.com/u/7922626?v=4">
+      <meta itemprop="name" content="Mr.Miaow">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mr.Miaow Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="lighttpd+fastcgi | Mr.Miaow Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          lighttpd+fastcgi
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2017-03-31 12:34:28" itemprop="dateCreated datePublished" datetime="2017-03-31T12:34:28+08:00">2017-03-31</time>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>8.6k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>8 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p><code>lighttpd</code> 提供了一种外部程序调用的接口，即 <code>FastCGI</code> 接口。这是一种独立于平台和服务器的接口，它介于Web应用程序和Web服务器之间。</p>
+<p>这就意味着能够在 <code>Apache</code> 服务器上运行的 <code>FastCGI</code> 程序，也一定可以无缝的在 <code>lighttpd</code> 上使用。</p>
+<span id="more"></span>
+
+<h3 id="FastCGI介绍"><a href="#FastCGI介绍" class="headerlink" title="FastCGI介绍"></a>FastCGI介绍</h3><p>1）就像 <code>CGI</code> 一样，<code>FastCGI</code> 也是独立于编程语言的。<br>2）就像 <code>CGI</code> 一样，<code>FastCGI</code> 程序运行在完全独立于核心 <code>Web Server</code> 之外的进程中，和 <code>API</code> 方式相比，提供了很大的安全性。（API会将程序代码与核心Web Server挂接在一起，这就意味着基于问题API的应用程序可能会使整个Web Server或另一个应用程序崩溃；一个恶意API还可以从核心Web Server或另一个应用程序中盗取安全密钥）</p>
+<ol start="3">
+<li><p>虽然 <code>FastCGI</code> 不能一夜之间复制CGI的所有功能，但是 <code>FastCGI</code> 一直宣扬开放，这也使得我们拥有很多免费的 <code>FastCGI</code> 应用程序库（C&#x2F;C++、Java、Perl、TCL）和免费的Server模块（Apache、ISS、Lighttpd）。</p>
+</li>
+<li><p>就像 <code>CGI</code> 一样，<code>FastCGI</code> 并不依附于任何 <code>Web Server</code> 的内部架构，因此即使 <code>Server</code> 的技术实现变动，<code>FastCGI</code> 仍然非常稳定；而 <code>API</code> 设计是反映 <code>Web Server</code> 内部架构的，因此，一旦架构改变，API要随之变动。</p>
+</li>
+<li><p><code>FastCGI</code> 程序可以运行在任何机器上，完全可以和 <code>Web Server</code> 不在一台机器上。这种分布式计算的思想可以确保可扩展性、提高系统可用性和安全性。</p>
+</li>
+<li><p><code>CGI</code> 程序主要是对 <code>HTTP</code> 请求做计算处理，而 <code>FastCGI</code> 却还可以做得更多，例如模块化认证、授权检查、数据类型转换等等。在未来，<code>FastCGI</code> 还会有能力扮演更多角色。</p>
+</li>
+<li><p><code>FastCGI</code> 移除了 <code>CGI</code> 程序的许多弊端。例如，针对每一个新请求，<code>WebServer</code> 都必须重启 <code>CGI</code> 程序来处理新请求，这导致 <code>WebServer</code> 的性能会大受影响。而 <code>FastCGI</code> 通过保持进程处理运行状态并持续处理请求的方式解决了该问题，这就将进程创建和销毁的时间节省了出来。</p>
+</li>
+<li><p><code>CGI</code> 程序需要通过管道（pipe）方式与 <code>Web Server</code> 通信，而 <code>FastCGI</code> 则是通过 <code>Unix-Domain-Sockets</code> 或 <code>TCP/IP</code> 方式来实现与 <code>Web Server</code> 的通信。这确保了 <code>FastCGI</code> 可以运行在 <code>Web Server</code> 之外的服务器上。<code>FastCGI</code> 提供了 <code>FastCGI</code> 负载均衡器，它可以有效控制多个独立的 <code>FastCGI Server</code> 的负载，这种方式比 <code>load-balancer+apache+mod_php</code> 方式能够承担更多的流量。</p>
+</li>
+</ol>
+<h3 id="FastCGI-模块"><a href="#FastCGI-模块" class="headerlink" title="FastCGI 模块"></a>FastCGI 模块</h3><p>若要 <code>lighttpd</code> 支持 <code>fastcgi</code>，则需要配置如下内容：</p>
+<p>在 <code>fastcgi.conf</code> 中配置</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">server.modules += ( &quot;mod_fastcgi&quot; )</span><br></pre></td></tr></table></figure>
+
+<p>及在 <code>module.conf</code> 中配置</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">include &quot;conf.d/fastcgi.conf&quot;</span><br></pre></td></tr></table></figure>
+
+<h3 id="FastCGI-配置选项"><a href="#FastCGI-配置选项" class="headerlink" title="FastCGI 配置选项"></a>FastCGI 配置选项</h3><p><code>lighttpd</code> 通过 <code>fastcgi</code> 模块的方式实现了对 <code>fastcgi</code> 的支持，并且在配置文件中提供了三个相关的选项：</p>
+<p>1） fastcgi.debug</p>
+<p>可以设置一个从0到65535的值，用于设定 <code>FastCGI</code> 模块的调试等级。当前仅有0和1可用。<strong>1表示开启调试（会输出调试信息），0表示禁用</strong>。例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fastcgi.debug = 1</span><br></pre></td></tr></table></figure>
+
+<p>2） fastcgi.map-extentsions</p>
+<p>同一个 <code>fastcgi server</code> 能够映射多个扩展名，如 <code>.php3</code> 和 <code>.php4</code> 都对应 <code>.php</code>。例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fastcgi.map-extensions = ( &quot;.php3&quot; =&gt; &quot;.php&quot; )</span><br></pre></td></tr></table></figure>
+
+<p>or for multiple</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fastcgi.map-extensions = ( &quot;.php3&quot; =&gt; &quot;.php&quot;, &quot;.php4&quot; =&gt; &quot;.php&quot; )</span><br></pre></td></tr></table></figure>
+
+<p>3） fastcgi.server</p>
+<p>这个配置是告诉 <code>Web Server</code> 将 <code>FastCGI</code> 请求发送到哪里，其中每一个文件扩展名可以处理一个类型的请求。负载均衡器可以实现对同一扩展名的多个对象的负载均衡。</p>
+<p><code>fastcgi.server</code> 的结构语法如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">( &lt;extension&gt; =&gt;</span><br><span class="line">  ( [ &lt;name&gt; =&gt; ]</span><br><span class="line">    ( <span class="comment"># Be careful: lighty does *not* warn you if it doesn&#x27;t know a specified option here (make sure you have no typos)</span></span><br><span class="line">      <span class="string">&quot;host&quot;</span> =&gt; &lt;string&gt; ,</span><br><span class="line">      <span class="string">&quot;port&quot;</span> =&gt; &lt;<span class="built_in">integer</span>&gt; ,</span><br><span class="line">      <span class="string">&quot;socket&quot;</span> =&gt; &lt;string&gt;,                 <span class="comment"># either socket or host+port</span></span><br><span class="line">      <span class="string">&quot;bin-path&quot;</span> =&gt; &lt;string&gt;,               <span class="comment"># optional</span></span><br><span class="line">      <span class="string">&quot;bin-environment&quot;</span> =&gt; &lt;array&gt;,         <span class="comment"># optional</span></span><br><span class="line">      <span class="string">&quot;bin-copy-environment&quot;</span> =&gt; &lt;array&gt;,    <span class="comment"># optional</span></span><br><span class="line">      <span class="string">&quot;mode&quot;</span> =&gt; &lt;string&gt;,                   <span class="comment"># optional</span></span><br><span class="line">      <span class="string">&quot;docroot&quot;</span> =&gt; &lt;string&gt; ,               <span class="comment"># optional if &quot;mode&quot; is not &quot;authorizer&quot;</span></span><br><span class="line">      <span class="string">&quot;check-local&quot;</span> =&gt; &lt;string&gt;,            <span class="comment"># optional</span></span><br><span class="line">      <span class="string">&quot;max-procs&quot;</span> =&gt; &lt;<span class="built_in">integer</span>&gt;,             <span class="comment"># optional - when omitted, default is 4</span></span><br><span class="line">      <span class="string">&quot;broken-scriptfilename&quot;</span> =&gt; &lt;boolean&gt;, <span class="comment"># optional</span></span><br><span class="line">      <span class="string">&quot;kill-signal&quot;</span> =&gt; &lt;<span class="built_in">integer</span>&gt;,           <span class="comment"># optional, default is SIGTERM(15) (v1.4.14+)</span></span><br><span class="line">    ),</span><br><span class="line">    ( <span class="string">&quot;host&quot;</span> =&gt; ...</span><br><span class="line">    )</span><br><span class="line">  )</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>其中：</p>
+<blockquote>
+<p><strong>extentsion</strong> ：文件名后缀或以”&#x2F;”开头的前缀（也可为文件名）<br><strong>name</strong> ：这是一个可选项，表示handler的名称，在mod_status中用于统计功能，可以清晰的分辨出是哪一个handler处理了<extension>。<br><strong>host</strong> ：FastCGI进程监听的IP地址。此处不支持hostname形式。<br><strong>port</strong> ：FastCGI进程所监听的TCP端口号<br><strong>bin-path</strong> ：本地FastCGI二进制程序的路径，当本地没有FastCGI正在运行时，会启动这个FastCGI程序。<br><strong>socket</strong> ：unix-domain-socket所在路径。<br><strong>mode</strong> ：可以选择FastCGI协议的模式，默认是“responder”，还可以选择authorizer。<br><strong>docroot</strong> ：这是一个可选项，对于responder模式来讲，表示远程主机docroot；对于authorizer模式来说，它表示MANDATORY，并且指向授权请求的docroot。<br><strong>check_local</strong> ：这是一个可选项，默认是enable。如果是enable，那么server会首先在本地（server.document-root）目录中检查被请求的文件是否存在，如果不存在，则给用户返回404（Not Found），而不会把这个请求传递给FastCGI。如果是disable，那么server不会检查本地文件，而是直接将请求转发给FastCGI。（disable的话，server从某种意义上说就变为了一个转发器）<br><strong>broken-scriptfilename</strong> ：以类似PHP抽取PATH_INFO的方式，抽取URL中的SCRIPT_FILENAME。</p>
+</blockquote>
+<p>如果 <code>bin-path</code> 被设置了，那么：</p>
+<blockquote>
+<p><strong>max-procs</strong> ：设置多少个FastCGI进程被启动<br><strong>bin-environment</strong> ：在FastCGI进程启动时设置一个环境变量<br><strong>bin-copy-environment</strong> ：清除环境，并拷贝指定的变量到全新的环境中。<br><strong>kill-signal</strong> ：默认的话，在停止FastCGI进程时，lighttpd会发送SIGTERM(-15)信号给子进程。此处可以设置发送的信号。</p>
+</blockquote>
+<p><strong>举例</strong> ：</p>
+<p>使用前缀来对应主机：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">fastcgi.server = (</span><br><span class="line">  <span class="string">&quot;/remote_scripts/&quot;</span> =&gt;</span><br><span class="line">  (( &quot;host&quot; =&gt; &quot;<span class="number">192.168</span>.<span class="number">0.3</span>&quot;,</span><br><span class="line">     &quot;port&quot; =&gt; <span class="number">9000</span>,</span><br><span class="line">     &quot;check-local&quot; =&gt; &quot;disable&quot;,</span><br><span class="line">     &quot;docroot&quot; =&gt; &quot;/&quot; # remote server may use</span><br><span class="line">                      # it&#x27;s own docroot</span><br><span class="line">  ))</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>如果有一个请求 “<a target="_blank" rel="noopener" href="http://my.example.org/remote_scripts/test.cgi%22%EF%BC%8C%E9%82%A3%E4%B9%88server%E4%BC%9A%E5%B0%86%E5%85%B6%E8%BD%AC%E5%8F%91%E7%BB%99192.168.0.3%E7%9A%849000%E7%AB%AF%E5%8F%A3%EF%BC%8C%E5%B9%B6%E4%B8%94">http://my.example.org/remote_scripts/test.cgi&quot;，那么server会将其转发给192.168.0.3的9000端口，并且</a> <code>SCRIPT_NAME</code> 会被赋值为 <code>“/remote_scripts/test.cgi”</code>。如果所设置的 <code>handler</code> 的末尾不是 <code>“/”</code> ，那么会被认为是一个文件。</p>
+<p><strong>负载均衡</strong> ：</p>
+<p><code>FastCGI</code> 模块提供了一种在多台 <code>FastCGI</code> 服务器间负载均衡的方法。</p>
+<p>例如：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">fastcgi.server = ( <span class="string">&quot;.php&quot;</span> =&gt;</span><br><span class="line">  (</span><br><span class="line">    ( <span class="string">&quot;host&quot;</span> =&gt; <span class="string">&quot;10.0.0.2&quot;</span>,</span><br><span class="line">      <span class="string">&quot;port&quot;</span> =&gt; 1030</span><br><span class="line">    ),</span><br><span class="line">    ( <span class="string">&quot;host&quot;</span> =&gt; <span class="string">&quot;10.0.0.3&quot;</span>,</span><br><span class="line">      <span class="string">&quot;port&quot;</span> =&gt; 1030 )</span><br><span class="line">    )</span><br><span class="line">  )</span><br></pre></td></tr></table></figure>
+
+<p>为了更好的理解负载均衡实现的原理，建议你置 <code>fastcgi.debug</code> 为 <code>1</code> 。即使对于本机的多个 <code>FastCGI</code> ，你也会获得如下输出：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">proc: 127.0.0.1 1031  1 1 1 31454</span><br><span class="line">proc: 127.0.0.1 1028  1 1 1 31442</span><br><span class="line">proc: 127.0.0.1 1030  1 1 1 31449</span><br><span class="line">proc: 127.0.0.1 1029  1 1 2 31447</span><br><span class="line">proc: 127.0.0.1 1026  1 1 2 31438</span><br><span class="line">got proc: 34 31454</span><br><span class="line">release proc: 40 31438</span><br><span class="line">proc: 127.0.0.1 1026  1 1 1 31438</span><br><span class="line">proc: 127.0.0.1 1028  1 1 1 31442</span><br><span class="line">proc: 127.0.0.1 1030  1 1 1 31449</span><br><span class="line">proc: 127.0.0.1 1031  1 1 2 31454</span><br><span class="line">proc: 127.0.0.1 1029  1 1 2 31447</span><br></pre></td></tr></table></figure>
+
+<p>上述信息显示出了IP地址，端口号、当前链接数（也就是负载）（倒数第二列）、进程ID（倒数第一列）等等。整个输出信息总是以负载域来从小到大排序的。</p>
+<h3 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h3><p><a target="_blank" rel="noopener" href="http://redmine.lighttpd.net/projects/1/wiki/Docs:ModFastCGI"></a></p>
+<p><a target="_blank" rel="noopener" href="http://www.fastcgi.com/"></a></p>
+<p><a target="_blank" rel="noopener" href="http://roclinux.cn/?p=2347">说说lighttpd的fastcgi</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.cnblogs.com/skynet/p/4173450.html">Nginx + CGI&#x2F;FastCGI + C&#x2F;Cpp</a></p>
+<p><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000004006596">FastCGI+lighttpd开发之介绍和环境搭建</a></p>
+<h3 id="附：QC-V3-PP-版本-lighttpd-conf"><a href="#附：QC-V3-PP-版本-lighttpd-conf" class="headerlink" title="附：QC V3 PP 版本 lighttpd.conf"></a>附：QC V3 PP 版本 lighttpd.conf</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cat</span> /etc/qtilighttpd.conf </span><br><span class="line"><span class="comment"># ------------------------------------------------------------------------------</span></span><br><span class="line"><span class="comment"># Copyright (c) 2016 Qualcomm Technologies, Inc.</span></span><br><span class="line"><span class="comment"># All Rights Reserved.</span></span><br><span class="line"><span class="comment"># Confidential and Proprietary - Qualcomm Technologies, Inc.</span></span><br><span class="line"><span class="comment"># ------------------------------------------------------------------------------</span></span><br><span class="line"></span><br><span class="line">server.document-root = <span class="string">&quot;/opt/qcom/www&quot;</span></span><br><span class="line"></span><br><span class="line">server.port    = 80</span><br><span class="line">server.username    = <span class="string">&quot;apps&quot;</span></span><br><span class="line">server.groupname  = <span class="string">&quot;apps&quot;</span></span><br><span class="line">server.bind    = <span class="string">&quot;0.0.0.0&quot;</span></span><br><span class="line">server.tag    = <span class="string">&quot;lighttpd&quot;</span></span><br><span class="line"><span class="variable">$SERVER</span>[<span class="string">&quot;socket&quot;</span>] == <span class="string">&quot;[::]:80&quot;</span> &#123;  &#125;</span><br><span class="line"></span><br><span class="line">server.errorlog-use-syslog  = <span class="string">&quot;enable&quot;</span></span><br><span class="line">accesslog.use-syslog    = <span class="string">&quot;enable&quot;</span></span><br><span class="line"></span><br><span class="line">server.modules    = (</span><br><span class="line">  <span class="string">&quot;mod_access&quot;</span>,<span class="string">&quot;mod_accesslog&quot;</span>, <span class="string">&quot;mod_cgi&quot;</span>, <span class="string">&quot;mod_fastcgi&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">fastcgi.debug = 1</span><br><span class="line">fastcgi.server = (</span><br><span class="line">    <span class="string">&quot;/fsmoam&quot;</span> =&gt; (</span><br><span class="line">    <span class="string">&quot;fsmoam.fcgi.handler&quot;</span> =&gt; (</span><br><span class="line">        <span class="string">&quot;socket&quot;</span> =&gt; <span class="string">&quot;/tmp/fsmoam.fcgi.socket&quot;</span>,</span><br><span class="line">        <span class="string">&quot;check-local&quot;</span> =&gt; <span class="string">&quot;disable&quot;</span>,</span><br><span class="line">        <span class="string">&quot;bin-path&quot;</span> =&gt; <span class="string">&quot;/opt/qcom/bin/tests/fsmWebServer --default-log-level=DEBUG&quot;</span>,</span><br><span class="line">        <span class="string">&quot;max-procs&quot;</span> =&gt; 1)</span><br><span class="line">     )</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># mimetype mapping</span></span><br><span class="line">mimetype.assign    = (</span><br><span class="line">  <span class="string">&quot;.pdf&quot;</span>    =&gt;  <span class="string">&quot;application/pdf&quot;</span>,</span><br><span class="line">  <span class="string">&quot;.sig&quot;</span>    =&gt;  <span class="string">&quot;application/pgp-signature&quot;</span>,</span><br><span class="line">  <span class="string">&quot;.spl&quot;</span>    =&gt;  <span class="string">&quot;application/futuresplash&quot;</span>,</span><br><span class="line">  <span class="string">&quot;.class&quot;</span>  =&gt;  <span class="string">&quot;application/octet-stream&quot;</span>,</span><br><span class="line">  <span class="string">&quot;.ps&quot;</span>    =&gt;  <span class="string">&quot;application/postscript&quot;</span>,</span><br><span class="line">  <span class="string">&quot;.torrent&quot;</span>  =&gt;  <span class="string">&quot;application/x-bittorrent&quot;</span>,</span><br><span class="line">  <span class="string">&quot;.dvi&quot;</span>    =&gt;  <span class="string">&quot;application/x-dvi&quot;</span>,</span><br><span class="line">  <span class="string">&quot;.gz&quot;</span>    =&gt;  <span class="string">&quot;application/x-gzip&quot;</span>,</span><br><span class="line">  <span class="string">&quot;.pac&quot;</span>    =&gt;  <span class="string">&quot;application/x-ns-proxy-autoconfig&quot;</span>,</span><br><span class="line">  <span class="string">&quot;.swf&quot;</span>    =&gt;  <span class="string">&quot;application/x-shockwave-flash&quot;</span>,</span><br><span class="line">  <span class="string">&quot;.tar.gz&quot;</span>  =&gt;  <span class="string">&quot;application/x-tgz&quot;</span>,</span><br><span class="line">  <span class="string">&quot;.tgz&quot;</span>    =&gt;  <span class="string">&quot;application/x-tgz&quot;</span>,</span><br><span class="line">  <span class="string">&quot;.tar&quot;</span>    =&gt;  <span class="string">&quot;application/x-tar&quot;</span>,</span><br><span class="line">  <span class="string">&quot;.zip&quot;</span>    =&gt;  <span class="string">&quot;application/zip&quot;</span>,</span><br><span class="line">  <span class="string">&quot;.mp3&quot;</span>    =&gt;  <span class="string">&quot;audio/mpeg&quot;</span>,</span><br><span class="line">  <span class="string">&quot;.m3u&quot;</span>    =&gt;  <span class="string">&quot;audio/x-mpegurl&quot;</span>,</span><br><span class="line">  <span class="string">&quot;.wma&quot;</span>    =&gt;  <span class="string">&quot;audio/x-ms-wma&quot;</span>,</span><br><span class="line">  <span class="string">&quot;.wax&quot;</span>    =&gt;  <span class="string">&quot;audio/x-ms-wax&quot;</span>,</span><br><span class="line">  <span class="string">&quot;.ogg&quot;</span>    =&gt;  <span class="string">&quot;audio/x-wav&quot;</span>,</span><br><span class="line">  <span class="string">&quot;.wav&quot;</span>    =&gt;  <span class="string">&quot;audio/x-wav&quot;</span>,</span><br><span class="line">  <span class="string">&quot;.gif&quot;</span>    =&gt;  <span class="string">&quot;image/gif&quot;</span>,</span><br><span class="line">  <span class="string">&quot;.jpg&quot;</span>    =&gt;  <span class="string">&quot;image/jpeg&quot;</span>,</span><br><span class="line">  <span class="string">&quot;.jpeg&quot;</span>    =&gt;  <span class="string">&quot;image/jpeg&quot;</span>,</span><br><span class="line">  <span class="string">&quot;.png&quot;</span>    =&gt;  <span class="string">&quot;image/png&quot;</span>,</span><br><span class="line">  <span class="string">&quot;.xbm&quot;</span>    =&gt;  <span class="string">&quot;image/x-xbitmap&quot;</span>,</span><br><span class="line">  <span class="string">&quot;.xpm&quot;</span>    =&gt;  <span class="string">&quot;image/x-xpixmap&quot;</span>,</span><br><span class="line">  <span class="string">&quot;.xwd&quot;</span>    =&gt;  <span class="string">&quot;image/x-xwindowdump&quot;</span>,</span><br><span class="line">  <span class="string">&quot;.css&quot;</span>    =&gt;  <span class="string">&quot;text/css&quot;</span>,</span><br><span class="line">  <span class="string">&quot;.html&quot;</span>    =&gt;  <span class="string">&quot;text/html&quot;</span>,</span><br><span class="line">  <span class="string">&quot;.htm&quot;</span>    =&gt;  <span class="string">&quot;text/html&quot;</span>,</span><br><span class="line">  <span class="string">&quot;.js&quot;</span>    =&gt;  <span class="string">&quot;text/javascript&quot;</span>,</span><br><span class="line">  <span class="string">&quot;.asc&quot;</span>    =&gt;  <span class="string">&quot;text/plain&quot;</span>,</span><br><span class="line">  <span class="string">&quot;.c&quot;</span>    =&gt;  <span class="string">&quot;text/plain&quot;</span>,</span><br><span class="line">  <span class="string">&quot;.conf&quot;</span>    =&gt;  <span class="string">&quot;text/plain&quot;</span>,</span><br><span class="line">  <span class="string">&quot;.text&quot;</span>    =&gt;  <span class="string">&quot;text/plain&quot;</span>,</span><br><span class="line">  <span class="string">&quot;.txt&quot;</span>    =&gt;  <span class="string">&quot;text/plain&quot;</span>,</span><br><span class="line">  <span class="string">&quot;.dtd&quot;</span>    =&gt;  <span class="string">&quot;text/xml&quot;</span>,</span><br><span class="line">  <span class="string">&quot;.xml&quot;</span>    =&gt;  <span class="string">&quot;text/xml&quot;</span>,</span><br><span class="line">  <span class="string">&quot;.mpeg&quot;</span>    =&gt;  <span class="string">&quot;video/mpeg&quot;</span>,</span><br><span class="line">  <span class="string">&quot;.mpg&quot;</span>    =&gt;  <span class="string">&quot;video/mpeg&quot;</span>,</span><br><span class="line">  <span class="string">&quot;.mov&quot;</span>    =&gt;  <span class="string">&quot;video/quicktime&quot;</span>,</span><br><span class="line">  <span class="string">&quot;.qt&quot;</span>    =&gt;  <span class="string">&quot;video/quicktime&quot;</span>,</span><br><span class="line">  <span class="string">&quot;.avi&quot;</span>    =&gt;  <span class="string">&quot;video/x-msvideo&quot;</span>,</span><br><span class="line">  <span class="string">&quot;.asf&quot;</span>    =&gt;  <span class="string">&quot;video/x-ms-asf&quot;</span>,</span><br><span class="line">  <span class="string">&quot;.asx&quot;</span>    =&gt;  <span class="string">&quot;video/x-ms-asf&quot;</span>,</span><br><span class="line">  <span class="string">&quot;.wmv&quot;</span>    =&gt;  <span class="string">&quot;video/x-ms-wmv&quot;</span>,</span><br><span class="line">  <span class="string">&quot;.bz2&quot;</span>    =&gt;  <span class="string">&quot;application/x-bzip&quot;</span>,</span><br><span class="line">  <span class="string">&quot;.tbz&quot;</span>    =&gt;  <span class="string">&quot;application/x-bzip-compressed-tar&quot;</span>,</span><br><span class="line">  <span class="string">&quot;.tar.bz2&quot;</span>  =&gt;  <span class="string">&quot;application/x-bzip-compressed-tar&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">index-file.names = ( <span class="string">&quot;index.html&quot;</span> )</span><br><span class="line"></span><br><span class="line">cgi.assign = ( <span class="string">&quot;.sh&quot;</span> =&gt; <span class="string">&quot;/bin/sh&quot;</span> )</span><br></pre></td></tr></table></figure>
+
+
+    </div><div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">------------- 💖 🌞 本 文 结 束 😚 感 谢 您 的 阅 读 🌞 💖 -------------</div>
+    
+</div>
+
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>请我一杯咖啡吧！</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.jpg" alt="Mr.Miaow 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/alipay.jpg" alt="Mr.Miaow 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Mr.Miaow
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://miaopei.github.io/2017/03/31/HTTP/lighttpd-fastcgi/" title="lighttpd+fastcgi">http://miaopei.github.io/2017/03/31/HTTP/lighttpd-fastcgi/</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/lighttpd/" rel="tag"><i class="fa fa-tag"></i> lighttpd</a>
+              <a href="/tags/FastCGI/" rel="tag"><i class="fa fa-tag"></i> FastCGI</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2017/03/31/HTTP/lighttpd-%E9%85%8D%E7%BD%AEhttps/" rel="prev" title="lighttpd 配置https">
+                  <i class="fa fa-angle-left"></i> lighttpd 配置https
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2017/04/06/HTTP/HTTP%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/" rel="next" title="HTTP协议详解">
+                  HTTP协议详解 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+    &copy; 2015 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Mr.Miaow</span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">436k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">6:36</span>
+  </span>
+</div> <div>
+   <span id="sitetime"></span>
+   <span id="year" style="display:none">2016</span> 
+   <span id="month" style="display:none">12</span>   
+   <span id="day" style="display:none">23</span>   
+   <span id="hour" style="display:none">15</span>   
+   <span id="minute" style="display:none">0</span>   
+   <span id="second" style="display:none">0</span>   
+	<script language=javascript>
+	function siteTime(){        
+		window.setTimeout("siteTime()", 1000);
+		var seconds = 1000;
+		var minutes = seconds * 60;
+		var hours = minutes * 60;
+		var days = hours * 24;
+		var years = days * 365;
+		var today = new Date();
+		var todayYear = today.getFullYear();
+		var todayMonth = today.getMonth()+1;
+		var todayDate = today.getDate();
+		var todayHour = today.getHours();
+		var todayMinute = today.getMinutes();
+		var todaySecond = today.getSeconds();
+	    var year = document.getElementById("year").innerHTML;
+		var month = document.getElementById("month").innerHTML;
+		var day = document.getElementById("day").innerHTML;
+		var hour = document.getElementById("hour").innerHTML;
+		var minute = document.getElementById("minute").innerHTML;
+		var second = document.getElementById("second").innerHTML;
+		var t1 = Date.UTC(year,month,day,hour,minute,second); 
+		var t2 = Date.UTC(todayYear,todayMonth,todayDate,todayHour,todayMinute,todaySecond);
+		var diff = t2-t1;
+		var diffYears = Math.floor(diff/years);
+		var diffDays = Math.floor((diff/days)-diffYears*365);
+		var diffHours = Math.floor((diff-(diffYears*365+diffDays)*days)/hours);
+		var diffMinutes = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours)/minutes);
+		var diffSeconds = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours-diffMinutes*minutes)/seconds);
+		if(diffYears==0){
+		document.getElementById("sitetime").innerHTML=" 网站已运行 "/*+diffYears+" 年 "*/+diffDays+" 天 "+diffHours+" 小时 "+diffMinutes+" 分钟 "+diffSeconds+" 秒";
+		} else{
+		document.getElementById("sitetime").innerHTML=" 网站已运行 "+diffYears+" 年 "+diffDays+" 天 "+diffHours+" 小时 "+diffMinutes+" 分钟 "+diffSeconds+" 秒";
+		}
+	}
+	siteTime();
+	</script>
+</div>
+
+<div class="busuanzi-count">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+<!--
+-->
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.1.0/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lozad.js/1.16.0/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  <script src="/js/third-party/pace.js"></script>
+
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"miaopei","repo":"miaopei.github.io","client_id":"Ov23li804qbeklf03KFv","client_secret":"fce69a6b68a24543006d90b37dbe835082db6f23","admin_user":"miaopei","distraction_free_mode":true,"language":"zh-CN","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"6601f07a711dc13c14572cfcdddc903b"}</script>
+<script src="/js/third-party/comments/gitalk.js"></script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true}});</script></body>
+</html>
