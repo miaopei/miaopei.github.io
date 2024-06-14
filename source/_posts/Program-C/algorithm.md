@@ -39,12 +39,11 @@ date: 2016-06-05 10:14:50
 - In-place: 不占用额外内存，只占用常数内存
 - Out-place: 占用额外内存
 
-
-
-## <span  style="color: #1976D2; ">一 冒泡排序</span>
+## <span  style="color: #1976D2; ">1. 冒泡排序</span>
 冒泡排序是排序算法中较为简单的一种，英文称为`Bubble Sort。`它遍历所有的数据，每次对相邻元素进行两两比较，如果顺序和预先规定的顺序不一致，则进行位置交换；这样一次遍历会将最大或最小的数据上浮到顶端，之后再重复同样的操作，直到所有的数据有序。
 
-如果有$n$个数据，那么需要$O(n^2)$的比较次数，所以当数据量很大时，冒泡算法的效率并不高。
+如果有`n`个数据，那么需要`O(n^2)`的比较次数，所以当数据量很大时，冒泡算法的效率并不高。
+
 当输入的数据是反序时，花的时间最长，当输入的数据是正序时，时间最短。
 
 <span  style="color: #43A047; ">平均时间复杂度</span>：<span  style="color: #D32F2F; ">$O(n^2)$</span>
@@ -52,7 +51,8 @@ date: 2016-06-05 10:14:50
 <span  style="color: #43A047; ">空间复杂度</span>：<span  style="color: #D32F2F; ">$O(1)$</span>
 
 动态演示：
-![](/images/imageProgramC/bubbleSort.gif)
+
+![bubbleSort](algorithm/bubbleSort.gif)
 
 <details><summary>代码：</summary>
 
@@ -107,9 +107,9 @@ $ ./bubble_sort
 ```
 以下的编译方法和测试方法和这里一样，所以下面不再重复编译和测试的说明。
 
-## <span  style="color: #1976D2; ">二 选择排序</span>
+## <span  style="color: #1976D2; ">2. 选择排序</span>
 
-选择排序简单直观，英文称为`Selection Sort，`先在数据中找出最大或最小的元素，放到序列的起始；然后再从余下的数据中继续寻找最大或最小的元素，依次放到排序序列中，直到所有数据样本排序完成。很显然，选择排序也是一个费时的排序算法，无论什么数据，都需要$O(n^2)$的时间复杂度，不适宜大量数据的排序。
+选择排序简单直观，英文称为`Selection Sort，`先在数据中找出最大或最小的元素，放到序列的起始；然后再从余下的数据中继续寻找最大或最小的元素，依次放到排序序列中，直到所有数据样本排序完成。很显然，选择排序也是一个费时的排序算法，无论什么数据，都需要`O(n^2)`的时间复杂度，不适宜大量数据的排序。
 
 <span  style="color: #43A047; ">平均时间复杂度</span>：</span>：<span  style="color: #D32F2F; ">$O(n^2)$</span>
 
@@ -117,7 +117,7 @@ $ ./bubble_sort
 
 动态演示：
 
-![](/images/imageProgramC/selectionSort.gif)
+![selectionSort](algorithm/selectionSort.gif)
 
 <details><summary>代码：</summary>
 
@@ -150,7 +150,7 @@ int main() {
 
 </details>
 
-## <span  style="color: #1976D2; ">三 插入排序</span>
+## <span  style="color: #1976D2; ">3. 插入排序</span>
 
 插入排序英文称为`Insertion Sort，`它通过构建有序序列，对于未排序的数据序列，在已排序序列中从后向前扫描，找到相应的位置并插入，类似打扑克牌时的码牌。插入排序有一种优化的算法，可以进行拆半插入。
 
@@ -161,7 +161,8 @@ int main() {
 <span  style="color: #43A047; ">空间复杂度</span>：</span>：<span  style="color: #D32F2F; ">$O(1)$</span>
 
 动态演示：
-![](/images/imageProgramC/insertionSort.gif)
+
+![insertionSort](algorithm/insertionSort.gif)
 
 <details><summary>代码：</summary>
 
@@ -196,7 +197,7 @@ int main() {
 </details>
 
 
-## <span  style="color: #1976D2; ">四 希尔排序</span>
+## <span  style="color: #1976D2; ">4. 希尔排序</span>
 
 希尔排序也称递减增量排序，是插入排序的一种改进版本，英文称为`Shell Sort`，效率虽高，但它是一种不稳定的排序算法。
 
@@ -246,7 +247,7 @@ int main() {
 
 图解：
 
-![](/images/imageProgramC/shell.png)
+![shell](algorithm/shell.png)
 
 <details><summary>代码：</summary>
 
@@ -285,7 +286,7 @@ int main() {
 
 </details>
 
-## <span  style="color: #1976D2; ">五 归并排序</span>
+## <span  style="color: #1976D2; ">5. 归并排序</span>
 
 归并排序英文称为`Merge Sort`，归并排序是建立在归并操作上的一种有效的排序算法。该算法是采用分治法`（Divide and Conquer）`的一个非常典型的应用。它首先将数据样本拆分为两个子数据样本, 并分别对它们排序, 最后再将两个子数据样本合并在一起; 拆分后的两个子数据样本序列, 再继续递归的拆分为更小的子数据样本序列, 再分别进行排序, 直到最后数据序列为1，而不再拆分，此时即完成对数据样本的最终排序。 
 
@@ -302,7 +303,7 @@ int main() {
 
 动态演示：
 
-![](/images/imageProgramC/mergeSort.gif)
+![mergeSort](algorithm/mergeSort.gif)
 
 <details><summary>代码：</summary>
 
@@ -391,12 +392,12 @@ int main() {
 ```
 </details>
 
-## <span  style="color: #1976D2; ">六 快速排序</span>
+## <span  style="color: #1976D2; ">6. 快速排序</span>
 快速排序,英文称为Quicksort，又称划分交换排序 partition-exchange sort 简称快排。
 
 快速排序使用分治法（Divide and conquer）策略来把一个序列（list）分为两个子序列（sub-lists）。首先从数列中挑出一个元素，并将这个元素称为「基准」，英文pivot。重新排序数列，所有比基准值小的元素摆放在基准前面，所有比基准值大的元素摆在基准后面（相同的数可以到任何一边）。在这个分区结束之后，该基准就处于数列的中间位置。这个称为分区（partition）操作。之后，在子序列中继续重复这个方法，直到最后整个数据序列排序完成。
 
-在平均状况下，排序n个项目要$O(n \log n)$次比较。在最坏状况下则需要$O(n^2)$次比较，但这种状况并不常见。事实上，快速排序通常明显比其他算法更快，因为它的内部循环可以在大部分的架构上很有效率地达成。
+在平均状况下，排序n个项目要`O(n \log n)`次比较。在最坏状况下则需要`O(n^2)`次比较，但这种状况并不常见。事实上，快速排序通常明显比其他算法更快，因为它的内部循环可以在大部分的架构上很有效率地达成。
 
 <span  style="color: #43A047; ">平均时间复杂度</span>：</span>：<span  style="color: #D32F2F; "> $O(n \log n)$</span>
 
@@ -404,11 +405,11 @@ int main() {
 
 动态演示：
 
-![](/images/imageProgramC/quickSort.gif)
+![quickSort](algorithm/quickSort.gif)
 
 更直观一些的动图演示：
 
-![](/images/imageProgramC/Sorting_quicksort_anim.gif)
+![Sorting_quicksort_anim](algorithm/Sorting_quicksort_anim.gif)
 
 代码分两种方式实现，分别为迭代法和递归法。
 
@@ -488,16 +489,16 @@ void quick_sort(T arr[], int len) {
 
 </details>
 
-## <span  style="color: #1976D2; ">七 堆排序</span>
+## <span  style="color: #1976D2; ">7. 堆排序</span>
 堆排序，英文称Heapsort，是指利用堆这种数据结构所设计的一种排序算法。堆积是一个近似完全二叉树的结构，并同时满足堆积的性质：即子结点的键值或索引总是小于（或者大于）它的父节点。堆排序实现分为两种方法：
 
 1. 大顶堆：每个节点的值都大于或等于其子节点的值，在堆排序算法中用于升序排列；
 2. 小顶堆：每个节点的值都小于或等于其子节点的值，在堆排序算法中用于降序排列；
 
 算法步骤：
-1. 创建一个堆 H[0……n-1]；
+1. 创建一个堆 `H[0……n-1]`；
 2. 把堆首（最大值）和堆尾互换；
-3. 把堆的尺寸缩小 1，并调用 shift_down(0)，目的是把新的数组顶端数据调整到相应位置；
+3. 把堆的尺寸缩小 1，并调用 `shift_down(0)`，目的是把新的数组顶端数据调整到相应位置；
 4. 重复步骤 2，直到堆的尺寸为 1
 
 <span  style="color: #43A047; ">平均时间复杂度</span>： </span>：<span  style="color: #D32F2F; ">$O(n \log n)$</span>
@@ -506,11 +507,11 @@ void quick_sort(T arr[], int len) {
 
 动图演示：
 
-![](/images/imageProgramC/Sorting_heapsort_anim.gif)
+![Sorting_heapsort_anim](algorithm/Sorting_heapsort_anim.gif)
 
 来一个更直观一些的：
 
-![](/images/imageProgramC/heapSort.gif)
+![heapSort](algorithm/heapSort.gif)
 
 <details><summary>代码：</summary>
 
@@ -560,12 +561,12 @@ int main() {
 ```
 </details>
 
-## <span  style="color: #1976D2; ">八 计数排序</span>
-计数排序英文称Counting sort，是一种稳定的线性时间排序算法。计数排序使用一个额外的数组C，其中第i个元素是待排序数组A中值等于  i的元素的个数。然后根据数组C来将A中的元素排到正确的位置。基本的步骤如下：
+## <span  style="color: #1976D2; ">8. 计数排序</span>
+计数排序英文称Counting sort，是一种稳定的线性时间排序算法。计数排序使用一个额外的数组`C`，其中第`i`个元素是待排序数组`A`中值等于 `i` 的元素的个数。然后根据数组`C`来将A中的元素排到正确的位置。基本的步骤如下：
 1. 找出待排序的数组中最大和最小的元素
-2. 统计数组中每个值为i的元素出现的次数，存入数组C的第i项
-3. 对所有的计数累加,从C中的第一个元素开始，每一项和前一项相加
-4. 反向填充目标数组,将每个元素i放在新数组的第C[i]项，每放一个元素就将C[i]减去1
+2. 统计数组中每个值为`i`的元素出现的次数，存入数组`C`的第`i`项
+3. 对所有的计数累加,从`C`中的第一个元素开始，每一项和前一项相加
+4. 反向填充目标数组,将每个元素`i`放在新数组的第`C[i]`项，每放一个元素就将`C[i]`减去1
 
 <span  style="color: #43A047; ">平均时间复杂度</span>：</span>：<span  style="color: #D32F2F; ">$O(n + k )$</span>
 
@@ -573,7 +574,7 @@ int main() {
 
 动图演示：
 
-![](/images/imageProgramC/countingSort.gif)
+![countingSort](algorithm/countingSort.gif)
 
 <details><summary>代码：</summary>
 
@@ -619,7 +620,7 @@ void  Count_Sort(int* Data, int Len)
 
 </details>
 
-## <span  style="color: #1976D2; ">九 桶排序</span>
+## <span  style="color: #1976D2; ">9. 桶排序</span>
 桶排序也称为箱排序，英文称为 Bucket Sort。它是将数组划分到一定数量的有序的桶里，然后再对每个桶中的数据进行排序，最后再将各个桶里的数据有序的合并到一起。
 
 <span  style="color: #43A047; ">平均时间复杂度</span>：</span>：<span  style="color: #D32F2F; ">$O(n + k)$</span>
@@ -628,7 +629,7 @@ void  Count_Sort(int* Data, int Len)
 
 动态演示：
 
-![](/images/imageProgramC/bucketsort.gif)
+![bucketsort](algorithm/bucketsort.gif)
 
 <details><summary>代码：</summary>
 
@@ -719,7 +720,7 @@ int main(int argc, char **argv)
 
 </details>
 
-## <span  style="color: #1976D2; ">十 基数排序</span>
+## <span  style="color: #1976D2; ">10. 基数排序</span>
 基数排序英文称Radix sort，是一种非比较型整数排序算法，其原理是将整数按位数切割成不同的数字，然后按每个位数分别比较。由于整数也可以表达字符串和特定格式的浮点数，所以基数排序也仅限于整数。它首先将所有待比较数值，统一为同样的数位长度，数位较短的数前面补零。然后，从最低位开始，依次进行一次排序。这样从最低位排序一直到最高位排序完成以后，数列就变成一个有序序列。
 
 <span  style="color: #43A047; ">平均时间复杂度</span>： </span>：<span  style="color: #D32F2F; ">$O(n \times k)$</span>
@@ -728,7 +729,7 @@ int main(int argc, char **argv)
 
 动态演示：
 
-![](/images/imageProgramC/radixSort.gif)
+![radixSort](algorithm/radixSort.gif)
 
 <details><summary>代码：</summary>
 
@@ -803,7 +804,10 @@ void radixsort(int data[], int n) //基数排序
 
 ## <span  style="color: #1976D2; ">参考</span>
 <span  style="color: #1976D2; ">wiki</span>
+
 <span  style="color: #1976D2; ">https://github.com/hustcc/JS-Sorting-Algorithm</span>
+
 <span  style="color: #1976D2; ">「数据结构与算法」</span>
+
 <span  style="color: #1976D2; ">「算法导论」</span>
 
