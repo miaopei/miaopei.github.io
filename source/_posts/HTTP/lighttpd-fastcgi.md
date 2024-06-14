@@ -8,7 +8,7 @@ abbrlink: 930
 date: 2017-03-31 12:34:28
 ---
 
-### 简介
+## 1. 简介
 
 `lighttpd` 提供了一种外部程序调用的接口，即 `FastCGI` 接口。这是一种独立于平台和服务器的接口，它介于Web应用程序和Web服务器之间。
 
@@ -16,40 +16,41 @@ date: 2017-03-31 12:34:28
 
 <!-- more -->
 
-### FastCGI介绍
+## 2. FastCGI介绍
 
 1）就像 `CGI` 一样，`FastCGI` 也是独立于编程语言的。
+
 2）就像 `CGI` 一样，`FastCGI` 程序运行在完全独立于核心 `Web Server` 之外的进程中，和 `API` 方式相比，提供了很大的安全性。（API会将程序代码与核心Web Server挂接在一起，这就意味着基于问题API的应用程序可能会使整个Web Server或另一个应用程序崩溃；一个恶意API还可以从核心Web Server或另一个应用程序中盗取安全密钥）
 
-3) 虽然 `FastCGI` 不能一夜之间复制CGI的所有功能，但是 `FastCGI` 一直宣扬开放，这也使得我们拥有很多免费的 `FastCGI` 应用程序库（C/C++、Java、Perl、TCL）和免费的Server模块（Apache、ISS、Lighttpd）。
+3）虽然 `FastCGI` 不能一夜之间复制CGI的所有功能，但是 `FastCGI` 一直宣扬开放，这也使得我们拥有很多免费的 `FastCGI` 应用程序库（C/C++、Java、Perl、TCL）和免费的Server模块（Apache、ISS、Lighttpd）。
 
-4) 就像 `CGI` 一样，`FastCGI` 并不依附于任何 `Web Server` 的内部架构，因此即使 `Server` 的技术实现变动，`FastCGI` 仍然非常稳定；而 `API` 设计是反映 `Web Server` 内部架构的，因此，一旦架构改变，API要随之变动。
+4）就像 `CGI` 一样，`FastCGI` 并不依附于任何 `Web Server` 的内部架构，因此即使 `Server` 的技术实现变动，`FastCGI` 仍然非常稳定；而 `API` 设计是反映 `Web Server` 内部架构的，因此，一旦架构改变，API要随之变动。
 
-5) `FastCGI` 程序可以运行在任何机器上，完全可以和 `Web Server` 不在一台机器上。这种分布式计算的思想可以确保可扩展性、提高系统可用性和安全性。
+5）`FastCGI` 程序可以运行在任何机器上，完全可以和 `Web Server` 不在一台机器上。这种分布式计算的思想可以确保可扩展性、提高系统可用性和安全性。
 
-6) `CGI` 程序主要是对 `HTTP` 请求做计算处理，而 `FastCGI` 却还可以做得更多，例如模块化认证、授权检查、数据类型转换等等。在未来，`FastCGI` 还会有能力扮演更多角色。
+6）`CGI` 程序主要是对 `HTTP` 请求做计算处理，而 `FastCGI` 却还可以做得更多，例如模块化认证、授权检查、数据类型转换等等。在未来，`FastCGI` 还会有能力扮演更多角色。
 
-7) `FastCGI` 移除了 `CGI` 程序的许多弊端。例如，针对每一个新请求，`WebServer` 都必须重启 `CGI` 程序来处理新请求，这导致 `WebServer` 的性能会大受影响。而 `FastCGI` 通过保持进程处理运行状态并持续处理请求的方式解决了该问题，这就将进程创建和销毁的时间节省了出来。
+7）`FastCGI` 移除了 `CGI` 程序的许多弊端。例如，针对每一个新请求，`WebServer` 都必须重启 `CGI` 程序来处理新请求，这导致 `WebServer` 的性能会大受影响。而 `FastCGI` 通过保持进程处理运行状态并持续处理请求的方式解决了该问题，这就将进程创建和销毁的时间节省了出来。
 
-8) `CGI` 程序需要通过管道（pipe）方式与 `Web Server` 通信，而 `FastCGI` 则是通过 `Unix-Domain-Sockets` 或 `TCP/IP` 方式来实现与 `Web Server` 的通信。这确保了 `FastCGI` 可以运行在 `Web Server` 之外的服务器上。`FastCGI` 提供了 `FastCGI` 负载均衡器，它可以有效控制多个独立的 `FastCGI Server` 的负载，这种方式比 `load-balancer+apache+mod_php` 方式能够承担更多的流量。
+8）`CGI` 程序需要通过管道（pipe）方式与 `Web Server` 通信，而 `FastCGI` 则是通过 `Unix-Domain-Sockets` 或 `TCP/IP` 方式来实现与 `Web Server` 的通信。这确保了 `FastCGI` 可以运行在 `Web Server` 之外的服务器上。`FastCGI` 提供了 `FastCGI` 负载均衡器，它可以有效控制多个独立的 `FastCGI Server` 的负载，这种方式比 `load-balancer+apache+mod_php` 方式能够承担更多的流量。
 
-### FastCGI 模块
+## 3. FastCGI 模块
 
 若要 `lighttpd` 支持 `fastcgi`，则需要配置如下内容：
 
 在 `fastcgi.conf` 中配置
 
-```test
+```shell
 server.modules += ( "mod_fastcgi" )
 ```
 
 及在 `module.conf` 中配置
 
-```test
+```shell
 include "conf.d/fastcgi.conf"
 ```
 
-### FastCGI 配置选项
+## 4. FastCGI 配置选项
 
 `lighttpd` 通过 `fastcgi` 模块的方式实现了对 `fastcgi` 的支持，并且在配置文件中提供了三个相关的选项：
 
@@ -57,7 +58,7 @@ include "conf.d/fastcgi.conf"
 
 可以设置一个从0到65535的值，用于设定 `FastCGI` 模块的调试等级。当前仅有0和1可用。**1表示开启调试（会输出调试信息），0表示禁用**。例如：
 
-```test
+```shell
 fastcgi.debug = 1
 ```
 
@@ -65,13 +66,13 @@ fastcgi.debug = 1
 
 同一个 `fastcgi server` 能够映射多个扩展名，如 `.php3` 和 `.php4` 都对应 `.php`。例如：
 
-```test
+```shell
 fastcgi.map-extensions = ( ".php3" => ".php" )
 ```
 
 or for multiple
 
-```test
+```shell
 fastcgi.map-extensions = ( ".php3" => ".php", ".php4" => ".php" )
 ```
 
@@ -81,7 +82,7 @@ fastcgi.map-extensions = ( ".php3" => ".php", ".php4" => ".php" )
 
 `fastcgi.server` 的结构语法如下：
 
-```bash
+```shell
 ( <extension> =>
   ( [ <name> => ]
     ( # Be careful: lighty does *not* warn you if it doesn't know a specified option here (make sure you have no typos)
@@ -127,7 +128,7 @@ fastcgi.map-extensions = ( ".php3" => ".php", ".php4" => ".php" )
 
 使用前缀来对应主机：
 
-```bash
+```shell
 fastcgi.server = (
   "/remote_scripts/" =>
   (( "host" => "192.168.0.3",
@@ -147,7 +148,7 @@ fastcgi.server = (
 
 例如：
 
-```bash
+```shell
 fastcgi.server = ( ".php" =>
   (
     ( "host" => "10.0.0.2",
@@ -161,7 +162,7 @@ fastcgi.server = ( ".php" =>
 
 为了更好的理解负载均衡实现的原理，建议你置 `fastcgi.debug` 为 `1` 。即使对于本机的多个 `FastCGI` ，你也会获得如下输出：
 
-```test
+```shell
   proc: 127.0.0.1 1031  1 1 1 31454
   proc: 127.0.0.1 1028  1 1 1 31442
   proc: 127.0.0.1 1030  1 1 1 31449
@@ -178,11 +179,11 @@ fastcgi.server = ( ".php" =>
 
 上述信息显示出了IP地址，端口号、当前链接数（也就是负载）（倒数第二列）、进程ID（倒数第一列）等等。整个输出信息总是以负载域来从小到大排序的。
 
-### 参考文献
+## 5. 参考文献
 
-[](http://redmine.lighttpd.net/projects/1/wiki/Docs:ModFastCGI)
+[ModFastCGI](http://redmine.lighttpd.net/projects/1/wiki/Docs:ModFastCGI)
 
-[](http://www.fastcgi.com)
+[fastcgi](http://www.fastcgi.com)
 
 [说说lighttpd的fastcgi](http://roclinux.cn/?p=2347)
 
@@ -192,9 +193,9 @@ fastcgi.server = ( ".php" =>
 
 
 
-### 附：QC V3 PP 版本 lighttpd.conf
+## 6. 附：QC V3 PP 版本 lighttpd.conf
 
-```bash
+```shell
 $ cat /etc/qtilighttpd.conf 
 # ------------------------------------------------------------------------------
 # Copyright (c) 2016 Qualcomm Technologies, Inc.

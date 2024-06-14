@@ -8,7 +8,7 @@ abbrlink: 45254
 date: 2017-03-31 12:34:28
 ---
 
-### 确定安装的lighttpd支持ssl
+## 1. 确定安装的lighttpd支持ssl
 
 版本信息中含有（ssl）字样的信息说明支持ssl，可以在终端输入如下查看：
 
@@ -20,7 +20,7 @@ Build-Date: Apr 25 2017 10:25:18
 
 <!-- more -->
 
-### 生成自签名证书
+## 2. 生成自签名证书
 
 完整的ssl证书分为四个部分：
 
@@ -41,7 +41,7 @@ $ openssl req -new -x509 -keyout server.pem -out server.pem -days 365 -nodes
 
 上边的命令生成一个server.pem文件。
 
-### lighttpd.conf 配置
+## 3. lighttpd.conf 配置
 
 ```bash
 $SERVER["socket"] == "[::]:443" {  
@@ -50,7 +50,7 @@ $SERVER["socket"] == "[::]:443" {
 }
 ```
 
-### 强制定向到HTTPS
+## 4. 强制定向到HTTPS
 
 下面是 `lighttpd.conf` 文件中关于强制 HTTP 定向到 HTTPS 的部分配置：
 
@@ -66,7 +66,7 @@ $HTTP["scheme"] == "http" {
 
 此功能需要lighttpd `mod_redirect` 模块支持。使用此功能前确保模块已经安装。
 
-### lighttpd安全配置
+## 5. lighttpd安全配置
 
 **禁用 SSL Compression (抵御 CRIME 攻击)**
 
@@ -129,6 +129,6 @@ $HTTP["scheme"] == "https" {
     setenv.add-response-header  = ( "Strict-Transport-Security" => "max-age=63072000; includeSubdomains; preload")
 }
 ```
-### 参考资料
+## 6. 参考资料
 
 [Lighttpd](https://wiki.archlinux.org/index.php/Lighttpd)
