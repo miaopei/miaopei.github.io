@@ -1,27 +1,27 @@
 ---
 title: 侯捷C++讲义
 tags:
-  - Other
+  - c/c++
 categories:
-  - Other
+  - c/c++
 reward: true
 abbrlink: 42641
 date: 2019-09-03 18:22:18
 ---
 
-## 面向对象高级编程 Part1
+## 1. 面向对象高级编程 Part1
 
-{% pdf /books/ObjectOriented.pdf %}
+{% pdf ./ObjectOriented.pdf %}
 
-## 面向对象高级编程 Part2
+## 2. 面向对象高级编程 Part2
 
-{% pdf /books/ObjectOrientedPart2.pdf %}
+{% pdf ./ObjectOrientedPart2.pdf %}
 
-## 内存管理 Part1
+## 3. 内存管理 Part1
 
-{% pdf /books/MemoryManagementPart1.pdf %}
+{% pdf ./MemoryManagementPart1.pdf %}
 
-## 内存管理 Part2
+## 4. 内存管理 Part2
 
-{% pdf /books/MemoryManagementPart2.pdf %}
+{% pdf ./MemoryManagementPart2.pdf %}
 
