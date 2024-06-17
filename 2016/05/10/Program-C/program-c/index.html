@@ -19,25 +19,25 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"miaopei.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"always","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"show_result":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":true,"nav":{"gitalk":{"order":-2}},"activeClass":"gitalk"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="C 语言基础一、C 语言概述">
+    <meta name="description" content="C 语言基础1. C 语言概述">
 <meta property="og:type" content="article">
 <meta property="og:title" content="C 基础">
 <meta property="og:url" content="http://miaopei.github.io/2016/05/10/Program-C/program-c/index.html">
 <meta property="og:site_name" content="Mr.Miaow Blog">
-<meta property="og:description" content="C 语言基础一、C 语言概述">
+<meta property="og:description" content="C 语言基础1. C 语言概述">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://miaopei.github.io/images/imageProgramC/03_C%E8%AF%AD%E8%A8%80%E6%A6%82%E8%BF%B0.png">
-<meta property="og:image" content="http://miaopei.github.io/images/imageProgramC/04_%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B.png">
-<meta property="og:image" content="http://miaopei.github.io/images/imageProgramC/fileinfo.png">
-<meta property="og:image" content="http://miaopei.github.io/images/imageProgramC/%E5%86%85%E5%AD%98%E5%88%86%E5%8C%BA.png">
-<meta property="og:image" content="http://miaopei.github.io/images/imageProgramC/%E7%BB%93%E6%9E%84%E4%BD%93.png">
-<meta property="og:image" content="http://miaopei.github.io/images/imageProgramC/%E7%A3%81%E7%9B%98%E6%96%87%E4%BB%B6%E7%9A%84%E8%AF%BB%E5%8F%96.png">
+<meta property="og:image" content="http://miaopei.github.io/2016/05/10/Program-C/program-c/03_C%E8%AF%AD%E8%A8%80%E6%A6%82%E8%BF%B0.png">
+<meta property="og:image" content="http://miaopei.github.io/2016/05/10/Program-C/program-c/04_%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B.png">
+<meta property="og:image" content="http://miaopei.github.io/2016/05/10/Program-C/program-c/fileinfo.png">
+<meta property="og:image" content="http://miaopei.github.io/2016/05/10/Program-C/program-c/%E5%86%85%E5%AD%98%E5%88%86%E5%8C%BA.png">
+<meta property="og:image" content="http://miaopei.github.io/2016/05/10/Program-C/program-c/%E7%BB%93%E6%9E%84%E4%BD%93.png">
+<meta property="og:image" content="http://miaopei.github.io/2016/05/10/Program-C/program-c/%E7%A3%81%E7%9B%98%E6%96%87%E4%BB%B6%E7%9A%84%E8%AF%BB%E5%8F%96.png">
 <meta property="article:published_time" content="2016-05-10T02:14:50.000Z">
-<meta property="article:modified_time" content="2024-06-14T05:51:11.281Z">
+<meta property="article:modified_time" content="2024-06-17T08:04:34.682Z">
 <meta property="article:author" content="Mr.Miaow">
 <meta property="article:tag" content="c&#x2F;c++">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://miaopei.github.io/images/imageProgramC/03_C%E8%AF%AD%E8%A8%80%E6%A6%82%E8%BF%B0.png">
+<meta name="twitter:image" content="http://miaopei.github.io/2016/05/10/Program-C/program-c/03_C%E8%AF%AD%E8%A8%80%E6%A6%82%E8%BF%B0.png">
 
 
 <link rel="canonical" href="http://miaopei.github.io/2016/05/10/Program-C/program-c/">
@@ -148,7 +148,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#C-%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80"><span class="nav-text">C 语言基础</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81C-%E8%AF%AD%E8%A8%80%E6%A6%82%E8%BF%B0"><span class="nav-text">一、C 语言概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="nav-text">二、数据类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%A4%84%E7%90%86%E5%92%8C%E5%87%BD%E6%95%B0"><span class="nav-text">三、字符串处理和函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E6%8C%87%E9%92%88%E5%92%8C%E6%8C%87%E9%92%88%E5%8F%98%E9%87%8F"><span class="nav-text">四、指针和指针变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%94%E3%80%81%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86"><span class="nav-text">五、内存管理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-%E4%BD%9C%E7%94%A8%E5%9F%9F"><span class="nav-text">5.1 作用域</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80"><span class="nav-text">5.2 内存布局</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AD%E3%80%81%E5%A4%8D%E5%90%88%E7%B1%BB%E5%9E%8B-%E8%87%AA%E5%AE%9A%E4%B9%89%E7%B1%BB%E5%9E%8B"><span class="nav-text">六、复合类型(自定义类型)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#6-1-%E7%BB%93%E6%9E%84%E4%BD%93"><span class="nav-text">6.1 结构体</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-2-%E5%85%B1%E7%94%A8%E4%BD%93-%E8%81%94%E5%90%88%E4%BD%93"><span class="nav-text">6.2 共用体(联合体)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-3-%E6%9E%9A%E4%B8%BE"><span class="nav-text">6.3 枚举</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-4-typedef"><span class="nav-text">6.4 typedef</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%83%E3%80%81%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C"><span class="nav-text">七、文件操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#7-1-%E6%96%87%E4%BB%B6%E7%9A%84%E6%89%93%E5%BC%80%E5%92%8C%E5%85%B3%E9%97%AD"><span class="nav-text">7.1 文件的打开和关闭</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-2-%E6%96%87%E4%BB%B6%E7%9A%84%E9%A1%BA%E5%BA%8F%E8%AF%BB%E5%86%99"><span class="nav-text">7.2 文件的顺序读写</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-3-%E6%96%87%E4%BB%B6%E7%9A%84%E9%9A%8F%E6%9C%BA%E8%AF%BB%E5%86%99"><span class="nav-text">7.3 文件的随机读写</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-4-%E8%8E%B7%E5%8F%96%E6%96%87%E4%BB%B6%E7%8A%B6%E6%80%81"><span class="nav-text">7.4 获取文件状态</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-5-%E5%88%A0%E9%99%A4%E6%96%87%E4%BB%B6%E3%80%81%E9%87%8D%E5%91%BD%E5%90%8D%E6%96%87%E4%BB%B6%E5%90%8D"><span class="nav-text">7.5 删除文件、重命名文件名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-6-%E6%96%87%E4%BB%B6%E7%BC%93%E5%86%B2%E5%8C%BA"><span class="nav-text">7.6 文件缓冲区</span></a></li></ol></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#C-%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80"><span class="nav-text">C 语言基础</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-C-%E8%AF%AD%E8%A8%80%E6%A6%82%E8%BF%B0"><span class="nav-text">1. C 语言概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="nav-text">2. 数据类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%A4%84%E7%90%86%E5%92%8C%E5%87%BD%E6%95%B0"><span class="nav-text">3. 字符串处理和函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E6%8C%87%E9%92%88%E5%92%8C%E6%8C%87%E9%92%88%E5%8F%98%E9%87%8F"><span class="nav-text">4. 指针和指针变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86"><span class="nav-text">5. 内存管理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-%E4%BD%9C%E7%94%A8%E5%9F%9F"><span class="nav-text">5.1 作用域</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80"><span class="nav-text">5.2 内存布局</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E5%A4%8D%E5%90%88%E7%B1%BB%E5%9E%8B-%E8%87%AA%E5%AE%9A%E4%B9%89%E7%B1%BB%E5%9E%8B"><span class="nav-text">6. 复合类型(自定义类型)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#6-1-%E7%BB%93%E6%9E%84%E4%BD%93"><span class="nav-text">6.1 结构体</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-2-%E5%85%B1%E7%94%A8%E4%BD%93-%E8%81%94%E5%90%88%E4%BD%93"><span class="nav-text">6.2 共用体(联合体)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-3-%E6%9E%9A%E4%B8%BE"><span class="nav-text">6.3 枚举</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-4-typedef"><span class="nav-text">6.4 typedef</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C"><span class="nav-text">7. 文件操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#7-1-%E6%96%87%E4%BB%B6%E7%9A%84%E6%89%93%E5%BC%80%E5%92%8C%E5%85%B3%E9%97%AD"><span class="nav-text">7.1 文件的打开和关闭</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-2-%E6%96%87%E4%BB%B6%E7%9A%84%E9%A1%BA%E5%BA%8F%E8%AF%BB%E5%86%99"><span class="nav-text">7.2 文件的顺序读写</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-3-%E6%96%87%E4%BB%B6%E7%9A%84%E9%9A%8F%E6%9C%BA%E8%AF%BB%E5%86%99"><span class="nav-text">7.3 文件的随机读写</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-4-%E8%8E%B7%E5%8F%96%E6%96%87%E4%BB%B6%E7%8A%B6%E6%80%81"><span class="nav-text">7.4 获取文件状态</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-5-%E5%88%A0%E9%99%A4%E6%96%87%E4%BB%B6%E3%80%81%E9%87%8D%E5%91%BD%E5%90%8D%E6%96%87%E4%BB%B6%E5%90%8D"><span class="nav-text">7.5 删除文件、重命名文件名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-6-%E6%96%87%E4%BB%B6%E7%BC%93%E5%86%B2%E5%8C%BA"><span class="nav-text">7.6 文件缓冲区</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -299,38 +299,38 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><h1 id="C-语言基础"><a href="#C-语言基础" class="headerlink" title="C 语言基础"></a>C 语言基础</h1><h2 id="一、C-语言概述"><a href="#一、C-语言概述" class="headerlink" title="一、C 语言概述"></a>一、C 语言概述</h2><span id="more"></span>
+    <div class="post-body" itemprop="articleBody"><h2 id="C-语言基础"><a href="#C-语言基础" class="headerlink" title="C 语言基础"></a>C 语言基础</h2><h2 id="1-C-语言概述"><a href="#1-C-语言概述" class="headerlink" title="1. C 语言概述"></a>1. C 语言概述</h2><span id="more"></span>
 
-<img data-src="/images/imageProgramC/03_C语言概述.png">
+<img data-src="/2016/05/10/Program-C/program-c/03_C%E8%AF%AD%E8%A8%80%E6%A6%82%E8%BF%B0.png" class="" title="03_C语言概述">
 
-<h2 id="二、数据类型"><a href="#二、数据类型" class="headerlink" title="二、数据类型"></a>二、数据类型</h2><img data-src="/images/imageProgramC/04_数据类型.png">
+<h2 id="2-数据类型"><a href="#2-数据类型" class="headerlink" title="2. 数据类型"></a>2. 数据类型</h2><img data-src="/2016/05/10/Program-C/program-c/04_%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B.png" class="" title="04_数据类型">
 
-<h2 id="三、字符串处理和函数"><a href="#三、字符串处理和函数" class="headerlink" title="三、字符串处理和函数"></a>三、字符串处理和函数</h2><ul>
-<li><p>声明变量不需要建立存储空间，如：extern int a;</p>
+<h2 id="3-字符串处理和函数"><a href="#3-字符串处理和函数" class="headerlink" title="3. 字符串处理和函数"></a>3. 字符串处理和函数</h2><ul>
+<li><p>声明变量不需要建立存储空间，如：<code>extern int a;</code></p>
 </li>
-<li><p>定义变量需要建立存储空间，如：int b;</p>
+<li><p>定义变量需要建立存储空间，如：<code>int b;</code></p>
 </li>
 <li><p>全局数组若不初始化，编译器将其初始化为零。局部数组若不初始化，内容为随机值。</p>
 </li>
-<li><p>数字 0 (和字符 ‘\0’ 等价)结尾的char数组就是一个字符串，但如果char数组没有以数字0结尾，那么就不是一个字符串，只是普通字符数组，所以字符串是一种特殊的char的数组。</p>
+<li><p>数字 <code>0</code> (和字符<code> ‘\0’</code> 等价)结尾的char数组就是一个字符串，但如果char数组没有以数字0结尾，那么就不是一个字符串，只是普通字符数组，所以字符串是一种特殊的char的数组。</p>
 </li>
 </ul>
-<p>gets(str)与scanf(“%s”,str)的区别：</p>
+<p><code>gets(str)</code>与<code>scanf(“%s”,str)</code>的区别：</p>
 <ul>
-<li><p>gets(str)允许输入的字符串含有空格</p>
+<li><p><code>gets(str)</code>允许输入的字符串含有空格</p>
 </li>
-<li><p>scanf(“%s”,str)不允许含有空格</p>
+<li><p><code>scanf(“%s”,str)</code>不允许含有空格</p>
 </li>
-<li><p>注意：由于scanf()和gets()无法知道字符串s大小，必须遇到换行符或读到文件结尾为止才接收输入，因此容易导致字符数组越界(缓冲区溢出)的情况。</p>
+<li><p>注意：由于<code>scanf()</code>和<code>gets()</code>无法知道字符串<code>s</code>大小，必须遇到换行符或读到文件结尾为止才接收输入，因此容易导致字符数组越界(缓冲区溢出)的情况。</p>
 </li>
 </ul>
-<p>gets() 、puts()</p>
+<p><code>gets() 、puts()</code></p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="type">char</span> *<span class="title function_">gets</span><span class="params">(<span class="type">char</span> *s)</span>;</span><br><span class="line">功能：从标准输入读入字符，并保存到s指定的内存空间，直到出现换行符或读到文件结尾为止。</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">puts</span><span class="params">(<span class="type">const</span> <span class="type">char</span> *s)</span>;</span><br><span class="line">功能：标准设备输出s字符串，在输出完成后自动输出一个<span class="string">&#x27;\n&#x27;</span>。</span><br></pre></td></tr></table></figure>
 
-<p>fgets() 、fputs()</p>
+<p><code>fgets() 、fputs()</code></p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="type">char</span> *<span class="title function_">fgets</span><span class="params">(<span class="type">char</span> *s, <span class="type">int</span> size, FILE *stream)</span>;</span><br><span class="line">功能：从stream指定的文件内读入字符，保存到s所指定的内存空间，直到出现换行字符、读到文件结尾或是已读了size - <span class="number">1</span>个字符为止，最后会自动加上字符 <span class="string">&#x27;\0&#x27;</span> 作为字符串结束。</span><br><span class="line">fgets()在读取一个用户通过键盘输入的字符串的时候，同时把用户输入的回车也做为字符串的一部分。通过<span class="built_in">scanf</span>和gets输入一个字符串的时候，不包含结尾的“\n”，但通过fgets结尾多了“\n”。fgets()函数是安全的，不存在缓冲区溢出的问题。</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">fputs</span><span class="params">(<span class="type">const</span> <span class="type">char</span> * str, FILE * stream)</span>;</span><br><span class="line">功能：将str所指定的字符串写入到stream指定的文件中， 字符串结束符 <span class="string">&#x27;\0&#x27;</span>  不写入文件。</span><br><span class="line"><span class="built_in">fputs</span>()是<span class="built_in">puts</span>()的文件操作版本，但<span class="built_in">fputs</span>()不会自动输出一个<span class="string">&#x27;\n&#x27;</span>。</span><br></pre></td></tr></table></figure>
 
-<p>strlen() 、strcpy() 、strncpy() 、strcat() 、strncat() 、strcmp() 、strncmp() 、sprintf() 、sscanf() 、strchr() 、strstr() 、strtok() 、atoi()</p>
+<p><code>strlen() 、strcpy() 、strncpy() 、strcat() 、strncat() 、strcmp() 、strncmp() 、sprintf() 、sscanf() 、strchr() 、strstr() 、strtok() 、atoi()</code></p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="type">size_t</span> <span class="title function_">strlen</span><span class="params">(<span class="type">const</span> <span class="type">char</span> *s)</span>;</span><br><span class="line">功能：计算指定指定字符串s的长度，不包含字符串结束符‘\<span class="number">0</span>’</span><br><span class="line"></span><br><span class="line"><span class="type">char</span> *<span class="title function_">strcpy</span><span class="params">(<span class="type">char</span> *dest, <span class="type">const</span> <span class="type">char</span> *src)</span>;</span><br><span class="line">功能：把src所指向的字符串复制到dest所指向的空间中，<span class="string">&#x27;\0&#x27;</span>也会拷贝过去</span><br><span class="line">注意：如果参数dest所指的内存空间不够大，可能会造成缓冲溢出的错误情况。</span><br><span class="line"></span><br><span class="line"><span class="type">char</span> *<span class="title function_">strncpy</span><span class="params">(<span class="type">char</span> *dest, <span class="type">const</span> <span class="type">char</span> *src, <span class="type">size_t</span> n)</span>;</span><br><span class="line">功能：把src指向字符串的前n个字符复制到dest所指向的空间中，是否拷贝结束符看指定的长度是否包含<span class="string">&#x27;\0&#x27;</span>。</span><br><span class="line"></span><br><span class="line"><span class="type">char</span> *<span class="title function_">strcat</span><span class="params">(<span class="type">char</span> *dest, <span class="type">const</span> <span class="type">char</span> *src)</span>;</span><br><span class="line">功能：将src字符串连接到dest的尾部，‘\<span class="number">0</span>’也会追加过去</span><br><span class="line"></span><br><span class="line"><span class="type">char</span> *<span class="title function_">strncat</span><span class="params">(<span class="type">char</span> *dest, <span class="type">const</span> <span class="type">char</span> *src, <span class="type">size_t</span> n)</span>;</span><br><span class="line">功能：将src字符串前n个字符连接到dest的尾部，‘\<span class="number">0</span>’也会追加过去</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">strcmp</span><span class="params">(<span class="type">const</span> <span class="type">char</span> *s1, <span class="type">const</span> <span class="type">char</span> *s2)</span>;</span><br><span class="line">功能：比较 s1 和 s2 的大小，比较的是字符ASCII码大小。</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">strncmp</span><span class="params">(<span class="type">const</span> <span class="type">char</span> *s1, <span class="type">const</span> <span class="type">char</span> *s2, <span class="type">size_t</span> n)</span>;</span><br><span class="line">功能：比较 s1 和 s2 前n个字符的大小，比较的是字符ASCII码大小。</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="type">int</span> <span class="title function_">sprintf</span><span class="params">(<span class="type">char</span> *_CRT_SECURE_NO_WARNINGS, <span class="type">const</span> <span class="type">char</span> *format, ...)</span>;</span><br><span class="line">功能：根据参数format字符串来转换并格式化数据，然后将结果输出到str指定的空间中，直到出现字符串结束符 <span class="string">&#x27;\0&#x27;</span>  为止。</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="type">int</span> <span class="title function_">sscanf</span><span class="params">(<span class="type">const</span> <span class="type">char</span> *str, <span class="type">const</span> <span class="type">char</span> *format, ...)</span>;</span><br><span class="line">功能：从str指定的字符串读取数据，并根据参数format字符串来转换并格式化数据。</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="type">char</span> *<span class="title function_">strchr</span><span class="params">(<span class="type">const</span> <span class="type">char</span> *s, <span class="type">int</span> c)</span>;</span><br><span class="line">功能：在字符串s中查找字母c出现的位置</span><br><span class="line"></span><br><span class="line"><span class="type">char</span> *<span class="title function_">strstr</span><span class="params">(<span class="type">const</span> <span class="type">char</span> *haystack, <span class="type">const</span> <span class="type">char</span> *needle)</span>;</span><br><span class="line">功能：在字符串haystack中查找字符串needle出现的位置</span><br><span class="line"></span><br><span class="line"><span class="type">char</span> *<span class="title function_">strtok</span><span class="params">(<span class="type">char</span> *str, <span class="type">const</span> <span class="type">char</span> *delim)</span>;</span><br><span class="line">功能：来将字符串分割成一个个片段。当strtok()在参数s的字符串中发现参数delim中包含的分割字符时, 则会将该字符改为\<span class="number">0</span> 字符，当连续出现多个时只替换第一个为\<span class="number">0</span>。</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="type">int</span> <span class="title function_">atoi</span><span class="params">(<span class="type">const</span> <span class="type">char</span> *nptr)</span>;</span><br><span class="line">功能：atoi()会扫描nptr字符串，跳过前面的空格字符，直到遇到数字或正负号才开始做转换，而遇到非数字或字符串结束符(<span class="string">&#x27;\0&#x27;</span>)才结束转换，并将结果返回返回值。</span><br><span class="line">类似的函数有：</span><br><span class="line">- atof()：把一个小数形式的字符串转化为一个浮点数。</span><br><span class="line">- atol()：将一个字符串转化为<span class="type">long</span>类型</span><br></pre></td></tr></table></figure>
 
 <p>形参列表</p>
@@ -339,9 +339,9 @@
 </ul>
 <p>如果函数返回的类型和return语句中表达式的值不一致，则以函数返回类型为准，即<strong>函数返回类型决定返回值的类型</strong>。对数值型数据，可以自动进行类型转换。</p>
 <p><strong>注意</strong>：如果函数返回的类型和return语句中表达式的值不一致，而它又无法自动进行类型转换，程序则会报错。</p>
-<p><strong>当我们同时编译多个文件时，所有未加static前缀的全局变量和函数都具有全局可见性。</strong> </p>
-<p><strong>extern告诉编译器这个变量或函数在其他文档里已被定义了。</strong></p>
-<p>static法则：</p>
+<p><strong>当我们同时编译多个文件时，所有未加<code>static</code>前缀的全局变量和函数都具有全局可见性。</strong> </p>
+<p><strong><code>extern</code>告诉编译器这个变量或函数在其他文档里已被定义了。</strong></p>
+<p><code>static</code>法则：</p>
 <ul>
 <li>A、若全局变量仅在单个C文档中访问，则能够将这个变量修改为静态全局变量，以降低模块间的耦合度; </li>
 <li>B、若全局变量仅由单个函数访问，则能够将这个变量改为该函数的静态局部变量，以降低模块间的耦合度； </li>
@@ -349,7 +349,7 @@
 </ul>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 多文件编译</span></span><br><span class="line">gcc -o 可执行程序 文件<span class="number">1.</span>c 文件<span class="number">2.</span>c 头文件.h</span><br></pre></td></tr></table></figure>
 
-<h2 id="四、指针和指针变量"><a href="#四、指针和指针变量" class="headerlink" title="四、指针和指针变量"></a>四、指针和指针变量</h2><ul>
+<h2 id="4-指针和指针变量"><a href="#4-指针和指针变量" class="headerlink" title="4. 指针和指针变量"></a>4. 指针和指针变量</h2><ul>
 <li><strong>内存区的每一个字节都有一个编号，这就是“地址”</strong>。</li>
 <li>如果在程序中定义了一个变量，在对程序进行编译或运行时，系统就会给这个变量分配内存单元，并确定它的内存地址(编号)</li>
 <li>指针的实质就是内存“地址”。指针就是地址，地址就是指针。</li>
@@ -357,12 +357,12 @@
 <li>通常我们叙述时会把指针变量简称为指针，实际他们含义并不一样。</li>
 <li>指针也是一种数据类型，指针变量也是一种变量</li>
 <li>指针变量指向谁，就把谁的地址赋值给指针变量</li>
-<li><strong>“*” 操作符操作的是指针变量指向的内存空间</strong></li>
+<li><strong><code>“*”</code> 操作符操作的是指针变量指向的内存空间</strong></li>
 </ul>
 <p>指针大小</p>
 <ul>
-<li><strong>使用sizeof()测量指针的大小，得到的总是：4或8</strong></li>
-<li>sizeof()测的是指针变量指向存储地址的大小</li>
+<li><strong>使用<code>sizeof()</code>测量指针的大小，得到的总是：4或8</strong></li>
+<li><code>sizeof()</code>测的是指针变量指向存储地址的大小</li>
 <li>在32位平台，所有的指针（地址）都是32位(4字节)</li>
 <li>在64位平台，所有的指针（地址）都是64位(8字节)</li>
 </ul>
@@ -376,7 +376,7 @@
 <p><code>void *</code> 指针可以指向任意变量的内存空间：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> *p = <span class="literal">NULL</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> a = <span class="number">10</span>;</span><br><span class="line">p = (<span class="type">void</span> *)&amp;a; <span class="comment">//指向变量时，最好转换为void *</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//使用指针变量指向的内存时，转换为int *</span></span><br><span class="line">*( (<span class="type">int</span> *)p ) = <span class="number">11</span>;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;a = %d\n&quot;</span>, a);</span><br></pre></td></tr></table></figure>
 
-<p>const修饰的指针变量</p>
+<p><code>const</code>修饰的指针变量</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> a = <span class="number">100</span>;</span><br><span class="line"><span class="type">int</span> b = <span class="number">200</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//指向常量的指针</span></span><br><span class="line"><span class="comment">//修饰*，指针指向内存区域不能修改，指针指向可以变</span></span><br><span class="line"><span class="type">const</span> <span class="type">int</span> *p1 = &amp;a; <span class="comment">//等价于int const *p1 = &amp;a;</span></span><br><span class="line"><span class="comment">//*p1 = 111; //err</span></span><br><span class="line">p1 = &amp;b; <span class="comment">//ok</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//指针常量</span></span><br><span class="line"><span class="comment">//修饰p1，指针指向不能变，指针指向的内存可以修改</span></span><br><span class="line"><span class="type">int</span> * <span class="type">const</span> p2 = &amp;a;</span><br><span class="line"><span class="comment">//p2 = &amp;b; //err</span></span><br><span class="line">*p2 = <span class="number">222</span>; <span class="comment">//ok</span></span><br></pre></td></tr></table></figure>
 
 <p>指针操作数组元素</p>
@@ -420,16 +420,16 @@
 </ul>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">char</span> str[] = <span class="string">&quot;hello world&quot;</span>;</span><br><span class="line">	<span class="type">char</span> *p = str;</span><br><span class="line">	*p = <span class="string">&#x27;m&#x27;</span>;</span><br><span class="line">	p++;</span><br><span class="line">	*p = <span class="string">&#x27;i&#x27;</span>;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;%s\n&quot;</span>, str);  <span class="comment">// millo world</span></span><br><span class="line"></span><br><span class="line">	p = <span class="string">&quot;mike jiang&quot;</span>;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;%s\n&quot;</span>, p); <span class="comment">// mike jiang</span></span><br><span class="line"></span><br><span class="line">	<span class="type">char</span> *q = <span class="string">&quot;test&quot;</span>;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;%s\n&quot;</span>, q); <span class="comment">// test</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>const修饰的指针变量</p>
+<p><code>const</code>修饰的指针变量</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="comment">//const修饰一个变量为只读</span></span><br><span class="line">	<span class="type">const</span> <span class="type">int</span> a = <span class="number">10</span>;</span><br><span class="line">	<span class="comment">//a = 100; //err</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">//指针变量， 指针指向的内存， 2个不同概念</span></span><br><span class="line">	<span class="type">char</span> buf[] = <span class="string">&quot;aklgjdlsgjlkds&quot;</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//从左往右看，跳过类型，看修饰哪个字符</span></span><br><span class="line">	<span class="comment">//如果是*， 说明指针指向的内存不能改变</span></span><br><span class="line">	<span class="comment">//如果是指针变量，说明指针的指向不能改变，指针的值不能修改</span></span><br><span class="line">	<span class="type">const</span> <span class="type">char</span> *p = buf;</span><br><span class="line">	<span class="comment">// 等价于上面 char const *p1 = buf;</span></span><br><span class="line">	<span class="comment">//p[1] = &#x27;2&#x27;; //err</span></span><br><span class="line">	p = <span class="string">&quot;agdlsjaglkdsajgl&quot;</span>; <span class="comment">//ok</span></span><br><span class="line"></span><br><span class="line">	<span class="type">char</span> * <span class="type">const</span> p2 = buf;</span><br><span class="line">	p2[<span class="number">1</span>] = <span class="string">&#x27;3&#x27;</span>;</span><br><span class="line">	<span class="comment">//p2 = &quot;salkjgldsjaglk&quot;; //err</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">//p3为只读，指向不能变，指向的内存也不能变</span></span><br><span class="line">	<span class="type">const</span> <span class="type">char</span> * <span class="type">const</span> p3 = buf;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h2 id="五、内存管理"><a href="#五、内存管理" class="headerlink" title="五、内存管理"></a>五、内存管理</h2><h3 id="5-1-作用域"><a href="#5-1-作用域" class="headerlink" title="5.1 作用域"></a>5.1 作用域</h3><p>C语言变量的作用域分为：</p>
+<h2 id="5-内存管理"><a href="#5-内存管理" class="headerlink" title="5. 内存管理"></a>5. 内存管理</h2><h3 id="5-1-作用域"><a href="#5-1-作用域" class="headerlink" title="5.1 作用域"></a>5.1 作用域</h3><p>C语言变量的作用域分为：</p>
 <ul>
 <li>代码块作用域(代码块是{}之间的一段代码)</li>
 <li>函数作用域</li>
 <li>文件作用域</li>
 </ul>
-<p>局部变量也叫auto自动变量(auto可写可不写)，一般情况下代码块{}内部定义的变量都是自动变量，它有如下特点：</p>
+<p>局部变量也叫<code>auto</code>自动变量(<code>auto</code>可写可不写)，一般情况下代码块{}内部定义的变量都是自动变量，它有如下特点：</p>
 <ul>
 <li>在一个函数内定义，只在函数范围内有效</li>
 <li>在复合语句中定义，只在复合语句中有效</li>
@@ -438,37 +438,37 @@
 </ul>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">test</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="comment">//auto写不写是一样的</span></span><br><span class="line">	<span class="comment">//auto只能出现在&#123;&#125;内部</span></span><br><span class="line">	<span class="keyword">auto</span> <span class="type">int</span> b = <span class="number">10</span>; </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="comment">//b = 100; //err， 在main作用域中没有b</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (<span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">//在复合语句中定义，只在复合语句中有效</span></span><br><span class="line">		<span class="type">int</span> a = <span class="number">10</span>;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;a = %d\n&quot;</span>, a);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//a = 10; //err离开if()的复合语句，a已经不存在</span></span><br><span class="line">	</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>静态(static)局部变量</p>
+<p>静态(<code>static</code>)局部变量</p>
 <ul>
-<li>static局部变量的作用域也是在定义的函数内有效</li>
-<li>static局部变量的生命周期和程序运行周期一样，同时staitc局部变量的值<strong>只初始化一次，但可以赋值多次</strong></li>
-<li>static局部变量若未赋以初值，则由系统自动赋值：数值型变量自动赋初值0，字符型变量赋空字符</li>
+<li><code>static</code>局部变量的作用域也是在定义的函数内有效</li>
+<li><code>static</code>局部变量的生命周期和程序运行周期一样，同时staitc局部变量的值<strong>只初始化一次，但可以赋值多次</strong></li>
+<li><code>static</code>局部变量若未赋以初值，则由系统自动赋值：数值型变量自动赋初值0，字符型变量赋空字符</li>
 </ul>
 <p>全局变量</p>
 <ul>
-<li>在函数外定义，可被本文件及其它文件中的函数所共用，<strong>若其它文件中的函数调用此变量,须用extern声明</strong></li>
+<li>在函数外定义，可被本文件及其它文件中的函数所共用，<strong>若其它文件中的函数调用此变量,须用<code>extern</code>声明</strong></li>
 <li>全局变量的生命周期和程序运行周期一样</li>
 <li>不同文件的全局变量不可重名</li>
 </ul>
-<p>静态(static)全局变量</p>
+<p>静态(<code>static</code>)全局变量</p>
 <ul>
 <li>在函数外定义,作用范围被限制在所定义的文件中</li>
 <li>不同文件静态全局变量可以重名,但作用域不冲突</li>
-<li>static全局变量的生命周期和程序运行周期一样，同时staitc全局变量的值只初始化一次</li>
+<li><code>static</code>全局变量的生命周期和程序运行周期一样，同时<code>staitc</code>全局变量的值只初始化一次</li>
 </ul>
-<p>extern全局变量声明</p>
+<p><code>extern</code>全局变量声明</p>
 <ul>
-<li>extern int a; 声明一个变量，这个变量在别的文件中已经定义了，这里只是声明，而不是定义</li>
+<li><code>extern int a; </code>声明一个变量，这个变量在别的文件中已经定义了，这里只是声明，而不是定义</li>
 </ul>
 <p>全局函数和静态函数</p>
 <ul>
-<li>在C语言中函数默认都是全局的，使用关键字static可以将函数声明为静态，函数定义为static就意味着这个函数只能在定义这个函数的文件中使用，在其他文件中不能调用，即使在其他文件中声明这个函数都没用。</li>
+<li>在C语言中函数默认都是全局的，使用关键字<code>static</code>可以将函数声明为静态，函数定义为<code>static</code>就意味着这个函数只能在定义这个函数的文件中使用，在其他文件中不能调用，即使在其他文件中声明这个函数都没用。</li>
 </ul>
 <p><strong>注意</strong>：</p>
 <ul>
 <li>允许在不同的函数中使用相同的变量名，它们代表不同的对象，分配不同的单元，互不干扰。</li>
 <li>同一源文件中,允许全局变量和局部变量同名，在局部变量的作用域内，全局变量不起作用。</li>
-<li>所有的函数默认都是全局的，意味着所有的函数都不能重名，但如果是staitc函数，那么作用域是文件级的，所以不同的文件static函数名是可以相同的。</li>
+<li>所有的函数默认都是全局的，意味着所有的函数都不能重名，但如果是<code>staitc</code>函数，那么作用域是文件级的，所以不同的文件<code>static</code>函数名是可以相同的。</li>
 </ul>
 <p>总结：</p>
 <table>
@@ -520,7 +520,7 @@
 <li>C代码经过<strong>预处理、编译、汇编、链接</strong>4步后生成一个可执行程序。</li>
 </ul>
 <p>在 Linux 下，程序是一个普通的可执行文件，以下列出一个二进制可执行文件的基本情况：</p>
-<img data-src="/images/imageProgramC/fileinfo.png">
+<img data-src="/2016/05/10/Program-C/program-c/fileinfo.png" class="" title="fileinfo">
 
 <p>通过上图可以得知，在没有运行程序前，也就是说<strong>程序没有加载到内存前</strong>，可执行程序内部已经分好3段信息，分别为<strong>代码区（text）、数据区（data）和未初始化数据区（bss）</strong>3 个部分（有些人直接把data和bss合起来叫做静态区或全局区）。</p>
 <ul>
@@ -541,7 +541,7 @@
 </li>
 </ul>
 <p> 程序在加载到内存前，<strong>代码区和全局区(data和bss)的大小就是固定的</strong>，程序运行期间不能改变。然后，运行可执行程序，系统把程序加载到内存，<strong>除了根据可执行程序的信息分出代码区（text）、数据区（data）和未初始化数据区（bss）之外，还额外增加了栈区、堆区</strong>。</p>
-<img data-src="/images/imageProgramC/内存分区.png">
+<img data-src="/2016/05/10/Program-C/program-c/%E5%86%85%E5%AD%98%E5%88%86%E5%8C%BA.png" class="" title="内存分区">
 
 <ul>
 <li><p>代码区（text segment）</p>
@@ -640,13 +640,13 @@
 <p>返回堆区地址：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> *<span class="title function_">fun</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">int</span> *tmp = <span class="literal">NULL</span>;</span><br><span class="line">	tmp = (<span class="type">int</span> *)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="type">int</span>));</span><br><span class="line">	*tmp = <span class="number">100</span>;</span><br><span class="line">	<span class="keyword">return</span> tmp;<span class="comment">//返回堆区地址，函数调用完毕，不释放</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> *argv[])</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">int</span> *p = <span class="literal">NULL</span>;</span><br><span class="line">	p = fun();</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;*p = %d\n&quot;</span>, *p);<span class="comment">//ok</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">//堆区空间，使用完毕，手动释放</span></span><br><span class="line">	<span class="keyword">if</span> (p != <span class="literal">NULL</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">free</span>(p);</span><br><span class="line">		p = <span class="literal">NULL</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h2 id="六、复合类型-自定义类型"><a href="#六、复合类型-自定义类型" class="headerlink" title="六、复合类型(自定义类型)"></a>六、复合类型(自定义类型)</h2><h3 id="6-1-结构体"><a href="#6-1-结构体" class="headerlink" title="6.1 结构体"></a>6.1 结构体</h3><p>定义结构体变量的方式：</p>
+<h2 id="6-复合类型-自定义类型"><a href="#6-复合类型-自定义类型" class="headerlink" title="6. 复合类型(自定义类型)"></a>6. 复合类型(自定义类型)</h2><h3 id="6-1-结构体"><a href="#6-1-结构体" class="headerlink" title="6.1 结构体"></a>6.1 结构体</h3><p>定义结构体变量的方式：</p>
 <ul>
 <li>先声明结构体类型再定义变量名</li>
 <li>在声明类型的同时定义变量</li>
 <li>直接定义结构体类型变量（无类型名）</li>
 </ul>
-<img data-src="/images/imageProgramC/结构体.png">
+<img data-src="/2016/05/10/Program-C/program-c/%E7%BB%93%E6%9E%84%E4%BD%93.png" class="" title="结构体">
 
 <p>结构体类型和结构体变量关系：</p>
 <ul>
@@ -696,7 +696,7 @@
 <li><p>#define发生在预处理，typedef发生在编译阶段</p>
 </li>
 </ul>
-<h2 id="七、文件操作"><a href="#七、文件操作" class="headerlink" title="七、文件操作"></a>七、文件操作</h2><p>磁盘文件和设备文件</p>
+<h2 id="7-文件操作"><a href="#7-文件操作" class="headerlink" title="7. 文件操作"></a>7. 文件操作</h2><p>磁盘文件和设备文件</p>
 <ul>
 <li>磁盘文件<ul>
 <li>指一组相关数据的有序集合,通常存储在外部介质(如磁盘)上，使用时才调入内存。</li>
@@ -807,7 +807,7 @@
 <p>所谓缓冲文件系统是指系统自动地在内存区为程序中每一个正在使用的文件开辟一个文件缓冲区从内存向磁盘输出数据必须先送到内存中的缓冲区，装满缓冲区后才一起送到磁盘去。</p>
 <p>如果从磁盘向计算机读入数据，则一次从磁盘文件将一批数据输入到内存缓冲区(充满缓冲区)，然后再从缓冲区逐个地将数据送到程序数据区(给程序变量) 。</p>
 <p>磁盘文件的存取：</p>
-<img data-src="/images/imageProgramC/磁盘文件的读取.png">
+<img data-src="/2016/05/10/Program-C/program-c/%E7%A3%81%E7%9B%98%E6%96%87%E4%BB%B6%E7%9A%84%E8%AF%BB%E5%8F%96.png" class="" title="磁盘文件的读取">
 
 <ul>
 <li><p>磁盘文件，一般保存在硬盘、U盘等掉电不丢失的磁盘设备中，在需要时调入内存</p>
