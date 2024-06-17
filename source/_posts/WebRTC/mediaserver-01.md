@@ -20,59 +20,59 @@ message: Welcome to my blog, enter password to read.
 
 <!-- more -->
 
-![IP协议头](/images/imageWebRTC/mediaserver/IP协议头.png)
+![IP协议头](mediaserver-01/IP协议头.png)
 
-![MTU](/images/imageWebRTC/mediaserver/MTU.png)
+![MTU](mediaserver-01/MTU.png)
 
 ### TCP协议详解
 
-![TCP/IP协议栈](/images/imageWebRTC/mediaserver/TCPIP协议栈.png)
+![TCPIP协议栈](mediaserver-01/TCPIP协议栈.png)
 
-![TCP协议头](/images/imageWebRTC/mediaserver/TCP协议头.png)
+![TCP协议头](mediaserver-01/TCP协议头.png)
 
-![Seq Number含义](/images/imageWebRTC/mediaserver/SeqNumber.png)
+![SeqNumber](mediaserver-01/SeqNumber.png)
 
 Ack Number 表示可靠性：
 
-![Ack Number含义](/images/imageWebRTC/mediaserver/AckNumber.png)
+![AckNumber](mediaserver-01/AckNumber.png)
 
 ### TCP三次握手
 
-![TCP三次握手](/images/imageWebRTC/mediaserver/TCP三次握手.png)
+![TCP三次握手](mediaserver-01/TCP三次握手.png)
 
 ### TCP四次挥手
 
-![TCP四次挥手](/images/imageWebRTC/mediaserver/TCP四次挥手-01.png)
+![TCP四次挥手-01](mediaserver-01/TCP四次挥手-01.png)
 
-![TCP四次挥手ACK未收到重发FIN](/images/imageWebRTC/mediaserver/TCP四次挥手-02.png)
+![TCP四次挥手ACK未收到重发FIN](mediaserver-01/TCP四次挥手-02.png)
 
 ### TCP的ACK机制
 
-![TCP协议](/images/imageWebRTC/mediaserver/TCP-ACK-01.png)
+![TCP-ACK-01](mediaserver-01/TCP-ACK-01.png)
 
-![TCP ACK机制](/images/imageWebRTC/mediaserver/TCP-ACK-02.png)
+![TCP-ACK-02](mediaserver-01/TCP-ACK-02.png)
 
-![TCP ACK机制](/images/imageWebRTC/mediaserver/TCP-ACK-03.png)
+![TCP-ACK-03](mediaserver-01/TCP-ACK-03.png)
 
-![TCP ACK机制](/images/imageWebRTC/mediaserver/TCP-ACK-04.png)
+![TCP-ACK-04](mediaserver-01/TCP-ACK-04.png)
 
 ### TCP滑动窗口
 
-![滑动窗口](/images/imageWebRTC/mediaserver/滑动窗口-01.png)
+![滑动窗口-01](mediaserver-01/滑动窗口-01.png)
 
-![Delay ACK](/images/imageWebRTC/mediaserver/滑动窗口-02.png)
+![滑动窗口-02](mediaserver-01/滑动窗口-02.png)
 
-![Data ACK](/images/imageWebRTC/mediaserver/滑动窗口-03.png)
+![滑动窗口-03](mediaserver-01/滑动窗口-03.png)
 
 ### UDP与RTP
 
-![UDP协议](/images/imageWebRTC/mediaserver/UDP协议.png)
+![UDP协议](mediaserver-01/UDP协议.png)
 
-![RTP](/images/imageWebRTC/mediaserver/RTP.png)
+![RTP](mediaserver-01/RTP.png)
 
 ### 实时通信TCP_UDP的选择
 
-![TCP丢包重传](/images/imageWebRTC/mediaserver/TCP丢包重传.png)
+![TCP丢包重传](mediaserver-01/TCP丢包重传.png)
 
 一般情况下实时通信会选择UDP，丢包重传、延迟、乱序一般是在应用层去实现。TCP在极端网络下丢包会造成很大的延迟。
 
@@ -90,67 +90,67 @@ Ack Number 表示可靠性：
 
 延迟要保证在800毫秒以内，更好的的500毫秒以内。
 
-![RTP](/images/imageWebRTC/mediaserver/RTP.png)
+![RTP](mediaserver-01/RTP.png)
 
-![RTP包的使用](/images/imageWebRTC/mediaserver/RTP包的使用.png)
+![RTP包的使用](mediaserver-01/RTP包的使用.png)
 
 ### RTCP协议头的分析
 
-![RTCP包](/images/imageWebRTC/mediaserver/RTCP包.png)
+![RTCP包](mediaserver-01/RTCP包.png)
 
-![RTCP Header](/images/imageWebRTC/mediaserver/RTCPHeader.png)
+![RTCPHeader](mediaserver-01/RTCPHeader.png)
 
-![RTCP Header说明](/images/imageWebRTC/mediaserver/RTCPHeader说明.png)
+![RTCPHeader说明](mediaserver-01/RTCPHeader说明.png)
 
 ### RTCP PayloadType介绍
 
-![RTCP Type](/images/imageWebRTC/mediaserver/RTCPType-01.png)
+![RTCPType-01](mediaserver-01/RTCPType-01.png)
 
-![RTCP Type](/images/imageWebRTC/mediaserver/RTCPType-02.png)
+![RTCPType-02](mediaserver-01/RTCPType-02.png)
 
 ### RTCP SR报文详解
 
-![RTCP SR](/images/imageWebRTC/mediaserver/RTCPSR-01.png)
+![RTCPSR-01](mediaserver-01/RTCPSR-01.png)
 
-![RTCP SR](/images/imageWebRTC/mediaserver/RTCPSR-02.png)
+![RTCPSR-02](mediaserver-01/RTCPSR-02.png)
 
-![Sender Info说明](/images/imageWebRTC/mediaserver/SenderInfo说明.png)
+![SenderInfo说明](mediaserver-01/SenderInfo说明.png)
 
-![RTCP SR](/images/imageWebRTC/mediaserver/RTCPSR-03.png)
+![RTCPSR-03](mediaserver-01/RTCPSR-03.png)
 
-![Receive Report Block](/images/imageWebRTC/mediaserver/ReceiveReportBlock.png)
+![ReceiveReportBlock](mediaserver-01/ReceiveReportBlock.png)
 
 ### RTCP RR SDES报文介绍
 
-![RTCP RR](/images/imageWebRTC/mediaserver/RTCPRR.png)
+![RTCPRR](mediaserver-01/RTCPRR.png)
 
-![RTCP SDES](/images/imageWebRTC/mediaserver/RTCPSDES.png)
+![RTCPSDES](mediaserver-01/RTCPSDES.png)
 
-![RTCP SDES](/images/imageWebRTC/mediaserver/RTCPSDES-01.png)
+![RTCPSDES-01](mediaserver-01/RTCPSDES-01.png)
 
-![SDES item](/images/imageWebRTC/mediaserver/SDESitem.png)
+![SDESitem](mediaserver-01/SDESitem.png)
 
-![SDES说明](/images/imageWebRTC/mediaserver/SDES说明.png)
+![SDES说明](mediaserver-01/SDES说明.png)
 
 ### BYE APP报文介绍
 
-![RTCP BYE](/images/imageWebRTC/mediaserver/RTCPBYE.png)
+![RTCPBYE](mediaserver-01/RTCPBYE.png)
 
-![RTCP APP](/images/imageWebRTC/mediaserver/RTCPAPP.png)
+![RTCPAPP](mediaserver-01/RTCPAPP.png)
 
-![RTCP APP](/images/imageWebRTC/mediaserver/RTCPAPP-01.png)
+![RTCPAPP-01](mediaserver-01/RTCPAPP-01.png)
 
 ### RTCP FB协议介绍
 
-![RTCP Type](/images/imageWebRTC/mediaserver/RTCPType.png)
+![RTCPType](mediaserver-01/RTCPType.png)
 
-![RTCP FB Type](/images/imageWebRTC/mediaserver/RTCPFBType.png)
+![RTCPFBType](mediaserver-01/RTCPFBType.png)
 
-![RTCP RTPFB Type](/images/imageWebRTC/mediaserver/RTCPRTPFBType.png)
+![RTCPRTPFBType](mediaserver-01/RTCPRTPFBType.png)
 
-![RTCP PsFB Type](/images/imageWebRTC/mediaserver/RTCPPsFBType.png)
+![RTCPPsFBType](mediaserver-01/RTCPPsFBType.png)
 
-![RTCP FB Header](/images/imageWebRTC/mediaserver/RTCPFBHeader.png)
+![RTCPFBHeader](mediaserver-01/RTCPFBHeader.png)
 
 ## WebRTC协议
 
@@ -162,6 +162,8 @@ STUN协议介绍：
 - STUN是典型的客户端 / 服务器模式。客户端发送请求，服务器进行响应
 
 ![RFC STUN规范](/images/imageWebRTC/mediaserver/RFCSTUN规范.png)
+
+
 
 STUN协议：
 
