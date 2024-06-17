@@ -3,6 +3,110 @@
     
   
   <url>  
+    <loc>http://miaopei.github.io/2017/05/16/Web/WebSocket%E6%95%99%E7%A8%8B/</loc>  
+      
+    <lastmod>2024-06-17T09:01:02.308Z</lastmod>  
+      
+    <date>1494915308000</date>  
+    <title>WebSocket教程 | Mr.Miaow Blog</title>  
+      
+    <desc>转自阮一峰网络编程 WebSocket 是一种网络通信协议，很多高级功能都需要它。 1. 为什么需要 WebSocker初次接触 WebSocket 的人，都会问同样的问题：我们已经有了 HTTP 协议，为什么还需要另一个协议？它能带来什么好处？</desc>  
+  </url>  
+  
+    
+  
+  <url>  
+    <loc>http://miaopei.github.io/2017/04/10/Web/Webpack%E5%88%9B%E5%BB%BA%E8%BF%90%E8%A1%8Cvue-js%E9%A1%B9%E7%9B%AE%E5%8F%8A%E5%85%B6%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84%E8%AF%A6%E8%A7%A3/</loc>  
+      
+    <lastmod>2024-06-17T08:56:08.311Z</lastmod>  
+      
+    <date>1491819507000</date>  
+    <title>Webpack创建、运行vue.js项目及其目录结构详解 | Mr.Miaow Blog</title>  
+      
+    <desc>项目环境搭建：1.安装node 进入node官网进行下载。 版本查看： 12$ node -vv6.10.1 **注意：**node版本最好新一点，推介6.0以上。</desc>  
+  </url>  
+  
+    
+  
+  <url>  
+    <loc>http://miaopei.github.io/2018/03/16/Web/web-transmission-basis/</loc>  
+      
+    <lastmod>2024-06-17T08:45:29.221Z</lastmod>  
+      
+    <date>1521194572000</date>  
+    <title>网络传输基础 | Mr.Miaow Blog</title>  
+      
+    <desc>理论上，视频或邮件信息是能够以大块非中断型流从网络源地址传送到目的地址，但这也意味着同一时刻同一网络其他设备就无法收发消息。这种大型数据流会造成显著延时。并且，如果传输过程中连接断开，整个数据流都会丢失需要全部重传。因此更好的方法是将数据流分割</desc>  
+  </url>  
+  
+    
+  
+  <url>  
+    <loc>http://miaopei.github.io/2020/09/20/Vim/VimNote/</loc>  
+      
+    <lastmod>2024-06-17T08:38:46.856Z</lastmod>  
+      
+    <date>1600592026000</date>  
+    <title>Vim note | Mr.Miaow Blog</title>  
+      
+    <desc></desc>  
+  </url>  
+  
+    
+  
+  <url>  
+    <loc>http://miaopei.github.io/2018/03/20/Vim/vimHotKey/</loc>  
+      
+    <lastmod>2024-06-17T08:36:04.569Z</lastmod>  
+      
+    <date>1521536026000</date>  
+    <title>Vim 快捷键 | Mr.Miaow Blog</title>  
+      
+    <desc>vimplus github Vim使用笔记 利用ctags+cscope+taglist+nerdree+srcexpl+trinity 将 VIM 变成 source insight 1. 文档操作 :e – 重新加载当前文档。 :e! – 重新加载当前文档，并丢弃已做的改动。 :e file – 关闭当前编辑的文件，并开启新的文件。 如果对当前文件的修改未保存，vi 会警告。 :e! fil</desc>  
+  </url>  
+  
+    
+  
+  <url>  
+    <loc>http://miaopei.github.io/2018/03/23/Vim/vimProgramHotKey/</loc>  
+      
+    <lastmod>2024-06-17T08:36:04.569Z</lastmod>  
+      
+    <date>1521795226000</date>  
+    <title>VIM 编程相关的常用快捷键 | Mr.Miaow Blog</title>  
+      
+    <desc></desc>  
+  </url>  
+  
+    
+  
+  <url>  
+    <loc>http://miaopei.github.io/2018/03/24/Vim/vim%E7%BC%96%E8%BE%91%E5%B8%B8%E7%94%A8%E5%BF%AB%E6%8D%B7%E9%94%AE/</loc>  
+      
+    <lastmod>2024-06-17T08:36:04.569Z</lastmod>  
+      
+    <date>1521881626000</date>  
+    <title>VIM 精简常用快捷键 | Mr.Miaow Blog</title>  
+      
+    <desc></desc>  
+  </url>  
+  
+    
+  
+  <url>  
+    <loc>http://miaopei.github.io/2017/05/15/Shell/Shell%E8%84%9A%E6%9C%AC%E6%94%BB%E7%95%A5%E7%AC%94%E8%AE%B0/</loc>  
+      
+    <lastmod>2024-06-17T08:35:15.677Z</lastmod>  
+      
+    <date>1494834041000</date>  
+    <title>Shell脚本攻略笔记 | Mr.Miaow Blog</title>  
+      
+    <desc>1. 基本命令1.1 shell 格式输出12345678$ echo &#x27;Hello world !&#x27;-n # 忽略结尾的换行符-e # 激活转义字符-E # disable转义字符# echo会将一个换行符追加到输出文本的尾部。可以使用选项-n来忽略结尾的换行符。$ echo -e &quot;1\t2\t3&quot;</desc>  
+  </url>  
+  
+    
+  
+  <url>  
     <loc>http://miaopei.github.io/2016/06/18/Program-C/STL/</loc>  
       
     <lastmod>2024-06-17T08:18:35.499Z</lastmod>  
@@ -782,6 +886,19 @@
     <title>留言板 | Mr.Miaow Blog</title>  
       
     <desc></desc>  
+  </url>  
+  
+    
+  
+  <url>  
+    <loc>http://miaopei.github.io/2017/03/27/Web/nodejs-webpack-vuejs-%E6%90%AD%E5%BB%BA%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E5%AD%A6%E4%B9%A0%E5%A5%97%E8%B7%AF/</loc>  
+      
+    <lastmod>2017-03-28T10:25:52.000Z</lastmod>  
+      
+    <date>1490608972000</date>  
+    <title>nodejs+webpack+vuejs 搭建开发环境学习套路 | Mr.Miaow Blog</title>  
+      
+    <desc>官方文档官方手册 中文官网 vuejs 2.0 中文文档 ECMAScript 6 入门 node.js相关的中文文档及教程 Node.js中文网API Webpack 中文指南 webpack2.2中文文档 以上是提供的一些官方资料，下面开始我们的套路吧：</desc>  
   </url>  
   
     
