@@ -8,9 +8,9 @@ abbrlink: 39639
 date: 2016-06-18 10:14:50
 ---
 
-# STL
+## STL
 
-## 网站
+## 1. 网站
 
 * [github . huihut/note/STL.md](https://github.com/huihut/note/blob/master/STL.md)
 * [cplusplus . stl](http://www.cplusplus.com/reference/stl/)
@@ -19,7 +19,7 @@ date: 2016-06-18 10:14:50
 
 <!-- more -->
 
-## 组成
+## 2. 组成
 
 * 容器（containers）
 * 算法（algorithms）
@@ -28,12 +28,12 @@ date: 2016-06-18 10:14:50
 * 配接器（adapters）
 * 空间配置器（allocator）
 
-## 容器（containers）
+## 3. 容器（containers）
 
 * 序列式容器（sequence containers）：元素都是可序（ordered），但未必是有序（sorted）
 * 关联式容器（associattive containers）
 
-### array
+### 3.1 array
 
 array是固定大小的顺序容器，它们保存了一个以严格的线性顺序排列的特定数量的元素。
 
@@ -51,13 +51,11 @@ array是固定大小的顺序容器，它们保存了一个以严格的线性顺
 template < class T, size_t N > class array;
 ```
 
-![](http://img.blog.csdn.net/20160405225541788)
-
 #### array::begin
 
 返回指向数组容器中第一个元素的迭代器。
 
-![](https://i.stack.imgur.com/oa3EQ.png)
+![img](STL/oa3EQ.png)
 
 ```cpp
       iterator begin() noexcept;
@@ -437,7 +435,9 @@ myarray contains: 0 1 2 3 4 5 6 7 8 9
 ```
 #### array::front
 返回对数组容器中第一个元素的引用。array::begin返回的是迭代器，array::front返回的是直接引用。  
+
 在空容器上调用此函数会导致未定义的行为。
+
 ```cpp
       reference front();
 const_reference front() const;
@@ -472,7 +472,9 @@ myarray now contains: 100 16 77
 ```
 #### array::back
 返回对数组容器中最后一个元素的引用。array::end返回的是迭代器，array::back返回的是直接引用。  
+
 在空容器上调用此函数会导致未定义的行为。
+
 ```cpp
       reference back();
 const_reference back() const;
@@ -683,7 +685,7 @@ c is greater than b
 a is less than or equal to b
 a is greater than or equal to b
 ```
-### vector
+### 3.2 vector
 vector是表示可以改变大小的数组的序列容器。
 
 就像数组一样，vector为它们的元素使用连续的存储位置，这意味着它们的元素也可以使用到其元素的常规指针上的偏移来访问，而且和数组一样高效。但是与数组不同的是，它们的大小可以动态地改变，它们的存储由容器自动处理。
@@ -704,22 +706,33 @@ vector是表示可以改变大小的数组的序列容器。
 ```cpp
 template < class T, class Alloc = allocator<T> > class vector;
 ```
-![](http://img.blog.csdn.net/20160406151211233)
-
 #### vector::vector
-（1）empty容器构造函数（默认构造函数）
-构造一个空的容器，没有元素。
-（2）fill构造函数
-用n个元素构造一个容器。每个元素都是val的副本（如果提供）。
-（3）范围（range）构造器
-使用与[ range，first，last]范围内的元素相同的顺序构造一个容器，其中的每个元素都是emplace -从该范围内相应的元素构造而成。
-（4）复制（copy）构造函数（并用分配器复制）
-按照相同的顺序构造一个包含x中每个元素的副本的容器。
-（5）移动（move）构造函数（和分配器移动）
-构造一个获取x元素的容器。
-如果指定了alloc并且与x的分配器不同，那么元素将被移动。否则，没有构建元素（他们的所有权直接转移）。
-x保持未指定但有效的状态。
-（6）初始化列表构造函数
+- 1）empty容器构造函数（默认构造函数）
+
+    构造一个空的容器，没有元素。
+
+- 2）fill构造函数
+
+    用n个元素构造一个容器。每个元素都是val的副本（如果提供）。
+
+- 3）范围（range）构造器
+
+    使用与[ range，first，last]范围内的元素相同的顺序构造一个容器，其中的每个元素都是emplace -从该范围内相应的元素构造而成。
+
+- 4）复制（copy）构造函数（并用分配器复制）
+
+    按照相同的顺序构造一个包含x中每个元素的副本的容器。
+
+- 5）移动（move）构造函数（和分配器移动）
+
+    构造一个获取x元素的容器。
+
+    如果指定了alloc并且与x的分配器不同，那么元素将被移动。否则，没有构建元素（他们的所有权直接转移）。
+
+    保持未指定但有效的状态。
+
+- 6）初始化列表构造函数
+
 构造一个容器中的每个元件中的一个拷贝的IL，以相同的顺序。
 
 ```cpp
@@ -1622,9 +1635,9 @@ The allocated array contains: 0 1 2 3 4
 ```
 #### relational operators (vector)
 #### swap (vector)
-#### vector <bool>
+#### vector `<bool>`
 
-### deque
+### 3.3 deque
 deque（['dek]）（双端队列）是double-ended queue 的一个不规则缩写。deque是具有动态大小的序列容器，可以在两端（前端或后端）扩展或收缩。
 
 特定的库可以以不同的方式实现deques，通常作为某种形式的动态数组。但是在任何情况下，它们都允许通过随机访问迭代器直接访问各个元素，通过根据需要扩展和收缩容器来自动处理存储。
@@ -1643,8 +1656,7 @@ deque上常见操作的复杂性（效率）如下：
 ```cpp
 template < class T, class Alloc = allocator<T> > class deque;
 ```
-![](http://img.blog.csdn.net/20170727225856144?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvRlg2Nzc1ODg=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
-![](https://images0.cnblogs.com/blog/559453/201401/092150340824.png)
+![img](STL/092150340824.png)
 
 #### deque::deque
 
@@ -1888,7 +1900,7 @@ Output
 ```
 mydeque contains: 10 20 30 100 200
 ```
-### forward\_list
+### 3.4 forward\_list
 
 forward_list（单向链表）是序列容器，允许在序列中的任何地方进行恒定的时间插入和擦除操作。
 
@@ -1901,8 +1913,6 @@ forward\_list（单向链表）被实现为单链表; 单链表可以将它们�
 的主要缺点修饰符Modifiers S和列表相比这些其它序列容器s是说，他们缺乏可以通过位置的元素的直接访问; 例如，要访问forward_list中的第六个元素，必须从开始位置迭代到该位置，这需要在这些位置之间的线性时间。它们还消耗一些额外的内存来保持与每个元素相关联的链接信息（这可能是大型小元素列表的重要因素）。
 
 该修饰符Modifiersclass模板的设计考虑到效率：按照设计，它与简单的手写C型单链表一样高效，实际上是唯一的标准容器，为了效率的考虑故意缺少尺寸成员函数：由于其性质作为一个链表，具有一个需要一定时间的大小的成员将需要它保持一个内部计数器的大小（如列表所示）。这会消耗一些额外的存储空间，并使插入和删除操作效率稍低。要获取forward_list对象的大小，可以使用距离算法的开始和结束，这是一个需要线性时间的操作。
-
-![](http://img.blog.csdn.net/20160407212133266)
 
 #### forward\_list::forward\_list
 
@@ -2029,19 +2039,19 @@ Output
 mylist contains: 19 77 2 16
 ```
 
-### list
+### 3.5 list
 
-### stack
+### 3.6 stack
 
-### queue
+### 3.7 queue
 
-### priority_queue
+### 3.8 priority_queue
 
-### set
+### 3.9 set
 
-### multiset
+### 3.10 multiset
 
-### map
+### 3.11 map
 
 map 是关联容器，按照特定顺序存储由 key value (键值) 和 mapped value (映射值) 组合形成的元素。
 
@@ -2064,25 +2074,27 @@ template < class Key,                                     // map::key_type
 #### map::map
 构造一个映射容器对象，根据所使用的构造器版本初始化其内容：
 
-（1）空容器构造函数（默认构造函数）
+- 1）空容器构造函数（默认构造函数）
 
-构造一个空的容器，没有元素。
+    构造一个空的容器，没有元素。
 
-（2）范围构造函数
+- 2）范围构造函数
 
-构造具有一样多的元素的范围内的容器[第一，最后一个），其中每个元件布设构造的从在该范围内它的相应的元件。
+    构造具有一样多的元素的范围内的容器[第一，最后一个），其中每个元件布设构造的从在该范围内它的相应的元件。
 
-（3）复制构造函数（并用分配器复制）
+- 3）复制构造函数（并用分配器复制）
 
-使用x中的每个元素的副本构造一个容器。
+    使用x中的每个元素的副本构造一个容器。
 
-（4）移动构造函数（并与分配器一起移动）
+- 4）移动构造函数（并与分配器一起移动）
 
-构造一个获取x元素的容器。
-如果指定了alloc并且与x的分配器不同，那么元素将被移动。否则，没有构建元素（他们的所有权直接转移）。
-x保持未指定但有效的状态。
+    构造一个获取x元素的容器。
 
-（5）初始化列表构造函数
+    如果指定了alloc并且与x的分配器不同，那么元素将被移动。否则，没有构建元素（他们的所有权直接转移）。
+
+    x保持未指定但有效的状态。
+
+- 5）初始化列表构造函数
 
 用il中的每个元素的副本构造一个容器。
 
@@ -2489,9 +2501,11 @@ lower bound points to: 'b' => 20
 upper bound points to: 'c' => 30
 ```
 
-### multimap
+### 3.12 multimap
 
-### 无序容器（Unordered Container）：unordered\_set、unordered\_multiset、unordered\_map、unordered\_multimap
+### 3.13 无序容器（Unordered Container）
+
+无序容器（Unordered Container）：unordered\_set、unordered\_multiset、unordered\_map、unordered\_multimap
 
 包括：
 
@@ -2502,25 +2516,25 @@ upper bound points to: 'c' => 30
 
 都是以哈希表实现的。
 
-![](http://img.blog.csdn.net/20160410123436394)
+
 
 unordered\_set、unodered\_multiset结构：
 
-![](http://img.blog.csdn.net/20160410123518692)
+
 
 unordered\_map、unodered\_multimap结构：
 
-![](http://img.blog.csdn.net/20160410123525739)
 
-### unordered_set 
 
-### unordered_multiset 
+### 3.14 unordered_set 
 
-### unordered_map 
+### 3.15 unordered_multiset 
 
-### unordered_multimap 
+### 3.16 unordered_map 
 
-### tuple
+### 3.17 unordered_multimap 
+
+### 3.18 tuple
 
 元组是一个能够容纳元素集合的对象。每个元素可以是不同的类型。
 
@@ -2566,29 +2580,27 @@ foo contains: 100 y
 
 这涉及单独构建其元素，初始化取决于调用的构造函数形式：
 
-（1）默认的构造函数
+- 1）默认的构造函数
 
-构建一个 元组对象的元素值初始化。
+    构建一个 元组对象的元素值初始化。
 
-（2）复制/移动构造函数
+- 2）复制/移动构造函数
 
-该对象使用tpl的内容进行初始化 元组目的。tpl
-的相应元素被传递给每个元素的构造函数。
+    该对象使用tpl的内容进行初始化 元组目的。tpl的相应元素被传递给每个元素的构造函数。
 
-（3）隐式转换构造函数
+- 3）隐式转换构造函数
 
-同上。tpl中的
-所有类型都可以隐含地转换为构造中它们各自元素的类型元组 目的。
+    同上。tpl中的所有类型都可以隐含地转换为构造中它们各自元素的类型元组 目的。
 
-（4）初始化构造函数
-用elems中的相应元素初始化每个元素。elems
-的相应元素被传递给每个元素的构造函数。
+- 4）初始化构造函数
 
-（5）对转换构造函数
+    用elems中的相应元素初始化每个元素。elems的相应元素被传递给每个元素的构造函数。
 
-该对象有两个对应于pr.first和的元素pr.second。PR中的所有类型都应该隐含地转换为其中各自元素的类型元组 目的。
+- 5）对转换构造函数
 
-（6）分配器版本
+    该对象有两个对应于pr.first和的元素pr.second。PR中的所有类型都应该隐含地转换为其中各自元素的类型元组 目的。
+
+- 6）分配器版本
 
 和上面的版本一样，除了每个元素都是使用allocator alloc构造的。
 
@@ -2658,7 +2670,7 @@ Output
 sixth contains: 30 and c
 ```
 
-### pair
+### 3.19 pair
 这个类把一对值（values）结合在一起，这些值可能是不同的类型（T1 和 T2）。每个值可以被公有的成员变量first、second访问。
 
 pair是tuple（元组）的一个特例。
@@ -2678,20 +2690,19 @@ template <class T1, class T2> struct pair;
 
 这涉及到单独构建它的两个组件对象，初始化依赖于调用的构造器形式：
 
-（1）默认的构造函数
+- 1）默认的构造函数
 
-构建一个 对对象的元素值初始化。
+    构建一个 对对象的元素值初始化。
 
-（2）复制/移动构造函数（和隐式转换）
+- 2）复制/移动构造函数（和隐式转换）
 
-该对象被初始化为pr的内容 对目的。pr
-的相应成员被传递给每个成员的构造函数。
+    该对象被初始化为pr的内容 对目的。pr的相应成员被传递给每个成员的构造函数。
 
-（3）初始化构造函数
+- 3）初始化构造函数
 
-会员 第一是由一个和成员构建的第二与b。
+    会员 第一是由一个和成员构建的第二与b。
 
-（4）分段构造
+- 4）分段构造
 
 构造成员 first  和 second  到位，传递元素first\_args 作为参数的构造函数 first，和元素 second\_args 到的构造函数 second 。
 

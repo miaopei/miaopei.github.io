@@ -8,7 +8,7 @@ abbrlink: 39639
 date: 2016-05-01 10:14:50
 ---
 
-# Linux Note
+## Linux Note
 
 > ### C 语言之解析局部变量返回
 >
@@ -402,7 +402,7 @@ $ seq 10 | grep "5" -C 3
 
 VIM 快捷键：
 
-<img src="/images/imageProgramC/vim.gif">
+![vim](Linux系统编程基础/vim.gif)
 
 ### 1.4 GCC
 
@@ -567,7 +567,7 @@ $ ldd libcalc.so
 # 3. 配置 /etc/ld.so.conf 文件，增加 当前项目库路径，执行 sudo ldconfig -v
 ```
 
-<img src="/images/imageProgramC/数据段.png">
+![数据段](Linux系统编程基础/数据段.png)
 
 ### 1.6 Makefile
 
@@ -589,7 +589,7 @@ app: main.c add.c sub.c div.c mul.c
 
 如果更改其中一个文件，所有的源码都重新编译
 
-可以考虑编译过程分解，先生成 .o 文件，然后使用 .o 文件编程结果
+可以考虑编译过程分解，先生成 `.o` 文件，然后使用 `.o` 文件编程结果
 
 规则是递归的，依赖文件如果比目标文件新，则重新生成目标文件
 
@@ -626,10 +626,10 @@ test:
 
 makefile 变量：
 
-- $@	代表目标
-- $^    代表全部依赖
-- $<    第一个依赖
-- $?    第一个变化的依赖
+- `$@`	代表目标
+- `$^`    代表全部依赖
+- `$<`    第一个依赖
+- `$?`    第一个变化的依赖
 
 ```shell
 # get all .c files
@@ -657,7 +657,7 @@ clean:
 	-@rm -f app
 ```
 
-make -f makefile1	指定makefile文件进行编译
+`make -f makefile1`	指定makefile文件进行编译
 
 ```makefile
 SrcFiles=$(wildcard *.c)
@@ -678,7 +678,7 @@ clean:
 >
 > [gdb 调试利器](https://linuxtools-rst.readthedocs.io/zh_CN/latest/tool/gdb.html)
 
-启动gdb：gdb app
+启动gdb：`gdb app`
 
 在gdb启动程序：
 
@@ -710,33 +710,31 @@ clean:
 
 **gdb跟踪core**
 
-- 设置生成 core ：ulimit -c unlimited
+- 设置生成 core ：`ulimit -c unlimited`
 
-- 取消生成 core： ulimit -c 0
+- 取消生成 core： `ulimit -c 0`
 
-- 设置 core 文件格式：/proc/sys/kernel/core_pattern
+- 设置 core 文件格式：`/proc/sys/kernel/core_pattern`
 
-  文件不能 vi，可以用后面的套路：echo “/corefile/core-%e-%p-%t” > core_pattern
+  文件不能 vi，可以用后面的套路：`echo “/corefile/core-%e-%p-%t” > core_pattern`
 
 core 文件如何使用：
 
-- gdb app core
+- `gdb app core`
 
 - 如果看不到在哪儿core  可以用 where 查看在哪儿产生的 core
 
 ## 2. 系统api与库函数的关系
 
-
-
-<img src="/images/imageProgramC/系统api与函数关系.png">
+![系统api与函数关系](Linux系统编程基础/系统api与函数关系.png)
 
 ## 3. Linux 系统编程
 
-ulimit -a 查看所有资源的上限
+`ulimit -a` 查看所有资源的上限
 
-env 查看环境变量
+`env` 查看环境变量
 
-echo $PATH  打印指定的环境变量
+`echo $PATH`  打印指定的环境变量
 
 `char *getenv()` 获取环境变量
 
@@ -759,7 +757,7 @@ echo $PATH  打印指定的环境变量
 
 `pid_t getppid(void)`
 
-ps ajx 查看父进程和子进程相关信息
+`ps ajx` 查看父进程和子进程相关信息
 
 **进程共享**：
 
