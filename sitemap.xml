@@ -5,7 +5,7 @@
   <url>  
     <loc>http://miaopei.github.io/2016/07/16/Program-C/Cplus%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%9D%8E%E5%BB%BA%E5%BF%A0%E7%AC%94%E8%AE%B0/</loc>  
       
-    <lastmod>2024-06-14T09:33:18.484Z</lastmod>  
+    <lastmod>2024-06-17T02:09:16.435Z</lastmod>  
       
     <date>1468664090000</date>  
     <title>C++设计模式(李建忠视频笔记) | Mr.Miaow Blog</title>  
@@ -159,19 +159,6 @@
     
   
   <url>  
-    <loc>http://miaopei.github.io/2016/07/11/Program-C/multi-thread/</loc>  
-      
-    <lastmod>2024-06-14T05:51:11.268Z</lastmod>  
-      
-    <date>1468203290000</date>  
-    <title>多线程编程 | Mr.Miaow Blog</title>  
-      
-    <desc></desc>  
-  </url>  
-  
-    
-  
-  <url>  
     <loc>http://miaopei.github.io/2016/07/08/Program-C/linux-epoll/</loc>  
       
     <lastmod>2024-06-14T05:51:11.268Z</lastmod>  
@@ -180,6 +167,19 @@
     <title>处理并发之一：LINUX Epoll 机制介绍 | Mr.Miaow Blog</title>  
       
     <desc>Epoll 可是当前在 Linux 下开发大规模并发网络程序的热门人选，Epoll 在 Linux2.6 内核中正式引入，和 select 相似，其实都 I&#x2F;O 多路复用技术而已，并没有什么神秘的。 其实在 Linux 下设计并发网络程序，向来不缺少方法，比如典型的 Apache 模型（Process Per Connection，简称 PPC），TPC（Thread Per Conne</desc>  
+  </url>  
+  
+    
+  
+  <url>  
+    <loc>http://miaopei.github.io/2016/07/11/Program-C/multi-thread/</loc>  
+      
+    <lastmod>2024-06-14T05:51:11.268Z</lastmod>  
+      
+    <date>1468203290000</date>  
+    <title>多线程编程 | Mr.Miaow Blog</title>  
+      
+    <desc></desc>  
   </url>  
   
     
