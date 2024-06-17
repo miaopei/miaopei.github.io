@@ -287,7 +287,7 @@ struct test
 
 </details>
 
-### 位域
+### 1.8 位域
 
 ```cpp
 Bit mode: 2;    // mode 占 2 位
@@ -299,7 +299,7 @@ Bit mode: 2;    // mode 占 2 位
 * 位域的类型必须是整型或枚举类型，带符号类型中的位域的行为将因具体实现而定
 * 取地址运算符（&）不能作用于位域，任何指针都无法指向类的位域
 
-### volatile
+### 1.9 volatile
 
 ```cpp
 volatile int i = 10; 
@@ -310,7 +310,7 @@ volatile int i = 10;
 * const 可以是 volatile （如只读的状态寄存器）
 * 指针可以是 volatile
 
-### extern "C"
+### 1.10 extern "C"
 
 * 被 extern 限定的函数或变量是 extern 类型的
 * 被 `extern "C"` 修饰的变量和函数是按照 C 语言方式编译和连接的
@@ -333,9 +333,9 @@ void *memset(void *, int, size_t);
 
 </details>
 
-### struct 和 typedef struct
+### 1.11 struct 和 typedef struct
 
-#### C 中
+#### 1.11.1 C 中
 
 ```c
 // c
@@ -359,7 +359,7 @@ typedef struct Student S;
 
 另外还可以定义与 `struct Student` 不冲突的 `void Student() {}`。
 
-#### C++ 中
+#### 1.11.2 C++ 中
 
 由于编译器定位符号的规则（搜索规则）改变，导致不同于C语言。
 
@@ -394,17 +394,17 @@ int main() {
 }
 ```
 
-### C++ 中 struct 和 class
+### 1.12 C++ 中 struct 和 class
 
 总的来说，struct 更适合看成是一个数据结构的实现体，class 更适合看成是一个对象的实现体。
 
-#### 区别
+#### 1.12.1 区别
 
 * 最本质的一个区别就是默认的访问控制
     1. 默认的继承访问权限。struct 是 public 的，class 是 private 的。  
     2. struct 作为数据结构的实现体，它默认的数据访问控制是 public 的，而 class 作为对象的实现体，它默认的成员变量访问控制是 private 的。
 
-### union 联合
+### 1.13 union 联合
 
 联合（union）是一种节省空间的特殊的类，一个 union 可以有多个数据成员，但是在任意时刻只有一个数据成员可以有值。当某个成员被赋值后其他成员变为未定义状态。联合有如下特点：
 
@@ -455,11 +455,11 @@ int main() {
 
 </details>
 
-### C 实现 C++ 类
+### 1.14 C 实现 C++ 类
 
 [C 语言实现封装、继承和多态](http://dongxicheng.org/cpp/ooc/)
 
-### explicit（显式）构造函数
+### 1.15 explicit（显式）构造函数
 
 explicit 修饰的构造函数可用来防止隐式转换
 
@@ -499,7 +499,7 @@ int main()
 
 </details>
 
-### friend 友元类和友元函数
+### 1.16 friend 友元类和友元函数
 
 * 能访问私有成员  
 * 破坏封装性
@@ -507,9 +507,9 @@ int main()
 * 友元关系的单向性
 * 友元声明的形式及数量不受限制
 
-### using
+### 1.17 using
 
-#### using 声明
+#### 1.17.1 using 声明
 
 一条 `using 声明` 语句一次只引入命名空间的一个成员。它使得我们可以清楚知道程序中所引用的到底是哪个名字。如：
 
@@ -517,7 +517,7 @@ int main()
 using namespace_name::name;
 ```
 
-#### 构造函数的 using 声明【C++11】
+#### 1.17.2 构造函数的 using 声明【C++11】
 
 在 C++11 中，派生类能够重用其直接基类定义的构造函数。
 
@@ -535,7 +535,7 @@ public:
 derived(parms) : base(args) { }
 ```
 
-#### using 指示
+#### 1.17.3 using 指示
 
 `using 指示` 使得某个特定命名空间中所有名字都可见，这样我们就无需再为它们添加任何前缀限定符了。如：
 
@@ -543,7 +543,7 @@ derived(parms) : base(args) { }
 using namespace_name name;
 ```
 
-#### 尽量少使用 `using 指示` 污染命名空间
+#### 1.17.4 尽量少使用 `using 指示` 污染命名空间
 
 > 一般说来，使用 using 命令比使用 using 编译命令更安全，这是由于它**只导入了制定的名称**。如果该名称与局部名称发生冲突，编译器将**发出指示**。using编译命令导入所有的名称，包括可能并不需要的名称。如果与局部名称发生冲突，则**局部名称将覆盖名称空间版本**，而编译器**并不会发出警告**。另外，名称空间的开放性意味着名称空间的名称可能分散在多个地方，这使得难以准确知道添加了哪些名称。
 
@@ -576,9 +576,9 @@ cout << x << endl;
 
 </details>
 
-### :: 范围解析运算符
+### 1.18 :: 范围解析运算符
 
-#### 分类
+#### 1.18.1 分类
 
 1. 全局作用域符（`::name`）：用于类型名称（类、类成员、成员函数、变量等）前，表示作用域为全局命名空间
 2. 类作用域符（`class::name`）：用于表示指定类型的作用域范围是具体某个类的
@@ -608,15 +608,15 @@ int main() {
 
 </details>
 
-### enum 枚举类型
+### 1.19 enum 枚举类型
 
-#### 限定作用域的枚举类型
+#### 1.19.1 限定作用域的枚举类型
 
 ```cpp
 enum class open_modes { input, output, append };
 ```
 
-#### 不限定作用域的枚举类型
+#### 1.19.2 不限定作用域的枚举类型
 
 ```cpp
 enum color { red, yellow, green };
@@ -625,7 +625,7 @@ enum { floatPrec = 6, doublePrec = 10 };
 
 > [C++ 枚举类型详解](http://www.weixueyuan.net/view/5824.html)
 
-### decltype
+### 1.20 decltype
 
 decltype 关键字用于检查实体的声明类型或表达式的类型及值分类。语法：
 
@@ -654,13 +654,13 @@ auto fcn2(It beg, It end) -> typename remove_reference<decltype(*beg)>::type
 
 </details>
 
-### 引用
+### 1.21 引用
 
-#### 左值引用
+#### 1.21.1 左值引用
 
 常规引用，一般表示对象的身份。
 
-#### 右值引用
+#### 1.21.2 右值引用
 
 右值引用就是必须绑定到右值（一个临时对象、将要销毁的对象）的引用，一般表示对象的值。
 
@@ -669,18 +669,18 @@ auto fcn2(It beg, It end) -> typename remove_reference<decltype(*beg)>::type
 * 消除两个对象交互时不必要的对象拷贝，节省运算存储资源，提高效率。
 * 能够更简洁明确地定义泛型函数。
 
-#### 引用折叠
+#### 1.21.3 引用折叠
 
 * `X& &`、`X& &&`、`X&& &` 可折叠成 `X&`
 * `X&& &&` 可折叠成 `X&&`
 
 > [详解c++ 引用（reference）与 指针（pointer）的区别与联系](https://blog.csdn.net/tianxiaolu1175/article/details/46889523)
 
-### 宏
+### 1.22 宏
 
 * 宏定义可以实现类似于函数的功能，但是它终归不是函数，而宏定义中括弧中的“参数”也不是真的参数，在宏展开的时候对 “参数” 进行的是一对一的替换。
 
-### 成员初始化列表
+### 1.23 成员初始化列表
 
 好处
 
@@ -690,7 +690,7 @@ auto fcn2(It beg, It end) -> typename remove_reference<decltype(*beg)>::type
   2. 引用类型，引用必须在定义的时候初始化，并且不能重新赋值，所以也要写在初始化列表里面
   3. 没有默认构造函数的类类型，因为使用初始化列表可以不必调用默认构造函数来初始化，而是直接调用拷贝构造函数初始化。
 
-### initializer_list 列表初始化【C++11】
+### 1.24 initializer_list 列表初始化【C++11】
 
 用花括号初始化器列表列表初始化一个对象，其中对应构造函数接受一个 `std::initializer_list` 参数.
 
@@ -749,15 +749,15 @@ int main()
 
 </details>
 
-### 面向对象
+### 1.25 面向对象
 
 面向对象程序设计（Object-oriented programming，OOP）是种具有对象概念的程序编程典范，同时也是一种程序开发的抽象方针。
 
-![面向对象特征](http://img.my.csdn.net/uploads/201211/22/1353564524_6375.png)
+![面向对象的三个基本特征](interview/面向对象的三个基本特征.png)
 
 面向对象三大特征 —— 封装、继承、多态
 
-### 封装
+### 1.26 封装
 
 * 把客观事物封装成抽象的类，并且类可以把自己的数据和方法只让可信的类或者对象操作，对不可信的进行信息隐藏。
 * 关键字：public, protected, friendly, private。不写默认为 friendly。
@@ -769,17 +769,17 @@ int main()
 | friendly | √ | √ | × | × |
 | private | √ | × | × | × |
 
-### 继承
+### 1.27 继承
 
 * 基类（父类）——&gt; 派生类（子类）
 
-### 多态
+### 1.28 多态
 
 * 多态，即多种状态，在面向对象语言中，接口的多种不同的实现方式即为多态。
 * C++ 多态有两种：静态多态（早绑定）、动态多态（晚绑定）。静态多态是通过函数重载实现的；动态多态是通过虚函数实现的。
 * 多态是以封装和继承为基础的。
 
-#### 静态多态（早绑定）
+#### 1.28.1 静态多态（早绑定）
 
 函数重载
 
@@ -792,7 +792,7 @@ public:
 };
 ```
 
-#### 动态多态（晚绑定）
+#### 1.28.2 动态多态（晚绑定）
 
 * 虚函数：用 virtual 修饰成员函数，使其成为虚函数
 
@@ -843,7 +843,7 @@ int main()
 
 </details>
 
-### 虚析构函数
+### 1.29 虚析构函数
 
 虚析构函数是为了解决基类的指针指向派生类对象，并用基类的指针删除派生类对象。
 
@@ -875,7 +875,7 @@ int main()
 
 </details>
 
-### 纯虚函数
+### 1.30 纯虚函数
 
 纯虚函数是一种特殊的虚函数，在基类中不能对虚函数给出有意义的实现，而把它声明为纯虚函数，它的实现留给该基类的派生类去做。
 
@@ -883,7 +883,7 @@ int main()
 virtual int A() = 0;
 ```
 
-### 虚函数、纯虚函数
+### 1.31 虚函数、纯虚函数
 
 [CSDN . C++ 中的虚函数、纯虚函数区别和联系](https://blog.csdn.net/u012260238/article/details/53610462)
 
@@ -892,12 +892,12 @@ virtual int A() = 0;
 * 虚函数的类用于 “实作继承”，继承接口的同时也继承了父类的实现。当然大家也可以完成自己的实现。纯虚函数关注的是接口的统一性，实现由子类完成。 
 * 带纯虚函数的类叫虚基类，这种基类不能直接生成对象，而只有被继承，并重写其虚函数后，才能使用。这样的类也叫抽象类。抽象类和大家口头常说的虚基类还是有区别的，在 C# 中用 abstract 定义抽象类，而在 C++ 中有抽象类的概念，但是没有这个关键字。抽象类被继承后，子类可以继续是抽象类，也可以是普通类，而虚基类，是含有纯虚函数的类，它如果被继承，那么子类就必须实现虚基类里面的所有纯虚函数，其子类不能是抽象类。
 
-### 虚函数指针、虚函数表
+### 1.32 虚函数指针、虚函数表
 
 * 虚函数指针：在含有虚函数类的对象中，指向虚函数表，在运行时确定。
 * 虚函数表：在程序只读数据段（`.rodata section`，见：[目标文件存储结构](#%E7%9B%AE%E6%A0%87%E6%96%87%E4%BB%B6%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84)），存放虚函数指针，如果派生类实现了基类的某个虚函数，则在虚表中覆盖原本基类的那个虚函数指针，在编译时根据类的声明创建。
 
-### 虚继承
+### 1.33 虚继承
 
 虚继承用于解决多继承条件下的菱形继承问题（浪费存储空间、存在二义性）。
 
@@ -905,7 +905,7 @@ virtual int A() = 0;
 
 实际上，vbptr 指的是虚基类表指针（virtual base table pointer），该指针指向了一个虚基类表（virtual table），虚表中记录了虚基类与本类的偏移地址；通过偏移地址，这样就找到了虚基类成员，而虚继承也不用像普通多继承那样维持着公共基类（虚基类）的两份同样的拷贝，节省了存储空间。
 
-### 虚继承、虚函数
+### 1.34 虚继承、虚函数
 
 * 相同之处：都利用了虚指针（均占用类的存储空间）和虚表（均不占用类的存储空间）
 * 不同之处：
@@ -916,12 +916,12 @@ virtual int A() = 0;
         * 虚函数不占用存储空间
         * 虚函数表存储的是虚函数地址
 
-### 模板类、成员模板、虚函数
+### 1.35 模板类、成员模板、虚函数
 
 * 模板类中可以使用虚函数
 * 一个类（无论是普通类还是类模板）的成员模板（本身是模板的成员函数）不能是虚函数
 
-### 抽象类、接口类、聚合类
+### 1.36 抽象类、接口类、聚合类
 
 * 抽象类：含有纯虚函数的类
 * 接口类：仅含有纯虚函数的抽象类
@@ -931,18 +931,18 @@ virtual int A() = 0;
     * 没有类内初始化
     * 没有基类，也没有 virtual 函数
 
-### 内存分配和管理
+### 1.37 内存分配和管理
 
 > [C/C++内存管理详解](https://chenqx.github.io/2014/09/25/Cpp-Memory-Management/) - ShinChan’s Blog
 
-#### malloc、calloc、realloc、alloca
+#### 1.37.1 malloc、calloc、realloc、alloca
 
 1. malloc：申请指定字节数的内存。申请到的内存中的初始值不确定。
 2. calloc：为指定长度的对象，分配能容纳其指定个数的内存。申请到的内存的每一位（bit）都初始化为 0。
 3. realloc：更改以前分配的内存长度（增加或减少）。当增加长度时，可能需将以前分配区的内容移到另一个足够大的区域，而新增区域内的初始值则不确定。
 4. alloca：在栈上申请内存。程序在出栈的时候，会自动释放内存。但是需要注意的是，alloca 不具可移植性, 而且在没有传统堆栈的机器上很难实现。alloca 不宜使用在必须广泛移植的程序中。C99 中支持变长数组 (VLA)，可以用来替代 alloca。
 
-#### malloc、free
+#### 1.37.2 malloc、free
 
 用于分配、释放内存
 
@@ -964,7 +964,7 @@ p = nullptr;
 
 </details>
 
-#### new、delete
+#### 1.37.3 new、delete
 
 1. new / new[]：完成两件事，先底层调用 malloc 分了配内存，然后调用构造函数（创建对象）。
 2. delete/delete[]：也完成两件事，先调用析构函数（清理资源），然后底层调用 free 释放空间。
@@ -985,7 +985,7 @@ int main()
 
 </details>
 
-#### 定位 new
+#### 1.37.4 定位 new
 
 定位 new（placement new）允许我们向 new 传递额外的参数。
 
@@ -999,7 +999,7 @@ new (palce_address) type [size] { braced initializer list }
 * `palce_address` 是个指针
 * `initializers` 提供一个（可能为空的）以逗号分隔的初始值列表
 
-### delete this 合法吗？
+### 1.38 delete this 合法吗？
 
 [Is it legal (and moral) for a member function to say delete this?](https://isocpp.org/wiki/faq/freestore-mgmt#delete-this)
 
@@ -1010,23 +1010,23 @@ new (palce_address) type [size] { braced initializer list }
 3. 必须保证成员函数的 `delete this ` 后面没有调用 this 了
 4. 必须保证 `delete this` 后没有人使用了
 
-### 如何定义一个只能在堆上（栈上）生成对象的类？
+### 1.39 如何定义一个只能在堆上（栈上）生成对象的类？
 
 [如何定义一个只能在堆上（栈上）生成对象的类?](https://www.nowcoder.com/questionTerminal/0a584aa13f804f3ea72b442a065a7618)
 
-#### 只能在堆上
+#### 1.39.1 只能在堆上
 
 方法：将析构函数设置为私有
 
 原因：C++ 是静态绑定语言，编译器管理栈上对象的生命周期，编译器在为类对象分配栈空间时，会先检查类的析构函数的访问性。若析构函数不可访问，则不能在栈上创建对象。
 
-#### 只能在栈上
+#### 1.39.2 只能在栈上
 
 方法：将 new 和 delete 重载为私有
 
 原因：在堆上生成对象，使用 new 关键词操作，其过程分为两阶段：第一阶段，使用 new 在堆上寻找可用内存，分配给对象；第二阶段，调用构造函数生成对象。将 new 操作设置为私有，那么第一阶段就无法完成，就不能够在堆上生成对象。
 
-### 智能指针
+### 1.40 智能指针
 
 > [C++11及C++14标准的智能指针](https://blog.csdn.net/haolexiao/article/details/56773039)
 >
@@ -1034,17 +1034,17 @@ new (palce_address) type [size] { braced initializer list }
 >
 > [使用 C++11 智能指针时要避开的 10 大错误](http://blog.jobbole.com/104666/)
 
-#### C++ 标准库（STL）中
+#### 1.40.1 C++ 标准库（STL）中
 
 头文件：`#include <memory>`
 
-#### C++ 98
+#### 1.40.2 C++ 98
 
 ```cpp
 std::auto_ptr<std::string> ps (new std::string(str))；
 ```
 
-#### C++ 11
+#### 1.40.3 C++ 11
 
 1. shared_ptr
 2. unique_ptr
@@ -1054,40 +1054,40 @@ std::auto_ptr<std::string> ps (new std::string(str))；
 * Class shared_ptr 实现共享式拥有（shared ownership）概念。多个智能指针指向相同对象，该对象和其相关资源会在 “最后一个 reference 被销毁” 时被释放。为了在结构较复杂的情景中执行上述工作，标准库提供 weak_ptr、bad_weak_ptr 和 enable_shared_from_this 等辅助类。
 * Class unique_ptr 实现独占式拥有（exclusive ownership）或严格拥有（strict ownership）概念，保证同一时间内只有一个智能指针可以指向该对象。你可以移交拥有权。它对于避免内存泄漏（resource leak）——如 new 后忘记 delete ——特别有用。
 
-##### shared_ptr
+##### 1.40.3.1 shared_ptr
 
 多个智能指针可以共享同一个对象，对象的最末一个拥有着有责任销毁对象，并清理与该对象相关的所有资源。
 
 * 支持定制型删除器（custom deleter），可防范 Cross-DLL 问题（对象在动态链接库（DLL）中被 new 创建，却在另一个 DLL 内被 delete 销毁）、自动解除互斥锁
 
-##### weak_ptr
+##### 1.40.3.2 weak_ptr
 
 weak_ptr 允许你共享但不拥有某对象，一旦最末一个拥有该对象的智能指针失去了所有权，任何 weak_ptr 都会自动成空（empty）。因此，在 default 和 copy 构造函数之外，weak_ptr 只提供 “接受一个 shared_ptr” 的构造函数。
 
 * 可打破环状引用（cycles of references，两个其实已经没有被使用的对象彼此互指，使之看似还在 “被使用” 的状态）的问题
 
-##### unique_ptr
+##### 1.40.3.3 unique_ptr
 
 unique_ptr 是 C++11 才开始提供的类型，是一种在异常时可以帮助避免资源泄漏的智能指针。采用独占式拥有，意味着可以确保一个对象和其相应的资源同一时间只被一个 pointer 拥有。一旦拥有着被销毁或编程 empty，或开始拥有另一个对象，先前拥有的那个对象就会被销毁，其任何相应资源亦会被释放。
 
 * unique_ptr 用于取代 auto_ptr
 
-##### auto_ptr
+##### 1.40.3.4 auto_ptr
 
 被 c++11 弃用，原因是缺乏语言特性如 “针对构造和赋值” 的 `std::move` 语义，以及其他瑕疵。
 
-##### auto_ptr 与 unique_ptr 比较
+##### 1.40.3.5 auto_ptr 与 unique_ptr 比较
 
 * auto_ptr 可以赋值拷贝，复制拷贝后所有权转移；unqiue_ptr 无拷贝赋值语义，但实现了`move` 语义；
 * auto_ptr 对象不能管理数组（析构调用 `delete`），unique_ptr 可以管理数组（析构调用 `delete[]` ）；
 
-### 强制类型转换运算符
+### 1.41 强制类型转换运算符
 
 [MSDN . 强制转换运算符](https://msdn.microsoft.com/zh-CN/library/5f6c9f8h.aspx)
 
 >  [C++类型转换总结](https://www.cnblogs.com/goodhacker/archive/2011/07/20/2111996.html)
 
-#### static_cast
+#### 1.41.1 static_cast
 
 * 用于非多态类型的转换
 * 不执行运行时类型检查（转换安全性不如 dynamic_cast）
@@ -1096,7 +1096,7 @@ unique_ptr 是 C++11 才开始提供的类型，是一种在异常时可以帮�
 
 > 向上转换是一种隐式转换。
 
-#### dynamic_cast
+#### 1.41.2 dynamic_cast
 
 * 用于多态类型的转换
 * 执行行运行时类型检查
@@ -1104,11 +1104,11 @@ unique_ptr 是 C++11 才开始提供的类型，是一种在异常时可以帮�
 * 对不明确的指针的转换将失败（返回 nullptr），但不引发异常
 * 可以在整个类层次结构中移动指针，包括向上转换、向下转换
 
-#### const_cast 
+#### 1.41.3 const_cast 
 
 * 用于删除 const、volatile 和 __unaligned 特性（如将 const int 类型转换为 int 类型 ）
 
-#### reinterpret_cast
+#### 1.41.4 reinterpret_cast
 
 * 用于位的简单重新解释
 * 滥用 reinterpret_cast 运算符可能很容易带来风险。 除非所需转换本身是低级别的，否则应使用其他强制转换运算符之一。
@@ -1117,7 +1117,7 @@ unique_ptr 是 C++11 才开始提供的类型，是一种在异常时可以帮�
 * reinterpret_cast 运算符不能丢掉 const、volatile 或 __unaligned 特性。 
 * reinterpret_cast 的一个实际用途是在哈希函数中，即，通过让两个不同的值几乎不以相同的索引结尾的方式将值映射到索引。
 
-#### bad_cast
+#### 1.41.5 bad_cast
 
 * 由于强制转换为引用类型失败，dynamic_cast 运算符引发 bad_cast 异常。
 
@@ -1134,20 +1134,20 @@ catch (bad_cast b) {
 
 </details>
 
-### 运行时类型信息 (RTTI) 
+### 1.42 运行时类型信息 (RTTI) 
 
-#### dynamic_cast
+#### 1.42.1 dynamic_cast
 
 * 用于多态类型的转换
 
-#### typeid
+#### 1.42.2 typeid
 
 * typeid 运算符允许在运行时确定对象的类型
 * type\_id 返回一个 type\_info 对象的引用
 * 如果想通过基类的指针获得派生类的数据类型，基类必须带有虚函数
 * 只能获取对象的实际类型
 
-#### type_info
+#### 1.42.3 type_info
 
 * type_info 类描述编译器在程序中生成的类型信息。 此类的对象可以有效存储指向类型的名称的指针。 type_info 类还可存储适合比较两个类型是否相等或比较其排列顺序的编码值。 类型的编码规则和排列顺序是未指定的，并且可能因程序而异。
 * 头文件：`typeinfo`
@@ -1206,7 +1206,7 @@ class doSomething(Flyable *obj)                 // 做些事情
 
 </details>
 
-### Effective C++
+### 1.43 Effective C++
 
 1. 视 C++ 为一个语言联邦（C、Object-Oriented C++、Template C++、STL）
 2. 宁可以编译器替换预处理器（尽量以 `const`、`enum`、`inline` 替换 `#define`）
@@ -1246,27 +1246,25 @@ class doSomething(Flyable *obj)                 // 做些事情
 36. 绝不重新定义继承而来的 non-virtual 函数
 37. 绝不重新定义继承而来的缺省参数值，因为缺省参数值是静态绑定（statically bound），而 virtual 函数却是动态绑定（dynamically bound）
 
-### Google C++ Style Guide
+### 1.44 Google C++ Style Guide
 
 > 英文：[Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html)  
 > 中文：[C++ 风格指南](https://zh-google-styleguide.readthedocs.io/en/latest/google-cpp-styleguide/contents/)
-<details><summary>Google C++ Style Guide 图</summary>
+Google C++ Style Guide 图：
 
-![Google C++ Style Guide](/images/imageProgramC/interview/GoogleCppStyleGuide.png)
+![GoogleCppStyleGuide](interview/GoogleCppStyleGuide.png)
 
 > 图片来源于：[CSDN . 一张图总结Google C++编程规范(Google C++ Style Guide)](https://blog.csdn.net/voidccc/article/details/37599203)
 
-</details>
+## 2. STL
 
-## STL
-
-### STL 索引
+### 2.1 STL 索引
 
 [STL 方法含义索引](https://github.com/huihut/interview/tree/master/STL)
 
 > [C++ STL容器总结](https://juejin.im/post/5a5607166fb9a01cb256d501)
 
-### STL 容器
+### 2.2 STL 容器
 
 容器 | 底层数据结构 | 时间复杂度 | 有无序 | 可不可重复 | 其他
 ---|---|---|---|---|---
@@ -1286,18 +1284,18 @@ hash_multiset|哈希表|插入、删除、查找 O(1) 最差 O(n)|无序|可重�
 hash_map|哈希表|插入、删除、查找 O(1) 最差 O(n)|无序|不可重复|
 hash_multimap|哈希表|插入、删除、查找 O(1) 最差 O(n)|无序|可重复|
 
-### STL 算法
+### 2.3 STL 算法
 
 算法 | 底层算法 | 时间复杂度 | 可不可重复
 ---|---|---|---
 [find](http://www.cplusplus.com/reference/algorithm/find/)|顺序查找|O(n)|可重复
 [sort](https://github.com/gcc-mirror/gcc/blob/master/libstdc++-v3/include/bits/stl_algo.h#L4808)|[内省排序](https://en.wikipedia.org/wiki/Introsort)|O(n*log<sub>2</sub>n)|可重复
 
-## 数据结构
+## 3. 数据结构
 
-### 顺序结构
+### 3.1 顺序结构
 
-#### 顺序栈（Sequence Stack）
+#### 3.1.1 顺序栈（Sequence Stack）
 
 [SqStack.cpp](DataStructure/SqStack.cpp)
 
@@ -1312,11 +1310,11 @@ typedef struct {
 } SqSrack;
 ```
 
-![](/images/imageProgramC/interview/SqStack.png)
-
 </details>
 
-#### 队列（Sequence Queue）
+![SqStack](interview/SqStack.png)
+
+#### 3.1.2 队列（Sequence Queue）
 
 <details><summary>队列数据结构</summary>
 
@@ -1331,27 +1329,23 @@ typedef struct {
 
 </details>
 
-##### 非循环队列
+##### 3.1.2.1 非循环队列
 
-<details><summary>非循环队列图片</summary>
+非循环队列图片：
 
-![](/images/imageProgramC/interview/SqQueue.png)
+![SqQueue](interview/SqQueue.png)
 
 `SqQueue.rear++`
 
-</details>
+##### 3.1.2.2 循环队列
 
-##### 循环队列
+循环队列图片：
 
-<details><summary>循环队列图片</summary>
-
-![](/images/imageProgramC/interview/SqLoopStack.png)
+![SqLoopStack](interview/SqLoopStack.png)
 
 `SqQueue.rear = (SqQueue.rear + 1) % SqQueue.maxSize`
 
-</details>
-
-#### 顺序表（Sequence List）
+#### 3.1.3 顺序表（Sequence List）
 
 [SqList.cpp](DataStructure/SqList.cpp)
 
@@ -1366,12 +1360,12 @@ typedef struct {
 } SqList;
 ```
 
-![](/images/imageProgramC/interview/SqList.png)
-
 </details>
 
+![SqList](interview/SqList.png)
 
-### 链式结构
+
+### 3.2 链式结构
 
 [LinkList.cpp](DataStructure/LinkList.cpp)
 
@@ -1388,50 +1382,42 @@ typedef struct LNode {
 
 </details>
 
-#### 链队列（Link Queue）
+#### 3.2.1 链队列（Link Queue）
 
-<details><summary>链队列图片</summary>
+链队列图片：
 
-![](/images/imageProgramC/interview/LinkQueue.png)
+![LinkQueue](interview/LinkQueue.png)
 
-</details>
+#### 3.2.2 线性表的链式表示
 
-#### 线性表的链式表示
+##### 3.2.2.1 单链表（Link List）
 
-##### 单链表（Link List）
+单链表图片：
 
-<details><summary>单链表图片</summary>
-
-![](/images/imageProgramC/interview/LinkList.png)
-
-</details>
+![LinkList](interview/LinkList.png)
 
 
-##### 双向链表（Du-Link-List）
+##### 3.2.2.2 双向链表（Du-Link-List）
 
-<details><summary>双向链表图片</summary>
+双向链表图片：
 
-![](/images/imageProgramC/interview/DuLinkList.png)
+![DuLinkList](interview/DuLinkList.png)
 
-</details>
+##### 3.2.2.3 循环链表（Cir-Link-List）
 
-##### 循环链表（Cir-Link-List）
+循环链表图片：
 
-<details><summary>循环链表图片</summary>
+![CirLinkList](interview/CirLinkList.png)
 
-![](/images/imageProgramC/interview/CirLinkList.png)
-
-</details>
-
-### 哈希表
+### 3.3 哈希表
 
 [HashTable.cpp](DataStructure/HashTable.cpp)
 
-#### 概念
+#### 3.3.1 概念
 
 哈希函数：`H(key): K -> D , key ∈ K`
 
-#### 构造方法
+#### 3.3.2 构造方法
 
 * 直接定址法
 * 除留余数法
@@ -1439,7 +1425,7 @@ typedef struct LNode {
 * 折叠法
 * 平方取中法
 
-#### 冲突处理方法
+#### 3.3.3 冲突处理方法
 
 * 链地址法：key 相同的用单链表链接
 * 开放定址法
@@ -1447,7 +1433,7 @@ typedef struct LNode {
     * 二次探测法：key 相同 -> 放到 `Di = 1^2, -1^2, ..., ±（k)^2,(k<=m/2）`
     * 随机探测法：`H = (H(key) + 伪随机数) % m`
 
-#### 线性探测的哈希表数据结构
+#### 3.3.4 线性探测的哈希表数据结构
 
 <details><summary>线性探测的哈希表数据结构和图片</summary>
 
@@ -1466,18 +1452,18 @@ typedef struct {
 }HashTable;
 ```
 
-![](/images/imageProgramC/interview/HashTable.png)
-
 </details>
 
+![HashTable](interview/HashTable.png)
 
-### 递归
 
-#### 概念
+### 3.4 递归
+
+#### 3.4.1 概念
 
 函数直接或间接地调用自身
 
-#### 递归与分治
+#### 3.4.2 递归与分治
 
 * 分治法
     * 问题的分解
@@ -1486,7 +1472,7 @@ typedef struct {
 * 归并查找（递归）
 * 快速排序（递归）
 
-#### 递归与迭代
+#### 3.4.3 递归与迭代
 
 * 迭代：反复利用变量旧值推出新值
 * 折半查找（迭代）
@@ -1517,9 +1503,9 @@ typedef struct GLNode {
 } *GList, GLNode;
 ```
 
-![](/images/imageProgramC/interview/GeneralizedList1.png)
-
 </details>
+
+![GeneralizedList1](interview/GeneralizedList1.png)
 
 ##### 扩展线性链表存储表示
 
@@ -1542,15 +1528,15 @@ typedef struct GLNode1 {
 } *GList1, GLNode1;
 ```
 
-![](/images/imageProgramC/interview/GeneralizedList2.png)
-
 </details>
 
-### 二叉树
+![GeneralizedList2](interview/GeneralizedList2.png)
+
+### 3.5 二叉树
 
 [BinaryTree.cpp](DataStructure/BinaryTree.cpp)
 
-#### 性质
+#### 3.5.1 性质
 
 1. 非空二叉树第 i 层最多 2<sup>(i-1)</sup> 个结点 （i >= 1）
 2. 深度为 k 的二叉树最多 2<sup>k</sup> - 1 个结点 （k >= 1）
@@ -1561,7 +1547,7 @@ typedef struct GLNode1 {
     2. 若 2i > n，则 i 结点没有左孩子，否则孩子编号为 2i
     3. 若 2i + 1 > n，则 i 结点没有右孩子，否则孩子编号为 2i + 1
 
-#### 存储结构
+#### 3.5.2 存储结构
 
 <details><summary>二叉树数据结构</summary>
 
@@ -1576,30 +1562,26 @@ typedef struct BiTNode
 </details>
 
 
-##### 顺序存储
+##### 3.5.2.1 顺序存储
 
-<details><summary>二叉树顺序存储图片</summary>
+二叉树顺序存储图片：
 
-![](/images/imageProgramC/interview/SqBinaryTree.png)
+![SqBinaryTree](interview/SqBinaryTree.png)
 
-</details>
+##### 3.5.2.2 链式存储
 
-##### 链式存储
+二叉树链式存储图片：
 
-<details><summary>二叉树链式存储图片</summary>
+![LinkBinaryTree](interview/LinkBinaryTree.png)
 
-![](/images/imageProgramC/interview/LinkBinaryTree.png)
-
-</details>
-
-#### 遍历方式
+#### 3.5.3 遍历方式
 
 * 先序遍历
 * 中序遍历
 * 后续遍历
 * 层次遍历
 
-#### 分类
+#### 3.5.4 分类
 
 * 满二叉树
 * 完全二叉树（堆）
@@ -1613,33 +1595,31 @@ typedef struct BiTNode
     * LR型：根的左孩子左旋，再右旋
     * RL型：右孩子的左子树，先右旋，再左旋
 
-### 其他树及森林
+### 3.6 其他树及森林
 
-#### 树的存储结构
+#### 3.6.1 树的存储结构
 
 * 双亲表示法
 * 双亲孩子表示法
 * 孩子兄弟表示法
 
-#### 并查集
+#### 3.6.2 并查集
 
 一种不相交的子集所构成的集合 S = {S1, S2, ..., Sn}
 
-#### 平衡二叉树（AVL树）
+#### 3.6.3 平衡二叉树（AVL树）
 
-##### 性质
+##### 3.6.3.1 性质
 
 * | 左子树树高 - 右子树树高 | <= 1
 * 平衡二叉树必定是二叉搜索树，反之则不一定
 * 最小二叉平衡树的节点的公式：`F(n)=F(n-1)+F(n-2)+1` （1 是根节点，F(n-1) 是左子树的节点数量，F(n-2) 是右子树的节点数量）
 
-<details><summary>平衡二叉树图片</summary>
+平衡二叉树图片：
 
-![](/images/imageProgramC/interview/Self-balancingBinarySearchTree.png)
+![Self-balancingBinarySearchTree](interview/Self-balancingBinarySearchTree.png)
 
-</details>
-
-##### 最小失衡树
+##### 3.6.3.2 最小失衡树
 
 平衡二叉树插入新结点导致失衡的子树
 
@@ -1650,9 +1630,9 @@ typedef struct BiTNode
 * LR 型：根的左孩子左旋，再右旋
 * RL 型：右孩子的左子树，先右旋，再左旋
 
-#### 红黑树
+#### 3.6.4 红黑树
 
-##### 红黑树的特征是什么？
+##### 3.6.4.1 红黑树的特征是什么？
 
 1. 节点是红色或黑色。
 2. 根是黑色。
@@ -1660,72 +1640,68 @@ typedef struct BiTNode
 4. 每个红色节点必须有两个黑色的子节点。（从每个叶子到根的所有路径上不能有两个连续的红色节点。）（新增节点的父节点必须相同）
 5. 从任一节点到其每个叶子的所有简单路径都包含相同数目的黑色节点。（新增节点必须为红）
 
-##### 调整
+##### 3.6.4.2 调整
 
 1. 变色
 2. 左旋
 3. 右旋
 
-##### 应用
+##### 3.6.4.3 应用
 
 * 关联数组：如 STL 中的 map、set
 
-##### 红黑树、B 树、B+ 树的区别？
+##### 3.6.4.4 红黑树、B 树、B+ 树的区别？
 
 * 红黑树的深度比较大，而 B 树和 B+ 树的深度则相对要小一些
 * B+ 树则将数据都保存在叶子节点，同时通过链表的形式将他们连接在一起。
 
-#### B 树（B-tree）、B+ 树（B+-tree）
+#### 3.6.5 B 树（B-tree）、B+ 树（B+-tree）
 
-<details><summary>B 树、B+ 树图片</summary>
+B 树、B+ 树图片：
 
-![B 树（B-tree）、B+ 树（B+-tree）](https://i.stack.imgur.com/l6UyF.png)
+![B 树（B-tree）、B+ 树（B+-tree](interview/l6UyF.png)
 
-</details>
-
-##### 特点
+##### 3.6.5.1 特点
 
 * 一般化的二叉查找树（binary search tree）
 * “矮胖”，内部（非叶子）节点可以拥有可变数量的子节点（数量范围预先定义好）
 
-##### 应用
+##### 3.6.5.2 应用
 
 * 大部分文件系统、数据库系统都采用B树、B+树作为索引结构
 
-##### 区别
+##### 3.6.5.3 区别
 
 * B+树中只有叶子节点会带有指向记录的指针（ROWID），而B树则所有节点都带有，在内部节点出现的索引项不会再出现在叶子节点中。
 * B+树中所有叶子节点都是通过指针连接在一起，而B树不会。
 
-##### B树的优点
+##### 3.6.5.4 B树的优点
 
 对于在内部节点的数据，可直接得到，不必根据叶子节点来定位。
 
-##### B+树的优点
+##### 3.6.5.5 B+树的优点
 
 * 非叶子节点不会带上 ROWID，这样，一个块中可以容纳更多的索引项，一是可以降低树的高度。二是一个内部节点可以定位更多的叶子节点。
 * 叶子节点之间通过指针来连接，范围扫描将十分简单，而对于B树来说，则需要在叶子节点和内部节点不停的往返移动。
 
 > B 树、B+ 树区别来自：[differences-between-b-trees-and-b-trees](https://stackoverflow.com/questions/870218/differences-between-b-trees-and-b-trees)、[B树和B+树的区别](https://www.cnblogs.com/ivictor/p/5849061.html)
 
-#### 八叉树
+#### 3.6.6 八叉树
 
-<details><summary>八叉树图片</summary>
+八叉树图片：
 
-![](https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Octree2.png/400px-Octree2.png)
-
-</details>
+![img](interview/400px-Octree2.png)
 
 八叉树（octree），或称八元树，是一种用于描述三维空间（划分空间）的树状数据结构。八叉树的每个节点表示一个正方体的体积元素，每个节点有八个子节点，这八个子节点所表示的体积元素加在一起就等于父节点的体积。一般中心点作为节点的分叉中心。
 
-##### 用途
+##### 3.6.6.1 用途
 
 * 三维计算机图形
 * 最邻近搜索
 
-## 算法
+## 4. 算法
 
-### 排序
+### 4.1 排序
 
 排序算法 | 平均时间复杂度 | 最差时间复杂度 | 空间复杂度 | 数据对象稳定性
 ---|---|---|---|---
@@ -1746,7 +1722,7 @@ typedef struct BiTNode
 > * m：代表数据的最大值减最小值
 > * 来自：[wikipedia . 排序算法](https://zh.wikipedia.org/wiki/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95)
 
-### 查找
+### 4.2 查找
 
 查找算法 | 平均时间复杂度 | 空间复杂度 | 查找条件
 ---|---|---|---
@@ -1760,14 +1736,14 @@ typedef struct BiTNode
 2-3树 | O(log<sub>2</sub>n - log<sub>3</sub>n) |   | 
 B树/B+树 |O(log<sub>2</sub>n) |   | 
 
-### 图搜索算法
+### 4.3 图搜索算法
 
 图搜索算法 |数据结构| 遍历时间复杂度 | 空间复杂度
 ---|---|---|---
 [BFS广度优先搜索](https://zh.wikipedia.org/wiki/%E5%B9%BF%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2)|邻接矩阵<br/>邻接链表|O(\|v\|<sup>2</sup>)<br/>O(\|v\|+\|E\|)|O(\|v\|<sup>2</sup>)<br/>O(\|v\|+\|E\|)
 [DFS深度优先搜索](https://zh.wikipedia.org/wiki/%E6%B7%B1%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2)|邻接矩阵<br/>邻接链表|O(\|v\|<sup>2</sup>)<br/>O(\|v\|+\|E\|)|O(\|v\|<sup>2</sup>)<br/>O(\|v\|+\|E\|)
 
-### 其他算法
+### 4.4 其他算法
 
 算法 |思想| 应用
 ---|---|---
@@ -1775,9 +1751,9 @@ B树/B+树 |O(log<sub>2</sub>n) |   |
 [动态规划](https://zh.wikipedia.org/wiki/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92)|通过把原问题分解为相对简单的子问题的方式求解复杂问题的方法，适用于有重叠子问题和最优子结构性质的问题|[背包问题](https://github.com/huihut/interview/tree/master/Problems/KnapsackProblem)、斐波那契数列
 [贪心法](https://zh.wikipedia.org/wiki/%E8%B4%AA%E5%BF%83%E6%B3%95)|一种在每一步选择中都采取在当前状态下最好或最优（即最有利）的选择，从而希望导致结果是最好或最优的算法|旅行推销员问题（最短路径问题）、最小生成树、哈夫曼编码
 
-## Problems
+## 5. Problems
 
-### Single Problem
+### 5.1 Single Problem
 
 * [Chessboard Coverage Problem（棋盘覆盖问题）](Problems/ChessboardCoverageProblem)
 * [Knapsack Problem（背包问题）](Problems/KnapsackProblem)
@@ -1785,26 +1761,26 @@ B树/B+树 |O(log<sub>2</sub>n) |   |
 * [Round Robin Problem（循环赛日程安排问题）](Problems/RoundRobinProblem)
 * [Tubing Problem（输油管道问题）](Problems/TubingProblem)
 
-### Leetcode Problems
+### 5.2 Leetcode Problems
 
 * [Github . haoel/leetcode](https://github.com/haoel/leetcode)
 * [Github . pezy/LeetCode](https://github.com/pezy/LeetCode)
 
-### 剑指 Offer
+### 5.3 剑指 Offer
 
 * [Github . zhedahht/CodingInterviewChinese2](https://github.com/zhedahht/CodingInterviewChinese2)
 * [Github . gatieme/CodingInterviews](https://github.com/gatieme/CodingInterviews)
 
-### Cracking the Coding Interview 程序员面试金典
+### 5.4 Cracking the Coding Interview 程序员面试金典
 
 * [Github . careercup/ctci](https://github.com/careercup/ctci)
 * [牛客网 . 程序员面试金典](https://www.nowcoder.com/ta/cracking-the-coding-interview)
 
-### 牛客网
+### 5.5 牛客网
 
 * [牛客网 . 在线编程专题](https://www.nowcoder.com/activity/oj)
 
-## 操作系统
+## 6. 操作系统
 
 > [【构建操作系统】进程间通信](https://zhuanlan.zhihu.com/p/26054925)
 >
@@ -1814,7 +1790,7 @@ B树/B+树 |O(log<sub>2</sub>n) |   |
 >
 > [如何实现高并发服务器开发](https://zhuanlan.zhihu.com/p/38552590)
 
-### 进程与线程
+### 6.1 进程与线程
 
 > [编程思想之多线程与多进程(4)——C++中的多线程](https://blog.csdn.net/luoweifu/article/details/46835437)
 
@@ -1825,7 +1801,7 @@ B树/B+树 |O(log<sub>2</sub>n) |   |
 对于无线程系统：
 * 进程是资源调度、分配的独立单位
 
-#### 进程之间的通信方式以及优缺点
+#### 6.1.1 进程之间的通信方式以及优缺点
 
 * 管道（PIPE）
     * 有名管道：一种半双工的通信方式，它允许无亲缘关系进程间的通信
@@ -1859,7 +1835,7 @@ B树/B+树 |O(log<sub>2</sub>n) |   |
         4. 可以加密,数据安全性强
     * 缺点：需对传输的数据进行解析，转化成应用级的数据。
 
-#### 线程之间的通信方式
+#### 6.1.2 线程之间的通信方式
 
 * 锁机制：包括互斥锁/量（mutex）、读写锁（reader-writer lock）、自旋锁（spin lock）、条件变量（condition）
     * 互斥锁/量（mutex）：提供了以排他方式防止数据结构被并发修改的方法。
@@ -1876,19 +1852,19 @@ B树/B+树 |O(log<sub>2</sub>n) |   |
 
 > 进程之间的通信方式以及优缺点来源于：[进程线程面试题总结](http://blog.csdn.net/wujiafei_njgcxy/article/details/77098977)
 
-#### 进程之间私有和共享的资源
+#### 6.1.3 进程之间私有和共享的资源
 
 * 私有：地址空间、堆、全局变量、栈、寄存器
 * 共享：代码段，公共数据，进程目录，进程 ID
 
-#### 线程之间私有和共享的资源
+#### 6.1.4 线程之间私有和共享的资源
 
 * 私有：线程栈，寄存器，程序寄存器
 * 共享：堆，地址空间，全局变量，静态变量
 
-#### 多进程与多线程间的对比、优劣与选择
+#### 6.1.5 多进程与多线程间的对比、优劣与选择
 
-##### 对比
+##### 6.1.5.1 对比
 
 对比维度 | 多进程 | 多线程 | 总结
 ---|---|---|---
@@ -1899,14 +1875,14 @@ B树/B+树 |O(log<sub>2</sub>n) |   |
 可靠性|进程间不会互相影响|一个线程挂掉将导致整个进程挂掉|进程占优
 分布式|适应于多核、多机分布式；如果一台机器不够，扩展到多台机器比较简单|适应于多核分布式|进程占优
 
-##### 优劣
+##### 6.1.5.2 优劣
 
 优劣|多进程|多线程
 ---|---|---
 优点|编程、调试简单，可靠性较高|创建、销毁、切换速度快，内存、资源占用小
 缺点|创建、销毁、切换速度慢，内存、资源占用大|编程、调试复杂，可靠性较差
 
-##### 选择
+##### 6.1.5.3 选择
 
 * 需要频繁创建销毁的优先用线程
 * 需要进行大量计算的优先使用线程
@@ -1916,38 +1892,38 @@ B树/B+树 |O(log<sub>2</sub>n) |   |
 
 > 多进程与多线程间的对比、优劣与选择来自：[多线程还是多进程的选择及区别](https://blog.csdn.net/lishenglong666/article/details/8557215)
 
-#### 多进程并发
-##### 优点：
+#### 6.1.6 多进程并发
+##### 6.1.6.1 优点：
 
 - 将应用程序分为多个、独立的、单纯和的进程，它们运行在同一时刻，就像你可以同时进行网页浏览和文字处理，这些独立的进程可以通过所有常规的进程间通信渠道互相传递信息（信号、套接字、文件、管道等）。
 - 操作系统在进程间提供的附加保护操作和更高级别的通信机制，意味着可以比线程更容易地编写安全的并发代码。
 - 使用独立的进程实现并发，可以在网络连接的不同的机器上运行独立的进程，虽然这增加了通信成本，但在一个精心设计的系统上，这可能是一个提高并行可用行和提高性能的低成本方法。
 
-##### 缺点：
+##### 6.1.6.2 缺点：
 
 - 这种进程之间的通信通常设置复杂，或是速度较慢，或两者兼备，因为操作系统通常在进程间提供了大量的保护，以避免一个进程不小心修改了属于另一个进程的数据。
 - 运行多个进和所需的固有开销：启动进程需要时间，操作系统必须投入内部资源来管理进程。
 
-#### 多线程并发
+#### 6.1.7 多线程并发
 
-##### 优点：
+##### 6.1.7.1 优点：
 
 - 每个线程相互独立运行，且每个线程可以运行不同的指令序列。但进程中的所有的线程都共享相同的地址空间，并且从所有线程中访问大部分数据——全局变量仍然是全局的，指针、对象的引用或数据可以在线程之间传递。
 - 共享的地址空间，以及缺少线程间的数据保护，使得使用多线程相关的开销远小于使用多进程，因为操作系统有更少的簿记要做。
 
-##### 缺点：
+##### 6.1.7.2 缺点：
 
 - 虽然通常可以在进程之间共享内存，但这难以建立并且通常难以管理，因为同一数据的内存地址在不同的进程中也不尽相同。
 
 - 共享内存的灵活性是有代价的：如果数据要被多个线程访问，那么必须确保当每个线程访问时所看到的数据是一致的。
 
-### Linux 内核的同步方式
+### 6.2 Linux 内核的同步方式
 
-#### 原因
+#### 6.2.1 原因
 
 在现代操作系统里，同一时间可能有多个内核执行流在执行，因此内核其实象多进程多线程编程一样也需要一些同步机制来同步各执行单元对共享数据的访问。尤其是在多处理器系统上，更需要一些同步机制来同步不同处理器上的执行单元对共享的数据的访问。
 
-#### 同步方式
+#### 6.2.2 同步方式
 
 * 原子操作
 * 信号量（semaphore）
@@ -1961,22 +1937,22 @@ B树/B+树 |O(log<sub>2</sub>n) |   |
 
 > 来自：[Linux 内核的同步机制，第 1 部分](https://www.ibm.com/developerworks/cn/linux/l-synch/part1/)、[Linux 内核的同步机制，第 2 部分](https://www.ibm.com/developerworks/cn/linux/l-synch/part2/)
 
-### 死锁
+### 6.3 死锁
 
-#### 原因
+#### 6.3.1 原因
 
 * 系统资源不足
 * 资源分配不当
 * 进程运行推进顺序不合适
 
-#### 产生条件
+#### 6.3.2 产生条件
 
 * 互斥
 * 请求和保持
 * 不剥夺
 * 环路
 
-#### 预防
+#### 6.3.3 预防
 
 * 打破互斥条件：改造独占性资源为虚拟资源，大部分资源已无法改造。
 * 打破不可抢占条件：当一进程占有一独占性资源后又申请一独占性资源而无法满足，则退出原占有的资源。
@@ -1985,23 +1961,23 @@ B树/B+树 |O(log<sub>2</sub>n) |   |
 * 有序资源分配法
 * 银行家算法
 
-### 文件系统
+### 6.4 文件系统
 
 * Windows：FCB 表 + FAT + 位图
 * Unix：inode + 混合索引 + 成组链接
 
-### 主机字节序与网络字节序
+### 6.5 主机字节序与网络字节序
 
-#### 主机字节序（CPU 字节序）
+#### 6.5.1 主机字节序（CPU 字节序）
 
-##### 概念
+##### 6.5.1.1 概念
 
 主机字节序又叫 CPU 字节序，其不是由操作系统决定的，而是由 CPU 指令集架构决定的。主机字节序分为两种：
 
 * 大端字节序（Big Endian）：高序字节存储在低位地址，低序字节存储在高位地址
 * 小端字节序（Little Endian）：高序字节存储在高位地址，低序字节存储在低位地址
 
-##### 存储方式
+##### 6.5.1.2 存储方式
 
 32 位整数 `0x12345678` 是从起始位置为 `0x00` 的地址开始存放，则：
 
@@ -2010,15 +1986,13 @@ B树/B+树 |O(log<sub>2</sub>n) |   |
 大端|12|34|56|78
 小端|78|56|34|12
 
+大端小端图片：
 
-<details><summary>大端小端图片</summary>
+![CPU-Big-Endian.svg](interview/CPU-Big-Endian.svg.png)
 
-![大端序](/images/imageProgramC/interview/CPU-Big-Endian.svg.png)
-![小端序](/images/imageProgramC/interview/CPU-Little-Endian.svg.png)
+![CPU-Little-Endian.svg](interview/CPU-Little-Endian.svg.png)
 
-</details>
-
-##### 判断大端小端
+##### 6.5.1.3 判断大端小端
 
 <details><summary>判断大端小端</summary>
 
@@ -2043,28 +2017,28 @@ int main()
 
 </details>
 
-##### 各架构处理器的字节序
+##### 6.5.1.4 各架构处理器的字节序
 
 * x86（Intel、AMD）、MOS Technology 6502、Z80、VAX、PDP-11 等处理器为小端序；
 * Motorola 6800、Motorola 68000、PowerPC 970、System/370、SPARC（除 V9 外）等处理器为大端序；
 * ARM（默认小端序）、PowerPC（除 PowerPC 970 外）、DEC Alpha、SPARC V9、MIPS、PA-RISC 及 IA64 的字节序是可配置的。
 
-#### 网络字节序
+#### 6.5.2 网络字节序
 
 网络字节顺序是 TCP/IP 中规定好的一种数据表示格式，它与具体的 CPU 类型、操作系统等无关，从而可以保重数据在不同主机之间传输时能够被正确解释。
 
 网络字节顺序采用：大端（Big Endian）排列方式。
 
-### 页面置换算法
+### 6.6 页面置换算法
 
 在地址映射过程中，若在页面中发现所要访问的页面不在内存中，则产生缺页中断。当发生缺页中断时，如果操作系统内存中没有空闲页面，则操作系统必须在内存选择一个页面将其移出内存，以便为即将调入的页面让出空间。而用来选择淘汰哪一页的规则叫做页面置换算法。
 
-#### 分类
+#### 6.6.1 分类
 
 * 全局置换：在整个内存空间置换
 * 局部置换：在本进程中进行置换
 
-#### 算法
+#### 6.6.2 算法
 
 全局：
 * 工作集算法
@@ -2076,13 +2050,13 @@ int main()
 * 最近最久未使用（LRU）算法
 * 时钟（Clock）置换算法
 
-## 计算机网络
+## 7. 计算机网络
 
 计算机经网络体系结构：
 
-![计算机经网络体系结构](/images/imageProgramC/interview/计算机经网络体系结构.png)
+![计算机经网络体系结构](interview/计算机经网络体系结构.png)
 
-### 各层作用及协议
+### 7.1 各层作用及协议
 
 分层 | 作用 | 协议
 ---|---|---
@@ -2095,7 +2069,7 @@ int main()
 应用层|允许访问OSI环境的手段（应用协议数据单元 APDU）|FTP、DNS、Telnet、SMTP、HTTP、WWW、NFS
 
 
-### 物理层
+### 7.2 物理层
 
 * 传输数据的单位 ———— 比特
 * 数据传输系统：源系统（源点、发送器） --> 传输系统 --> 目的系统（接收器、终点）
@@ -2111,13 +2085,13 @@ int main()
 * 波分复用（WDM，Wavelength Division Multiplexing）：光的频分复用
 * 码分复用（CDM，Code Division Multiplexing）：不同用户使用不同的码，可以在同样时间使用同样频带通信
 
-### 数据链路层
+### 7.3 数据链路层
 
 主要信道：
 * 点对点信道
 * 广播信道
 
-#### 点对点信道
+#### 7.3.1 点对点信道
 
 * 数据单元 ———— 帧
 
@@ -2129,7 +2103,7 @@ int main()
 点对点协议（Point-to-Point Protocol）：
 * 点对点协议（Point-to-Point Protocol）：用户计算机和 ISP 通信时所使用的协议
 
-#### 广播信道
+#### 7.3.2 广播信道
 
 广播通信：
 * 硬件地址（物理地址、MAC 地址）
@@ -2137,14 +2111,14 @@ int main()
 * 广播（broadcast）帧（一对全体）：发送给本局域网上所有站点的帧
 * 多播（multicast）帧（一对多）：发送给本局域网上一部分站点的帧
 
-### 网络层
+### 7.4 网络层
 
 * IP（Internet Protocol，网际协议）是为计算机网络相互连接进行通信而设计的协议。
 * ARP（Address Resolution Protocol，地址解析协议）
 * ICMP（Internet Control Message Protocol，网际控制报文协议）
 * IGMP（Internet Group Management Protocol，网际组管理协议）
 
-#### IP 网际协议
+#### 7.4.1 IP 网际协议
 
 IP 地址分类：
 * `IP 地址 ::= {<网络号>,<主机号>}`
@@ -2159,38 +2133,38 @@ E  类 | 前五位固定为 11110，后面保留为今后所用
 
 IP 数据报格式：
 
-![IP 数据报格式](/images/imageProgramC/interview/IP数据报格式.png)
+![IP数据报格式](interview/IP数据报格式.png)
 
-#### ICMP 网际控制报文协议
+#### 7.4.2 ICMP 网际控制报文协议
 
 ICMP 报文格式：
 
-![ICMP 报文格式](/images/imageProgramC/interview/ICMP报文格式.png)
+![ICMP报文格式](interview/ICMP报文格式.png)
 
 应用：
 * PING（Packet InterNet Groper，分组网间探测）测试两个主机之间的连通性
     * TTL（Time To Live，生存时间）该字段指定 IP 包被路由器丢弃之前允许通过的最大网段数量
 
-#### 内部网关协议
+#### 7.4.3 内部网关协议
 
 * RIP（Routing Information Protocol，路由信息协议）
 * OSPF（Open Sortest Path First，开放最短路径优先）
 
-#### 外部网关协议
+#### 7.4.4 外部网关协议
 
 * BGP（Border Gateway Protocol，边界网关协议）
 
-#### IP多播
+#### 7.4.5 IP多播
 
 * IGMP（Internet Group Management Protocol，网际组管理协议）
 * 多播路由选择协议
 
-#### VPN 和 NAT
+#### 7.4.6 VPN 和 NAT
 
 * VPN（Virtual Private Network，虚拟专用网）
 * NAT（Network Address Translation，网络地址转换）
 
-#### 路由表包含什么？
+#### 7.4.7 路由表包含什么？
 
 1. 网络 ID（Network ID, Network number）：就是目标地址的网络 ID。
 2. 子网掩码（subnet mask）：用来判断 IP 所属网络
@@ -2202,7 +2176,7 @@ ICMP 报文格式：
 2. 路由的服务质量
 3. 路由中需要过滤的出/入连接列表
 
-### 运输层
+### 7.5 运输层
 
 协议：
 
@@ -2215,7 +2189,7 @@ ICMP 报文格式：
 --- | --- | --- |--- |--- |--- |--- |--- |---   
 端口号 | 21 | 23 | 25 | 53 | 69 | 80 | 443 | 161  
 
-#### TCP
+#### 7.5.1 TCP
 
 * TCP（Transmission Control Protocol，传输控制协议）是一种面向连接的、可靠的、基于字节流的传输层通信协议，其传输的单位是报文段。
 
@@ -2235,11 +2209,11 @@ TCP 如何保证可靠传输：
 
 TCP 报文结构
 
-![TCP 报文](/images/imageProgramC/interview/TCP报文.png)
+![TCP报文](interview/TCP报文.png)
 
 TCP 首部
 
-![TCP 首部](/images/imageProgramC/interview/TCP首部.png)
+![TCP首部](interview/TCP首部.png)
 
 TCP：状态控制码（Code，Control Flag），占 6 比特，含义如下：
 * URG：紧急比特（urgent），当 `URG＝1` 时，表明紧急指针字段有效，代表该封包为紧急封包。它告诉系统此报文段中有紧急数据，应尽快传送(相当于高优先级的数据)， 且上图中的 Urgent Pointer 字段也会被启用。
@@ -2249,7 +2223,7 @@ TCP：状态控制码（Code，Control Flag），占 6 比特，含义如下：
 * SYN：同步比特(Synchronous)，SYN 置为 1，就表示这是一个连接请求或连接接受报文，通常带有 SYN 标志的封包表示『主动』要连接到对方的意思。
 * FIN：终止比特(Final)，用来释放一个连接。当 `FIN＝1` 时，表明此报文段的发送端的数据已发送完毕，并要求释放运输连接。
 
-#### UDP
+#### 7.5.2 UDP
 
 * UDP（User Datagram Protocol，用户数据报协议）是 OSI（Open System Interconnection 开放式系统互联） 参考模型中一种无连接的传输层协议，提供面向事务的简单不可靠信息传送服务，其传输的单位是用户数据报。
 
@@ -2263,15 +2237,15 @@ TCP：状态控制码（Code，Control Flag），占 6 比特，含义如下：
 
 UDP 报文结构
 
-![UDP 报文](/images/imageProgramC/interview/UDP报文.png)
+![UDP报文](interview/UDP报文.png)
 
 UDP 首部
 
-![UDP 首部](/images/imageProgramC/interview/UDP首部.png)
+![UDP首部](interview/UDP首部.png)
 
 > TCP/UDP 图片来源于：<https://github.com/JerryC8080/understand-tcp-udp>
 
-#### TCP 与 UDP 的区别
+#### 7.5.3 TCP 与 UDP 的区别
 
 1. TCP 面向连接，UDP 是无连接的；
 2. TCP 提供可靠的服务，也就是说，通过 TCP 连接传送的数据，无差错，不丢失，不重复，且按序到达；UDP 尽最大努力交付，即不保证可靠交付
@@ -2281,61 +2255,59 @@ UDP 首部
 7. UDP 没有拥塞控制，因此网络出现拥塞不会使源主机的发送速率降低（对实时应用很有用，如 IP 电话，实时视频会议等）
 8. TCP 首部开销20字节；UDP 的首部开销小，只有 8 个字节
 
-#### TCP 黏包问题
+#### 7.5.4 TCP 黏包问题
 
-##### 原因
+##### 7.5.4.1 原因
 
 TCP 是一个基于字节流的传输服务（UDP 基于报文的），“流” 意味着 TCP 所传输的数据是没有边界的。所以可能会出现两个数据包黏在一起的情况。
 
-##### 解决
+##### 7.5.4.2 解决
 
 * 发送定长包。如果每个消息的大小都是一样的，那么在接收对等方只要累计接收数据，直到数据等于一个定长的数值就将它作为一个消息。
 * 包头加上包体长度。包头是定长的 4 个字节，说明了包体的长度。接收对等方先接收包头长度，依据包头长度来接收包体。
 * 在数据包之间设置边界，如添加特殊符号 `\r\n` 标记。FTP 协议正是这么做的。但问题在于如果数据正文中也含有 `\r\n`，则会误判为消息的边界。
 * 使用更加复杂的应用层协议。
 
-#### TCP 流量控制
+#### 7.5.5 TCP 流量控制
 
-##### 概念
+##### 7.5.5.1 概念
 
 流量控制（flow control）就是让发送方的发送速率不要太快，要让接收方来得及接收。
 
-##### 方法
+##### 7.5.5.2 方法
 
-<details><summary>利用可变窗口进行流量控制</summary>
+利用可变窗口进行流量控制：
 
-![](/images/imageProgramC/interview/利用可变窗口进行流量控制举例.png)
+![利用可变窗口进行流量控制举例](interview/利用可变窗口进行流量控制举例.png)
 
-</details>
+#### 7.5.6 TCP 拥塞控制
 
-#### TCP 拥塞控制
-
-##### 概念
+##### 7.5.6.1 概念
 
 拥塞控制就是防止过多的数据注入到网络中，这样可以使网络中的路由器或链路不致过载。
 
-##### 方法
+##### 7.5.6.2 方法
 
 * 慢开始( slow-start )
 * 拥塞避免( congestion avoidance )
 * 快重传( fast retransmit )
 * 快恢复( fast recovery )
 
-<details><summary>TCP的拥塞控制图</summary>
+TCP的拥塞控制图：
 
-![](/images/imageProgramC/interview/TCP拥塞窗口cwnd在拥塞控制时的变化情况.png)
-![](/images/imageProgramC/interview/快重传示意图.png)
-![](/images/imageProgramC/interview/TCP的拥塞控制流程图.png)
+![TCP拥塞窗口cwnd在拥塞控制时的变化情况](interview/TCP拥塞窗口cwnd在拥塞控制时的变化情况.png)
 
-</details>
+![快重传示意图](interview/快重传示意图.png)
 
-#### TCP 传输连接管理
+![TCP的拥塞控制流程图](interview/TCP的拥塞控制流程图.png)
+
+#### 7.5.7 TCP 传输连接管理
 
 > 因为 TCP 三次握手建立连接、四次挥手释放连接很重要，所以附上《计算机网络（第 7 版）-谢希仁》书中对此章的详细描述：<https://github.com/huihut/interview/blob/master/images/TCP-transport-connection-management.png>
 
-##### TCP 三次握手建立连接
+##### 7.5.7.1 TCP 三次握手建立连接
 
-![UDP 报文](/images/imageProgramC/interview/TCP三次握手建立连接.png)
+![TCP三次握手建立连接](interview/TCP三次握手建立连接.png)
 
 【TCP 建立连接全过程解释】
 
@@ -2344,7 +2316,7 @@ TCP 是一个基于字节流的传输服务（UDP 基于报文的），“流”
 3. 客户端收到服务端的 SYN+ACK 后，回复 ACK 给服务端（表示客户端收到了服务端发的同意报文）；
 4. 服务端收到客户端的 ACK，连接已建立，可以数据传输。
 
-##### TCP 为什么要进行三次握手？
+##### 7.5.7.2 TCP 为什么要进行三次握手？
 
 【答案一】因为信道不可靠，而 TCP 想在不可靠信道上建立可靠地传输，那么三次通信是理论上的最小值。（而 UDP 则不需建立可靠传输，因此 UDP 不需要三次握手。）
 
@@ -2358,9 +2330,9 @@ TCP 是一个基于字节流的传输服务（UDP 基于报文的），“流”
 
 > [《计算机网络（第 7 版）-谢希仁》](https://github.com/huihut/interview/blob/master/images/TCP-transport-connection-management.png)
 
-##### TCP 四次挥手释放连接
+##### 7.5.7.3 TCP 四次挥手释放连接
 
-![UDP 报文](/images/imageProgramC/interview/TCP四次挥手释放连接.png)
+![TCP四次挥手释放连接](interview/TCP四次挥手释放连接.png)
 
 【TCP 释放连接全过程解释】
 
@@ -2372,7 +2344,7 @@ TCP 是一个基于字节流的传输服务（UDP 基于报文的），“流”
 6. 客户端收到服务端的 FIN+ACK，并回复 ACK 给服务端（同意释放从服务端到客户端的连接）；
 7. 服务端收到客户端的 ACK 后，释放从服务端到客户端的连接。
 
-##### TCP 为什么要进行四次挥手？
+##### 7.5.7.4 TCP 为什么要进行四次挥手？
 
 【问题一】TCP 为什么要进行四次挥手？ / 为什么 TCP 建立连接需要三次，而释放连接则需要四次？
 
@@ -2391,33 +2363,31 @@ TCP 是一个基于字节流的传输服务（UDP 基于报文的），“流”
 
 > [Time-wait状态(2MSL)一些理解](https://blog.csdn.net/overstack/article/details/8833894)
 
-#### TCP 有限状态机
+#### 7.5.8 TCP 有限状态机
 
-<details><summary>TCP 有限状态机图片</summary>
+TCP 有限状态机图片：
 
-![TCP 的有限状态机](/images/imageProgramC/interview/TCP的有限状态机.png)
-
-</details>
+![TCP的有限状态机](interview/TCP的有限状态机.png)
 
 > [TCP和UDP详解](https://www.jianshu.com/p/335de1323ce9)
 >
 > [HTTP、TCP、UDP详解](https://www.jianshu.com/p/a5cf81b1a976)
 
-### 应用层
+### 7.6 应用层
 
-#### DNS
+#### 7.6.1 DNS
 
 * DNS（Domain Name System，域名系统）是互联网的一项服务。它作为将域名和 IP 地址相互映射的一个分布式数据库，能够使人更方便地访问互联网。DNS 使用 TCP 和 UDP 端口 53。当前，对于每一级域名长度的限制是 63 个字符，域名总长度则不能超过 253 个字符。
 
 域名：
 * `域名 ::= {<三级域名>.<二级域名>.<顶级域名>}`，如：`blog.huihut.com`
 
-#### FTP
+#### 7.6.2 FTP
 
 * FTP（File Transfer Protocol，文件传输协议）是用于在网络上进行文件传输的一套标准协议，使用客户/服务器模式，使用 TCP 数据报，提供交互式访问，双向传输。
 * TFTP（Trivial File Transfer Protocol，简单文件传输协议）一个小且易实现的文件传输协议，也使用客户-服务器方式，使用UDP数据报，只支持文件传输而不支持交互，没有列目录，不能对用户进行身份鉴定
 
-#### TELNET
+#### 7.6.3 TELNET
 
 * TELNET 协议是 TCP/IP 协议族中的一员，是 Internet 远程登陆服务的标准协议和主要方式。它为用户提供了在本地计算机上完成远程主机工作的能力。
 
@@ -2426,11 +2396,11 @@ TCP 是一个基于字节流的传输服务（UDP 基于报文的），“流”
 * SMTP（Simple Mail Transfer Protocol，简单邮件传输协议）是一组用于由源地址到目的地址传送邮件的规则，由它来控制信件的中转方式。SMTP 协议属于 TCP/IP 协议簇，它帮助每台计算机在发送或中转信件时找到下一个目的地。
 * Socket 建立网络通信连接至少要一对端口号（Socket）。Socket 本质是编程接口（API），对 TCP/IP 的封装，TCP/IP 也要提供可供程序员做网络开发所用的接口，这就是 Socket 编程接口。
 
-#### WWW
+#### 7.6.4 WWW
 
 * WWW（World Wide Web，环球信息网，万维网）是一个由许多互相链接的超文本组成的系统，通过互联网访问
 
-##### URL
+##### 7.6.4.1 URL
 
 * URL（Uniform Resource Locator，统一资源定位符）是因特网上标准的资源的地址（Address）
 
@@ -2446,7 +2416,7 @@ TCP 是一个基于字节流的传输服务（UDP 基于报文的），“流”
 > 其中【访问凭证信息@；:端口号；?查询；#片段ID】都属于选填项  
 > 如：`https://github.com/huihut/interview#cc`
 
-##### HTTP
+##### 7.6.4.2 HTTP
 
 HTTP（HyperText Transfer Protocol，超文本传输协议）是一种用于分布式、协作式和超媒体信息系统的应用层协议。HTTP 是万维网的数据通信的基础。
 
@@ -2484,7 +2454,7 @@ TRACE | 回显服务器收到的请求，主要用于测试或诊断
 
 > 更多状态码：[菜鸟教程 . HTTP状态码](http://www.runoob.com/http/http-status-codes.html)
 
-##### 其他协议
+##### 7.6.4.3 其他协议
 
 * SMTP（Simple Main Transfer Protocol，简单邮件传输协议）是在 Internet 传输 Email 的标准，是一个相对简单的基于文本的协议。在其之上指定了一条消息的一个或多个接收者（在大多数情况下被确认是存在的），然后消息文本会被传输。可以很简单地通过 Telnet 程序来测试一个 SMTP 服务器。SMTP 使用 TCP 端口 25。
 * DHCP（Dynamic Host Configuration Protocol，动态主机设置协议）是一个局域网的网络协议，使用 UDP 协议工作，主要有两个用途：
@@ -2492,30 +2462,30 @@ TRACE | 回显服务器收到的请求，主要用于测试或诊断
     * 用于内部网络管理员作为对所有电脑作中央管理的手段
 * SNMP（Simple Network Management Protocol，简单网络管理协议）构成了互联网工程工作小组（IETF，Internet Engineering Task Force）定义的 Internet 协议族的一部分。该协议能够支持网络管理系统，用以监测连接到网络上的设备是否有任何引起管理上关注的情况。
 
-## 网络编程
+## 8. 网络编程
 
-### Socket
+### 8.1 Socket
 
 [Linux Socket 编程（不限 Linux）](https://www.cnblogs.com/skynet/archive/2010/12/12/1903949.html)
 
-![Socket 客户端服务器通讯](/images/imageProgramC/interview/socket客户端服务器通讯.jpg)
+![socket客户端服务器通讯](interview/socket客户端服务器通讯.jpg)
 
 
-#### Socket 中的 read()、write() 函数
+#### 8.1.1 Socket 中的 read()、write() 函数
 
 ```cpp
 ssize_t read(int fd, void *buf, size_t count);
 ssize_t write(int fd, const void *buf, size_t count);
 ```
 
-##### read()
+##### 8.1.1.1 read()
 
 * read 函数是负责从 fd 中读取内容。
 * 当读成功时，read 返回实际所读的字节数。
 * 如果返回的值是 0 表示已经读到文件的结束了，小于 0 表示出现了错误。
 * 如果错误为 EINTR 说明读是由中断引起的；如果是 ECONNREST 表示网络连接出了问题。
 
-##### write()
+##### 8.1.1.2 write()
 
 * write 函数将 buf 中的 nbytes 字节内容写入文件描述符 fd。
 * 成功时返回写的字节数。失败时返回 -1，并设置 errno 变量。
@@ -2524,7 +2494,7 @@ ssize_t write(int fd, const void *buf, size_t count);
 * （2）返回的值小于 0，此时出现了错误。
 * 如果错误为 EINTR 表示在写的时候出现了中断错误；如果为 EPIPE 表示网络连接出现了问题（对方已经关闭了连接）。
 
-#### Socket 中 TCP 的三次握手建立连接
+#### 8.1.2 Socket 中 TCP 的三次握手建立连接
 
 我们知道 TCP 建立连接要进行 “三次握手”，即交换三个分组。大致流程如下：
 
@@ -2534,7 +2504,7 @@ ssize_t write(int fd, const void *buf, size_t count);
 
 只有就完了三次握手，但是这个三次握手发生在 Socket 的那几个函数中呢？请看下图：
 
-![socket 中发送的 TCP 三次握手](http://images.cnblogs.com/cnblogs_com/skynet/201012/201012122157467258.png)
+![socket 中发送的 TCP 三次握手](interview/201012122157467258.png)
 
 从图中可以看出：
 1. 当客户端调用 connect 时，触发了连接请求，向服务器发送了 SYN J 包，这时 connect 进入阻塞状态；  
@@ -2542,11 +2512,11 @@ ssize_t write(int fd, const void *buf, size_t count);
 3. 客户端收到服务器的 SYN K ，ACK J+1 之后，这时 connect 返回，并对 SYN K 进行确认；  
 4. 服务器收到 ACK K+1 时，accept 返回，至此三次握手完毕，连接建立。
 
-#### Socket 中 TCP 的四次握手释放连接
+#### 8.1.3 Socket 中 TCP 的四次握手释放连接
 
 上面介绍了 socket 中 TCP 的三次握手建立过程，及其涉及的 socket 函数。现在我们介绍 socket 中的四次握手释放连接的过程，请看下图：
 
-![socket 中发送的 TCP 四次握手](http://images.cnblogs.com/cnblogs_com/skynet/201012/201012122157487616.png)
+![socket 中发送的 TCP 四次握手](interview/201012122157487616.png)
 
 图示过程如下：
 
@@ -2557,14 +2527,14 @@ ssize_t write(int fd, const void *buf, size_t count);
 
 这样每个方向上都有一个 FIN 和 ACK。
 
-## 数据库
+## 9. 数据库
 
 * 数据库事务四大特性：原子性、一致性、分离性、持久性
 * 数据库索引：顺序索引、B+ 树索引、hash 索引
 [MySQL 索引背后的数据结构及算法原理](http://blog.codinglabs.org/articles/theory-of-mysql-index.html)
 * [SQL 约束 (Constraints)](http://www.w3school.com.cn/sql/sql_constraints.asp)
 
-### 范式
+### 9.1 范式
 
 * 第一范式（1NF）：属性（字段）是最小单位不可再分
 * 第二范式（2NF）：满足 1NF，每个非主属性完全依赖于主键（消除 1NF 非主属性对码的部分函数依赖）
@@ -2572,33 +2542,33 @@ ssize_t write(int fd, const void *buf, size_t count);
 * 鲍依斯-科得范式（BCNF）：满足 3NF，任何非主属性不能对主键子集依赖（消除 3NF 主属性对码的部分和传递函数依赖）
 * 第四范式（4NF）：满足 3NF，属性之间不能有非平凡且非函数依赖的多值依赖（消除 3NF 非平凡且非函数依赖的多值依赖）
 
-## 设计模式
+## 10. 设计模式
 
 > 各大设计模式例子参考：[CSDN专栏 . C++ 设计模式](https://blog.csdn.net/column/details/15392.html) 系列博文
 
 [设计模式工程目录](DesignPattern)
 
-### 单例模式
+### 10.1 单例模式
 
 [单例模式例子](DesignPattern/SingletonPattern)
 
-### 抽象工厂模式
+### 10.2 抽象工厂模式
 
 [抽象工厂模式例子](DesignPattern/AbstractFactoryPattern)
 
-### 适配器模式
+### 10.3 适配器模式
 
 [适配器模式例子](DesignPattern/AdapterPattern)
 
-### 桥接模式
+### 10.4 桥接模式
 
 [桥接模式例子](DesignPattern/BridgePattern)
 
-### 观察者模式
+### 10.5 观察者模式
 
 [观察者模式例子](DesignPattern/ObserverPattern)
 
-### 设计模式的六大原则
+### 10.6 设计模式的六大原则
 
 * 单一职责原则（SRP，Single Responsibility Principle）
 * 里氏替换原则（LSP，Liskov Substitution Principle）
@@ -2607,9 +2577,9 @@ ssize_t write(int fd, const void *buf, size_t count);
 * 迪米特法则（LoD，Law of Demeter）
 * 开放封闭原则（OCP，Open Close Principle）
 
-## 链接装载库
+## 11. 链接装载库
 
-### 内存、栈、堆
+### 11.1 内存、栈、堆
 
 一般应用程序内存空间有如下区域：
 
@@ -2618,7 +2588,7 @@ ssize_t write(int fd, const void *buf, size_t count);
 * 可执行文件映像：存储着可执行文件在内存中的映像，由装载器装载是将可执行文件的内存读取或映射到这里
 * 保留区：保留区并不是一个单一的内存区域，而是对内存中受到保护而禁止访问的内存区域的总称，如通常 C 语言讲无效指针赋值为 0（NULL），因此 0 地址正常情况下不可能有效的访问数据
 
-#### 栈
+#### 11.1.1 栈
 
 栈保存了一个函数调用所需要的维护信息，常被称为堆栈帧（Stack Frame）或活动记录（Activate Record），一般包含以下几方面：
 
@@ -2626,7 +2596,7 @@ ssize_t write(int fd, const void *buf, size_t count);
 * 临时变量：包括函数的非静态局部变量以及编译器自动生成的其他临时变量
 * 保存上下文：包括函数调用前后需要保持不变的寄存器
 
-#### 堆
+#### 11.1.2 堆
 
 堆分配算法：
 
@@ -2634,7 +2604,7 @@ ssize_t write(int fd, const void *buf, size_t count);
 * 位图（Bitmap）
 * 对象池
 
-#### “段错误（segment fault）” 或 “非法操作，该内存地址不能 read/write”
+#### 11.1.3 “段错误（segment fault）” 或 “非法操作，该内存地址不能 read/write”
 
 典型的非法指针解引用造成的错误。当指针指向一个不允许读写的内存地址，而程序却试图利用指针来读或写该地址时，会出现这个错误。
 
@@ -2643,9 +2613,9 @@ ssize_t write(int fd, const void *buf, size_t count);
 * 将指针初始化为 NULL，之后没有给它一个合理的值就开始使用指针
 * 没用初始化栈中的指针，指针的值一般会是随机数，之后就直接开始使用指针
 
-### 编译链接
+### 11.2 编译链接
 
-#### 各平台文件格式
+#### 11.2.1 各平台文件格式
 
 平台 | 可执行文件 | 目标文件 | 动态库/共享对象 | 静态库
 ---|---|---|---|---
@@ -2653,7 +2623,7 @@ Windows|exe|obj|dll|lib
 Unix/Linux|ELF、out|o|so|a
 Mac|Mach-O|o|dylib、tbd、framework|a、framework
 
-#### 编译链接过程
+#### 11.2.2 编译链接过程
 
 1. 预编译（预编译器处理如 `#include`、`#define` 等预编译指令，生成 `.i` 或 `.ii` 文件）
 2. 编译（编译器进行词法分析、语法分析、语义分析、中间代码生成、目标代码生成、优化，生成 `.s` 文件）
@@ -2664,13 +2634,13 @@ Mac|Mach-O|o|dylib、tbd、framework|a、framework
 
 > MSVC 编译环境，编译器 cl、连接器 link、可执行文件查看器 dumpbin
 
-#### 目标文件
+#### 11.2.3 目标文件
 
 编译器编译源代码后生成的文件叫做目标文件。目标文件从结构上讲，它是已经编译后的可执行文件格式，只是还没有经过链接的过程，其中可能有些符号或有些地址还没有被调整。
 
 > 可执行文件（Windows 的 `.exe` 和 Linux 的 `ELF`）、动态链接库（Windows 的 `.dll` 和 Linux 的 `.so`）、静态链接库（Windows 的 `.lib` 和 Linux 的 `.a`）都是按照可执行文件格式存储（Windows 按照 PE-COFF，Linux 按照 ELF）
 
-##### 目标文件格式
+##### 11.2.3.1 目标文件格式
 
 * Windows 的 PE（Portable Executable），或称为 PE-COFF，`.obj` 格式
 * Linux 的 ELF（Executable Linkable Format），`.o` 格式
@@ -2680,7 +2650,7 @@ Mac|Mach-O|o|dylib、tbd、framework|a、framework
 
 > PE 和 ELF 都是 COFF（Common File Format）的变种
 
-##### 目标文件存储结构
+##### 11.2.3.2 目标文件存储结构
 
 段 | 功能
 --- | ---
@@ -2694,7 +2664,7 @@ File Header | 文件头，描述整个文件的文件属性（包括文件是否
 
 > 其他段略
 
-#### 链接的接口————符号
+#### 11.2.4 链接的接口——符号
 
 在链接中，目标文件之间相互拼合实际上是目标文件之间对地址的引用，即对函数和变量的地址的引用。我们将函数和变量统称为符号（Symbol），函数名或变量名就是符号名（Symbol Name）。
 
@@ -2706,13 +2676,13 @@ main| 0x100
 Add | 0x123
 ... | ...
 
-### Linux 的共享库（Shared Library）
+### 11.3 Linux 的共享库（Shared Library）
 
 Linux 下的共享库就是普通的 ELF 共享对象。
 
 共享库版本更新应该保证二进制接口 ABI（Application Binary Interface）的兼容
 
-#### 命名
+#### 11.3.1 命名
 
 `libname.so.x.y.z`
 
@@ -2720,7 +2690,7 @@ Linux 下的共享库就是普通的 ELF 共享对象。
 * y：次版本号，高版本号向后兼容低版本号
 * z：发布版本号，不对接口进行更改，完全兼容
 
-#### 路径
+#### 11.3.2 路径
 
 大部分包括 Linux 在内的开源系统遵循 FHS（File Hierarchy Standard）的标准，这标准规定了系统文件如何存放，包括各个目录结构、组织和作用。
 
@@ -2730,13 +2700,13 @@ Linux 下的共享库就是普通的 ELF 共享对象。
 
 > 动态链接器会在 `/lib`、`/usr/lib` 和由 `/etc/ld.so.conf` 配置文件指定的，目录中查找共享库
 
-#### 环境变量
+#### 11.3.3 环境变量
 
 * `LD_LIBRARY_PATH`：临时改变某个应用程序的共享库查找路径，而不会影响其他应用程序
 * `LD_PRELOAD`：指定预先装载的一些共享库甚至是目标文件
 * `LD_DEBUG`：打开动态链接器的调试功能
 
-#### so 共享库的编写
+#### 11.3.4 so 共享库的编写
 
 <details><summary>使用 CLion 编写共享库</summary>
 
@@ -2790,7 +2760,7 @@ void hello() {
 
 </details>
 
-#### so 共享库的使用（被可执行项目调用）
+#### 11.3.5 so 共享库的使用（被可执行项目调用）
 
 <details><summary>使用 CLion 调用共享库</summary>
 
@@ -2848,9 +2818,9 @@ Hello, World!
 
 </details>
 
-### 运行库（Runtime Library）
+### 11.4 运行库（Runtime Library）
 
-#### 典型程序运行步骤
+#### 11.4.1 典型程序运行步骤
 
 1. 操作系统创建进程，把控制权交给程序的入口（往往是运行库中的某个入口函数）
 2. 入口函数对运行库和程序运行环境进行初始化（包括堆、I/O、线程、全局变量构造等等）。
@@ -2859,13 +2829,13 @@ Hello, World!
 
 > 一个程序的 I/O 指代程序与外界的交互，包括文件、管程、网络、命令行、信号等。更广义地讲，I/O 指代操作系统理解为 “文件” 的事物。
 
-#### glibc 入口
+#### 11.4.2 glibc 入口
 
 `_start -> __libc_start_main -> exit -> _exit`
 
 其中 `main(argc, argv, __environ)` 函数在 `__libc_start_main` 里执行。
 
-#### MSVC CRT 入口
+#### 11.4.3 MSVC CRT 入口
 
 `int mainCRTStartup(void)`
 
@@ -2879,7 +2849,7 @@ Hello, World!
 6. 调用 main 并记录返回值。
 7. 检查错误并将 main 的返回值返回。
 
-#### C 语言运行库（CRT）
+#### 11.4.4 C 语言运行库（CRT）
 
 大致包含如下功能：
 
@@ -2890,7 +2860,7 @@ Hello, World!
 * 语言实现：语言中一些特殊功能的实现。
 * 调试：实现调试功能的代码。
 
-#### C语言标准库（ANSI C）
+#### 11.4.5 C语言标准库（ANSI C）
 
 包含：
 
@@ -2907,13 +2877,13 @@ Hello, World!
 * 变长参数（stdarg.h）
 * 非局部跳转（setjmp.h）
 
-## 回调函数和钩子函数
+## 12. 回调函数和钩子函数
 
-### 什么是回调函数？
+### 12.1 什么是回调函数？
 
 简而言之，回调函数就是一个通过函数指针调用的函数。如果你把函数的指针（地址）作为参数传递给另一个函数，当这个指针被用为调用它所指向的函数时，我们就说这是回调函数。 
 
-#### 为什么要使用回调函数？
+#### 12.1.1 为什么要使用回调函数？
 
 因为可以把调用者与被调用者分开。调用者不关心谁是被调用者，所有它需知道的，只是存在一个具有某种特定原型、某些限制条件（如返回值为 int ）的被调用函数。 
 
@@ -2923,11 +2893,11 @@ Hello, World!
 
 另一个使用回调机制的 API 函数是 EnumWindow() ，它枚举屏幕上所有的顶层窗口，为每个窗口调用一个程序提供的函数，并传递窗口的处理程序。如果被调用者返回一个值，就继续进行迭代，否则，退出。 EnumWindow() 并不关心被调用者在何处，也不关心被调用者用它传递的处理程序做了什么，它只关心返回值，因为基于返回值，它将继续执行或退出。 
 
-#### 使用场景
+#### 12.1.2 使用场景
 
 不管怎么说，**回调函数是继续自 C 语言的，因而，在 C++ 中，应只在与 C 代码建立接口，或与已有的回调接口打交道时，才使用回调函数。除了上述情况，在 C++ 中应使用虚拟方法或函数符（ functor ），而不是回调函数**。
 
-#### 机制
+#### 12.1.3 机制
 
 也可以这样，更容易理解：回调函数就好像是一个中断处理函数，系统在符合你设定的条件时自动调用。
 
@@ -2943,7 +2913,7 @@ Hello, World!
 
 回调函数是一个程序员不能显式调用的函数；通过将回调函数的地址传给调用者从而实现调用。回调函数使用是必要的，在我们想通过一个统一接口实现不同的内容，这时用回掉函数非常合适。比如，我们为几个不同的设备分别写了不同的显示函数：void TVshow(); void ComputerShow(); void NoteBookShow()...等等。这是我们想用一个统一的显示函数，我们这时就可以用回掉函数了。void show(void (*ptr)()); 使用时根据所传入的参数不同而调用不同的回调函数。
 
-#### 参考
+#### 12.1.4 参考
 
 > [C语言中的回调函数](http://www.voidcn.com/article/p-cpitugpu-bcg.html)
 >
@@ -2953,15 +2923,15 @@ Hello, World!
 >
 > [函数指针](http://www.runoob.com/cprogramming/c-fun-pointer-callback.html)
 
-### 什么是钩子函数？
+### 12.2 什么是钩子函数？
 
 钩子实际上是一个处理消息的程序段，通过系统调用，把它挂入系统。每当特定的消息发出，在没有到达目的窗口前，钩子程序就先捕获该消息，亦即钩子函数先得到控制权。这时钩子函数即可以加工处理（改变）该消息，也可以不作处理而继续传递该消息，还可以强制结束消息的传递。对每种类型的钩子由系统来维护一个钩子链，最近安装的钩子放在链的开始，而最先安装的钩子放在最后，也就是后加入的先获得控制权。
 
-#### 本质
+#### 12.2.1 本质
 
 钩子函数是Windows消息处理机制的一部分，通过设置“钩子”，应用程序可以在系统级对所有消息、事件进行过滤，访问在正常情况下无法访问的消息。钩子的本质是一段用以处理系统消息的程序，通过系统调用，把它挂入系统。
 
-#### 类型
+#### 12.2.2 类型
 
 1. 局部钩子：仅钩挂您自己进程的事件。
 
@@ -2974,7 +2944,7 @@ Hello, World!
 
    全局钩子函数需要定义在 DLL 中，线程级的钩子中经常用到 GetCurrentThreadID 函数来获取当前线程的ID。
 
-#### 机制
+#### 12.2.3 机制
 
 当创建一个钩子时，WINDOWS会先在内存中创建一个数据结构，该数据结构包含了钩子的相关信息，然后把该结构体加到已经存在的钩子链表中去。新的钩子将加到老的前面。当一个事件发生时，如果安装的是一个局部钩子，自己进程中的钩子函数将被调用。如果是一个远程钩子，系统就必须把钩子函数插入到其他进程的地址空间，要做到这一点要求钩子函数必须在一个动态链接库中，所以如果想要使用远程钩子，就必须把该钩子函数放到动态链接库中去。
 
@@ -2989,15 +2959,15 @@ Hello, World!
 
 解决办法：把钩子函数放到单个的线程中，譬如安装钩子的线程。
 
-#### 参考
+#### 12.2.4 参考
 
 > [浅谈c++ hook 钩子的使用介绍](https://www.jb51.net/article/128145.htm)
 
-### 异步消息的传递－回调机制
+### 12.3 异步消息的传递－回调机制
 
 > [异步消息的传递－回调机制](https://www.ibm.com/developerworks/cn/linux/l-callback/index.html)
 
-#### 什么是回调
+#### 12.3.1 什么是回调
 
 软件模块之间总是存在着一定的接口，从调用方式上，可以把他们分为三类：
 
@@ -3011,7 +2981,7 @@ Hello, World!
 
 同步调用是三者当中最简单的，而回调又常常是异步调用的基础，因此，下面我们着重讨论回调机制在不同软件架构中的实现。
 
-<img src="/images/imageProgramC/interview/回调机制-01.gif">
+![回调机制-01](interview/回调机制-01.gif)
 
 对于不同类型的语言（如结构化语言和对象语言）、平台（Win32、JDK）或构架（CORBA、DCOM、WebService），客户和服务的交互除了同步方式以外，都需要具备一定的异步通知机制，让服务方（或接口提供方）在某些情况下能够主动通知客户，而回调是实现异步的一个最简捷的途径。
 
@@ -3025,9 +2995,9 @@ Windows平台的消息机制也可以看作是回调的一种应用，我们通�
 
 下面我们集中比较具有代表性的语言（C、Object Pascal）和架构（CORBA）来分析回调的实现方式、具体作用等。
 
-#### 过程语言中的回调（C）
+#### 12.3.2 过程语言中的回调（C）
 
-##### 函数指针
+##### 12.3.2.1 函数指针
 
 回调在C语言中是通过函数指针来实现的，通过将回调函数的地址传给被调函数从而实现回调。因此，要实现回调，必须首先定义函数指针，请看下面的例子：
 
@@ -3064,7 +3034,7 @@ GetCallBack（fCallback）;
 
 如果赋了不同的值给该参数，那么调用者将调用不同地址的函数。赋值可以发生在运行时，这样使你能实现动态绑定。
 
-##### 参数传递规则
+##### 12.3.2.2 参数传递规则
 
 到目前为止，我们只讨论了函数指针及回调而没有去注意 ANSI C/C++ 的编译器规范。许多编译器有几种调用规范。如在Visual C++中，可以在函数类型前加 `_cdecl`，`_stdcall` 或者 `_pascal` 来表示其调用规范（默认为 `_cdecl`）。C++ Builder也支持 `_fastcall` 调用规范。调用规范影响编译器产生的给定函数名，参数传递的顺序（从右到左或从左到右），堆栈清理责任（调用者或者被调用者）以及参数传递机制（堆栈，CPU寄存器等）。
 
@@ -3081,7 +3051,7 @@ __cdecl int(*p)(int) = callee; // 出错
 
 指针 p 和 callee() 的类型不兼容，因为它们有不同的调用规范。因此不能将被调用者的地址赋值给指针p，尽管两者有相同的返回值和参数列
 
-##### 应用举例
+##### 12.3.2.3 应用举例
 
 C 语言的标准库函数中很多地方就采用了回调函数来让用户定制处理过程。如常用的快速排序函数、二分搜索函数等。
 
@@ -3117,9 +3087,9 @@ int sort_function( const void *a, const void *b)
 }
 ```
 
-#### 回调在分布式计算中的应用（CORBA）
+#### 12.3.3 回调在分布式计算中的应用（CORBA）
 
-##### 回调接口模型
+##### 12.3.3.1 回调接口模型
 
 CORBA 的消息传递机制有很多种，比如回调接口、事件服务和通知服务等。回调接口的原理很简单，CORBA 客户和服务器都具有双重角色，即充当服务器也是客户客户。
 
@@ -3127,7 +3097,7 @@ CORBA 的消息传递机制有很多种，比如回调接口、事件服务和�
 
 从 CORBA 规范我们知道，一个 CORBA 接口在服务端和客户端有不同的表现形式，在客户端一般使用桩（Stub）文件，服务端则用到框架（Skeleton）文件，接口的规格采用 IDL 来定义。而回调函数的引入，使得服务端和客户端都需要实现一定的桩和框架。下面是回调接口的实现模型：
 
-<img src="/images/imageProgramC/interview/回调机制-02.gif">
+![回调机制-02](interview/回调机制-02.gif)
 
 下面给出了一个使用回调的接口文件，服务端需要实现 Server 接口的框架，客户端需要实现 CallBack 的框架：
 
@@ -3150,9 +3120,9 @@ module cb
 
 客户端首先通过同步方式调用服务端的接口 RegistCB，用来注册回调接口 CallBack。服务端收到该请求以后，就会保留该接口引用，如果发生某种事件需要向客户端通知的时候就通过该引用调用客户方的 OnEvent 函数，以便对方及时处理。
 
-## 野指针
+## 13. 野指针
 
-### 避免野指针的方法
+### 13.1 避免野指针的方法
 
 为了防止野指针带来的灾难，建议指针在定义时给一个初值，比如“NULL”，意思是不指向任何内存地址。然后再使用malloc函数给指针分配一块存储空间。
 
@@ -3191,24 +3161,24 @@ int main()
 
 
 
-## 海量数据处理
+## 14. 海量数据处理
 
 * [ 海量数据处理面试题集锦](http://blog.csdn.net/v_july_v/article/details/6685962)
 * [十道海量数据处理面试题与十个方法大总结](http://blog.csdn.net/v_JULY_v/article/details/6279498)
 
-## 音视频
+## 15. 音视频
 
 * [最全实时音视频开发要用到的开源工程汇总](http://www.yunliaoim.com/im/1869.html)
 * [18个实时音视频开发中会用到开源项目](http://webrtc.org.cn/18%E4%B8%AA%E5%AE%9E%E6%97%B6%E9%9F%B3%E8%A7%86%E9%A2%91%E5%BC%80%E5%8F%91%E4%B8%AD%E4%BC%9A%E7%94%A8%E5%88%B0%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE/)
 
-## 其他
+## 16. 其他
 
 * [Bjarne Stroustrup 的常见问题](http://www.stroustrup.com/bs_faq.html)
 * [Bjarne Stroustrup 的 C++ 风格和技巧常见问题](http://www.stroustrup.com/bs_faq2.html)
 
-## 书籍
+## 17. 书籍
 
-### 语言
+### 17.1 语言
 
 * 《C++ Primer》
 * 《Effective C++》
@@ -3217,70 +3187,70 @@ int main()
 * 《深入理解 C++11》
 * 《STL 源码剖析》
 
-### 算法
+### 17.2 算法
 
 * 《剑指 Offer》
 * 《编程珠玑》
 * 《程序员面试宝典》
 
-### 系统
+### 17.3 系统
 
 * 《深入理解计算机系统》
 * 《Windows 核心编程》
 * 《Unix 环境高级编程》
 
-### 网络
+### 17.4 网络
 
 * 《Unix 网络编程》
 * 《TCP/IP 详解》
 
-### 其他
+### 17.5 其他
 
 * 《程序员的自我修养》
 
-## 复习刷题网站
+## 18. 复习刷题网站
 
 * [leetcode](https://leetcode.com/)
 * [牛客网](https://www.nowcoder.net/)
 * [慕课网](https://www.imooc.com/)
 * [菜鸟教程](http://www.runoob.com/)
 
-## 招聘时间岗位
+## 19. 招聘时间岗位
 
 * [牛客网 . 2019 IT名企校招指南](https://www.nowcoder.com/activity/campus2019)
 
-## 面试题目经验
+## 20. 面试题目经验
 
-### 牛客网
+### 20.1 牛客网
 
 * [牛客网 . 2017秋季校园招聘笔经面经专题汇总](https://www.nowcoder.com/discuss/12805)
 * [牛客网 . 史上最全2017春招面经大合集！！](https://www.nowcoder.com/discuss/25268)
 * [牛客网 . 面试题干货在此](https://www.nowcoder.com/discuss/57978)
 
-### 知乎
+### 20.2 知乎
 
 * [知乎 . 互联网求职路上，你见过哪些写得很好、很用心的面经？最好能分享自己的面经、心路历程。](https://www.zhihu.com/question/29693016)
 * [知乎 . 互联网公司最常见的面试算法题有哪些？](https://www.zhihu.com/question/24964987)
 * [知乎 . 面试 C++ 程序员，什么样的问题是好问题？](https://www.zhihu.com/question/20184857)
 
-### CSDN
+### 20.3 CSDN
 
 * [CSDN . 全面整理的C++面试题](http://blog.csdn.net/ljzcome/article/details/574158)
 * [CSDN . 百度研发类面试题（C++方向）](http://blog.csdn.net/Xiongchao99/article/details/74524807?locationNum=6&fps=1)
 * [CSDN . c++常见面试题30道](http://blog.csdn.net/fakine/article/details/51321544)
 * [CSDN . 腾讯2016实习生面试经验（已经拿到offer)](http://blog.csdn.net/onever_say_love/article/details/51223886)
 
-### cnblogs
+### 20.4 cnblogs
 
 * [cnblogs . C++面试集锦( 面试被问到的问题 )](https://www.cnblogs.com/Y1Focus/p/6707121.html)
 * [cnblogs . C/C++ 笔试、面试题目大汇总](https://www.cnblogs.com/fangyukuan/archive/2010/09/18/1829871.html)
 * [cnblogs . 常见C++面试题及基本知识点总结（一）](https://www.cnblogs.com/LUO77/p/5771237.html)
 
-### Segmentfault
+### 20.5 Segmentfault
 
 * [segmentfault . C++常见面试问题总结](https://segmentfault.com/a/1190000003745529)
 
-### HTTP相关知识
+### 20.6 HTTP相关知识
 
 - [你必须知道的HTTP基本概念](https://segmentfault.com/a/1190000012368732)
 - [浏览器中常见网络协议介绍](https://imququ.com/post/network-protocol-in-browser.html)
@@ -3288,7 +3258,7 @@ int main()
 - [WebRTC架构简介](https://blog.csdn.net/fishmai/article/details/69681595)
 - [了不起的WebRTC：生态日趋完善，或将实时音视频技术白菜化](https://juejin.im/entry/5b14bd9ce51d450688134430)
 
-### Spark
+### 20.7 Spark
 
 - [Apache Spark 中文文档](http://spark.apachecn.org/docs/cn/2.2.0/)
 - [Apache Spark 2.2.0 官方文档中文版（翻译完成 98%. 除 MLib 外） | ApacheCN](https://blog.csdn.net/u012185296/article/details/76855770)
@@ -3296,7 +3266,7 @@ int main()
 
 
 
-### 加密安全问题
+### 20.8 加密安全问题
 
 - [SHA算法系列介绍](https://blog.csdn.net/wufaliang003/article/details/79782168)
 - [比特币背后的密码学原理](https://www.jianshu.com/p/225ff9439132)
@@ -3307,7 +3277,7 @@ int main()
 - [机器学习和数据挖掘在网络安全领域会有哪些应用？](https://www.zhihu.com/question/50853891)
 - [机器学习正在安全领域挂起一阵小旋风，但这里面有BUG](https://www.leiphone.com/news/201609/fY4pztt4RQsrOqji.html)
 
-### 其他
+### 20.9 其他
 
 - [终于有人把P2P、P2C、O2O、B2C、B2B、C2C 的区别讲透了！](https://news.mbalib.com/story/88506)
 - [如何真正让小程序,WebRTC和APP互通连麦直播](https://zhuanlan.zhihu.com/p/35066939)
@@ -3318,7 +3288,7 @@ int main()
 - [基于Apache Spark以BigDL搭建可扩展的分布式深度学习框架](https://juejin.im/post/5b135482e51d4506dc0aaa14)
 - 
 
-### 高德面试
+### 20.1高德面试
 
 基本知识
 
