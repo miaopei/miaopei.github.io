@@ -151,18 +151,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">67</span>
+          <span class="site-state-item-count">79</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-count">22</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">24</span>
+        <span class="site-state-item-count">25</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -215,7 +215,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://miaopei.github.io/2019/04/20/FFmpeg/FFmpeg%E5%85%A5%E9%97%A8/">
+    <link itemprop="mainEntityOfPage" href="http://miaopei.github.io/2019/05/28/FFmpeg/FFmpeg%E7%9A%84H.264%E8%A7%A3%E7%A0%81%E5%99%A8%E6%BA%90%E4%BB%A3%E7%A0%81%E7%AE%80%E5%8D%95%E5%88%86%E6%9E%90/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://avatars.githubusercontent.com/u/7922626?v=4">
@@ -233,7 +233,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2019/04/20/FFmpeg/FFmpeg%E5%85%A5%E9%97%A8/" class="post-title-link" itemprop="url">FFmpeg入门</a>
+          <a href="/2019/05/28/FFmpeg/FFmpeg%E7%9A%84H.264%E8%A7%A3%E7%A0%81%E5%99%A8%E6%BA%90%E4%BB%A3%E7%A0%81%E7%AE%80%E5%8D%95%E5%88%86%E6%9E%90/" class="post-title-link" itemprop="url">FFmpeg的H.264解码器源代码简单分析</a>
         </h2>
 
         <div class="post-meta-container">
@@ -244,7 +244,7 @@
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2019-04-20 10:14:50" itemprop="dateCreated datePublished" datetime="2019-04-20T10:14:50+08:00">2019-04-20</time>
+      <time title="创建时间：2019-05-28 10:14:50" itemprop="dateCreated datePublished" datetime="2019-05-28T10:14:50+08:00">2019-05-28</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -262,14 +262,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>38k</span>
+      <span>43k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>35 分钟</span>
+      <span>39 分钟</span>
     </span>
 </div>
 
@@ -281,12 +281,13 @@
     
     <div class="post-body" itemprop="articleBody">
           <blockquote>
-<p>本文以文档的形式来描述FFmpeg怎么入门，这也是为以后写文档做的一个大题框架格式。</p>
+<p>文章参考汇总至<a target="_blank" rel="noopener" href="https://blog.csdn.net/leixiaohua1020/article/details/45536607">雷神笔记</a></p>
 </blockquote>
-<h1 id="1-文档介绍"><a href="#1-文档介绍" class="headerlink" title="1. 文档介绍"></a>1. 文档介绍</h1><h2 id="1-1-文档目的"><a href="#1-1-文档目的" class="headerlink" title="1.1 文档目的"></a>1.1 文档目的</h2><p>整理出开源代码 ffmpeg 的资料，方便公司同事后续使用。</p>
+<h1 id="编码-x264"><a href="#编码-x264" class="headerlink" title="编码 - x264"></a>编码 - x264</h1><h2 id="1-概述"><a href="#1-概述" class="headerlink" title="1. 概述"></a>1. 概述</h2><p>最近正在研究H.264和HEVC的编码方式，因此分析了一下最常见的H.264编码器——x264的源代码。本文简单梳理一下它的结构。X264的源代码量比较大而且涉及到很多的算法，目前还有很多不懂的地方，因此也不能保证分析的完全正确。目前打算先把已经理解的部分整理出来以作备忘。</p>
+<h3 id="1-1-函数调用关系图"><a href="#1-1-函数调用关系图" class="headerlink" title="1.1 函数调用关系图"></a>1.1 函数调用关系图</h3>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2019/04/20/FFmpeg/FFmpeg%E5%85%A5%E9%97%A8/#more" rel="contents">
+              <a class="btn" href="/2019/05/28/FFmpeg/FFmpeg%E7%9A%84H.264%E8%A7%A3%E7%A0%81%E5%99%A8%E6%BA%90%E4%BB%A3%E7%A0%81%E7%AE%80%E5%8D%95%E5%88%86%E6%9E%90/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -317,7 +318,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://miaopei.github.io/2018/06/15/Other/RPC%E6%9C%BA%E5%88%B6%E5%8F%8A%E5%8E%9F%E7%90%86/">
+    <link itemprop="mainEntityOfPage" href="http://miaopei.github.io/2019/05/27/WebRTC/webrtc-opensrc/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://avatars.githubusercontent.com/u/7922626?v=4">
@@ -335,7 +336,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2018/06/15/Other/RPC%E6%9C%BA%E5%88%B6%E5%8F%8A%E5%8E%9F%E7%90%86/" class="post-title-link" itemprop="url">RPC机制以及原理</a>
+          <a href="/2019/05/27/WebRTC/webrtc-opensrc/" class="post-title-link" itemprop="url">WebRTC开源src</a>
         </h2>
 
         <div class="post-meta-container">
@@ -346,7 +347,7 @@
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2018-06-15 15:40:41" itemprop="dateCreated datePublished" datetime="2018-06-15T15:40:41+08:00">2018-06-15</time>
+      <time title="创建时间：2019-05-27 19:14:50" itemprop="dateCreated datePublished" datetime="2019-05-27T19:14:50+08:00">2019-05-27</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -354,7 +355,7 @@
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/RPC/" itemprop="url" rel="index"><span itemprop="name">RPC</span></a>
+          <a href="/categories/WebRTC/" itemprop="url" rel="index"><span itemprop="name">WebRTC</span></a>
         </span>
     </span>
 
@@ -364,7 +365,7 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>59</span>
+      <span>151</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
@@ -382,109 +383,10 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <blockquote>
-<p><a target="_blank" rel="noopener" href="https://yq.aliyun.com/articles/611352">RPC详解</a></p>
-<p><a target="_blank" rel="noopener" href="https://waylau.com/remote-procedure-calls/">远程过程调用(RPC)详解</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/metoy/p/4321311.html">RPC原理详解</a></p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/KingCat666/article/details/78577079">RPC入门总结（一）RPC定义和原理</a></p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/zjx86320/article/details/51019050">RPC框架设计和调用详解</a></p>
-</blockquote>
-<p>TODO</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://miaopei.github.io/2018/06/08/Program-C/c-open-project/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://avatars.githubusercontent.com/u/7922626?v=4">
-      <meta itemprop="name" content="Mr.Miaow">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Mr.Miaow Blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Mr.Miaow Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2018/06/08/Program-C/c-open-project/" class="post-title-link" itemprop="url">值得推荐的C/C++框架和库</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2018-06-08 10:14:50" itemprop="dateCreated datePublished" datetime="2018-06-08T10:14:50+08:00">2018-06-08</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/c-c/" itemprop="url" rel="index"><span itemprop="name">c/c++</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>13k</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>12 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>Webbench是一个在linux下使用的非常简单的网站压测工具。它使用fork()模拟多个客户端同时访问我们设定的URL，测试网站在压力下工作的性能，最多可以模拟3万个并发连接去测试网站的负载能力。Webbench使用C语言编写, 代码实在太简洁，源码加起来不到600行。</p>
+          Welcome to my blog, enter password to read.
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2018/06/08/Program-C/c-open-project/">
+              <a class="btn" href="/2019/05/27/WebRTC/webrtc-opensrc/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -515,7 +417,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://miaopei.github.io/2018/05/13/practical-programming-books/README/">
+    <link itemprop="mainEntityOfPage" href="http://miaopei.github.io/2019/05/27/FFmpeg/FFmpeg%E6%A1%86%E6%9E%B6%E5%87%BD%E6%95%B0%E5%88%86%E6%9E%90/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://avatars.githubusercontent.com/u/7922626?v=4">
@@ -533,7 +435,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2018/05/13/practical-programming-books/README/" class="post-title-link" itemprop="url">计算机相关技术资料整理</a>
+          <a href="/2019/05/27/FFmpeg/FFmpeg%E6%A1%86%E6%9E%B6%E5%87%BD%E6%95%B0%E5%88%86%E6%9E%90/" class="post-title-link" itemprop="url">FFmpeg框架详解</a>
         </h2>
 
         <div class="post-meta-container">
@@ -544,7 +446,7 @@
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2018-05-13 10:14:50" itemprop="dateCreated datePublished" datetime="2018-05-13T10:14:50+08:00">2018-05-13</time>
+      <time title="创建时间：2019-05-27 10:14:50" itemprop="dateCreated datePublished" datetime="2019-05-27T10:14:50+08:00">2019-05-27</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -552,7 +454,7 @@
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%9B%B8%E5%85%B3%E6%8A%80%E6%9C%AF%E8%B5%84%E6%96%99%E6%95%B4%E7%90%86/" itemprop="url" rel="index"><span itemprop="name">计算机相关技术资料整理</span></a>
+          <a href="/categories/FFmpeg/" itemprop="url" rel="index"><span itemprop="name">FFmpeg</span></a>
         </span>
     </span>
 
@@ -562,14 +464,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>7.6k</span>
+      <span>32k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>7 分钟</span>
+      <span>29 分钟</span>
     </span>
 </div>
 
@@ -581,20 +483,15 @@
     
     <div class="post-body" itemprop="articleBody">
           <blockquote>
-<p><a target="_blank" rel="noopener" href="https://github.com/EZLippi/practical-programming-books">文章来源</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/leixiaohua1020/article/details/84499632">[总结]FFMPEG视音频编解码零基础学习方法</a></p>
 </blockquote>
-<p>这里收录比较实用的计算机相关技术书籍，可以在短期之内入门的简单实用教程、一些技术网站以及一些写的比较好的博文，欢迎Fork，你也可以通过Pull Request参与编辑。</p>
-<h2 id="CSDN-免费下载"><a href="#CSDN-免费下载" class="headerlink" title="CSDN 免费下载"></a>CSDN 免费下载</h2><p>csdn免积分下载器</p>
-<p>其实csdn上资源还是挺多的，如何免积分下载是一个很大的问题</p>
-<p>但是有了 <a target="_blank" rel="noopener" href="http://www.itziy.com/">http://www.itziy.com/</a> csdn免积分下载器 工具之后，一切问题迎刃而解</p>
-<p>有了 <a target="_blank" rel="noopener" href="http://www.itziy.com/">http://www.itziy.com/</a> csdn免积分下载器 不再为csdn免积分下载而烦恼</p>
-<p><a target="_blank" rel="noopener" href="http://www.itziy.com/">http://www.itziy.com/</a> csdn免积分下载器 专为需要csdn免积分下载的朋友开设</p>
-<ul>
-<li><a target="_blank" rel="noopener" href="http://www.ezlippi.com/blog/2014/07/qualified-programmer-should-read-what-books.html">程序员必读书籍</a></li>
-</ul>
+<h1 id="1-架构图"><a href="#1-架构图" class="headerlink" title="1. 架构图"></a>1. 架构图</h1><h2 id="1-1-FFMPEG-SDL的视频播放器"><a href="#1-1-FFMPEG-SDL的视频播放器" class="headerlink" title="1.1 FFMPEG+SDL的视频播放器"></a>1.1 FFMPEG+SDL的视频播放器</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/leixiaohua1020/article/details/38868499">最简单的基于FFMPEG+SDL的视频播放器 ver2 （采用SDL2.0）</a></p>
+</blockquote>
+<p><strong>FFmpeg 解码一个视频流程：</strong></p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2018/05/13/practical-programming-books/README/#more" rel="contents">
+              <a class="btn" href="/2019/05/27/FFmpeg/FFmpeg%E6%A1%86%E6%9E%B6%E5%87%BD%E6%95%B0%E5%88%86%E6%9E%90/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -625,7 +522,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://miaopei.github.io/2018/03/24/Vim/vim%E7%BC%96%E8%BE%91%E5%B8%B8%E7%94%A8%E5%BF%AB%E6%8D%B7%E9%94%AE/">
+    <link itemprop="mainEntityOfPage" href="http://miaopei.github.io/2019/05/25/FFmpeg/FFmpeg%E6%BA%90%E4%BB%A3%E7%A0%81%E7%BB%93%E6%9E%84note/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://avatars.githubusercontent.com/u/7922626?v=4">
@@ -643,7 +540,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2018/03/24/Vim/vim%E7%BC%96%E8%BE%91%E5%B8%B8%E7%94%A8%E5%BF%AB%E6%8D%B7%E9%94%AE/" class="post-title-link" itemprop="url">VIM 精简常用快捷键</a>
+          <a href="/2019/05/25/FFmpeg/FFmpeg%E6%BA%90%E4%BB%A3%E7%A0%81%E7%BB%93%E6%9E%84note/" class="post-title-link" itemprop="url">FFmpeg 源代码结构（编解码解析）</a>
         </h2>
 
         <div class="post-meta-container">
@@ -654,7 +551,7 @@
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2018-03-24 16:53:46" itemprop="dateCreated datePublished" datetime="2018-03-24T16:53:46+08:00">2018-03-24</time>
+      <time title="创建时间：2019-05-25 10:14:50" itemprop="dateCreated datePublished" datetime="2019-05-25T10:14:50+08:00">2019-05-25</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -662,7 +559,7 @@
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Vim/" itemprop="url" rel="index"><span itemprop="name">Vim</span></a>
+          <a href="/categories/FFmpeg/" itemprop="url" rel="index"><span itemprop="name">FFmpeg</span></a>
         </span>
     </span>
 
@@ -672,833 +569,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>2.9k</span>
+      <span>11k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>3 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="Vim-编辑常用快捷键"><a href="#Vim-编辑常用快捷键" class="headerlink" title="Vim 编辑常用快捷键"></a>Vim 编辑常用快捷键</h2><table>
-<thead>
-<tr>
-<th>快捷键</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>,</code></td>
-<td>Leader Key</td>
-</tr>
-<tr>
-<td><strong>函数跳转</strong></td>
-<td></td>
-</tr>
-<tr>
-<td><code>&lt;leader&gt;n</code></td>
-<td>打开&#x2F;关闭代码资源管理器</td>
-</tr>
-<tr>
-<td><code>&lt;leader&gt;t</code></td>
-<td>打开&#x2F;关闭函数列表</td>
-</tr>
-<tr>
-<td><code>&lt;leader&gt;a</code></td>
-<td>.h .cpp 文件切换</td>
-</tr>
-<tr>
-<td><code>&lt;leader&gt;u</code></td>
-<td>转到函数声明</td>
-</tr>
-<tr>
-<td><code>&lt;leader&gt;U</code></td>
-<td>转到函数实现</td>
-</tr>
-<tr>
-<td><code>g]</code></td>
-<td>声明&#x2F;定义跳转</td>
-</tr>
-<tr>
-<td><code>&lt;leader&gt;o</code></td>
-<td>打开include文件</td>
-</tr>
-<tr>
-<td><code>&lt;leader&gt;y</code></td>
-<td>拷贝函数声明</td>
-</tr>
-<tr>
-<td><code>&lt;leader&gt;p</code></td>
-<td>生成函数实现</td>
-</tr>
-<tr>
-<td><code>&lt;c-p&gt;</code></td>
-<td>切换到上一个buffer</td>
-</tr>
-<tr>
-<td><code>&lt;c-n&gt;</code></td>
-<td>切换到下一个buffer</td>
-</tr>
-<tr>
-<td><code>:e &lt;filename&gt;</code></td>
-<td>新建buffer打开文件</td>
-</tr>
-<tr>
-<td><code>Ctrl + ]</code></td>
-<td>找到光标所在位置的标签定义的地方</td>
-</tr>
-<tr>
-<td><code>Ctrl + t</code></td>
-<td>回到跳转之前的标签处</td>
-</tr>
-<tr>
-<td><code>Ctrl + o</code></td>
-<td>退回原来的地方</td>
-</tr>
-<tr>
-<td><strong>辅助操作</strong></td>
-<td></td>
-</tr>
-<tr>
-<td><code>gcc</code></td>
-<td>注释代码</td>
-</tr>
-<tr>
-<td><code>gcap</code></td>
-<td>注释段落</td>
-</tr>
-<tr>
-<td><code>za</code></td>
-<td>打开或关闭当前折叠</td>
-</tr>
-<tr>
-<td><code>zM</code></td>
-<td>关闭所有折叠</td>
-</tr>
-<tr>
-<td><code>zR</code></td>
-<td>打开所有折叠</td>
-</tr>
-<tr>
-<td><code>&lt;c-w&gt;h</code></td>
-<td>跳到左边的窗口</td>
-</tr>
-<tr>
-<td><code>&lt;c-w&gt;j</code></td>
-<td>跳到下边的窗口</td>
-</tr>
-<tr>
-<td><code>&lt;c-w&gt;k</code></td>
-<td>跳到上边的窗口</td>
-</tr>
-<tr>
-<td><code>&lt;c-w&gt;l</code></td>
-<td>跳到右边的窗口</td>
-</tr>
-<tr>
-<td><code>&lt;c-w&gt;c</code></td>
-<td>关闭当前窗口</td>
-</tr>
-<tr>
-<td><code>&lt;c-w&gt;o</code></td>
-<td>关闭其他窗口</td>
-</tr>
-<tr>
-<td><code>:only</code></td>
-<td>关闭其他窗口</td>
-</tr>
-</tbody></table>
-<table>
-<thead>
-<tr>
-<th>快捷键</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>&lt;leader&gt;f</code></td>
-<td>搜索~目录下的文件</td>
-</tr>
-<tr>
-<td><code>&lt;leader&gt;F</code></td>
-<td>搜索当前目录下的文本</td>
-</tr>
-<tr>
-<td><code>&lt;leader&gt;g</code></td>
-<td>显示git仓库提交记录</td>
-</tr>
-<tr>
-<td><code>&lt;leader&gt;G</code></td>
-<td>显示当前文件提交记录</td>
-</tr>
-<tr>
-<td><code>&lt;leader&gt;gg</code></td>
-<td>显示当前文件在某个commit下的完整内容</td>
-</tr>
-<tr>
-<td><code>&lt;leader&gt;d</code></td>
-<td>删除当前buffer</td>
-</tr>
-<tr>
-<td><code>&lt;leader&gt;D</code></td>
-<td>删除当前buffer外的所有buffer</td>
-</tr>
-<tr>
-<td><code>Ya</code></td>
-<td>复制行文本到字母a</td>
-</tr>
-<tr>
-<td><code>Da</code></td>
-<td>剪切行文本到字母a</td>
-</tr>
-<tr>
-<td><code>Ca</code></td>
-<td>改写行文本到字母a</td>
-</tr>
-<tr>
-<td><code>rr</code></td>
-<td>替换文本</td>
-</tr>
-<tr>
-<td><code>&lt;leader&gt;r</code></td>
-<td>全局替换，目前只支持单个文件</td>
-</tr>
-<tr>
-<td><code>vif</code></td>
-<td>选中函数内容</td>
-</tr>
-<tr>
-<td><code>dif</code></td>
-<td>删除函数内容</td>
-</tr>
-<tr>
-<td><code>cif</code></td>
-<td>改写函数内容</td>
-</tr>
-<tr>
-<td><code>vaf</code></td>
-<td>选中函数内容（包括函数名 花括号）</td>
-</tr>
-<tr>
-<td><code>daf</code></td>
-<td>删除函数内容（包括函数名 花括号）</td>
-</tr>
-<tr>
-<td><code>caf</code></td>
-<td>改写函数内容（包括函数名 花括号）</td>
-</tr>
-<tr>
-<td><code>:sp &lt;filename&gt;</code></td>
-<td>横向切分窗口并打开文件</td>
-</tr>
-<tr>
-<td><code>:vsp &lt;filename&gt;</code></td>
-<td>竖向切分窗口并打开文件</td>
-</tr>
-<tr>
-<td><code>gg=G</code></td>
-<td>缩进整个文件</td>
-</tr>
-<tr>
-<td><code>=a&#123;</code></td>
-<td>缩进光标所在代码块</td>
-</tr>
-<tr>
-<td><code>=i&#123;</code></td>
-<td>缩进光标所在代码块，不缩进”{“</td>
-</tr>
-<tr>
-<td><code>&lt;&lt;</code></td>
-<td>减少缩进</td>
-</tr>
-<tr>
-<td><code>&gt;&gt;</code></td>
-<td>增加缩进</td>
-</tr>
-<tr>
-<td><code>==</code></td>
-<td>自动缩进</td>
-</tr>
-<tr>
-<td><code>ctrl+f</code></td>
-<td>下翻一屏</td>
-</tr>
-<tr>
-<td><code>ctrl+b</code></td>
-<td>上翻一屏</td>
-</tr>
-<tr>
-<td><code>ctrl+d</code></td>
-<td>下翻半屏</td>
-</tr>
-<tr>
-<td><code>ctrl+u</code></td>
-<td>上翻半屏</td>
-</tr>
-<tr>
-<td><code>s</code></td>
-<td>替换字符（删除光标处字符，并进入插入模式，前可接数量）</td>
-</tr>
-<tr>
-<td><code>S</code></td>
-<td>替换行（删除当前行，并进入插入模式，前可接数量）</td>
-</tr>
-<tr>
-<td><code>cc</code></td>
-<td>改写当前行（删除当前行并进入插入模式），同 S</td>
-</tr>
-<tr>
-<td><code>cw</code></td>
-<td>改写光标开始处的当前单词</td>
-</tr>
-<tr>
-<td><code>ciw</code></td>
-<td>改写光标所处的单词</td>
-</tr>
-<tr>
-<td><code>caw</code></td>
-<td>改写光标所处的单词，并且包括前后空格（如果有的话）</td>
-</tr>
-<tr>
-<td><code>ct,</code></td>
-<td>改写到逗号</td>
-</tr>
-<tr>
-<td><code>c0</code></td>
-<td>改写到行首</td>
-</tr>
-<tr>
-<td><code>c^</code></td>
-<td>改写到行首（第一个非零字符）</td>
-</tr>
-<tr>
-<td><code>c$</code></td>
-<td>改写到行末</td>
-</tr>
-<tr>
-<td><code>C</code></td>
-<td>改写到行末（同 c$）</td>
-</tr>
-<tr>
-<td><code>ci&quot;</code></td>
-<td>改写双引号中的内容</td>
-</tr>
-<tr>
-<td><code>ci&#39;</code></td>
-<td>改写单引号中的内容</td>
-</tr>
-<tr>
-<td><code>ci)</code></td>
-<td>改写小括号中的内容</td>
-</tr>
-<tr>
-<td><code>ci]</code></td>
-<td>改写中括号中内容</td>
-</tr>
-<tr>
-<td><code>ci&#125;</code></td>
-<td>改写大括号中内容</td>
-</tr>
-<tr>
-<td><code>cit</code></td>
-<td>改写 xml tag 中的内容</td>
-</tr>
-<tr>
-<td><code>cis</code></td>
-<td>改写当前句子</td>
-</tr>
-<tr>
-<td><code>ciB</code></td>
-<td>改写’{}’中的内容</td>
-</tr>
-<tr>
-<td><code>c2w</code></td>
-<td>改写下两个单词</td>
-</tr>
-<tr>
-<td><code>ct(</code></td>
-<td>改写到小括号前</td>
-</tr>
-<tr>
-<td><code>x</code></td>
-<td>删除当前字符，前面可以接数字，3x代表删除三个字符</td>
-</tr>
-<tr>
-<td><code>X</code></td>
-<td>向前删除字符</td>
-</tr>
-<tr>
-<td><code>dd</code></td>
-<td>删除当前行</td>
-</tr>
-<tr>
-<td><code>d0</code></td>
-<td>删除到行首</td>
-</tr>
-<tr>
-<td><code>d^</code></td>
-<td>删除到行首（第一个非零字符）</td>
-</tr>
-<tr>
-<td><code>d$</code></td>
-<td>删除到行末</td>
-</tr>
-<tr>
-<td><code>D</code></td>
-<td>删除到行末（同 d$）</td>
-</tr>
-<tr>
-<td><code>dw</code></td>
-<td>删除当前单词</td>
-</tr>
-<tr>
-<td><code>dt,</code></td>
-<td>删除到逗号</td>
-</tr>
-<tr>
-<td><code>diw</code></td>
-<td>删除光标所处的单词</td>
-</tr>
-<tr>
-<td><code>daw</code></td>
-<td>删除光标所处的单词，并包含前后空格（如果有的话）</td>
-</tr>
-<tr>
-<td><code>di&quot;</code></td>
-<td>删除双引号中的内容</td>
-</tr>
-<tr>
-<td><code>di&#39;</code></td>
-<td>删除单引号中的内容</td>
-</tr>
-<tr>
-<td><code>di)</code></td>
-<td>删除小括号中的内容</td>
-</tr>
-<tr>
-<td><code>di]</code></td>
-<td>删除中括号中内容</td>
-</tr>
-<tr>
-<td><code>di&#125;</code></td>
-<td>删除大括号中内容</td>
-</tr>
-<tr>
-<td><code>diB</code></td>
-<td>删除’{}’中的内容</td>
-</tr>
-<tr>
-<td><code>dit</code></td>
-<td>删除 xml tag 中的内容</td>
-</tr>
-<tr>
-<td><code>dis</code></td>
-<td>删除当前句子</td>
-</tr>
-<tr>
-<td><code>d2w</code></td>
-<td>删除下两个单词</td>
-</tr>
-<tr>
-<td><code>dt(</code></td>
-<td>删除到小括号前</td>
-</tr>
-<tr>
-<td><code>dgg</code></td>
-<td>删除到文件头部</td>
-</tr>
-<tr>
-<td><code>dG</code></td>
-<td>删除到文件尾部</td>
-</tr>
-<tr>
-<td><code>d&#125;</code></td>
-<td>删除下一段</td>
-</tr>
-<tr>
-<td><code>d&#123;</code></td>
-<td>删除上一段</td>
-</tr>
-<tr>
-<td><code>u</code></td>
-<td>撤销</td>
-</tr>
-<tr>
-<td><code>U</code></td>
-<td>撤销整行操作</td>
-</tr>
-<tr>
-<td><code>CTRL-R</code></td>
-<td>撤销上一次 u 命令</td>
-</tr>
-<tr>
-<td><code>J</code></td>
-<td>连接若干行</td>
-</tr>
-<tr>
-<td><code>gJ</code></td>
-<td>连接若干行，删除空白字符</td>
-</tr>
-<tr>
-<td><code>.</code></td>
-<td>重复上一次操作</td>
-</tr>
-<tr>
-<td><code>~</code></td>
-<td>交换大小写</td>
-</tr>
-<tr>
-<td><code>g~iw</code></td>
-<td>替换当前单词的大小写</td>
-</tr>
-<tr>
-<td><code>gUiw</code></td>
-<td>将单词转成大写</td>
-</tr>
-<tr>
-<td><code>guiw</code></td>
-<td>将当前单词转成小写</td>
-</tr>
-<tr>
-<td><code>guu</code></td>
-<td>全行转为小写</td>
-</tr>
-<tr>
-<td><code>gUU</code></td>
-<td>全行转为大写</td>
-</tr>
-<tr>
-<td><code>gg=G</code></td>
-<td>缩进整个文件</td>
-</tr>
-<tr>
-<td><code>=a&#123;</code></td>
-<td>缩进光标所在代码块</td>
-</tr>
-<tr>
-<td><code>=i&#123;</code></td>
-<td>缩进光标所在代码块，不缩进”{“</td>
-</tr>
-<tr>
-<td><code>&lt;&lt;</code></td>
-<td>减少缩进</td>
-</tr>
-<tr>
-<td><code>&gt;&gt;</code></td>
-<td>增加缩进</td>
-</tr>
-<tr>
-<td><code>==</code></td>
-<td>自动缩进</td>
-</tr>
-<tr>
-<td><code>CTRL-A</code></td>
-<td>增加数字</td>
-</tr>
-<tr>
-<td><code>CTRL-X</code></td>
-<td>减少数字</td>
-</tr>
-<tr>
-<td><code>p</code></td>
-<td>粘贴到光标后</td>
-</tr>
-<tr>
-<td><code>P</code></td>
-<td>粘贴到光标前</td>
-</tr>
-<tr>
-<td><code>v</code></td>
-<td>开始标记</td>
-</tr>
-<tr>
-<td><code>y</code></td>
-<td>复制标记内容</td>
-</tr>
-<tr>
-<td><code>V</code></td>
-<td>开始按行标记</td>
-</tr>
-<tr>
-<td><code>CTRL-V</code></td>
-<td>开始列标记</td>
-</tr>
-<tr>
-<td><code>y$</code></td>
-<td>复制当前位置到本行结束的内容</td>
-</tr>
-<tr>
-<td><code>yy</code></td>
-<td>复制当前行</td>
-</tr>
-<tr>
-<td><code>Y</code></td>
-<td>复制当前行，同 yy</td>
-</tr>
-<tr>
-<td><code>yt,</code></td>
-<td>复制到逗号</td>
-</tr>
-<tr>
-<td><code>yiw</code></td>
-<td>复制当前单词</td>
-</tr>
-<tr>
-<td><code>3yy</code></td>
-<td>复制光标下三行内容</td>
-</tr>
-<tr>
-<td><code>v0</code></td>
-<td>选中当前位置到行首</td>
-</tr>
-<tr>
-<td><code>v$</code></td>
-<td>选中当前位置到行末</td>
-</tr>
-<tr>
-<td><code>vt,</code></td>
-<td>选中到逗号</td>
-</tr>
-<tr>
-<td><code>viw</code></td>
-<td>选中当前单词</td>
-</tr>
-<tr>
-<td><code>vi)</code></td>
-<td>选中小括号内的东西</td>
-</tr>
-<tr>
-<td><code>vi]</code></td>
-<td>选中中括号内的东西</td>
-</tr>
-<tr>
-<td><code>viB</code></td>
-<td>选中’{}’中的内容</td>
-</tr>
-<tr>
-<td><code>vis</code></td>
-<td>选中句子中的东西</td>
-</tr>
-<tr>
-<td><code>gv</code></td>
-<td>重新选择上一次选中的文字</td>
-</tr>
-<tr>
-<td><code>:set paste</code></td>
-<td>允许粘贴模式（避免粘贴时自动缩进影响格式）</td>
-</tr>
-<tr>
-<td><code>:set nopaste</code></td>
-<td>禁止粘贴模式</td>
-</tr>
-<tr>
-<td><code>&quot;?yy</code></td>
-<td>复制当前行到寄存器 ? ，问号代表 0-9 的寄存器名称</td>
-</tr>
-<tr>
-<td><code>&quot;?p</code></td>
-<td>将寄存器 ? 的内容粘贴到光标后</td>
-</tr>
-<tr>
-<td><code>&quot;?P</code></td>
-<td>将寄存器 ? 的内容粘贴到光标前</td>
-</tr>
-<tr>
-<td><code>:registers</code></td>
-<td>显示所有寄存器内容</td>
-</tr>
-<tr>
-<td><code>:[range]y</code></td>
-<td>复制范围，比如 :20,30y 是复制20到30行，:10y 是复制第十行</td>
-</tr>
-<tr>
-<td><code>:[range]d</code></td>
-<td>删除范围，比如 :20,30d 是删除20到30行，:10d 是删除第十行</td>
-</tr>
-<tr>
-<td><code>ddp</code></td>
-<td>交换两行内容：先删除当前行复制到寄存器，并粘贴</td>
-</tr>
-<tr>
-<td><code>/pattern</code></td>
-<td>从光标处向文件尾搜索 pattern</td>
-</tr>
-<tr>
-<td><code>?pattern</code></td>
-<td>从光标处向文件头搜索 pattern</td>
-</tr>
-<tr>
-<td><code>n</code></td>
-<td>向同一方向执行上一次搜索</td>
-</tr>
-<tr>
-<td><code>N</code></td>
-<td>向相反方向执行上一次搜索</td>
-</tr>
-<tr>
-<td><code>*</code></td>
-<td>向前搜索光标下的单词</td>
-</tr>
-<tr>
-<td><code>#</code></td>
-<td>向后搜索光标下的单词</td>
-</tr>
-<tr>
-<td><code>:s/p1/p2/g</code></td>
-<td>替换当前行的p1为p2</td>
-</tr>
-<tr>
-<td><code>:%s/p1/p2/g</code></td>
-<td>替换当前文件中的p1为p2</td>
-</tr>
-<tr>
-<td><code>:%s/&lt;p1&gt;/p2/g</code></td>
-<td>替换当前文件中的p1单词为p2</td>
-</tr>
-<tr>
-<td><code>:%s/p1/p2/gc</code></td>
-<td>替换当前文件中的p1为p2，并且每处询问你是否替换</td>
-</tr>
-<tr>
-<td><code>:10,20s/p1/p2/g</code></td>
-<td>将第10到20行中所有p1替换为p2</td>
-</tr>
-<tr>
-<td><code>:%s/1\\2\/3/123/g</code></td>
-<td>将“1\2&#x2F;3” 替换为 “123”（特殊字符使用反斜杠标注）</td>
-</tr>
-<tr>
-<td><code>:%s/\r//g</code></td>
-<td>删除 DOS 换行符 ^M</td>
-</tr>
-<tr>
-<td><code>:g/^\s*$/d</code></td>
-<td>删除空行</td>
-</tr>
-<tr>
-<td><code>:g/test/d</code></td>
-<td>删除所有包含 test 的行</td>
-</tr>
-<tr>
-<td><code>:v/test/d</code></td>
-<td>删除所有不包含 test 的行</td>
-</tr>
-<tr>
-<td><code>:%s/^/test/</code></td>
-<td>在行首加入特定字符(也可以用宏录制来添加)</td>
-</tr>
-<tr>
-<td><code>:%s/$/test/</code></td>
-<td>在行尾加入特定字符(也可以用宏录制来添加)</td>
-</tr>
-<tr>
-<td><code>:sort</code></td>
-<td>排序</td>
-</tr>
-<tr>
-<td><code>:g/^\(.\+\)$\n\1/d</code></td>
-<td>去除重复行(先排序)</td>
-</tr>
-<tr>
-<td><code>:%s/^.\&#123;10\&#125;//</code></td>
-<td>删除每行前10个字符</td>
-</tr>
-<tr>
-<td><code>:%s/.\&#123;10\&#125;$//</code></td>
-<td>删除每行尾10个字符</td>
-</tr>
-</tbody></table>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://miaopei.github.io/2018/03/23/Vim/vimProgramHotKey/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://avatars.githubusercontent.com/u/7922626?v=4">
-      <meta itemprop="name" content="Mr.Miaow">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Mr.Miaow Blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Mr.Miaow Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2018/03/23/Vim/vimProgramHotKey/" class="post-title-link" itemprop="url">VIM 编程相关的常用快捷键</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2018-03-23 16:53:46" itemprop="dateCreated datePublished" datetime="2018-03-23T16:53:46+08:00">2018-03-23</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Vim/" itemprop="url" rel="index"><span itemprop="name">Vim</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>4.2k</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>4 分钟</span>
+      <span>10 分钟</span>
     </span>
 </div>
 
@@ -1510,1089 +588,17 @@
     
     <div class="post-body" itemprop="articleBody">
           <blockquote>
-<p><a target="_blank" rel="noopener" href="https://github.com/chxuan/vimplus">vimplus github</a></p>
+<p>特别说明，此文参考至<a target="_blank" rel="noopener" href="https://blog.csdn.net/leixiaohua1020/article/details/44220151">雷神笔记</a>，做一个备忘录。</p>
 </blockquote>
-<h2 id="插件相关"><a href="#插件相关" class="headerlink" title="插件相关"></a>插件相关</h2><table>
-<thead>
-<tr>
-<th>快捷键</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>,</code></td>
-<td>Leader Key</td>
-</tr>
-<tr>
-<td><code>&lt;leader&gt;n</code></td>
-<td>打开&#x2F;关闭代码资源管理器</td>
-</tr>
-<tr>
-<td><code>&lt;leader&gt;t</code></td>
-<td>打开&#x2F;关闭函数列表</td>
-</tr>
-<tr>
-<td><code>&lt;leader&gt;a</code></td>
-<td>.h .cpp 文件切换</td>
-</tr>
-<tr>
-<td><code>&lt;leader&gt;u</code></td>
-<td>转到函数声明</td>
-</tr>
-<tr>
-<td><code>&lt;leader&gt;U</code></td>
-<td>转到函数实现</td>
-</tr>
-<tr>
-<td><code>&lt;leader&gt;o</code></td>
-<td>打开include文件</td>
-</tr>
-<tr>
-<td><code>&lt;leader&gt;y</code></td>
-<td>拷贝函数声明</td>
-</tr>
-<tr>
-<td><code>&lt;leader&gt;p</code></td>
-<td>生成函数实现</td>
-</tr>
-<tr>
-<td><code>&lt;leader&gt;w</code></td>
-<td>单词跳转</td>
-</tr>
-<tr>
-<td><code>&lt;leader&gt;f</code></td>
-<td>搜索~目录下的文件</td>
-</tr>
-<tr>
-<td><code>&lt;leader&gt;F</code></td>
-<td>搜索当前目录下的文本</td>
-</tr>
-<tr>
-<td><code>&lt;leader&gt;g</code></td>
-<td>显示git仓库提交记录</td>
-</tr>
-<tr>
-<td><code>&lt;leader&gt;G</code></td>
-<td>显示当前文件提交记录</td>
-</tr>
-<tr>
-<td><code>&lt;leader&gt;gg</code></td>
-<td>显示当前文件在某个commit下的完整内容</td>
-</tr>
-<tr>
-<td><code>&lt;leader&gt;ff</code></td>
-<td>语法错误自动修复(FixIt)</td>
-</tr>
-<tr>
-<td><code>&lt;c-p&gt;</code></td>
-<td>切换到上一个buffer</td>
-</tr>
-<tr>
-<td><code>&lt;c-n&gt;</code></td>
-<td>切换到下一个buffer</td>
-</tr>
-<tr>
-<td><code>&lt;leader&gt;d</code></td>
-<td>删除当前buffer</td>
-</tr>
-<tr>
-<td><code>&lt;leader&gt;D</code></td>
-<td>删除当前buffer外的所有buffer</td>
-</tr>
-<tr>
-<td><code>Ya</code></td>
-<td>复制行文本到字母a</td>
-</tr>
-<tr>
-<td><code>Da</code></td>
-<td>剪切行文本到字母a</td>
-</tr>
-<tr>
-<td><code>Ca</code></td>
-<td>改写行文本到字母a</td>
-</tr>
-<tr>
-<td><code>rr</code></td>
-<td>替换文本</td>
-</tr>
-<tr>
-<td><code>&lt;leader&gt;r</code></td>
-<td>全局替换，目前只支持单个文件</td>
-</tr>
-<tr>
-<td><code>gcc</code></td>
-<td>注释代码</td>
-</tr>
-<tr>
-<td><code>gcap</code></td>
-<td>注释段落</td>
-</tr>
-<tr>
-<td><code>vif</code></td>
-<td>选中函数内容</td>
-</tr>
-<tr>
-<td><code>dif</code></td>
-<td>删除函数内容</td>
-</tr>
-<tr>
-<td><code>cif</code></td>
-<td>改写函数内容</td>
-</tr>
-<tr>
-<td><code>vaf</code></td>
-<td>选中函数内容（包括函数名 花括号）</td>
-</tr>
-<tr>
-<td><code>daf</code></td>
-<td>删除函数内容（包括函数名 花括号）</td>
-</tr>
-<tr>
-<td><code>caf</code></td>
-<td>改写函数内容（包括函数名 花括号）</td>
-</tr>
-<tr>
-<td><code>fa</code></td>
-<td>查找字母a，然后再按f键查找下一个</td>
-</tr>
-</tbody></table>
-<h2 id="折叠代码"><a href="#折叠代码" class="headerlink" title="折叠代码"></a>折叠代码</h2><table>
-<thead>
-<tr>
-<th>快捷键</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>za</code></td>
-<td>打开或关闭当前折叠</td>
-</tr>
-<tr>
-<td><code>zM</code></td>
-<td>关闭所有折叠</td>
-</tr>
-<tr>
-<td><code>zR</code></td>
-<td>打开所有折叠</td>
-</tr>
-</tbody></table>
-<h2 id="声明-定义跳转"><a href="#声明-定义跳转" class="headerlink" title="声明&#x2F;定义跳转"></a>声明&#x2F;定义跳转</h2><table>
-<thead>
-<tr>
-<th>快捷键</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>g]</code></td>
-<td>声明&#x2F;定义跳转</td>
-</tr>
-</tbody></table>
-<h2 id="缓存操作"><a href="#缓存操作" class="headerlink" title="缓存操作"></a>缓存操作</h2><table>
-<thead>
-<tr>
-<th>快捷键</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>:e &lt;filename&gt;</code></td>
-<td>新建buffer打开文件</td>
-</tr>
-<tr>
-<td><code>:bp</code></td>
-<td>切换到上一个buffer</td>
-</tr>
-<tr>
-<td><code>:bn</code></td>
-<td>切换到下一个buffer</td>
-</tr>
-<tr>
-<td><code>:bd</code></td>
-<td>删除当前buffer</td>
-</tr>
-</tbody></table>
-<h2 id="窗口操作"><a href="#窗口操作" class="headerlink" title="窗口操作"></a>窗口操作</h2><table>
-<thead>
-<tr>
-<th>快捷键</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>:sp &lt;filename&gt;</code></td>
-<td>横向切分窗口并打开文件</td>
-</tr>
-<tr>
-<td><code>:vsp &lt;filename&gt;</code></td>
-<td>竖向切分窗口并打开文件</td>
-</tr>
-<tr>
-<td><code>&lt;c-w&gt;h</code></td>
-<td>跳到左边的窗口</td>
-</tr>
-<tr>
-<td><code>&lt;c-w&gt;j</code></td>
-<td>跳到下边的窗口</td>
-</tr>
-<tr>
-<td><code>&lt;c-w&gt;k</code></td>
-<td>跳到上边的窗口</td>
-</tr>
-<tr>
-<td><code>&lt;c-w&gt;l</code></td>
-<td>跳到右边的窗口</td>
-</tr>
-<tr>
-<td><code>&lt;c-w&gt;c</code></td>
-<td>关闭当前窗口</td>
-</tr>
-<tr>
-<td><code>&lt;c-w&gt;o</code></td>
-<td>关闭其他窗口</td>
-</tr>
-<tr>
-<td><code>:only</code></td>
-<td>关闭其他窗口</td>
-</tr>
-</tbody></table>
-<h2 id="光标移动"><a href="#光标移动" class="headerlink" title="光标移动"></a>光标移动</h2><table>
-<thead>
-<tr>
-<th>快捷键</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>h</code></td>
-<td>上下左右移动</td>
-</tr>
-<tr>
-<td><code>j</code></td>
-<td>上下左右移动</td>
-</tr>
-<tr>
-<td><code>k</code></td>
-<td>上下左右移动</td>
-</tr>
-<tr>
-<td><code>l</code></td>
-<td>上下左右移动</td>
-</tr>
-<tr>
-<td><code>0</code></td>
-<td>光标移动到行首</td>
-</tr>
-<tr>
-<td><code>^</code></td>
-<td>跳到从行首开始第一个非空白字符</td>
-</tr>
-<tr>
-<td><code>$</code></td>
-<td>光标移动到行尾</td>
-</tr>
-<tr>
-<td><code>&lt;c-o&gt;</code></td>
-<td>跳到上一个位置</td>
-</tr>
-<tr>
-<td><code>&lt;c-i&gt;</code></td>
-<td>跳到下一个位置</td>
-</tr>
-<tr>
-<td><code>&lt;c-b&gt;</code></td>
-<td>上一页</td>
-</tr>
-<tr>
-<td><code>&lt;c-f&gt;</code></td>
-<td>下一页</td>
-</tr>
-<tr>
-<td><code>&lt;c-u&gt;</code></td>
-<td>上移半屏</td>
-</tr>
-<tr>
-<td><code>&lt;c-d&gt;</code></td>
-<td>下移半屏</td>
-</tr>
-<tr>
-<td><code>H</code></td>
-<td>调到屏幕顶上</td>
-</tr>
-<tr>
-<td><code>M</code></td>
-<td>调到屏幕中间</td>
-</tr>
-<tr>
-<td><code>L</code></td>
-<td>调到屏幕下方</td>
-</tr>
-<tr>
-<td><code>:n</code></td>
-<td>跳到第n行</td>
-</tr>
-<tr>
-<td><code>w</code></td>
-<td>跳到下一个单词开头(标点或空格分隔的单词)</td>
-</tr>
-<tr>
-<td><code>W</code></td>
-<td>跳到下一个单词开头(空格分隔的单词)</td>
-</tr>
-<tr>
-<td><code>e</code></td>
-<td>跳到下一个单词尾部(标点或空格分隔的单词)</td>
-</tr>
-<tr>
-<td><code>E</code></td>
-<td>跳到下一个单词尾部(空格分隔的单词)</td>
-</tr>
-<tr>
-<td><code>b</code></td>
-<td>上一个单词头(标点或空格分隔的单词)</td>
-</tr>
-<tr>
-<td><code>B</code></td>
-<td>上一个单词头(空格分隔的单词)</td>
-</tr>
-<tr>
-<td><code>ge</code></td>
-<td>上一个单词尾</td>
-</tr>
-<tr>
-<td><code>%</code></td>
-<td>在配对符间移动, 可用于()、{}、[]</td>
-</tr>
-<tr>
-<td><code>gg</code></td>
-<td>到文件首</td>
-</tr>
-<tr>
-<td><code>G</code></td>
-<td>到文件尾</td>
-</tr>
-<tr>
-<td><code>fx</code></td>
-<td>跳转到下一个为x的字符</td>
-</tr>
-<tr>
-<td><code>Fx</code></td>
-<td>跳转到上一个为x的字符</td>
-</tr>
-<tr>
-<td><code>tx</code></td>
-<td>跳转到下一个为x的字符前</td>
-</tr>
-<tr>
-<td><code>Tx</code></td>
-<td>跳转到上一个为x的字符前</td>
-</tr>
-<tr>
-<td><code>;</code></td>
-<td>跳到下一个搜索的结果</td>
-</tr>
-<tr>
-<td><code>[[</code></td>
-<td>跳转到函数开头</td>
-</tr>
-<tr>
-<td><code>]]</code></td>
-<td>跳转到函数结尾</td>
-</tr>
-</tbody></table>
-<h2 id="文本编辑"><a href="#文本编辑" class="headerlink" title="文本编辑"></a>文本编辑</h2><table>
-<thead>
-<tr>
-<th>快捷键</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>r</code></td>
-<td>替换当前字符</td>
-</tr>
-<tr>
-<td><code>R</code></td>
-<td>进入替换模式，直至 ESC 离开</td>
-</tr>
-<tr>
-<td><code>s</code></td>
-<td>替换字符（删除光标处字符，并进入插入模式，前可接数量）</td>
-</tr>
-<tr>
-<td><code>S</code></td>
-<td>替换行（删除当前行，并进入插入模式，前可接数量）</td>
-</tr>
-<tr>
-<td><code>cc</code></td>
-<td>改写当前行（删除当前行并进入插入模式），同 S</td>
-</tr>
-<tr>
-<td><code>cw</code></td>
-<td>改写光标开始处的当前单词</td>
-</tr>
-<tr>
-<td><code>ciw</code></td>
-<td>改写光标所处的单词</td>
-</tr>
-<tr>
-<td><code>caw</code></td>
-<td>改写光标所处的单词，并且包括前后空格（如果有的话）</td>
-</tr>
-<tr>
-<td><code>ct,</code></td>
-<td>改写到逗号</td>
-</tr>
-<tr>
-<td><code>c0</code></td>
-<td>改写到行首</td>
-</tr>
-<tr>
-<td><code>c^</code></td>
-<td>改写到行首（第一个非零字符）</td>
-</tr>
-<tr>
-<td><code>c$</code></td>
-<td>改写到行末</td>
-</tr>
-<tr>
-<td><code>C</code></td>
-<td>改写到行末（同 c$）</td>
-</tr>
-<tr>
-<td><code>ci&quot;</code></td>
-<td>改写双引号中的内容</td>
-</tr>
-<tr>
-<td><code>ci&#39;</code></td>
-<td>改写单引号中的内容</td>
-</tr>
-<tr>
-<td><code>ci)</code></td>
-<td>改写小括号中的内容</td>
-</tr>
-<tr>
-<td><code>ci]</code></td>
-<td>改写中括号中内容</td>
-</tr>
-<tr>
-<td><code>ci&#125;</code></td>
-<td>改写大括号中内容</td>
-</tr>
-<tr>
-<td><code>cit</code></td>
-<td>改写 xml tag 中的内容</td>
-</tr>
-<tr>
-<td><code>cis</code></td>
-<td>改写当前句子</td>
-</tr>
-<tr>
-<td><code>ciB</code></td>
-<td>改写’{}’中的内容</td>
-</tr>
-<tr>
-<td><code>c2w</code></td>
-<td>改写下两个单词</td>
-</tr>
-<tr>
-<td><code>ct(</code></td>
-<td>改写到小括号前</td>
-</tr>
-<tr>
-<td><code>x</code></td>
-<td>删除当前字符，前面可以接数字，3x代表删除三个字符</td>
-</tr>
-<tr>
-<td><code>X</code></td>
-<td>向前删除字符</td>
-</tr>
-<tr>
-<td><code>dd</code></td>
-<td>删除当前行</td>
-</tr>
-<tr>
-<td><code>d0</code></td>
-<td>删除到行首</td>
-</tr>
-<tr>
-<td><code>d^</code></td>
-<td>删除到行首（第一个非零字符）</td>
-</tr>
-<tr>
-<td><code>d$</code></td>
-<td>删除到行末</td>
-</tr>
-<tr>
-<td><code>D</code></td>
-<td>删除到行末（同 d$）</td>
-</tr>
-<tr>
-<td><code>dw</code></td>
-<td>删除当前单词</td>
-</tr>
-<tr>
-<td><code>dt,</code></td>
-<td>删除到逗号</td>
-</tr>
-<tr>
-<td><code>diw</code></td>
-<td>删除光标所处的单词</td>
-</tr>
-<tr>
-<td><code>daw</code></td>
-<td>删除光标所处的单词，并包含前后空格（如果有的话）</td>
-</tr>
-<tr>
-<td><code>di&quot;</code></td>
-<td>删除双引号中的内容</td>
-</tr>
-<tr>
-<td><code>di&#39;</code></td>
-<td>删除单引号中的内容</td>
-</tr>
-<tr>
-<td><code>di)</code></td>
-<td>删除小括号中的内容</td>
-</tr>
-<tr>
-<td><code>di]</code></td>
-<td>删除中括号中内容</td>
-</tr>
-<tr>
-<td><code>di&#125;</code></td>
-<td>删除大括号中内容</td>
-</tr>
-<tr>
-<td><code>diB</code></td>
-<td>删除’{}’中的内容</td>
-</tr>
-<tr>
-<td><code>dit</code></td>
-<td>删除 xml tag 中的内容</td>
-</tr>
-<tr>
-<td><code>dis</code></td>
-<td>删除当前句子</td>
-</tr>
-<tr>
-<td><code>d2w</code></td>
-<td>删除下两个单词</td>
-</tr>
-<tr>
-<td><code>dt(</code></td>
-<td>删除到小括号前</td>
-</tr>
-<tr>
-<td><code>dgg</code></td>
-<td>删除到文件头部</td>
-</tr>
-<tr>
-<td><code>dG</code></td>
-<td>删除到文件尾部</td>
-</tr>
-<tr>
-<td><code>d&#125;</code></td>
-<td>删除下一段</td>
-</tr>
-<tr>
-<td><code>d&#123;</code></td>
-<td>删除上一段</td>
-</tr>
-<tr>
-<td><code>u</code></td>
-<td>撤销</td>
-</tr>
-<tr>
-<td><code>U</code></td>
-<td>撤销整行操作</td>
-</tr>
-<tr>
-<td><code>CTRL-R</code></td>
-<td>撤销上一次 u 命令</td>
-</tr>
-<tr>
-<td><code>J</code></td>
-<td>连接若干行</td>
-</tr>
-<tr>
-<td><code>gJ</code></td>
-<td>连接若干行，删除空白字符</td>
-</tr>
-<tr>
-<td><code>.</code></td>
-<td>重复上一次操作</td>
-</tr>
-<tr>
-<td><code>~</code></td>
-<td>交换大小写</td>
-</tr>
-<tr>
-<td><code>g~iw</code></td>
-<td>替换当前单词的大小写</td>
-</tr>
-<tr>
-<td><code>gUiw</code></td>
-<td>将单词转成大写</td>
-</tr>
-<tr>
-<td><code>guiw</code></td>
-<td>将当前单词转成小写</td>
-</tr>
-<tr>
-<td><code>guu</code></td>
-<td>全行转为小写</td>
-</tr>
-<tr>
-<td><code>gUU</code></td>
-<td>全行转为大写</td>
-</tr>
-<tr>
-<td><code>gg=G</code></td>
-<td>缩进整个文件</td>
-</tr>
-<tr>
-<td><code>=a&#123;</code></td>
-<td>缩进光标所在代码块</td>
-</tr>
-<tr>
-<td><code>=i&#123;</code></td>
-<td>缩进光标所在代码块，不缩进”{“</td>
-</tr>
-<tr>
-<td><code>&lt;&lt;</code></td>
-<td>减少缩进</td>
-</tr>
-<tr>
-<td><code>&gt;&gt;</code></td>
-<td>增加缩进</td>
-</tr>
-<tr>
-<td><code>==</code></td>
-<td>自动缩进</td>
-</tr>
-<tr>
-<td><code>CTRL-A</code></td>
-<td>增加数字</td>
-</tr>
-<tr>
-<td><code>CTRL-X</code></td>
-<td>减少数字</td>
-</tr>
-<tr>
-<td><code>p</code></td>
-<td>粘贴到光标后</td>
-</tr>
-<tr>
-<td><code>P</code></td>
-<td>粘贴到光标前</td>
-</tr>
-<tr>
-<td><code>v</code></td>
-<td>开始标记</td>
-</tr>
-<tr>
-<td><code>y</code></td>
-<td>复制标记内容</td>
-</tr>
-<tr>
-<td><code>V</code></td>
-<td>开始按行标记</td>
-</tr>
-<tr>
-<td><code>CTRL-V</code></td>
-<td>开始列标记</td>
-</tr>
-<tr>
-<td><code>y$</code></td>
-<td>复制当前位置到本行结束的内容</td>
-</tr>
-<tr>
-<td><code>yy</code></td>
-<td>复制当前行</td>
-</tr>
-<tr>
-<td><code>Y</code></td>
-<td>复制当前行，同 yy</td>
-</tr>
-<tr>
-<td><code>yt,</code></td>
-<td>复制到逗号</td>
-</tr>
-<tr>
-<td><code>yiw</code></td>
-<td>复制当前单词</td>
-</tr>
-<tr>
-<td><code>3yy</code></td>
-<td>复制光标下三行内容</td>
-</tr>
-<tr>
-<td><code>v0</code></td>
-<td>选中当前位置到行首</td>
-</tr>
-<tr>
-<td><code>v$</code></td>
-<td>选中当前位置到行末</td>
-</tr>
-<tr>
-<td><code>vt,</code></td>
-<td>选中到逗号</td>
-</tr>
-<tr>
-<td><code>viw</code></td>
-<td>选中当前单词</td>
-</tr>
-<tr>
-<td><code>vi)</code></td>
-<td>选中小括号内的东西</td>
-</tr>
-<tr>
-<td><code>vi]</code></td>
-<td>选中中括号内的东西</td>
-</tr>
-<tr>
-<td><code>viB</code></td>
-<td>选中’{}’中的内容</td>
-</tr>
-<tr>
-<td><code>vis</code></td>
-<td>选中句子中的东西</td>
-</tr>
-<tr>
-<td><code>gv</code></td>
-<td>重新选择上一次选中的文字</td>
-</tr>
-<tr>
-<td><code>:set paste</code></td>
-<td>允许粘贴模式（避免粘贴时自动缩进影响格式）</td>
-</tr>
-<tr>
-<td><code>:set nopaste</code></td>
-<td>禁止粘贴模式</td>
-</tr>
-<tr>
-<td><code>&quot;?yy</code></td>
-<td>复制当前行到寄存器 ? ，问号代表 0-9 的寄存器名称</td>
-</tr>
-<tr>
-<td><code>&quot;?p</code></td>
-<td>将寄存器 ? 的内容粘贴到光标后</td>
-</tr>
-<tr>
-<td><code>&quot;?P</code></td>
-<td>将寄存器 ? 的内容粘贴到光标前</td>
-</tr>
-<tr>
-<td><code>:registers</code></td>
-<td>显示所有寄存器内容</td>
-</tr>
-<tr>
-<td><code>:[range]y</code></td>
-<td>复制范围，比如 :20,30y 是复制20到30行，:10y 是复制第十行</td>
-</tr>
-<tr>
-<td><code>:[range]d</code></td>
-<td>删除范围，比如 :20,30d 是删除20到30行，:10d 是删除第十行</td>
-</tr>
-<tr>
-<td><code>ddp</code></td>
-<td>交换两行内容：先删除当前行复制到寄存器，并粘贴</td>
-</tr>
-</tbody></table>
-<h2 id="文件操作"><a href="#文件操作" class="headerlink" title="文件操作"></a>文件操作</h2><table>
-<thead>
-<tr>
-<th>快捷键</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>:e &lt;filename&gt;</code></td>
-<td>打开文件并编辑</td>
-</tr>
-<tr>
-<td><code>:saveas &lt;filename&gt;</code></td>
-<td>另存为文件</td>
-</tr>
-<tr>
-<td><code>:close</code></td>
-<td>关闭文件</td>
-</tr>
-<tr>
-<td><code>:wa</code></td>
-<td>保存所有文件</td>
-</tr>
-<tr>
-<td><code>:new</code></td>
-<td>打开一个新的窗口编辑新文件</td>
-</tr>
-<tr>
-<td><code>:enew</code></td>
-<td>在当前窗口创建新文件</td>
-</tr>
-<tr>
-<td><code>:vnew</code></td>
-<td>在左右切分的新窗口中编辑新文件</td>
-</tr>
-<tr>
-<td><code>:tabnew</code></td>
-<td>在新的标签页中编辑新文件</td>
-</tr>
-</tbody></table>
-<h2 id="使用外部程序"><a href="#使用外部程序" class="headerlink" title="使用外部程序"></a>使用外部程序</h2><table>
-<thead>
-<tr>
-<th>快捷键</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>!</code></td>
-<td>告诉vim正在执行一个过滤操作</td>
-</tr>
-<tr>
-<td><code>!5Gsort&lt;Enter&gt;</code></td>
-<td>使用外部sort命令对1-5行文本排序</td>
-</tr>
-<tr>
-<td><code>!!</code></td>
-<td>对当前行执行过滤命令</td>
-</tr>
-<tr>
-<td><code>!!date&lt;Enter&gt;</code></td>
-<td>用”date”的输出代替当前行</td>
-</tr>
-</tbody></table>
-<h2 id="宏录制"><a href="#宏录制" class="headerlink" title="宏录制"></a>宏录制</h2><table>
-<thead>
-<tr>
-<th>快捷键</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>qa</code></td>
-<td>开始录制名字为a的宏</td>
-</tr>
-<tr>
-<td><code>q</code></td>
-<td>结束录制宏</td>
-</tr>
-<tr>
-<td><code>@a</code></td>
-<td>播放名字为a的宏</td>
-</tr>
-<tr>
-<td><code>100@a</code></td>
-<td>播放名字为a的宏100次</td>
-</tr>
-<tr>
-<td><code>:normal@a</code></td>
-<td>播放名字为a的宏直到自动结束</td>
-</tr>
-</tbody></table>
-<h2 id="实用命令"><a href="#实用命令" class="headerlink" title="实用命令"></a>实用命令</h2><table>
-<thead>
-<tr>
-<th>快捷键</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>/pattern</code></td>
-<td>从光标处向文件尾搜索 pattern</td>
-</tr>
-<tr>
-<td><code>?pattern</code></td>
-<td>从光标处向文件头搜索 pattern</td>
-</tr>
-<tr>
-<td><code>n</code></td>
-<td>向同一方向执行上一次搜索</td>
-</tr>
-<tr>
-<td><code>N</code></td>
-<td>向相反方向执行上一次搜索</td>
-</tr>
-<tr>
-<td><code>*</code></td>
-<td>向前搜索光标下的单词</td>
-</tr>
-<tr>
-<td><code>#</code></td>
-<td>向后搜索光标下的单词</td>
-</tr>
-<tr>
-<td><code>:s/p1/p2/g</code></td>
-<td>替换当前行的p1为p2</td>
-</tr>
-<tr>
-<td><code>:%s/p1/p2/g</code></td>
-<td>替换当前文件中的p1为p2</td>
-</tr>
-<tr>
-<td><code>:%s/&lt;p1&gt;/p2/g</code></td>
-<td>替换当前文件中的p1单词为p2</td>
-</tr>
-<tr>
-<td><code>:%s/p1/p2/gc</code></td>
-<td>替换当前文件中的p1为p2，并且每处询问你是否替换</td>
-</tr>
-<tr>
-<td><code>:10,20s/p1/p2/g</code></td>
-<td>将第10到20行中所有p1替换为p2</td>
-</tr>
-<tr>
-<td><code>:%s/1\\2\/3/123/g</code></td>
-<td>将“1\2&#x2F;3” 替换为 “123”（特殊字符使用反斜杠标注）</td>
-</tr>
-<tr>
-<td><code>:%s/\r//g</code></td>
-<td>删除 DOS 换行符 ^M</td>
-</tr>
-<tr>
-<td><code>:g/^\s*$/d</code></td>
-<td>删除空行</td>
-</tr>
-<tr>
-<td><code>:g/test/d</code></td>
-<td>删除所有包含 test 的行</td>
-</tr>
-<tr>
-<td><code>:v/test/d</code></td>
-<td>删除所有不包含 test 的行</td>
-</tr>
-<tr>
-<td><code>:%s/^/test/</code></td>
-<td>在行首加入特定字符(也可以用宏录制来添加)</td>
-</tr>
-<tr>
-<td><code>:%s/$/test/</code></td>
-<td>在行尾加入特定字符(也可以用宏录制来添加)</td>
-</tr>
-<tr>
-<td><code>:sort</code></td>
-<td>排序</td>
-</tr>
-<tr>
-<td><code>:g/^\(.\+\)$\n\1/d</code></td>
-<td>去除重复行(先排序)</td>
-</tr>
-<tr>
-<td><code>:%s/^.\&#123;10\&#125;//</code></td>
-<td>删除每行前10个字符</td>
-</tr>
-<tr>
-<td><code>:%s/.\&#123;10\&#125;$//</code></td>
-<td>删除每行尾10个字符</td>
-</tr>
-</tbody></table>
-<h2 id="帮助"><a href="#帮助" class="headerlink" title="帮助"></a>帮助</h2><table>
-<thead>
-<tr>
-<th>快捷键</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>h tutor</code></td>
-<td>入门文档</td>
-</tr>
-<tr>
-<td><code>h quickref</code></td>
-<td>快速帮助</td>
-</tr>
-<tr>
-<td><code>h index</code></td>
-<td>查询Vim所有键盘命令定义</td>
-</tr>
-<tr>
-<td><code>h summary</code></td>
-<td>帮助你更好的使用内置帮助系统</td>
-</tr>
-<tr>
-<td><code>h pattern.txt</code></td>
-<td>正则表达式帮助</td>
-</tr>
-<tr>
-<td><code>h eval</code></td>
-<td>脚本编写帮助</td>
-</tr>
-<tr>
-<td><code>h function-list</code></td>
-<td>查看VimScript的函数列表</td>
-</tr>
-<tr>
-<td><code>h windows.txt</code></td>
-<td>窗口使用帮助</td>
-</tr>
-<tr>
-<td><code>h tabpage.txt</code></td>
-<td>标签页使用帮助</td>
-</tr>
-<tr>
-<td><code>h tips</code></td>
-<td>查看Vim内置的常用技巧文档</td>
-</tr>
-<tr>
-<td><code>h quote</code></td>
-<td>寄存器</td>
-</tr>
-<tr>
-<td><code>h autocommand-events</code></td>
-<td>所有可能事件</td>
-</tr>
-<tr>
-<td><code>h write-plugin</code></td>
-<td>编写插件</td>
-</tr>
-</tbody></table>
-<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><table>
-<thead>
-<tr>
-<th>快捷键</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>vim -u NONE -N</code></td>
-<td>开启vim时不加载vimrc文件</td>
-</tr>
-<tr>
-<td><code>vimdiff file1 file2</code></td>
-<td>显示文件差异</td>
-</tr>
-<tr>
-<td><code>&lt;leader&gt;e</code></td>
-<td>快速编辑vimrc文件</td>
-</tr>
-<tr>
-<td><code>&lt;leader&gt;s</code></td>
-<td>重新加载vimrc文件</td>
-</tr>
-<tr>
-<td><code>&lt;leader&gt;h</code></td>
-<td>打开vimplus帮助文档</td>
-</tr>
-<tr>
-<td><code>&lt;leader&gt;H</code></td>
-<td>打开当前光标所在单词的vim帮助文档</td>
-</tr>
-<tr>
-<td><code>&lt;leader&gt;&lt;leader&gt;i</code></td>
-<td>安装插件</td>
-</tr>
-<tr>
-<td><code>&lt;leader&gt;&lt;leader&gt;u</code></td>
-<td>更新插件</td>
-</tr>
-<tr>
-<td><code>&lt;leader&gt;&lt;leader&gt;c</code></td>
-<td>删除插件</td>
-</tr>
-</tbody></table>
-
+<h2 id="1-FFmpeg源代码结构图-解码"><a href="#1-FFmpeg源代码结构图-解码" class="headerlink" title="1. FFmpeg源代码结构图 - 解码"></a>1. FFmpeg源代码结构图 - 解码</h2><p>下图表明了 FFmpeg 在解码一个视频的时候的函数调用流程。为了保证结构清晰，其中仅列出了最关键的函数，剔除了其它不是特别重要的函数。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/05/25/FFmpeg/FFmpeg%E6%BA%90%E4%BB%A3%E7%A0%81%E7%BB%93%E6%9E%84note/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -2618,7 +624,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://miaopei.github.io/2018/03/20/Vim/vimHotKey/">
+    <link itemprop="mainEntityOfPage" href="http://miaopei.github.io/2019/05/19/FFmpeg/ffmpeg%E5%AE%9E%E6%97%B6%E7%BE%8E%E9%A2%9C%E6%8E%A8%E6%B5%81/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://avatars.githubusercontent.com/u/7922626?v=4">
@@ -2636,7 +642,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2018/03/20/Vim/vimHotKey/" class="post-title-link" itemprop="url">Vim 快捷键</a>
+          <a href="/2019/05/19/FFmpeg/ffmpeg%E5%AE%9E%E6%97%B6%E7%BE%8E%E9%A2%9C%E6%8E%A8%E6%B5%81/" class="post-title-link" itemprop="url">FFMpeg实时美颜直播推流</a>
         </h2>
 
         <div class="post-meta-container">
@@ -2647,7 +653,7 @@
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2018-03-20 16:53:46" itemprop="dateCreated datePublished" datetime="2018-03-20T16:53:46+08:00">2018-03-20</time>
+      <time title="创建时间：2019-05-19 10:14:50" itemprop="dateCreated datePublished" datetime="2019-05-19T10:14:50+08:00">2019-05-19</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -2655,7 +661,7 @@
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Vim/" itemprop="url" rel="index"><span itemprop="name">Vim</span></a>
+          <a href="/categories/FFmpeg/" itemprop="url" rel="index"><span itemprop="name">FFmpeg</span></a>
         </span>
     </span>
 
@@ -2665,14 +671,113 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>14k</span>
+      <span>23k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>13 分钟</span>
+      <span>21 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          有东西被加密了, 请输入密码查看.
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/05/19/FFmpeg/ffmpeg%E5%AE%9E%E6%97%B6%E7%BE%8E%E9%A2%9C%E6%8E%A8%E6%B5%81/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://miaopei.github.io/2019/05/18/FFmpeg/FFmpegSDL%E8%A7%86%E9%A2%91%E6%92%AD%E6%94%BE%E5%99%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://avatars.githubusercontent.com/u/7922626?v=4">
+      <meta itemprop="name" content="Mr.Miaow">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mr.Miaow Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Mr.Miaow Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2019/05/18/FFmpeg/FFmpegSDL%E8%A7%86%E9%A2%91%E6%92%AD%E6%94%BE%E5%99%A8/" class="post-title-link" itemprop="url">FFMPEG+SDL视频播放器</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-05-18 10:14:50" itemprop="dateCreated datePublished" datetime="2019-05-18T10:14:50+08:00">2019-05-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/FFmpeg/" itemprop="url" rel="index"><span itemprop="name">FFmpeg</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>46k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>42 分钟</span>
     </span>
 </div>
 
@@ -2684,22 +789,17 @@
     
     <div class="post-body" itemprop="articleBody">
           <blockquote>
-<p><a target="_blank" rel="noopener" href="https://github.com/chxuan/vimplus">vimplus github</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/jiqingwu/archive/2012/06/14/vim_notes.html">Vim使用笔记</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.robinjin.com/tech/?p=605">利用ctags+cscope+taglist+nerdree+srcexpl+trinity 将 VIM 变成 source insight</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/HatsuneMikuV/FFmpeg_Leixiaohua">GitHub</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/leixiaohua1020/column/info/ffmpeg-devel/7">FFmpeg</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/leixiaohua1020/article/details/12677129">ffmpeg 源代码简单分析</a></p>
 </blockquote>
-<h2 id="1-文档操作"><a href="#1-文档操作" class="headerlink" title="1. 文档操作"></a>1. 文档操作</h2><ul>
-<li><code>:e</code> – 重新加载当前文档。</li>
-<li><code>:e!</code> – 重新加载当前文档，并丢弃已做的改动。</li>
-<li><code>:e file</code> – 关闭当前编辑的文件，并开启新的文件。 如果对当前文件的修改未保存，vi 会警告。</li>
-<li><code>:e! file</code> – 放弃对当前文件的修改，编辑新的文件。</li>
-<li><code>:e# 或 ctrl+^</code> – 回到刚才编辑的文件，很实用。</li>
-<li><code>gf</code> – 打开以光标所在字符串为文件名的文件。</li>
-<li><code>:saveas newfilename</code> – 另存为</li>
-</ul>
+<h1 id="1-100行代码实现最简单的基于FFMPEG-SDL的视频播放器"><a href="#1-100行代码实现最简单的基于FFMPEG-SDL的视频播放器" class="headerlink" title="1. 100行代码实现最简单的基于FFMPEG+SDL的视频播放器"></a>1. 100行代码实现最简单的基于FFMPEG+SDL的视频播放器</h1><blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/leixiaohua1020/simplest_ffmpeg_player">simplest_ffmpeg_player</a></p>
+</blockquote>
+<p>该播放器虽然简单，但是几乎包含了使用FFMPEG播放一个视频所有必备的API，并且使用SDL显示解码出来的视频。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2018/03/20/Vim/vimHotKey/#more" rel="contents">
+              <a class="btn" href="/2019/05/18/FFmpeg/FFmpegSDL%E8%A7%86%E9%A2%91%E6%92%AD%E6%94%BE%E5%99%A8/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -2730,7 +830,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://miaopei.github.io/2018/03/16/Web/web-transmission-basis/">
+    <link itemprop="mainEntityOfPage" href="http://miaopei.github.io/2019/05/17/WebRTC/webrtc-03/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://avatars.githubusercontent.com/u/7922626?v=4">
@@ -2748,7 +848,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2018/03/16/Web/web-transmission-basis/" class="post-title-link" itemprop="url">网络传输基础</a>
+          <a href="/2019/05/17/WebRTC/webrtc-03/" class="post-title-link" itemprop="url">WebRTC（三）</a>
         </h2>
 
         <div class="post-meta-container">
@@ -2759,7 +859,7 @@
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2018-03-16 18:02:52" itemprop="dateCreated datePublished" datetime="2018-03-16T18:02:52+08:00">2018-03-16</time>
+      <time title="创建时间：2019-05-17 10:14:50" itemprop="dateCreated datePublished" datetime="2019-05-17T10:14:50+08:00">2019-05-17</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -2767,7 +867,7 @@
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Web/" itemprop="url" rel="index"><span itemprop="name">Web</span></a>
+          <a href="/categories/WebRTC/" itemprop="url" rel="index"><span itemprop="name">WebRTC</span></a>
         </span>
     </span>
 
@@ -2777,14 +877,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>3.7k</span>
+      <span>38k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>3 分钟</span>
+      <span>34 分钟</span>
     </span>
 </div>
 
@@ -2795,10 +895,10 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>理论上，视频或邮件信息是能够以大块非中断型流从网络源地址传送到目的地址，但这也意味着同一时刻同一网络其他设备就无法收发消息。这种大型数据流会造成显著延时。并且，如果传输过程中连接断开，整个数据流都会丢失需要全部重传。因此更好的方法是将数据流分割</p>
+          Welcome to my blog, enter password to read.
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2018/03/16/Web/web-transmission-basis/">
+              <a class="btn" href="/2019/05/17/WebRTC/webrtc-03/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -2829,7 +929,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://miaopei.github.io/2018/03/08/Other/graph/">
+    <link itemprop="mainEntityOfPage" href="http://miaopei.github.io/2019/05/15/WebRTC/webrtc-02/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://avatars.githubusercontent.com/u/7922626?v=4">
@@ -2847,7 +947,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2018/03/08/Other/graph/" class="post-title-link" itemprop="url">计算机算法--图算法介绍</a>
+          <a href="/2019/05/15/WebRTC/webrtc-02/" class="post-title-link" itemprop="url">WebRTC（二）</a>
         </h2>
 
         <div class="post-meta-container">
@@ -2858,7 +958,7 @@
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2018-03-08 18:02:52" itemprop="dateCreated datePublished" datetime="2018-03-08T18:02:52+08:00">2018-03-08</time>
+      <time title="创建时间：2019-05-15 10:14:50" itemprop="dateCreated datePublished" datetime="2019-05-15T10:14:50+08:00">2019-05-15</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -2866,7 +966,7 @@
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/algorithm/" itemprop="url" rel="index"><span itemprop="name">algorithm</span></a>
+          <a href="/categories/WebRTC/" itemprop="url" rel="index"><span itemprop="name">WebRTC</span></a>
         </span>
     </span>
 
@@ -2876,14 +976,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>18k</span>
+      <span>40k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>16 分钟</span>
+      <span>36 分钟</span>
     </span>
 </div>
 
@@ -2894,12 +994,10 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h2 id="1-图的定义："><a href="#1-图的定义：" class="headerlink" title="1. 图的定义："></a>1. 图的定义：</h2><p>图（graph）由顶点（vertex）和边（edge）的集合组成，每一条边就是一个点对（v,w)。</p>
-<p>图的种类：地图，电路图，调度图，事物，网络，程序结构</p>
-<p>图的属性：有V个顶点的图最多有V*（V-1）&#x2F;2条边</p>
+          Welcome to my blog, enter password to read.
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2018/03/08/Other/graph/#more" rel="contents">
+              <a class="btn" href="/2019/05/15/WebRTC/webrtc-02/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -2930,7 +1028,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://miaopei.github.io/2018/02/27/Git/git-guide/">
+    <link itemprop="mainEntityOfPage" href="http://miaopei.github.io/2019/05/14/WebRTC/webrtc-01/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://avatars.githubusercontent.com/u/7922626?v=4">
@@ -2948,7 +1046,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2018/02/27/Git/git-guide/" class="post-title-link" itemprop="url">Git操作手册|命令速查表</a>
+          <a href="/2019/05/14/WebRTC/webrtc-01/" class="post-title-link" itemprop="url">WebRTC（一）</a>
         </h2>
 
         <div class="post-meta-container">
@@ -2959,7 +1057,7 @@
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2018-02-27 18:02:52" itemprop="dateCreated datePublished" datetime="2018-02-27T18:02:52+08:00">2018-02-27</time>
+      <time title="创建时间：2019-05-14 10:14:50" itemprop="dateCreated datePublished" datetime="2019-05-14T10:14:50+08:00">2019-05-14</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -2967,7 +1065,7 @@
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Git/" itemprop="url" rel="index"><span itemprop="name">Git</span></a>
+          <a href="/categories/WebRTC/" itemprop="url" rel="index"><span itemprop="name">WebRTC</span></a>
         </span>
     </span>
 
@@ -2977,14 +1075,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>7.6k</span>
+      <span>5.8k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>7 分钟</span>
+      <span>5 分钟</span>
     </span>
 </div>
 
@@ -2995,15 +1093,110 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>这篇文章主要介绍Git分布式版本管理与集中式管理的一些差异，总结下Git常用命令作为日后的速查表，最后介绍Git进阶的一些案例。<br>本文分为以下几个部分：</p>
-<ol>
-<li>Git与SVN差异</li>
-<li>Git常用命令</li>
-<li>Git进阶指南</li>
-</ol>
+          Welcome to my blog, enter password to read.
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2018/02/27/Git/git-guide/#more" rel="contents">
+              <a class="btn" href="/2019/05/14/WebRTC/webrtc-01/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://miaopei.github.io/2019/05/04/FFmpeg/FFmpeg%E5%91%BD%E4%BB%A4%E5%A4%A7%E5%85%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://avatars.githubusercontent.com/u/7922626?v=4">
+      <meta itemprop="name" content="Mr.Miaow">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mr.Miaow Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Mr.Miaow Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2019/05/04/FFmpeg/FFmpeg%E5%91%BD%E4%BB%A4%E5%A4%A7%E5%85%A8/" class="post-title-link" itemprop="url">FFmpeg命令大全</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-05-04 10:14:50" itemprop="dateCreated datePublished" datetime="2019-05-04T10:14:50+08:00">2019-05-04</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/FFmpeg/" itemprop="url" rel="index"><span itemprop="name">FFmpeg</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>9.6k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>9 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="1-前言"><a href="#1-前言" class="headerlink" title="1. 前言"></a>1. 前言</h2><p>FFMPEG 是特别强大的专门用于处理音视频的开源库。你既可以使用它的 API 对音视频进行处理，也可以使用它提供的工具，如 ffmpeg, ffplay, ffprobe，来编辑你的音视频文件。</p>
+<p>本文将简要介绍一下 FFMPEG 库的基本目录结构及其功能，然后详细介绍一下我们在日常工作中，如何使用 ffmpeg 提供的工具来处理音视频文件。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/05/04/FFmpeg/FFmpeg%E5%91%BD%E4%BB%A4%E5%A4%A7%E5%85%A8/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -3027,7 +1220,7 @@
 
 
   <nav class="pagination">
-    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/page/4/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/page/4/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>
@@ -3048,13 +1241,13 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">956k</span>
+    <span title="站点总字数">1.1m</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">14:29</span>
+    <span title="站点阅读时长">17:16</span>
   </span>
 </div> <div>
    <span id="sitetime"></span>
