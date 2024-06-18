@@ -161,28 +161,26 @@ STUN协议介绍：
 - STUN存在的目的就是进行 NAT 穿越
 - STUN是典型的客户端 / 服务器模式。客户端发送请求，服务器进行响应
 
-![RFC STUN规范](/images/imageWebRTC/mediaserver/RFCSTUN规范.png)
-
-
+![RFCSTUN规范](mediaserver-01/RFCSTUN规范.png)
 
 STUN协议：
 
 - 包括 20 字节的 STUN header
 - Body 中可以有 0 个或多个 Attribute
 
-![STUN Header格式](/images/imageWebRTC/mediaserver/STUNHeader格式.png)
+![STUNHeader格式](mediaserver-01/STUNHeader格式.png)
 
-![STUN Header](/images/imageWebRTC/mediaserver/STUNHeader.png)
+![STUNHeader](mediaserver-01/STUNHeader.png)
 
 ### STUN Message Type消息
 
-![STUN Message Type](/images/imageWebRTC/mediaserver/STUNMessageType-01.png)
+![STUNMessageType-01](mediaserver-01/STUNMessageType-01.png)
 
-![STUN Message Type](/images/imageWebRTC/mediaserver/STUNMessageType-02.png)
+![STUNMessageType-02](mediaserver-01/STUNMessageType-02.png)
 
-![C0C1](/images/imageWebRTC/mediaserver/STUNMessageType-03.png)
+![STUNMessageType-03](mediaserver-01/STUNMessageType-03.png)
 
-![STUN消息类型](/images/imageWebRTC/mediaserver/STUNMessageType-04.png)
+![STUN消息类型](mediaserver-01/STUNMessageType-04.png)
 
 **大小端模式：**
 
@@ -190,9 +188,9 @@ STUN协议：
 - **小端模式**：数据的高字节保存在内存的高地址中
 - **网络字节顺序**：采用大端排序方式
 
-![STUN Message Type](/images/imageWebRTC/mediaserver/STUNMessageType-05.png)
+![STUNMessageType-05](mediaserver-01/STUNMessageType-05.png)
 
-![Transaction ID](/images/imageWebRTC/mediaserver/STUNMessageType-06.png)
+![STUNMessageType-06](mediaserver-01/STUNMessageType-06.png)
 
 ### STUN body详解
 
@@ -201,11 +199,11 @@ STUN Message Body：
 - 消息头后有 0 或多个属性
 - 每个属性进行 `TLV` 编码： `Type`、`Lenght`、`Value`
 
-![TLV](/images/imageWebRTC/mediaserver/TLV.png)
+![TLV](mediaserver-01/TLV.png)
 
-![RFC3489定义的属性](/images/imageWebRTC/mediaserver/RFC3489定义的属性.png)
+![RFC3489定义的属性](mediaserver-01/RFC3489定义的属性.png)
 
-![Attribute的使用](/images/imageWebRTC/mediaserver/Attribute的使用.png)
+![Attribute的使用](mediaserver-01/Attribute的使用.png)
 
 ### ICE工作中原理
 
@@ -214,9 +212,9 @@ STUN Message Body：
 - ICE：Interactive Connectivity Establishment
 - 需要两端进行交互才能创建连接
 
-![ICE](/images/imageWebRTC/mediaserver/ICE.png)
+![ICE](mediaserver-01/ICE.png)
 
-![ICE Candidate](/images/imageWebRTC/mediaserver/ICECandidate.png)
+![ICECandidate](mediaserver-01/ICECandidate.png)
 
 Candidate类型：
 
@@ -224,7 +222,7 @@ Candidate类型：
 - 反射候选择
 - 中继候选者
 
-![Candidate关系图](/images/imageWebRTC/mediaserver/Candidate关系图.png)
+![Candidate关系图](mediaserver-01/Candidate关系图.png)
 
 收集Candidate：
 
@@ -255,9 +253,9 @@ ICE 具体做些什么：
 - 数字证书的使用
 - 如何获取证书
 
-![私有证书](/images/imageWebRTC/mediaserver/私有证书.png)
+![私有证书](mediaserver-01/私有证书.png)
 
-![常用加密算法](/images/imageWebRTC/mediaserver/常用机密算法.png)
+![常用机密算法](mediaserver-01/常用机密算法.png)
 
 ### OpenSSL概念及使用
 
@@ -278,7 +276,7 @@ OpenSSL原理：
 - SSL：代表一个 SSL 连接
 - SSL_Write / SSL_Read
 
-![OpenSSL的使用](/images/imageWebRTC/mediaserver/OpenSSL的使用.png)
+![OpenSSL的使用](mediaserver-01/OpenSSL的使用.png)
 
 DTLS 协议：
 
@@ -287,11 +285,11 @@ DTLS 协议：
 
 ### DTLS协议详解
 
-![DTLS握手协议](/images/imageWebRTC/mediaserver/DTLS握手协议.png)
+![DTLS握手协议](mediaserver-01/DTLS握手协议.png)
 
-![DTLS时序图](/images/imageWebRTC/mediaserver/DTLS时序图.png)
+![DTLS时序图](mediaserver-01/DTLS时序图.png)
 
-![WebRTC安全机制](/images/imageWebRTC/mediaserver/WebRTC安全机制.png)
+![WebRTC安全机制](mediaserver-01/WebRTC安全机制.png)
 
 ### TLS-SRTP协议详解
 
@@ -305,15 +303,15 @@ SRTP要解决的问题：
 - 对数据加密，保证数据安全
 - 保证数据完整性
 
-![SRTP](/images/imageWebRTC/mediaserver/SRTP.png)
+![SRTP](mediaserver-01/SRTP.png)
 
-![libsrtp](/images/imageWebRTC/mediaserver/libsrtp.png)
+![libsrtp](mediaserver-01/libsrtp.png)
 
 ## SDP协议与WebRTC媒体协商【需要牢牢掌握】
 
 ### 媒体协商过程
 
-![媒体协商过程](/images/imageWebRTC/mediaserver/媒体协商过程.png)
+![媒体协商过程](mediaserver-01/媒体协商过程.png)
 
 媒体协商方法：
 
@@ -372,23 +370,23 @@ Media Description：
 
 ### SDP关键字段的含义及其使用
 
-![SDP字段含义](/images/imageWebRTC/mediaserver/SDP字段含义-01.png)
+![SDP字段含义-01](mediaserver-01/SDP字段含义-01.png)
 
-![SDP字段含义](/images/imageWebRTC/mediaserver/SDP字段含义-02.png)
+![SDP字段含义-02](mediaserver-01/SDP字段含义-02.png)
 
-![SDP字段含义](/images/imageWebRTC/mediaserver/SDP字段含义-03.png)
+![SDP字段含义-03](mediaserver-01/SDP字段含义-03.png)
 
-![SDP字段含义](/images/imageWebRTC/mediaserver/SDP字段含义-04.png)
+![SDP字段含义-04](mediaserver-01/SDP字段含义-04.png)
 
-![SDP字段含义](/images/imageWebRTC/mediaserver/SDP字段含义-05.png)
+![SDP字段含义-05](mediaserver-01/SDP字段含义-05.png)
 
-![SDP字段含义](/images/imageWebRTC/mediaserver/SDP字段含义-06.png)
+![SDP字段含义-06](mediaserver-01/SDP字段含义-06.png)
 
-![SDP字段含义](/images/imageWebRTC/mediaserver/SDP字段含义-07.png)
+![SDP字段含义-07](mediaserver-01/SDP字段含义-07.png)
 
 ### WebRTC中的SDP
 
-![WebRTC中的SDP](/images/imageWebRTC/mediaserver/WebRTC中的SDP.png)
+![WebRTC中的SDP](mediaserver-01/WebRTC中的SDP.png)
 
 ### WebRTC中的SDP各个字段含义讲解
 

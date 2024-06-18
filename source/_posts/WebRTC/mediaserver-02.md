@@ -26,37 +26,37 @@ message: Welcome to my blog, enter password to read.
 
 ### Mesh架构模型详解
 
-![1对1的通信模型](/images/imageWebRTC/mediaserver/121通信模型.png)
+![121通信模型](mediaserver-02/121通信模型.png)
 
-![Mesh通信模型](/images/imageWebRTC/mediaserver/Mesh通信模型.png)
+![Mesh通信模型](mediaserver-02/Mesh通信模型.png)
 
 ### MCU架构模型详解
 
-![MCU通信模型](/images/imageWebRTC/mediaserver/MCU通信模型.png)
+![MCU通信模型](mediaserver-02/MCU通信模型.png)
 
 ### SFU架构模型详解
 
-![SFU通信模型](/images/imageWebRTC/mediaserver/SFU通信模型.png)
+![SFU通信模型](mediaserver-02/SFU通信模型.png)
 
 ### Licode架构
 
 Licode 属于 MCU 的一种架构模型
 
-![Licode架构](/images/imageWebRTC/mediaserver/Licode架构.png)
+![Licode架构](mediaserver-02/Licode架构.png)
 
 ### Janus流媒体服务器的架构及特点
 
-![Janus SFU架构.png](/images/imageWebRTC/mediaserver/JanusSFU架构.png)
+![JanusSFU架构](mediaserver-02/JanusSFU架构.png)
 
 ### Medooze流媒体服务器架构及特点
 
 Medooze可以作为MCU也可以作为SFU
 
-![Medooze架构.png](/images/imageWebRTC/mediaserver/Medooze架构.png)
+![Medooze架构](mediaserver-02/Medooze架构.png)
 
 ### Mediasoup流媒体服务器架构及特点
 
-![Mediasoup整体结构](/images/imageWebRTC/mediaserver/Mediasoup整体结构.png)
+![Mediasoup整体结构](mediaserver-02/Mediasoup整体结构.png)
 
 ## Mediasoup服务器的部署与使用
 
@@ -202,9 +202,9 @@ app 443端口 是如何和 server 4443端口通信的？
 
 ### Mediasoup-demo整体分析
 
-![Mediasoup Demp](/images/imageWebRTC/mediaserver/mediasoup-demp.png)
+![mediasoup-demp](mediaserver-02/mediasoup-demp.png)
 
-![Demo目录的作用](/images/imageWebRTC/mediaserver/Demo目录的作用.png)
+![Demo目录的作用](mediaserver-02/Demo目录的作用.png)
 
 ### JavaScript 基本语法
 
@@ -219,27 +219,27 @@ app 443端口 是如何和 server 4443端口通信的？
 - 函数
 - 日志打印
 
-![变量与类型](/images/imageWebRTC/mediaserver/变量与类型.png)
+![变量与类型](mediaserver-02/变量与类型.png)
 
-![基本运算](/images/imageWebRTC/mediaserver/基本运算.png)
+![基本运算](mediaserver-02/基本运算.png)
 
-![if else](/images/imageWebRTC/mediaserver/ifelse.png)
+![ifelse](mediaserver-02/ifelse.png)
 
-![for循环](/images/imageWebRTC/mediaserver/for循环.png)
+![for循环](mediaserver-02/for循环.png)
 
-![函数](/images/imageWebRTC/mediaserver/函数.png)
+![函数](mediaserver-02/函数.png)
 
 ### JavaScriptES6高级特性
 
-![ES6语法](/images/imageWebRTC/mediaserver/ES6语法.png)
+![ES6语法](mediaserver-02/ES6语法.png)
 
-![ES6语法](/images/imageWebRTC/mediaserver/ES6语法-01.png)
+![ES6语法-01](mediaserver-02/ES6语法-01.png)
 
 ### Promise与EventEmitter详解
 
-![Promise](/images/imageWebRTC/mediaserver/Promise.png)
+![Promise](mediaserver-02/Promise.png)
 
-![EventEmitter](/images/imageWebRTC/mediaserver/EventEmitter.png)
+![EventEmitter](mediaserver-02/EventEmitter.png)
 
 ### 剖析serverjs
 
@@ -260,7 +260,7 @@ Room 的主要逻辑：
 - 创建房间
 - 信令处理
 
-![Demo支持的信令](/images/imageWebRTC/mediaserver/Demo支持的信令.png)
+![Demo支持的信令](mediaserver-02/Demo支持的信令.png)
 
 ### 如何调试MediasoupDemo
 
@@ -289,7 +289,7 @@ Mediasoup基本概念：
 - Consumer - 消费者
 - Transport
 
-![mediasoup v3 architecture](/images/imageWebRTC/mediaserver/mediasoup-v3-architecture-01.svg)
+![mediasoup-v3-architecture-01](mediaserver-02/mediasoup-v3-architecture-01.svg)
 
 Mediasoup包括的特性（一）
 
@@ -336,20 +336,20 @@ lib
 └── Worker.js				-- 一个节点或进程
 ```
 
-![MediasoupJS类关系图](/images/imageWebRTC/mediaserver/MediasoupJS类关系图.png)
+![MediasoupJS类关系图](mediaserver-02/MediasoupJS类关系图.png)
 
 Mediasoup JS 的作用：
 
 - 起到管理的作用
 - 生成 json 字符串，传给 C++
 
-![createRouter](/images/imageWebRTC/mediaserver/createRouter.png)
+![createRouter](mediaserver-02/createRouter.png)
 
 ### WebRTC中的C++类关系图
 
-![Mediasoup核心类图](/images/imageWebRTC/mediaserver/Mediasoup核心类图.png)
+![Mediasoup核心类图](mediaserver-02/Mediasoup核心类图.png)
 
-![Mediasoup类图](/images/imageWebRTC/mediaserver/Mediasoup类图.png)
+![Mediasoup类图](mediaserver-02/Mediasoup类图.png)
 
 ### Mediasoup启动详解
 
@@ -375,7 +375,7 @@ $ fg --切回到代码
 
 ### 实战通过socketpair进行进程间通信
 
-![socketpair真实情况](/images/imageWebRTC/mediaserver/socketpair真实情况.png)
+![socketpair真实情况](mediaserver-02/socketpair真实情况.png)
 
 ```c++
 // testsocketpair.c
@@ -494,7 +494,7 @@ Channel::Noetifier::Emit(this->id, "icestatechange", data);
 
 ### Mediasoup主业务流程
 
-![主业务的创建](/images/imageWebRTC/mediaserver/主业务的创建.png)
+![主业务的创建](mediaserver-02/主业务的创建.png)
 
 ```c++
 [mediasoup/worker/src/] Worker.cpp (OnChannelRequest()) --> 
@@ -570,9 +570,9 @@ RTC::SrtpSession::ClassInit();
 
 ### Mediasoup数据流转
 
-![Mediasoup时序图](/images/imageWebRTC/mediaserver/Mediasoup时序图.png)
+![Mediasoup时序图](mediaserver-02/Mediasoup时序图.png)
 
-![Mediasoup时序图](/images/imageWebRTC/mediaserver/Mediasoup时序图-01.png)
+![Mediasoup时序图-01](mediaserver-02/Mediasoup时序图-01.png)
 
 ```c++
 [mediasoup/worker/src/RTC] WebRtcTransport.cpp (WebRtcTransport()) -->
@@ -582,13 +582,13 @@ RTC::SrtpSession::ClassInit();
 
 ### WebRTC大规模部署方案
 
-![WebRTC大规模部署方案-01](/images/imageWebRTC/mediaserver/WebRTC大规模部署方案-01.png)
+![WebRTC大规模部署方案-01](mediaserver-02/WebRTC大规模部署方案-01.png)
 
-![WebRTC大规模部署方案-02](/images/imageWebRTC/mediaserver/WebRTC大规模部署方案-02.png)
+![WebRTC大规模部署方案-02](mediaserver-02/WebRTC大规模部署方案-02.png)
 
-![WebRTC大规模部署方案-03](/images/imageWebRTC/mediaserver/WebRTC大规模部署方案-03.png)
+![WebRTC大规模部署方案-03](mediaserver-02/WebRTC大规模部署方案-03.png)
 
-![WebRTC大规模部署方案-04](/images/imageWebRTC/mediaserver/WebRTC大规模部署方案-04.png)
+![WebRTC大规模部署方案-04](mediaserver-02/WebRTC大规模部署方案-04.png)
 
 ## 总结
 
