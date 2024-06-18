@@ -12,38 +12,38 @@ abstract: Welcome to my blog, enter password to read.
 message: Welcome to my blog, enter password to read.
 ---
 
-# WebRTC 流媒体服务器
+## WebRTC 流媒体服务器
 
 百万级高并发WebRTC流媒体服务器设计与开发
 
 <!-- more -->
 
-## 导学
+## 1. 导学
 
-![webrtc介绍](/images/imageWebRTC/mediaserver/webrtc介绍.png)
+![webrtc介绍](mediaserver/webrtc介绍.png)
 
-![webrtc流媒体服务器设计](/images/imageWebRTC/mediaserver/webrtc流媒体服务器设计.png)
+![webrtc流媒体服务器设计](mediaserver/webrtc流媒体服务器设计.png)
 
-![流媒体服务器特点](/images/imageWebRTC/mediaserver/流媒体服务器特点.png)
+![流媒体服务器特点](mediaserver/流媒体服务器特点.png)
 
-![学习流媒体服务器的难点](/images/imageWebRTC/mediaserver/学习流媒体服务器的难点.png)
+![学习流媒体服务器的难点](mediaserver/学习流媒体服务器的难点.png)
 
-![整个流媒体服务器的构成](/images/imageWebRTC/mediaserver/整个流媒体服务器的构成.png)
+![整个流媒体服务器的构成](mediaserver/整个流媒体服务器的构成.png)
 
-![学习内容](/images/imageWebRTC/mediaserver/学习内容.png)
+![学习内容](mediaserver/学习内容.png)
 
-![学习收获](/images/imageWebRTC/mediaserver/学习收获.png)
+![学习收获](mediaserver/学习收获.png)
 
-![涉及知识](/images/imageWebRTC/mediaserver/涉及知识.png)
+![涉及知识](mediaserver/涉及知识.png)
 
-## C++ 知识回顾
+## 2. C++ 知识回顾
 
 ```shell
 # macos 下编译 c++
 $ clang++ -std=c++11 -g -o hello helloworld.cpp
 ```
 
-### 类的定义和实现
+### 2.1 类的定义和实现
 
 **C++基础**
 
@@ -58,13 +58,13 @@ $ clang++ -std=c++11 -g -o hello helloworld.cpp
 - 成员变量
 - 成员函数
 
-![类的定义](/images/imageWebRTC/mediaserver/类的定义.png)
+![类的定义](mediaserver/类的定义.png)
 
-### 类的使用
+### 2.2 类的使用
 
-![创建类对象](/images/imageWebRTC/mediaserver/创建类对象.png)
+![创建类对象](mediaserver/创建类对象.png)
 
-### 命名空间
+### 2.3 命名空间
 
 命名空间格式：
 
@@ -189,46 +189,46 @@ int main(int argc, char* argv[])
 $ clang++ -std=c++11 -g -o class Human.cpp class.cpp
 ```
 
-### 继承
+### 2.4 继承
 
-![继承关系](/images/imageWebRTC/mediaserver/继承-01.png)
+![继承-01](mediaserver/继承-01.png)
 
-![继承方式图标](/images/imageWebRTC/mediaserver/继承-02.png)
+![继承-02](mediaserver/继承-02.png)
 
-![多层继承](/images/imageWebRTC/mediaserver/继承-03.png)
+![继承-03](mediaserver/继承-03.png)
 
-![多重继承](/images/imageWebRTC/mediaserver/继承-04.png)
+![继承-04](mediaserver/继承-04.png)
 
-### 多态
+### 2.5 多态
 
-![多态性](/images/imageWebRTC/mediaserver/多态-01.png)
+![多态-01](mediaserver/多态-01.png)
 
-![C++的多态](/images/imageWebRTC/mediaserver/多态-02.png)
+![多态-02](mediaserver/多态-02.png)
 
 析构函数一般都是多态的
 
-### 内存地址空间与指针
+### 2.6 内存地址空间与指针
 
-![内存管理与指针](/images/imageWebRTC/mediaserver/内存管理与指针.png)
+![内存管理与指针](mediaserver/内存管理与指针.png)
 
-![内存地址空间](/images/imageWebRTC/mediaserver/内存地址空间.png)
+![内存地址空间](mediaserver/内存地址空间.png)
 
-### 堆空间与栈空间
+### 2.7 堆空间与栈空间
 
-![堆空间与栈空间](/images/imageWebRTC/mediaserver/堆空间与栈空间.png)
+![堆空间与栈空间](mediaserver/堆空间与栈空间.png)
 
 内存的申请与释放：
 
 - new
 - delete/delete[]
 
-### 深拷贝与浅拷贝
+### 2.8 深拷贝与浅拷贝
 
-![深拷贝与浅拷贝](/images/imageWebRTC/mediaserver/深拷贝与浅拷贝.png)
+![深拷贝与浅拷贝](mediaserver/深拷贝与浅拷贝.png)
 
-## 服务器基础编程
+## 3. 服务器基础编程
 
-### Linux系统下的信号
+### 3.1 Linux系统下的信号
 
 <details><summary>server.h</summary>
 
@@ -358,7 +358,7 @@ $ alias cman='man -M /usr/share/man/zh_CN'
 >
 > [[转]Mac 配置中文man手册](https://www.jianshu.com/p/307216b119c7)
 
-### 几个重要的信号
+### 3.2 几个重要的信号
 
 - `SIGPIPE` 管道终止，当写入无人读取的管道时产生该信号，默认终止进程
 - `SIGCHLD` 子进程结束或停止时发送
@@ -378,7 +378,7 @@ $ alias cman='man -M /usr/share/man/zh_CN'
 - Linux 中当子进程结束的时候，他并没有完全销毁，因为父进程还要用它的信息
 - 父进程没有处理 `SIGCHLD` 信号 或 调用 `wait/waitpid()` 等待子进程结束，就会出现僵尸进程
 
-### 信号的发送与处理
+### 3.3 信号的发送与处理
 
 发送信号：
 
@@ -387,11 +387,11 @@ $ alias cman='man -M /usr/share/man/zh_CN'
 - 软件方式
   - `kill pid`
 
-![安装信号](/images/imageWebRTC/mediaserver/安装信号.png)
+![安装信号](mediaserver/安装信号.png)
 
-### 通过 sigaction 安装信号
+### 3.4 通过 sigaction 安装信号
 
-![sigaction](/images/imageWebRTC/mediaserver/sigaction.png)
+![sigaction](mediaserver/sigaction.png)
 
 <details><summary>testsig.cpp</summary>
 
@@ -449,7 +449,7 @@ int main(int argc, char *argv[])
 
 </details>
 
-### 以 fork 的方式创建后台进程
+### 3.5 以 fork 的方式创建后台进程
 
 后台进程：
 
@@ -587,7 +587,7 @@ int main(void)
 
 </details>
 
-## 进程间通信方式
+## 4. 进程间通信方式
 
 - 管道( pipe )：管道是一种半双工的通信方式，数据只能单向流动，而且只能在具有亲缘关系的进程间使用。进程的亲缘关系通常是指父子进程关系。
 
@@ -599,7 +599,7 @@ int main(void)
 
 - 套接字( socket ) ： 套解口也是一种进程间通信机制，与其他通信机制不同的是，它可用于不同及其间的进程通信。 
 
-### 线程间通信方式
+### 4.1 线程间通信方式
 
 \#全局变量；
 
@@ -607,9 +607,9 @@ int main(void)
 
 \#CEvent对象（MFC中的一种线程通信对象，通过其触发状态的改变实现同步与通信）。
 
-## 网络编程基础
+## 5. 网络编程基础
 
-### TCPSerever 实现原理
+### 5.1 TCPSerever 实现原理
 
 **TCP Server 网络编程基本步骤：**
 
@@ -627,7 +627,7 @@ int main(void)
 - SO_RCVBUG -- 一般设置为4M或者8M
 - SO_SNDBUF
 
-![TCP通信](/images/imageWebRTC/mediaserver/TCP通信.png)
+![TCP通信](mediaserver/TCP通信.png)
 
 <details><summary>重要结构体</summary>
 
@@ -740,7 +740,7 @@ int main(){
 
 </details>
 
-### TCPClient实现
+### 5.2 TCPClient实现
 
 TCP Client 网络编程基本步骤：
 
@@ -826,7 +826,7 @@ int main()
 
 </details>
 
-### UDP服务端与客户端实现
+### 5.3 UDP服务端与客户端实现
 
 UDP Server 网络编程基本步骤：
 
@@ -835,7 +835,7 @@ UDP Server 网络编程基本步骤：
 - 使用 recv/send 接收/发送数据
 - 使用 close 关闭连接
 
-![UDP通信](/images/imageWebRTC/mediaserver/UDP通信.png)
+![UDP通信](mediaserver/UDP通信.png)
 
 <details><summary>udp_server.c</summary>
 
@@ -962,9 +962,9 @@ int main(int argc, char * *argv)
 
 </details>
 
-## 异步 I/O 事件处理
+## 6. 异步 I/O 事件处理
 
-### 通过fork的方式实现高性能网络服务器
+### 6.1 通过fork的方式实现高性能网络服务器
 
 高性能网络服务器：
 
@@ -1081,7 +1081,7 @@ int main(){
 - 资源被长期占用
 - 分配子进程花费时间长
 
-### 通过select实现高性能服务器
+### 6.2 通过select实现高性能服务器
 
 **什么是异步 I/O：**
 
@@ -1287,11 +1287,11 @@ select 函数输入参数的意义：
 - select 函数执行后，系统会修改 `fd_set` 中的内容
 - select 函数执行后，应用层要重新设置 `fd_set` 中的内容
 
-![理解select模型示意图](/images/imageWebRTC/mediaserver/理解select模型示意图.png)
+![理解select模型示意图](mediaserver/理解select模型示意图.png)
 
-## epoll实现高性能服务器
+## 7. epoll实现高性能服务器
 
-### epoll基本知识
+### 7.1 epoll基本知识
 
 使用 Epoll 的好处：
 
@@ -1478,7 +1478,7 @@ int main(){
 
 </details>
 
-### epoll+fork实现高性能网络服务器
+### 7.2 epoll+fork实现高性能网络服务器
 
 <details><summary>epoll_fork_tcp_server.c</summary>
 
@@ -1650,9 +1650,9 @@ int main(){
   - 还是负载，分担出去，在某一个时刻只有一个epoll来管理侦听
   - 加锁
 
-## libevent实现高性能网络服务器
+## 8. libevent实现高性能网络服务器
 
-### 比较有名的异步 IO 处理库的介绍
+### 8.1 比较有名的异步 IO 处理库的介绍
 
 比较有名的异步事件处理库：
 
@@ -1670,7 +1670,7 @@ libevent 重要的函数：
 - `event_del`
 - `event_free`
 
-![evconnlistener_new_bind](/images/imageWebRTC/mediaserver/libevent-01.png)
+![libevent-01](mediaserver/libevent-01.png)
 
 libevent编译与安装：
 
@@ -1766,7 +1766,9 @@ $ g++ -g -o libevent_tcp_server libevent_tcp_server.cpp `pkg-config --libs --cfl
 $ netstat -ntpl | grep 8111
 ```
 
-### libevent实现对UDP的处理
+### 8.2 libevent实现对UDP的处理
 
-### libuv实现对UDP的处理
+
+
+### 8.3 libuv实现对UDP的处理
 

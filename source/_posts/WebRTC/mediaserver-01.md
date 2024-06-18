@@ -12,11 +12,11 @@ abstract: Welcome to my blog, enter password to read.
 message: Welcome to my blog, enter password to read.
 ---
 
-# WebRTC 流媒体服务器
+## WebRTC 流媒体服务器
 
-## TCP/IP详解
+## 1. TCP/IP详解
 
-### IP协议详解
+### 1.1 IP协议详解
 
 <!-- more -->
 
@@ -24,7 +24,7 @@ message: Welcome to my blog, enter password to read.
 
 ![MTU](mediaserver-01/MTU.png)
 
-### TCP协议详解
+### 1.2 TCP协议详解
 
 ![TCPIP协议栈](mediaserver-01/TCPIP协议栈.png)
 
@@ -36,17 +36,17 @@ Ack Number 表示可靠性：
 
 ![AckNumber](mediaserver-01/AckNumber.png)
 
-### TCP三次握手
+### 1.3 TCP三次握手
 
 ![TCP三次握手](mediaserver-01/TCP三次握手.png)
 
-### TCP四次挥手
+### 1.4 TCP四次挥手
 
 ![TCP四次挥手-01](mediaserver-01/TCP四次挥手-01.png)
 
 ![TCP四次挥手ACK未收到重发FIN](mediaserver-01/TCP四次挥手-02.png)
 
-### TCP的ACK机制
+### 1.5 TCP的ACK机制
 
 ![TCP-ACK-01](mediaserver-01/TCP-ACK-01.png)
 
@@ -56,7 +56,7 @@ Ack Number 表示可靠性：
 
 ![TCP-ACK-04](mediaserver-01/TCP-ACK-04.png)
 
-### TCP滑动窗口
+### 1.6 TCP滑动窗口
 
 ![滑动窗口-01](mediaserver-01/滑动窗口-01.png)
 
@@ -64,19 +64,19 @@ Ack Number 表示可靠性：
 
 ![滑动窗口-03](mediaserver-01/滑动窗口-03.png)
 
-### UDP与RTP
+### 1.7 UDP与RTP
 
 ![UDP协议](mediaserver-01/UDP协议.png)
 
 ![RTP](mediaserver-01/RTP.png)
 
-### 实时通信TCP_UDP的选择
+### 1.8 实时通信TCP_UDP的选择
 
 ![TCP丢包重传](mediaserver-01/TCP丢包重传.png)
 
 一般情况下实时通信会选择UDP，丢包重传、延迟、乱序一般是在应用层去实现。TCP在极端网络下丢包会造成很大的延迟。
 
-### TCP在实时通信中的作用
+### 1.9 TCP在实时通信中的作用
 
 一般情况下使用UDP，在UDP无法连通的情况下使用TCP，在全世界使用网络的应用80%以上都是TCP。
 
@@ -84,9 +84,9 @@ Ack Number 表示可靠性：
 
 所有做音视频实时通信都要关注的一个指标：连通率。默认UDP，UDP不通使用TCP，TCP端口被限制情况下可以使用HTTPS。
 
-## UDP/RTP/RTCP详解
+## 2. UDP/RTP/RTCP详解
 
-### RTP包的使用
+### 2.1 RTP包的使用
 
 延迟要保证在800毫秒以内，更好的的500毫秒以内。
 
@@ -94,7 +94,7 @@ Ack Number 表示可靠性：
 
 ![RTP包的使用](mediaserver-01/RTP包的使用.png)
 
-### RTCP协议头的分析
+### 2.2 RTCP协议头的分析
 
 ![RTCP包](mediaserver-01/RTCP包.png)
 
@@ -102,13 +102,13 @@ Ack Number 表示可靠性：
 
 ![RTCPHeader说明](mediaserver-01/RTCPHeader说明.png)
 
-### RTCP PayloadType介绍
+### 2.3 RTCP PayloadType介绍
 
 ![RTCPType-01](mediaserver-01/RTCPType-01.png)
 
 ![RTCPType-02](mediaserver-01/RTCPType-02.png)
 
-### RTCP SR报文详解
+### 2.4 RTCP SR报文详解
 
 ![RTCPSR-01](mediaserver-01/RTCPSR-01.png)
 
@@ -120,7 +120,7 @@ Ack Number 表示可靠性：
 
 ![ReceiveReportBlock](mediaserver-01/ReceiveReportBlock.png)
 
-### RTCP RR SDES报文介绍
+### 2.5 RTCP RR SDES报文介绍
 
 ![RTCPRR](mediaserver-01/RTCPRR.png)
 
@@ -132,7 +132,7 @@ Ack Number 表示可靠性：
 
 ![SDES说明](mediaserver-01/SDES说明.png)
 
-### BYE APP报文介绍
+### 2.6 BYE APP报文介绍
 
 ![RTCPBYE](mediaserver-01/RTCPBYE.png)
 
@@ -140,7 +140,7 @@ Ack Number 表示可靠性：
 
 ![RTCPAPP-01](mediaserver-01/RTCPAPP-01.png)
 
-### RTCP FB协议介绍
+### 2.7 RTCP FB协议介绍
 
 ![RTCPType](mediaserver-01/RTCPType.png)
 
@@ -152,9 +152,9 @@ Ack Number 表示可靠性：
 
 ![RTCPFBHeader](mediaserver-01/RTCPFBHeader.png)
 
-## WebRTC协议
+## 3. WebRTC协议
 
-### STUN协议介绍
+### 3.1 STUN协议介绍
 
 STUN协议介绍：
 
@@ -172,7 +172,7 @@ STUN协议：
 
 ![STUNHeader](mediaserver-01/STUNHeader.png)
 
-### STUN Message Type消息
+### 3.2 STUN Message Type消息
 
 ![STUNMessageType-01](mediaserver-01/STUNMessageType-01.png)
 
@@ -192,7 +192,7 @@ STUN协议：
 
 ![STUNMessageType-06](mediaserver-01/STUNMessageType-06.png)
 
-### STUN body详解
+### 3.3 STUN body详解
 
 STUN Message Body：
 
@@ -205,7 +205,7 @@ STUN Message Body：
 
 ![Attribute的使用](mediaserver-01/Attribute的使用.png)
 
-### ICE工作中原理
+### 3.4 ICE工作中原理
 
 什么是ICE：
 
@@ -236,7 +236,7 @@ ICE 具体做些什么：
 - 对 Candidate Pair 排序
 - 连通性检查
 
-### 加密解密基本概念
+### 3.5 加密解密基本概念
 
 什么是非对称加密：
 
@@ -257,7 +257,7 @@ ICE 具体做些什么：
 
 ![常用机密算法](mediaserver-01/常用机密算法.png)
 
-### OpenSSL概念及使用
+### 3.6 OpenSSL概念及使用
 
 OpenSSL：
 
@@ -283,7 +283,7 @@ DTLS 协议：
 - TLS 是基于 TCP 协议的
 - DTLS 基于 UDP 协议的
 
-### DTLS协议详解
+### 3.7 DTLS协议详解
 
 ![DTLS握手协议](mediaserver-01/DTLS握手协议.png)
 
@@ -291,7 +291,7 @@ DTLS 协议：
 
 ![WebRTC安全机制](mediaserver-01/WebRTC安全机制.png)
 
-### TLS-SRTP协议详解
+### 3.8 TLS-SRTP协议详解
 
 DTLS要解决的问题：
 
@@ -307,9 +307,9 @@ SRTP要解决的问题：
 
 ![libsrtp](mediaserver-01/libsrtp.png)
 
-## SDP协议与WebRTC媒体协商【需要牢牢掌握】
+## 4. SDP协议与WebRTC媒体协商【需要牢牢掌握】
 
-### 媒体协商过程
+### 4.1 媒体协商过程
 
 ![媒体协商过程](mediaserver-01/媒体协商过程.png)
 
@@ -320,7 +320,7 @@ SRTP要解决的问题：
 - `setLocalDescription`
 - `setRemoteDescription`
 
-### SDP协议简介
+### 4.2 SDP协议简介
 
 什么是SDP：
 
@@ -345,7 +345,7 @@ SDP 规范：
 - 传输 IP 和端口
 - 媒体负载类型
 
-### SDP描述信息
+### 4.3 SDP描述信息
 
 SDP描述信息：
 
@@ -368,7 +368,7 @@ Media Description：
 - `b=*(bandwidth information)`
 - `a=*(zero or more session attribute lines)`
 
-### SDP关键字段的含义及其使用
+### 4.4 SDP关键字段的含义及其使用
 
 ![SDP字段含义-01](mediaserver-01/SDP字段含义-01.png)
 
@@ -384,11 +384,11 @@ Media Description：
 
 ![SDP字段含义-07](mediaserver-01/SDP字段含义-07.png)
 
-### WebRTC中的SDP
+### 4.5 WebRTC中的SDP
 
 ![WebRTC中的SDP](mediaserver-01/WebRTC中的SDP.png)
 
-### WebRTC中的SDP各个字段含义讲解
+### 4.6 WebRTC中的SDP各个字段含义讲解
 
 WebRTC Offer / Answer SDP：
 

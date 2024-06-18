@@ -12,9 +12,9 @@ abstract: Welcome to my blog, enter password to read.
 message: Welcome to my blog, enter password to read.
 ---
 
-## 各流媒体服务器的比较
+## 1. 各流媒体服务器的比较
 
-### 多人互动架构方案
+### 1.1 多人互动架构方案
 
 <!-- more -->
 
@@ -24,43 +24,43 @@ message: Welcome to my blog, enter password to read.
 - MCU（Multipoint Conferencing Unit） 方案
 - SFU（Selective Forwarding Unit） 方案
 
-### Mesh架构模型详解
+### 1.2 Mesh架构模型详解
 
 ![121通信模型](mediaserver-02/121通信模型.png)
 
 ![Mesh通信模型](mediaserver-02/Mesh通信模型.png)
 
-### MCU架构模型详解
+### 1.3 MCU架构模型详解
 
 ![MCU通信模型](mediaserver-02/MCU通信模型.png)
 
-### SFU架构模型详解
+### 1.4 SFU架构模型详解
 
 ![SFU通信模型](mediaserver-02/SFU通信模型.png)
 
-### Licode架构
+### 1.5 Licode架构
 
 Licode 属于 MCU 的一种架构模型
 
 ![Licode架构](mediaserver-02/Licode架构.png)
 
-### Janus流媒体服务器的架构及特点
+### 1.6 Janus流媒体服务器的架构及特点
 
 ![JanusSFU架构](mediaserver-02/JanusSFU架构.png)
 
-### Medooze流媒体服务器架构及特点
+### 1.7 Medooze流媒体服务器架构及特点
 
 Medooze可以作为MCU也可以作为SFU
 
 ![Medooze架构](mediaserver-02/Medooze架构.png)
 
-### Mediasoup流媒体服务器架构及特点
+### 1.8 Mediasoup流媒体服务器架构及特点
 
 ![Mediasoup整体结构](mediaserver-02/Mediasoup整体结构.png)
 
-## Mediasoup服务器的部署与使用
+## 2. Mediasoup服务器的部署与使用
 
-### Mediasoup的运行环境
+### 2.1 Mediasoup的运行环境
 
 服务器环境：
 
@@ -87,7 +87,7 @@ $ apt/brew/yum install npm
 - 生成 Makefile
 - make -j 4 && sudo make install
 
-### Mediasoup Demo的部署
+### 2.2 Mediasoup Demo的部署
 
 下载Demo源码：
 
@@ -115,7 +115,7 @@ $ npm install -g gulp-cli
 $ gulp live
 ```
 
-### 通过Nodejs实现HTTP服务
+### 2.3 通过Nodejs实现HTTP服务
 
 最简单的http服务：
 
@@ -148,7 +148,7 @@ $ netstat -an | grep 9999
 $ telnet 127.0.0.1 9999
 ```
 
-### HTTPS基本知识
+### 2.4 HTTPS基本知识
 
 nodejs搭建HTTPS服务：
 
@@ -156,7 +156,7 @@ nodejs搭建HTTPS服务：
 - 引入HTTPS模块
 - 指定证书位置，并创建HTTPS服务
 
-### 通过WWW服务发布mediasoup客户端代码
+### 2.5 通过WWW服务发布mediasoup客户端代码
 
 真正的web服务：
 
@@ -190,7 +190,7 @@ https_server.listen(443, '0.0.0.0');
 $ netstat -ntpl | grep 443
 ```
 
-### 作业 - 客户端是如何与信令服务建立连接的
+### 2.6 作业 - 客户端是如何与信令服务建立连接的
 
 TODO
 
@@ -198,15 +198,15 @@ app 443端口 是如何和 server 4443端口通信的？
 
 如何知道信令服务器的地址？
 
-## Mediasoup的信令系统
+## 3. Mediasoup的信令系统
 
-### Mediasoup-demo整体分析
+### 3.1 Mediasoup-demo整体分析
 
 ![mediasoup-demp](mediaserver-02/mediasoup-demp.png)
 
 ![Demo目录的作用](mediaserver-02/Demo目录的作用.png)
 
-### JavaScript 基本语法
+### 3.2 JavaScript 基本语法
 
 **Nodejs基本语法**
 
@@ -229,25 +229,25 @@ app 443端口 是如何和 server 4443端口通信的？
 
 ![函数](mediaserver-02/函数.png)
 
-### JavaScriptES6高级特性
+### 3.3 JavaScriptES6高级特性
 
 ![ES6语法](mediaserver-02/ES6语法.png)
 
 ![ES6语法-01](mediaserver-02/ES6语法-01.png)
 
-### Promise与EventEmitter详解
+### 3.4 Promise与EventEmitter详解
 
 ![Promise](mediaserver-02/Promise.png)
 
 ![EventEmitter](mediaserver-02/EventEmitter.png)
 
-### 剖析serverjs
+### 3.5 剖析serverjs
 
 TODO
 
 阅读源码
 
-### 剖析roomjs
+### 3.6 剖析roomjs
 
 mediasoup基本概念：
 
@@ -262,7 +262,7 @@ Room 的主要逻辑：
 
 ![Demo支持的信令](mediaserver-02/Demo支持的信令.png)
 
-### 如何调试MediasoupDemo
+### 3.7 如何调试MediasoupDemo
 
 Nodejs调试方法：
 
@@ -270,16 +270,16 @@ Nodejs调试方法：
 - `chrome://inspect`
 - 设置断点
 
-### 运行时查看Mediasoup的核心信息
+### 3.8 运行时查看Mediasoup的核心信息
 
 Demo Dump工具：
 
 - 方法一：`export INTERACTIVE=1; ndoe server.js`  -- 调试的时候使用
 - 方法二：`node connect.js` -- 查看线上内容的时候使用
 
-## Mediasoup源码分析
+## 4. Mediasoup源码分析
 
-### Mediasoup 库的架构讲解
+### 4.1 Mediasoup 库的架构讲解
 
 Mediasoup基本概念：
 
@@ -308,7 +308,7 @@ Mediasoup包括的特性（三）
 - 多流使用同一个 ICE + DTLS 传输通道
 - 极其强大的性能 - 进程 + libuv，linux下一般使用epoll
 
-### Mediasoup_JS_的作用
+### 4.2 Mediasoup_JS_的作用
 
 ```shell
 Mr.Miaow mediasoup git:(v3) $ tree lib                     
@@ -345,13 +345,13 @@ Mediasoup JS 的作用：
 
 ![createRouter](mediaserver-02/createRouter.png)
 
-### WebRTC中的C++类关系图
+### 4.3 WebRTC中的C++类关系图
 
 ![Mediasoup核心类图](mediaserver-02/Mediasoup核心类图.png)
 
 ![Mediasoup类图](mediaserver-02/Mediasoup类图.png)
 
-### Mediasoup启动详解
+### 4.4 Mediasoup启动详解
 
 ```shell
 $ fg --切回到代码
@@ -364,7 +364,7 @@ $ fg --切回到代码
     [mediasoup/worker/src/] main.cpp
 ```
 
-### 匿名管道进程间通信的原理
+### 4.5 匿名管道进程间通信的原理
 
 常见的进程间通信方式（IPC）
 
@@ -373,7 +373,7 @@ $ fg --切回到代码
 - 共享内存
 - 信号
 
-### 实战通过socketpair进行进程间通信
+### 4.6 实战通过socketpair进行进程间通信
 
 ![socketpair真实情况](mediaserver-02/socketpair真实情况.png)
 
@@ -437,7 +437,7 @@ int main(int argc, char* argv[])
 $ clang -g -o testsocketpair testsocketpair.c
 ```
 
-### Mediasoup下channel创建的详细过程
+### 4.7 Mediasoup下channel创建的详细过程
 
 ```c++
 [mediasoup/lib/] index.js (createWorker->new Worker) -- >
@@ -455,7 +455,7 @@ $ clang -g -o testsocketpair testsocketpair.c
     [mediasoup/worker/src/] Worker.cpp (OnChannelRequest())
 ```
 
-### Mediasoup中消息的确认与事件通知
+### 4.8 Mediasoup中消息的确认与事件通知
 
 返回信令确认消息：
 
@@ -492,7 +492,7 @@ Channel::Noetifier::Emit(this->id, "icestatechange", data);
 ...
 ```
 
-### Mediasoup主业务流程
+### 4.9 Mediasoup主业务流程
 
 ![主业务的创建](mediaserver-02/主业务的创建.png)
 
@@ -520,7 +520,7 @@ Channel::Noetifier::Emit(this->id, "icestatechange", data);
     [mediasoup/worker/src/RTC] Transport.cpp (new RTC::SimpleConsumer())
 ```
 
-### Mediasoup连接的创建
+### 4.10 Mediasoup连接的创建
 
 基础知识回顾：
 
@@ -568,7 +568,7 @@ RTC::SrtpSession::ClassInit();
     TODO
 ```
 
-### Mediasoup数据流转
+### 4.11 Mediasoup数据流转
 
 ![Mediasoup时序图](mediaserver-02/Mediasoup时序图.png)
 
@@ -580,7 +580,7 @@ RTC::SrtpSession::ClassInit();
     TODO
 ```
 
-### WebRTC大规模部署方案
+### 4.12 WebRTC大规模部署方案
 
 ![WebRTC大规模部署方案-01](mediaserver-02/WebRTC大规模部署方案-01.png)
 
@@ -590,7 +590,7 @@ RTC::SrtpSession::ClassInit();
 
 ![WebRTC大规模部署方案-04](mediaserver-02/WebRTC大规模部署方案-04.png)
 
-## 总结
+## 5. 总结
 
 小结：
 
