@@ -26,7 +26,7 @@ message: Welcome to my blog, enter password to read.
 >
 > [WebRTC项目源码在国内的镜像](<https://gitee.com/ibaoger/webrtc>)
 
-## WebRTC 介绍
+## 1. WebRTC 介绍
 
 <!-- more -->
 
@@ -42,55 +42,53 @@ message: Welcome to my blog, enter password to read.
 
 WebRTC 应用：
 
-<img src="/images/imageWebRTC/webrtc应用.png">
+![webrtc应用](webrtc-01/webrtc应用.png)
 
 WebRTC 愿景：
 
-<img src="/images/imageWebRTC/webrtc愿景.png">
+![webrtc愿景](webrtc-01/webrtc愿景.png)
 
 学习 WebRTC 的难点：
 
-<img src="/images/imageWebRTC/学习WebRTC的难点.png">
+![学习WebRTC的难点](webrtc-01/学习WebRTC的难点.png)
 
 学习路线：
 
-<img src="/images/imageWebRTC/学习路线.png">
+![学习路线](webrtc-01/学习路线.png)
 
 学习内容：
 
-<img src="/images/imageWebRTC/学习内容.png">
+![学习内容](webrtc-01/学习内容.png)
 
 学习收获：
 
-<img src="/images/imageWebRTC/学习收获.png">
+![学习收获](webrtc-01/学习收获.png)
 
 WebRTC能做啥：
 
-<img src="/images/imageWebRTC/WebRTC能做啥.png">
+![WebRTC能做啥](webrtc-01/WebRTC能做啥.png)
 
 能学到什么：
 
-<img src="/images/imageWebRTC/能学到什么.png">
+![能学到什么](webrtc-01/能学到什么.png)
 
 google webrtc 示例：https://appr.tc/
 
-## WebRTC 原理与架构
+## 2. WebRTC 原理与架构
 
 WebRTC 整体架构：
 
-<img src="/images/imageWebRTC/webrtc架构.png">
-
-
+![webrtc架构](webrtc-01/webrtc架构.png)
 
 WebRTC 的目录结构图：
 
-<img src="/images/imageWebRTC/WebRTC目录结构-01.png">
+![WebRTC目录结构-01](webrtc-01/WebRTC目录结构-01.png)
 
-<img src="/images/imageWebRTC/WebRTC目录结构-02.png">
+![WebRTC目录结构-02](webrtc-01/WebRTC目录结构-02.png)
 
-<img src="/images/imageWebRTC/WebRTCModules目录-01.png">
+![WebRTCModules目录-01](webrtc-01/WebRTCModules目录-01.png)
 
-<img src="/images/imageWebRTC/WebRTCModules目录-02.png">
+![WebRTCModules目录-02](webrtc-01/WebRTCModules目录-02.png)
 
 WebRTC 两个基本概念：轨与流
 
@@ -105,13 +103,13 @@ WebRTC重要类：
 
 PeerConnection调用过程：
 
-<img src="/images/imageWebRTC/PeerConnection调用过程.png">
+![PeerConnection调用过程](webrtc-01/PeerConnection调用过程.png)
 
 调用时序图：
 
-<img src="/images/imageWebRTC/调用时序图.png">
+![调用时序图](webrtc-01/调用时序图.png)
 
-![PeerConnection连接建立流程图](/images/imageWebRTC/PeerConnection连接建立流程图.png)
+![PeerConnection连接建立流程图](webrtc-01/PeerConnection连接建立流程图.png)
 
 对于上图中描述的PeerConnection建立的完整流程进行以下说明（上图是以ClientA主动向ClientB发起连接为例）：
 
@@ -128,7 +126,7 @@ PeerConnection调用过程：
 >
 > [WebRTC系列（3）：PeerConnection通信建立流程](<https://www.jianshu.com/p/43957ee18f1a>)
 
-## Web服务器原理与Nodejs搭建
+## 3. Web服务器原理与Nodejs搭建
 
 > [node.js基本工作原理及流程](<https://blog.csdn.net/xiangzhihong8/article/details/53954600>)
 >
@@ -146,23 +144,23 @@ Web服务器选型：
 
 Web服务工作原理：
 
-<img src="/images/imageWebRTC/web服务工作原理.png">
+![web服务工作原理](webrtc-01/web服务工作原理.png)
 
 Nodejs工作原理：
 
-<img src="/images/imageWebRTC/Nodejs工作原理.png">
+![Nodejs工作原理](webrtc-01/Nodejs工作原理.png)
 
 JavaScript解析：
 
-<img src="/images/imageWebRTC/JavaScript解析.png">
+![JavaScript解析](webrtc-01/JavaScript解析.png)
 
 Nodejs 事件处理：
 
-<img src="/images/imageWebRTC/Nodejs事件处理.png">
+![Nodejs事件处理](webrtc-01/Nodejs事件处理.png)
 
 两个V8引擎：
 
-<img src="/images/imageWebRTC/两个V8引擎.png">
+![两个V8引擎](webrtc-01/两个V8引擎.png)
 
 最简单的http服务：
 
@@ -179,7 +177,7 @@ Nodejs 事件处理：
 
 Https基本原理：
 
-<img src="/images/imageWebRTC/https基本原理.png">
+![https基本原理](webrtc-01/https基本原理.png)
 
 Nodejs 搭建 https 服务：
 
@@ -193,7 +191,7 @@ Nodejs 搭建 https 服务：
 - 引入 server-index 模块
 - 指定发布目录
 
-## JavaScript 必备知识回顾
+## 4. JavaScript 必备知识回顾
 
 基础知识：
 
@@ -206,41 +204,41 @@ Nodejs 搭建 https 服务：
 
 变量与类型：
 
-<img src="/images/imageWebRTC/变量与类型.png">
+![变量与类型](webrtc-01/变量与类型.png)
 
 基本运算：
 
-<img src="/images/imageWebRTC/基本运算.png">
+![基本运算](webrtc-01/基本运算.png)
 
-<img src="/images/imageWebRTC/ifelse.png">
+![ifelse](webrtc-01/ifelse.png)
 
-<img src="/images/imageWebRTC/for循环.png">
+![for循环](webrtc-01/for循环.png)
 
-<img src="/images/imageWebRTC/函数.png">
+![函数](webrtc-01/函数.png)
 
-## WebRTC设备管理
+## 5. WebRTC设备管理
 
 enumerateDevices：
 
-<img src="/images/imageWebRTC/enumerateDevices.png">
+![enumerateDevices](webrtc-01/enumerateDevices.png)
 
 JavaScript中的Promise：
 
-<img src="/images/imageWebRTC/JavaScript中的Promise.png">
+![JavaScript中的Promise](webrtc-01/JavaScript中的Promise.png)
 
-## WebRTC音视频数据采集
+## 6. WebRTC音视频数据采集
 
 音视频采集API：
 
-<img src="/images/imageWebRTC/音视频采集API.png">
+![音视频采集API](webrtc-01/音视频采集API.png)
 
 getUserMedia的不同实现：
 
-<img src="/images/imageWebRTC/getUserMedia的不同实现.png">
+![getUserMedia的不同实现](webrtc-01/getUserMedia的不同实现.png)
 
 适配置不同浏览器的方法：
 
-<img src="/images/imageWebRTC/适配置不同浏览器的方法.png">
+![适配置不同浏览器的方法](webrtc-01/适配置不同浏览器的方法.png)
 
 `https://webrtc.github.io/adapter/adapter-latest.js`
 
@@ -310,43 +308,43 @@ WebRTC约束例子：
 
 支持的特效种类：
 
-<img src="/images/imageWebRTC/支持的特效种类.png">
+![支持的特效种类](webrtc-01/支持的特效种类.png)
 
 保存图片是实现滤镜效果，可以对 canvas.data 进行数据修改。
 
 MediaStream API 获取视频约束：
 
-<img src="/images/imageWebRTC/MediaStream.png">
+![MediaStream](webrtc-01/MediaStream.png)
 
-<img src="/images/imageWebRTC/MediaStream事件.png">
+![MediaStream事件](webrtc-01/MediaStream事件.png)
 
-## WebRTC音视频录制实战
+## 7. WebRTC音视频录制实战
 
-### WebRTC录制基本知识
+### 7.1 WebRTC录制基本知识
 
 MediaRecoder类：
 
-<img src="/images/imageWebRTC/MediaRecoder.png">
+![MediaRecoder](webrtc-01/MediaRecoder.png)
 
-<img src="/images/imageWebRTC/MediaRecorder参数.png">
+![MediaRecorder参数](webrtc-01/MediaRecorder参数.png)
 
-<img src="/images/imageWebRTC/MediaRecorderAPI-01.png">
+![MediaRecorderAPI-01](webrtc-01/MediaRecorderAPI-01.png)
 
-<img src="/images/imageWebRTC/MediaRecorderAPI-02.png">
+![MediaRecorderAPI-02](webrtc-01/MediaRecorderAPI-02.png)
 
-<img src="/images/imageWebRTC/MediaRecorder事件.png">
+![MediaRecorder事件](webrtc-01/MediaRecorder事件.png)
 
-<img src="/images/imageWebRTC/JavaScript几种存储数据的方式.png">
+![JavaScript几种存储数据的方式](webrtc-01/JavaScript几种存储数据的方式.png)
 
-### WebRTC 捕获桌面
+### 7.2 WebRTC 捕获桌面
 
-<img src="/images/imageWebRTC/getDisplayMedia.png">
+![getDisplayMedia](webrtc-01/getDisplayMedia.png)
 
 捕获桌面需要设置Chrome，具体 操作：<chrome://flags/#enable-experimental-web-platform-features>
 
 - Experimental Web Platform features 设置为 enable
 
-## WebRTC信令服务器实现
+## 8. WebRTC信令服务器实现
 
 如果没有信令服务器WebRTC之间是不能通信的。
 
@@ -356,11 +354,11 @@ MediaRecoder类：
 - 网络信息
 - 具体的业务
 
-<img src="/images/imageWebRTC/信令服务器的作用.png">
+![信令服务器的作用](webrtc-01/信令服务器的作用.png)
 
-<img src="/images/imageWebRTC/为什么要使用socketio.png">
+![为什么要使用socketio](webrtc-01/为什么要使用socketio.png)
 
-<img src="/images/imageWebRTC/socketio工作原理.png">
+![socketio工作原理](webrtc-01/socketio工作原理.png)
 
 Socket.IO 发送消息：
 
@@ -418,7 +416,7 @@ Socket.IO 客户端处理消息：
   C: socket.on('action', function(data, fn){fn('a', 'b');});
   ```
 
-### [实战] 通过 socket.io 实现信令服务器
+### 8.1 [实战] 通过 socket.io 实现信令服务器
 
 改造服务端的基本流程：
 
@@ -426,11 +424,11 @@ Socket.IO 客户端处理消息：
 - 引入 socket.io
 - 处理 connection 消息
 
-## WebRTC网络基础补充：P2P/STUN/TRUN/ICE知识
+## 9. WebRTC网络基础补充：P2P/STUN/TRUN/ICE知识
 
 > [P2P通信原理与实现](<https://zhuanlan.zhihu.com/p/26796476>)
 
-### WebRTC 网络传输基本知识
+### 9.1 WebRTC 网络传输基本知识
 
 WebRTC 传输基本知识：
 
@@ -439,7 +437,7 @@ WebRTC 传输基本知识：
 - TURN（Travelsal Using Relays around NAT）
 - ICE（Interactive Connectivity Establishment）
 
-<img src="/images/imageWebRTC/NAT.png">
+![NAT](webrtc-01/NAT.png)
 
 NAT 产生的原因：
 
@@ -453,15 +451,15 @@ NAT 的种类：
 - 端口限制锥型 NAT（Port Restricted Cone NAT）
 - 对称型 NAT（Symmetric NAT）
 
-### NAT 打洞原理
+### 9.2 NAT 打洞原理
 
-<img src="/images/imageWebRTC/完全锥型NAT.png">
+![完全锥型NAT](webrtc-01/完全锥型NAT.png)
 
-<img src="/images/imageWebRTC/地址限制锥型NAT.png">
+![地址限制锥型NAT](webrtc-01/地址限制锥型NAT.png)
 
-<img src="/images/imageWebRTC/端口限制锥型NAT.png">
+![端口限制锥型NAT](webrtc-01/端口限制锥型NAT.png)
 
-<img src="/images/imageWebRTC/对称型NAT.png">
+![对称型NAT](webrtc-01/对称型NAT.png)
 
 NAT 穿越原理：
 
@@ -469,25 +467,25 @@ NAT 穿越原理：
 - 交换公网 IP 及 端口
 - C1 -> C2，C2 -> C1，甚至是端口猜测
 
-<img src="/images/imageWebRTC/NAT穿越组合.png">
+![NAT穿越组合](webrtc-01/NAT穿越组合.png)
 
-### NAT 类型检测
+### 9.3 NAT 类型检测
 
-<img src="/images/imageWebRTC/NAT类型判断.png">
+![NAT类型判断](webrtc-01/NAT类型判断.png)
 
 公网 IP：
 
-<img src="/images/imageWebRTC/NAT类型检测-01.png">
+![NAT类型检测-01](webrtc-01/NAT类型检测-01.png)
 
 如果 Client 收到的 IP 和第一次发出去的 IP 是不一样的，则是对称型 NAT，如果是一样的需要进一步判断：
 
-<img src="/images/imageWebRTC/NAT类型检测-02.png">
+![NAT类型检测-02](webrtc-01/NAT类型检测-02.png)
 
 Client 通过 Port2 发送消息到 STUN Port1，STUN Server 通过 Port2 给 Client 回消息，如果 Client 能收到消息，则说明是 IP 限制型的；如果不能收到，则说明是端口限制型的：
 
-<img src="/images/imageWebRTC/NAT类型检测-03.png">
+![NAT类型检测-03](webrtc-01/NAT类型检测-03.png)
 
-### 【协议规范】STUN 协议一
+### 9.4 【协议规范】STUN 协议一
 
 STUN 介绍：
 
@@ -517,39 +515,39 @@ STUN header（RFC3489）：
 
 STUN header（RFC5389）格式：
 
-<img src="/images/imageWebRTC/STUNHeader格式.png">
+![STUNHeader格式](webrtc-01/STUNHeader格式.png)
 
-<img src="/images/imageWebRTC/STUNMessageType.png">
+![STUNMessageType](webrtc-01/STUNMessageType.png)
 
 M 代表请求值，C 代表分类：
 
-<img src="/images/imageWebRTC/STUNMessageType-01.png">
+![STUNMessageType-01](webrtc-01/STUNMessageType-01.png)
 
-<img src="/images/imageWebRTC/C0C1.png">
+![C0C1](webrtc-01/C0C1.png)
 
 RFC5389 把私密类型去掉了：
 
-<img src="/images/imageWebRTC/STUN消息类型.png">
+![STUN消息类型](webrtc-01/STUN消息类型.png)
 
-### 【协议规范】STUN 协议二
+### 9.5 【协议规范】STUN 协议二
 
 Inter 机子都是小端模式：
 
-<img src="/images/imageWebRTC/大小端模式.png">
+![大小端模式](webrtc-01/大小端模式.png)
 
-<img src="/images/imageWebRTC/STUNMessageType-02.png">
+![STUNMessageType-02](webrtc-01/STUNMessageType-02.png)
 
-<img src="/images/imageWebRTC/TransactionID.png">
+![TransactionID](webrtc-01/TransactionID.png)
 
-<img src="/images/imageWebRTC/STUNMessageBody.png">
+![STUNMessageBody](webrtc-01/STUNMessageBody.png)
 
-<img src="/images/imageWebRTC/TLV.png">
+![TLV](webrtc-01/TLV.png)
 
-<img src="/images/imageWebRTC/RFC3489定义的属性.png">
+![RFC3489定义的属性](webrtc-01/RFC3489定义的属性.png)
 
-<img src="/images/imageWebRTC/Attribute的使用.png">
+![Attribute的使用](webrtc-01/Attribute的使用.png)
 
-### 【协议规范】TURN 协议
+### 9.6 【协议规范】TURN 协议
 
 TURN 介绍：
 
@@ -557,28 +555,28 @@ TURN 介绍：
 - 其建立在 STUN 之上，消息格式使用 STUN 格式消息
 - TURN Client 要求服务端分配一个公共 IP 和 Port 用于接受 或 发送数据
 
-<img src="/images/imageWebRTC/TURN例子.png">
+![TURN例子](webrtc-01/TURN例子.png)
 
-<img src="/images/imageWebRTC/TURN使用的传输协议.png">
+![TURN使用的传输协议](webrtc-01/TURN使用的传输协议.png)
 
-<img src="/images/imageWebRTC/TURNAllocate.png">
+![TURNAllocate](webrtc-01/TURNAllocate.png)
 
 TURN 发送机制：
 
 - Send 和 Data
 - Channel
 
-<img src="/images/imageWebRTC/TURNSendAndData.png">
+![TURNSendAndData](webrtc-01/TURNSendAndData.png)
 
-<img src="/images/imageWebRTC/TURNChannel.png">
+![TURNChannel](webrtc-01/TURNChannel.png)
 
-<img src="/images/imageWebRTC/TURN的使用.png">
+![TURN的使用](webrtc-01/TURN的使用.png)
 
-### 【协议规范】ICE 框架
+### 9.7 【协议规范】ICE 框架
 
-<img src="/images/imageWebRTC/ICE.png">
+![ICE](webrtc-01/ICE.png)
 
-<img src="/images/imageWebRTC/ICECandidate.png">
+![ICECandidate](webrtc-01/ICECandidate.png)
 
 Candidate 类型：
 
@@ -592,7 +590,7 @@ ICE 具体做些什么：
 - 对 Candidate Pair 排序
 - 连通性检查
 
-<img src="/images/imageWebRTC/Candidate关系图.png">
+![Candidate关系图](webrtc-01/Candidate关系图.png)
 
 收集 Candidate：
 
@@ -604,7 +602,7 @@ ICE 具体做些什么：
 
 - **SDP（Session Description Protocol）** 它只是一种信息格式的描述标准，本身不属于传输协议，但是可以被其他传输协议用来交换必要的信息。
 
-<img src="/images/imageWebRTC/SDP例子.png">
+![SDP例子](webrtc-01/SDP例子.png)
 
 形成 Candidate Pair：
 
@@ -618,18 +616,18 @@ ICE 具体做些什么：
 - 对每个侯选对进行发送检查
 - 对每个侯选对进行接收检查
 
-<img src="/images/imageWebRTC/连通性过程.png">
+![连通性过程](webrtc-01/连通性过程.png)
 
-### 网络协议分析方法 tcpdump 与 wireshark讲解
+### 9.8 网络协议分析方法 tcpdump 与 wireshark讲解
 
 常用工具：
 
 - Linux 服务端用 tcpdump
 - 其它端 WireShark
 
-<img src="/images/imageWebRTC/tcpdump.png">
+![tcpdump](webrtc-01/tcpdump.png)
 
-### 网络协议分析方法 tcpdump 与 wireshark 实战
+### 9.9 网络协议分析方法 tcpdump 与 wireshark 实战
 
 vim 打开二进制数据：
 
