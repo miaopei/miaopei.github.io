@@ -10,9 +10,9 @@ abstract: Welcome to my blog, enter password to read.
 message: Welcome to my blog, enter password to read.
 ---
 
-## WebRTC 环境搭建
+## 1. WebRTC 环境搭建
 
-### 简单的 https server 服务搭建
+### 1.1 简单的 https server 服务搭建
 
 <!-- more -->
 
@@ -56,7 +56,7 @@ $ nohub node server.js &
 $ forever start server.js  	# nmp install forever -g
 ```
 
-### 真正的Web服务
+### 1.2 真正的Web服务
 
 - 引用 express 模块
 - 引入 serve-index 模块
@@ -269,7 +269,7 @@ $ tree -I "node_modules|WebRTCAndroid"
 
 </details>
 
-### PeerConnection
+### 1.3 PeerConnection
 
 <details><summary>room.html</summary>
 
@@ -843,7 +843,7 @@ btnLeave.onclick = leave;
 
 </details>
 
-## Chat
+## 2. Chat
 
 <details><summary>main.css</summary>
 

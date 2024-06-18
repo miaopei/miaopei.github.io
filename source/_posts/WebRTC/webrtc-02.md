@@ -10,9 +10,9 @@ abstract: Welcome to my blog, enter password to read.
 message: Welcome to my blog, enter password to read.
 ---
 
-## 端对端1V1传输基本流程
+## 1. 端对端1V1传输基本流程
 
-### 媒体能力协商过程
+### 1.1 媒体能力协商过程
 
 WebRTC 端对端连接：
 
@@ -33,9 +33,9 @@ WebRTC 端对端连接：
 - 传输相关方法
 - 统计相关方法
 
-<img src="/images/imageWebRTC/媒体协商过程.png">
+![媒体协商过程](webrtc-02/媒体协商过程.png)
 
-<img src="/images/imageWebRTC/协商状态变化.png">
+![协商状态变化](webrtc-02/协商状态变化.png)
 
 **媒体协商方法**：
 
@@ -91,7 +91,7 @@ WebRTC 端对端连接：
 
 - Parameters
 
-  <img src="/images/imageWebRTC/addTrackParameters.png">
+  ![addTrackParameters](webrtc-02/addTrackParameters.png)
 
 **removeTrack**：
 
@@ -106,9 +106,9 @@ WebRTC 端对端连接：
 - onnegotiationneeded  - 协商的时候触发这个事件
 - onicecandidate - 当收到 ICE 候选者的时候触发这个事件
 
-### 1:1 连接的基本流程
+### 1.2 1:1 连接的基本流程
 
-<img src="/images/imageWebRTC/端对端连接的基本流程.png">
+![端对端连接的基本流程](webrtc-02/端对端连接的基本流程.png)
 
 **A 与 B 通信，大的方向分为三部分**：
 
@@ -116,17 +116,17 @@ WebRTC 端对端连接：
 - ICE 候选者的交换、连接、检测部分
 - 媒体数据流的通信部分
 
-### 【实战】WebRTC 视频传输
+### 1.3 【实战】WebRTC 视频传输
 
 TODO
 
-### 【实战】显示通讯双方的 SDP 内容
+### 1.4 【实战】显示通讯双方的 SDP 内容
 
 TODO
 
-## WebRTC核心之SDP详解
+## 2. WebRTC核心之SDP详解
 
-### 【协议规范】SDP 规范
+### 2.1 【协议规范】SDP 规范
 
 **SDP 规范**：
 
@@ -160,31 +160,31 @@ TODO
 - Time Description
 - Media Description
 
-<img src="/images/imageWebRTC/SessionDescription.png">
+![SessionDescription](webrtc-02/SessionDescription.png)
 
-<img src="/images/imageWebRTC/TimeDescription.png">
+![TimeDescription](webrtc-02/TimeDescription.png)
 
-<img src="/images/imageWebRTC/MediaDescription.png">
+![MediaDescription](webrtc-02/MediaDescription.png)
 
-<img src="/images/imageWebRTC/字段含义-01.png">
+![字段含义-01](webrtc-02/字段含义-01.png)
 
-<img src="/images/imageWebRTC/字段含义-02.png">
+![字段含义-02](webrtc-02/字段含义-02.png)
 
-<img src="/images/imageWebRTC/字段含义-03.png">
+![字段含义-03](webrtc-02/字段含义-03.png)
 
-<img src="/images/imageWebRTC/字段含义-04.png">
+![字段含义-04](webrtc-02/字段含义-04.png)
 
-<img src="/images/imageWebRTC/字段含义-05.png">
+![字段含义-05](webrtc-02/字段含义-05.png)
 
-<img src="/images/imageWebRTC/字段含义-06.png">
+![字段含义-06](webrtc-02/字段含义-06.png)
 
-<img src="/images/imageWebRTC/字段含义-07.png">
+![字段含义-07](webrtc-02/字段含义-07.png)
 
-### 【协议规范】WebRTC 中的 SDP
+### 2.2 【协议规范】WebRTC 中的 SDP
 
-<img src="/images/imageWebRTC/WebRTC中的SDP.png">
+![WebRTC中的SDP](webrtc-02/WebRTC中的SDP.png)
 
-### 【详解】WebRTC 中 Offer_Answer SDP
+### 2.3 【详解】WebRTC 中 Offer_Answer SDP
 
 <details><summary>SDP报文内容</summary>
 
@@ -293,9 +293,9 @@ a=sctpmap:5000 webrtc-datachannel 1024
 
 </details>
 
-## 实现1V1音视频实时互动直播系统
+## 3. 实现1V1音视频实时互动直播系统
 
-### STUN/TURN 服务器搭建
+### 3.1 STUN/TURN 服务器搭建
 
 > [webrtc进阶-信令篇-之三：信令、stun、turn、ice](<https://blog.csdn.net/fireroll/article/details/50780863>)
 >
@@ -378,29 +378,29 @@ stale-nonce=600
 $ turnserver -c /usr/local/coturn/etc/turnserver.conf
 ```
 
-<img src="/images/imageWebRTC/STUNTURN服务器选型.png">
+![STUNTURN服务器选型](webrtc-02/STUNTURN服务器选型.png)
 
-<img src="/images/imageWebRTC/coTurn服务器搭建与部署.png">
+![coTurn服务器搭建与部署](webrtc-02/coTurn服务器搭建与部署.png)
 
-<img src="/images/imageWebRTC/coTurn服务器配置.png">
+![coTurn服务器配置](webrtc-02/coTurn服务器配置.png)
 
-<img src="/images/imageWebRTC/测试turn服务.png">
+![测试turn服务](webrtc-02/测试turn服务.png)
 
-### 【参数介绍】再论 RTCPeerConnection
+### 3.2 【参数介绍】再论 RTCPeerConnection
 
-<img src="/images/imageWebRTC/RTCPeerConnection-01.png">
+![RTCPeerConnection-01](webrtc-02/RTCPeerConnection-01.png)
 
-<img src="/images/imageWebRTC/Configurations-01.png">
+![Configurations-01](webrtc-02/Configurations-01.png)
 
-<img src="/images/imageWebRTC/Configurations-02.png">
+![Configurations-02](webrtc-02/Configurations-02.png)
 
-<img src="/images/imageWebRTC/Configurations-03.png">
+![Configurations-03](webrtc-02/Configurations-03.png)
 
-<img src="/images/imageWebRTC/Configurations-04.png">
+![Configurations-04](webrtc-02/Configurations-04.png)
 
-<img src="/images/imageWebRTC/addIceCandidate.png">
+![addIceCandidate](webrtc-02/addIceCandidate.png)
 
-### 直播系统中的信令及其逻辑关系
+### 3.3 直播系统中的信令及其逻辑关系
 
 【实战】真正的音视频传输
 
@@ -424,17 +424,17 @@ $ turnserver -c /usr/local/coturn/etc/turnserver.conf
 - leaved 已离开房间
 - bye 对方离开房间
 
-<img src="/images/imageWebRTC/直播系统消息处理流程.png">
+![直播系统消息处理流程](webrtc-02/直播系统消息处理流程.png)
 
-### 实现 1：1 音视频实时互动信令服务器
+### 3.4 实现 1：1 音视频实时互动信令服务器
 
 信令服务器改造
 
 TODO
 
-### 再论CreateOffer
+### 3.5 再论CreateOffer
 
-<img src="/images/imageWebRTC/createOffer.png">
+![createOffer](webrtc-02/createOffer.png)
 
 **CreateOffer 实战**：
 
@@ -443,41 +443,41 @@ TODO
 - 静音检测
 - ICE restart
 
-### WebRTC 客户端状态机及处理逻辑
+### 3.6 WebRTC 客户端状态机及处理逻辑
 
 直播客户端的实现：
 
-<img src="/images/imageWebRTC/客户端状态机.png">
+![客户端状态机](webrtc-02/客户端状态机.png)
 
-<img src="/images/imageWebRTC/客户端流程图.png">
+![客户端流程图](webrtc-02/客户端流程图.png)
 
-<img src="/images/imageWebRTC/客户端流程图-01.png">
+![客户端流程图-01](webrtc-02/客户端流程图-01.png)
 
-<img src="/images/imageWebRTC/端对端连接的基本流程.png">
+![端对端连接的基本流程](webrtc-02/端对端连接的基本流程.png)
 
-### WebRTC 客户端的实现
+### 3.7 WebRTC 客户端的实现
 
-<img src="/images/imageWebRTC/注意要点.png">
+![注意要点](webrtc-02/注意要点.png)
 
-### 共享远程桌面
+### 3.8 共享远程桌面
 
-<img src="/images/imageWebRTC/getDisplayMedia-01.png">
+![getDisplayMedia-01](webrtc-02/getDisplayMedia-01.png)
 
-<img src="/images/imageWebRTC/需要注意的点.png">
+![需要注意的点](webrtc-02/需要注意的点.png)
 
-## WebRTC核心之RTP媒体控制与数据统计
+## 4. WebRTC核心之RTP媒体控制与数据统计
 
-### RTPPReceiver 发送器
+### 4.1 RTPPReceiver 发送器
 
 RTP Media 里边两个重要的类：Receiver 和 Sender
 
-<img src="/images/imageWebRTC/Receiver和Sender.png">
+![Receiver和Sender](webrtc-02/Receiver和Sender.png)
 
 Receiver 和 Sender 共有的三个属性
 
-<img src="/images/imageWebRTC/RTCRtpSender属性.png">
+![RTCRtpSender属性](webrtc-02/RTCRtpSender属性.png)
 
-<img src="/images/imageWebRTC/RTCRtpReceiver.png">
+![RTCRtpReceiver](webrtc-02/RTCRtpReceiver.png)
 
 - getParameters  - 编解码器相关参数
 - getSynchronizationSources - 获取共享源（同步源），每一个媒体流都一个唯一的共享源
@@ -485,53 +485,53 @@ Receiver 和 Sender 共有的三个属性
 - getStats - 获取统计信息
 - getCapabilities - 获取协商后的媒体能力
 
-### RTPSender 发送器
+### 4.2 RTPSender 发送器
 
-<img src="/images/imageWebRTC/RTCRtpSender.png">
+![RTCRtpSender](webrtc-02/RTCRtpSender.png)
 
-<img src="/images/imageWebRTC/RTPMedia.png">
+![RTPMedia](webrtc-02/RTPMedia.png)
 
 RTCRtpTransceiver 可以同时处理 sender 和 receiver
 
-<img src="/images/imageWebRTC/RTCRtpTransceiver.png">
+![RTCRtpTransceiver](webrtc-02/RTCRtpTransceiver.png)
 
-### 传输速率的控制
+### 4.3 传输速率的控制
 
-<img src="/images/imageWebRTC/RTPMedia-01.png">
+![RTPMedia-01](webrtc-02/RTPMedia-01.png)
 
-<img src="/images/imageWebRTC/chromeWebRTC-internals.png">
+![chromeWebRTC-internals](webrtc-02/chromeWebRTC-internals.png)
 
 chrome WebRTC 状态查询地址：<chrome://webrtc-internals>
 
-### 【实战】WebRTC统计信息
+### 4.4 【实战】WebRTC统计信息
 
 TODO
 
-## WebRTC非音视频数据传输
+## 5. WebRTC非音视频数据传输
 
-### 传输非音视频数据基础知识
+### 5.1 传输非音视频数据基础知识
 
-<img src="/images/imageWebRTC/createDataChannel.png">
+![createDataChannel](webrtc-02/createDataChannel.png)
 
-<img src="/images/imageWebRTC/option-01.png">
+![option-01](webrtc-02/option-01.png)
 
 - ordered - udp包不保证包是有序的（传输非音视频数据的时候包是否是按顺序到达的），webrtc传输音视频的时候使用的是udp，webrtc在upd之上做了一层协议可以保证消息是按顺序到达（底层如果包是乱序的对包进行排序）
 - maxPacketLifeTime/maxRetransmits - 包存活时间（包最大的存活时间/最大的传输次数），这两个参数是二选一，不能同时使用
 
-<img src="/images/imageWebRTC/option-02.png">
+![option-02](webrtc-02/option-02.png)
 
 - negotiated - 协商，在创建datachannel的时候可以进行协商
 
-<img src="/images/imageWebRTC/使用Options.png">
+![使用Options](webrtc-02/使用Options.png)
 
-<img src="/images/imageWebRTC/DataChannel事件.png">
+![DataChannel事件](webrtc-02/DataChannel事件.png)
 
 - onmessage - 当对方有数据过来的时候触发
 - onopen - 当创建好 datachannel 的时候触发
 
-<img src="/images/imageWebRTC/创建RTCDataChannel.png">
+![创建RTCDataChannel](webrtc-02/创建RTCDataChannel.png)
 
-<img src="/images/imageWebRTC/非音视频数据传输方式.png">
+![非音视频数据传输方式](webrtc-02/非音视频数据传输方式.png)
 
 - SCTP - stream control transport 流控
 - configurable - 可配置的
@@ -542,15 +542,15 @@ TODO
 - Flow control：流控
 - Congestion control：拥塞控制
 
-### 端到端文本聊天
+### 5.2 端到端文本聊天
 
 TODO
 
-### 文件实时传输
+### 5.3 文件实时传输
 
-<img src="/images/imageWebRTC/知识点.png">
+![知识点](webrtc-02/知识点.png)
 
-## WebRTC实时数据传输网络协议详解
+## 6. WebRTC实时数据传输网络协议详解
 
 > [浅析TCP字节流与UDP数据报的区别](<https://blog.csdn.net/oshirdey/article/details/38467391>)
 
@@ -566,19 +566,19 @@ TODO
 
 所谓的数据报传输， 说白了， 就有消息和消息之间有天然的分割， 对端接收的时候， 不会出现粘包。 发10次， 就需要10次来接收。
 
-### 【协议规范】RTP-SRTP协议头详解
+### 6.1 【协议规范】RTP-SRTP协议头详解
 
-<img src="/images/imageWebRTC/协议栈.png">
+![协议栈](webrtc-02/协议栈.png)
 
-<img src="/images/imageWebRTC/传输协议.png">
+![传输协议](webrtc-02/传输协议.png)
 
 - DTLS - 证书检测，加密算法协商
 
-<img src="/images/imageWebRTC/RTP协议.png">
+![RTP协议](webrtc-02/RTP协议.png)
 
 - contributing source - 贡献源，CC - 表示贡献者一共有多少个（最多可以表示16个贡献者）
 
-<img src="/images/imageWebRTC/RTP字段说明.png">
+![RTP字段说明](webrtc-02/RTP字段说明.png)
 
 > [RTP报文头中的SSRC和CSRC](<https://blog.csdn.net/zhushentian/article/details/79804742>)
 >
@@ -591,105 +591,105 @@ TODO
 - SSRC - SSRC的作用就是贡献者，视频和音频的SSRC是完全不相同的。同一个视频的SSRC有可能发生变化（产生冲突会发生变化，因为SSRC是随机数）
 - CSRC - 贡献者
 
-### 【协议规范】RTCP 中的 SR 与 RR 报文
+### 6.2 【协议规范】RTCP 中的 SR 与 RR 报文
 
-<img src="/images/imageWebRTC/RTCP包.png">
+![RTCP包](webrtc-02/RTCP包.png)
 
-<img src="/images/imageWebRTC/RTCPPayloadType.png">
+![RTCPPayloadType](webrtc-02/RTCPPayloadType.png)
 
 - SDES - 中最重要的一个字段是 cname
 - FR - 请求关键帧
 - necho - 发现丢包重传
 
-<img src="/images/imageWebRTC/RTCPHeader.png">
+![RTCPHeader](webrtc-02/RTCPHeader.png)
 
-<img src="/images/imageWebRTC/RTCPHeader说明.png">
+![RTCPHeader说明](webrtc-02/RTCPHeader说明.png)
 
-<img src="/images/imageWebRTC/RTCPSenderReport.png">
+![RTCPSenderReport](webrtc-02/RTCPSenderReport.png)
 
-<img src="/images/imageWebRTC/SenderInfomationBlock.png">
+![SenderInfomationBlock](webrtc-02/SenderInfomationBlock.png)
 
-<img src="/images/imageWebRTC/SenderInfo说明.png">
+![SenderInfo说明](webrtc-02/SenderInfo说明.png)
 
 - NTP - 不同源之间的同步，比如音频和视频之间的同步
 
-<img src="/images/imageWebRTC/ReportBlock.png">
+![ReportBlock](webrtc-02/ReportBlock.png)
 
-<img src="/images/imageWebRTC/ReceiveReportBlock.png">
+![ReceiveReportBlock](webrtc-02/ReceiveReportBlock.png)
 
-<img src="/images/imageWebRTC/RTCPReceiverReport.png">
+![RTCPReceiverReport](webrtc-02/RTCPReceiverReport.png)
 
-<img src="/images/imageWebRTC/RTCPSR-RR发送时机.png">
+![RTCPSR-RR发送时机](webrtc-02/RTCPSR-RR发送时机.png)
 
-<img src="/images/imageWebRTC/RTCPSDES.png">
+![RTCPSDES](webrtc-02/RTCPSDES.png)
 
-<img src="/images/imageWebRTC/SDESitem.png">
+![SDESitem](webrtc-02/SDESitem.png)
 
-<img src="/images/imageWebRTC/SDES说明.png">
+![SDES说明](webrtc-02/SDES说明.png)
 
 - CNAME - 对于webrtc来说这个字段基本上是不用SDES这个消息，因为在SDP中就有CNAME的描述，除非音频源或者视频源发生了中断（or中转）会重新生成SSRC，然后再进行重新绑定
 
-<img src="/images/imageWebRTC/RTCPBYE.png">
+![RTCPBYE](webrtc-02/RTCPBYE.png)
 
-<img src="/images/imageWebRTC/RTCPAPP.png">
+![RTCPAPP](webrtc-02/RTCPAPP.png)
 
-<img src="/images/imageWebRTC/RTCPAPP字段说明.png">
+![RTCPAPP字段说明](webrtc-02/RTCPAPP字段说明.png)
 
-### 【协议规范】DTSL
+### 6.3 【协议规范】DTSL
 
-<img src="/images/imageWebRTC/DTLS.png">
+![DTLS](webrtc-02/DTLS.png)
 
-<img src="/images/imageWebRTC/SRTP.png">
+![SRTP](webrtc-02/SRTP.png)
 
-### wireshark 分析 rtp-rtcp 包
+### 6.4 wireshark 分析 rtp-rtcp 包
 
 TODO
 
-## Android端与浏览器互通
+## 7. Android端与浏览器互通
 
-### Android 与浏览器互通
+### 7.1 Android 与浏览器互通
 
-<img src="/images/imageWebRTC/主要内容.png">
+![主要内容](webrtc-02/主要内容.png)
 
-<img src="/images/imageWebRTC/需要权限.png">
+![需要权限](webrtc-02/需要权限.png)
 
-<img src="/images/imageWebRTC/Android权限管理.png">
+![Android权限管理](webrtc-02/Android权限管理.png)
 
-<img src="/images/imageWebRTC/引入库.png">
+![引入库](webrtc-02/引入库.png)
 
-<img src="/images/imageWebRTC/信令处理.png">
+![信令处理](webrtc-02/信令处理.png)
 
-<img src="/images/imageWebRTC/AndroidSocketio.png">
+![AndroidSocketio](webrtc-02/AndroidSocketio.png)
 
-<img src="/images/imageWebRTC/socketio接收消息.png">
+![socketio接收消息](webrtc-02/socketio接收消息.png)
 
-### WebRTCNative 开发逻辑
+### 7.2 WebRTCNative 开发逻辑
 
-<img src="/images/imageWebRTC/结构图.png">
+![结构图](webrtc-02/结构图.png)
 
-<img src="/images/imageWebRTC/呼叫端时序图.png">
+![呼叫端时序图](webrtc-02/呼叫端时序图.png)
 
-<img src="/images/imageWebRTC/被叫端时序图.png">
+![被叫端时序图](webrtc-02/被叫端时序图.png)
 
-<img src="/images/imageWebRTC/关闭时序图.png">
+![关闭时序图](webrtc-02/关闭时序图.png)
 
-<img src="/images/imageWebRTC/webrtc处理流程.png">
+![webrtc处理流程](webrtc-02/webrtc处理流程.png)
 
-<img src="/images/imageWebRTC/重要类-01.png">
+![重要类-01](webrtc-02/重要类-01.png)
 
-<img src="/images/imageWebRTC/重要类-02.png">
+![重要类-02](webrtc-02/重要类-02.png)
 
-<img src="/images/imageWebRTC/两个观察者.png">
+![两个观察者](webrtc-02/两个观察者.png)
 
-### 实战-权限申请-库的引入与界面
+### 7.3 实战-权限申请-库的引入与界面
 
-<img src="/images/imageWebRTC/权限库界面.png">
+![权限库界面](webrtc-02/权限库界面.png)
 
-### 实战-通过 socket.io 实现信令收发
+### 7.4 实战-通过 socket.io 实现信令收发
 
-<img src="/images/imageWebRTC/收发信令.png">
+![收发信令](webrtc-02/收发信令.png)
 
-### 实战-Android 与浏览器互通
+### 7.5 实战-Android 与浏览器互通
 
 创建 PeerConnection：
 
@@ -702,75 +702,75 @@ TODO
 - Candidate 连通
 - 视频渲染
 
-## iOS端与浏览器互通
+## 8. iOS端与浏览器互通
 
-### IOS权限获取
+### 8.1 IOS权限获取
 
-<img src="/images/imageWebRTC/主要内容-01.png">
+![主要内容-01](webrtc-02/主要内容-01.png)
 
-<img src="/images/imageWebRTC/主要内容-02.png">
+![主要内容-02](webrtc-02/主要内容-02.png)
 
-### IOS引入WebRTC库
+### 8.2 IOS引入WebRTC库
 
-<img src="/images/imageWebRTC/引入WebRTC库的方式.png">
+![引入WebRTC库的方式](webrtc-02/引入WebRTC库的方式.png)
 
-<img src="/images/imageWebRTC/引入WebRTC库.png">
+![引入WebRTC库](webrtc-02/引入WebRTC库.png)
 
-<img src="/images/imageWebRTC/Podfile.png">
+![Podfile](webrtc-02/Podfile.png)
 
-### IOS端SocketIO的使用
+### 8.3 IOS端SocketIO的使用
 
-<img src="/images/imageWebRTC/socketio的使用.png">
+![socketio的使用](webrtc-02/socketio的使用.png)
 
-<img src="/images/imageWebRTC/连接服务器.png">
+![连接服务器](webrtc-02/连接服务器.png)
 
-<img src="/images/imageWebRTC/发送消息.png">
+![发送消息](webrtc-02/发送消息.png)
 
-<img src="/images/imageWebRTC/注册侦听消息.png">
+![注册侦听消息](webrtc-02/注册侦听消息.png)
 
-### IOS界面布局
-
-TODO
-
-### IOS本地视频采集与展示
+### 8.4 IOS界面布局
 
 TODO
 
-### IOS端RTCPeerConnection
+### 8.5 IOS本地视频采集与展示
 
 TODO
 
-### IOS媒体协商
+### 8.6 IOS端RTCPeerConnection
 
-<img src="/images/imageWebRTC/媒体协商.png">
+TODO
 
-<img src="/images/imageWebRTC/信令时序图.png">
+### 8.7 IOS媒体协商
 
-### IOS远端视频渲染
+![媒体协商](webrtc-02/媒体协商.png)
 
-<img src="/images/imageWebRTC/RTCPeerConnection委托.png">
+![信令时序图](webrtc-02/信令时序图.png)
 
-## 课程总结
+### 8.8 IOS远端视频渲染
 
-<img src="/images/imageWebRTC/小结.png">
+![RTCPeerConnection委托](webrtc-02/RTCPeerConnection委托.png)
 
-<img src="/images/imageWebRTC/信令服务器.png">
+## 9. 课程总结
 
-<img src="/images/imageWebRTC/JS客户端实现.png">
+![小结](webrtc-02/小结.png)
 
-<img src="/images/imageWebRTC/JS客户端实现-01.png">
+![信令服务器](webrtc-02/信令服务器.png)
 
-<img src="/images/imageWebRTC/进阶.png">
+![JS客户端实现](webrtc-02/JS客户端实现.png)
 
-<img src="/images/imageWebRTC/进阶-01.png">
+![JS客户端实现-01](webrtc-02/JS客户端实现-01.png)
 
-<img src="/images/imageWebRTC/行业痛点.png">
+![进阶](webrtc-02/进阶.png)
 
-## 即时通信（IM）和实时通信（RTC）的区别
+![进阶-01](webrtc-02/进阶-01.png)
+
+![行业痛点](webrtc-02/行业痛点.png)
+
+## 10. 即时通信（IM）和实时通信（RTC）的区别
 
 即时通信（IM=Instant messaging）和实时通信（rtc=Real-time communication）都是一套网络通信系统，其本质都是对信息进行转发。其最大的不同点，是对信息传递的时间规定。二者的区别可以从以下几个方面：
 
-### 场景
+### 10.1 场景
 
 -  **即时通信**
 
@@ -780,7 +780,7 @@ TODO
 
   场景包括语音、视频电话会议、网络电话等。**通俗的说，就是打电话**。
 
-### 要求
+### 10.2 要求
 
 - **即时通讯**
 
@@ -793,7 +793,7 @@ TODO
   - **低延时**：你打一通电话，每说一句话，对方得几秒钟才有回应，这电话你也讲不下去了吧。
   - **接通率**：你打电话，你这边听到接通了，实际上对方的手机毫无反应，这实际上就没接通。
 
-### 技术环节
+### 10.3 技术环节
 
 - **即时通信**
 
@@ -805,7 +805,7 @@ TODO
 
 这些技术环节重合的部分是：**信息转发**。
 
-### 传输协议
+### 10.4 传输协议
 
 公共互联网上，最常用的通信协议有TCP、UDP。
 
@@ -818,7 +818,7 @@ TODO
 
 TCP协议封装了消息的重传机制，在丢包的情况下，采用TCP协议的应用程序几乎无法优化这个重传机制，来达到低时延的效果。特别是在移动互联网络中，超过30%丢包时，TCP 的延时可以到几十分钟, 超过 50%丢包时，甚至很容易断开。 在同样丢包30%的链路上，UDP还可以传输数据，TCP就无法进行实时通信了。
 
-### 成本
+### 10.5 成本
 
 成本涉及到的环节有：**服务端接入、存储和转发**。
 
@@ -829,7 +829,7 @@ TCP协议封装了消息的重传机制，在丢包的情况下，采用TCP协�
 - 从成本上来看，传输同样信息量的数据，基于TCP的即时通信方式，更侧重于可靠性，会优先采用多线机房的传输方式，成本比较高；
 - 而基于UDP的实时通信方式，会优先选取最优路径进行传输数据，并可以动态调整传输路径，这样能够高效的利用带宽，提高传输效率，降低成本。
 
-### 可用的解决方案
+### 10.6 可用的解决方案
 
 - **即时通信**：XMPP，MQTT
 - **实时通信**：WebRTC、Tokbox
@@ -944,11 +944,11 @@ TODO
 
 WebRTC的分层协议图：
 
-<img src="/images/imageWebRTC/webrtc分层协议图.png">
+![webrtc分层协议图](webrtc-02/webrtc分层协议图.png)
 
 信令，会话和协议：
 
-<img src="/images/imageWebRTC/信令会话协议.png">
+![信令会话协议](webrtc-02/信令会话协议.png)
 
 ## 问题解决里程
 
@@ -988,15 +988,15 @@ $ sudo lsof -i -P | grep -i "listen"
 
 ## 补充
 
-![1V1互动直播通讯过程](/images/imageWebRTC/supplement/1V1互动直播通讯过程.png)
+![1V1互动直播通讯过程](webrtc-02/1V1互动直播通讯过程.png)
 
-![知识框架介绍](/images/imageWebRTC/supplement/TIM-01.jpg)
+![TIM-01](webrtc-02/TIM-01.jpg)
 
-![知识框架介绍](/images/imageWebRTC/supplement/TIM-02.jpg)
+![TIM-02](webrtc-02/TIM-02.jpg)
 
-![WebRTC-ICE Candidate Exchange](/images/imageWebRTC/supplement/WebRTC-ICECandidateExchange.svg)
+![WebRTC-ICECandidateExchange](webrtc-02/WebRTC-ICECandidateExchange.svg)
 
-![WebRTC-Signaling Diagram](/images/imageWebRTC/supplement/WebRTC-SignalingDiagram.svg)
+![WebRTC-SignalingDiagram](webrtc-02/WebRTC-SignalingDiagram.svg)
 
 <details><summary>turnserver.conf</summary>
 
