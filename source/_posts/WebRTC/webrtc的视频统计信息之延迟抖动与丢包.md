@@ -10,11 +10,11 @@ abstract: Welcome to my blog, enter password to read.
 message: Welcome to my blog, enter password to read.
 ---
 
-## 前言
+## 1. 前言
 
 > 这篇文章主要想说明的是WebRTC内部对视频`上下行延时、抖动、丢包`如何更新，上层又怎么获取到这些统计信息的。对应的`WebRTC版本：63`。
 
-## 背景
+## 2. 背景
 
 > 最近在内网情况下测试视频会议，视频下行延时很大，很多时候超过`100ms`。另外，视频的上下行抖动总是稳定在`30~40ms`这个区间。这些统计在内网环境下是不正常的，于是决定看看是哪里导致这些问题的。
 >
@@ -30,39 +30,43 @@ message: Welcome to my blog, enter password to read.
 
 <!-- more -->
 
-## 综述
+## 3. 综述
 
 下图是WebRTC内部获取视频统计信息和统计信息如何被更新的流程图：（其中的箭头代表函数调用）
 
-![WebRTC内部获取视频统计信息和统计信息如何被更新的流程图](/images/imageWebRTC/others/WebRTC内部获取视频统计信息和统计信息如何被更新的流程图.png)
+![WebRTC内部获取视频统计信息和统计信息如何被更新的流程图](webrtc的视频统计信息之延迟抖动与丢包/WebRTC内部获取视频统计信息和统计信息如何被更新的流程图.png)
 
 上图共有两个大的模块，**如何取** 和 **如何更新**：
 
-### 如何取
+### 3.1 如何取
 
 上面部分“客户端视频数据统计入口”中，左下角的`WebRtcVideoChannel::GetStats`是WebRTC对外暴露的获取统计信息的入口，视频的上下行统计数据最终分别使用右上角`SendStatisticsProxy::stats_`、`ReceiveStatisticsProxy::stats_`和`CallStats::avg_rtt_ms_`来填充返回。
 
-### 如何更新
+### 3.2 如何更新
 
 下面部分“延时、抖动、丢包更新流程”部分，从网络接收到RTP/RTCP之后，使用三个不同颜色代表三种统计信息的更新流程，比如红色代表下行抖动/丢包更新流程、蓝色代表RTT的更新流程等。
 
 统计信息大多不是由一条调用流程完成的（这就是下文会说到的“阶段”），会有几次类似缓冲区的“中转”，然后由另外的线程或函数继续做统计信息的整理，最终达到上一步的 `SendStatisticsProxy::stats_`、`ReceiveStatisticsProxy::stats_` 和 `CallStats::avg_rtt_ms_`，等待上层获取。
 
-## 几个统计信息详细介绍
+## 4. 几个统计信息详细介绍
 
-### 延时
+### 4.1 延时
 
 > 这里统计的延时指的是往返延时 rtt。`WebRTC使用SR/RR来计算rtt`。
 
-#### (1) 延时的计算
+#### 4.1.1 延时的计算
 
-##### 1) SR和RR报文格式
+##### 4.1.1.1  SR和RR报文格式
 
-| Sender Report RTCP Packet                             | Receiver Report RTCP Packet                           |
-| ----------------------------------------------------- | ----------------------------------------------------- |
-| ![](/images/imageWebRTC/others/SR和RR报文格式-01.png) | ![](/images/imageWebRTC/others/SR和RR报文格式-02.png) |
+**Sender Report RTCP Packet：**
 
-##### 2) 计算rtt
+![SR和RR报文格式-01](webrtc的视频统计信息之延迟抖动与丢包/SR和RR报文格式-01.png)
+
+**Receiver Report RTCP Packet：**
+
+![SR和RR报文格式-02](webrtc的视频统计信息之延迟抖动与丢包/SR和RR报文格式-02.png)
+
+##### 4.1.1.2 计算rtt
 
 > 以下流程通过结合SR/RR包报文格式，浏览`RTCPReceiver::HandleReceiverReport`、`RTCPReceiver::HandleReportBlock`、`ModuleRtpRtcpImpl::SendCompoundRTCP`、`RTCPSender::BuildSR`、`RTCPSender::BuildRR`函数。前面2个函数是接收端计算rtt，后面3个函数是对端在构造RR时LSR/DLSR如何设置的。
 
@@ -72,31 +76,31 @@ message: Welcome to my blog, enter password to read.
 - 发送端在接收到RR包之后，记录RR包到达时间A；
 - 使用公式 `A - LSR - DLSR` 计算rtt。
 
-##### 3) 用一个图描述上述RTT计算流程
+##### 4.1.1.3 用一个图描述上述RTT计算流程
 
-![RTT计算流程](/images/imageWebRTC/others/RTT计算流程.png)
+![RTT计算流程](webrtc的视频统计信息之延迟抖动与丢包/RTT计算流程.png)
 
 > SR与RR的个数并不完全相同，因为RR并不是对SR的回应，它们的发送各自独立；另外丢包也会导致一部分SR/RR没有被对方接收。因此上图中，SR和RR传输中，实线代表发了一次SR/RR，并且被被对方接收了。这里想说明的是：**即便SR或RR丢失一部分，只要发送端收到了RR，它总能计算出rtt，因为RR中使用的LSR和DLSR字段都是从最近一次收到的SR中取到的。**
 
-#### (2) 延时的更新流程
+#### 4.1.2 延时的更新流程
 
 > 下文所说的第一阶段、第二阶段等，都是指 **数据从一个位置转移到另一个位置的过程，或者说是一次推或拉模式**。比如：F1函数把数据从A点转移到B点就返回了，F2函数把数据从B点转移到C点就返回了，那A->B就是第一阶段，B->C就是第二阶段。如下：
 
-![延时的更新流程](/images/imageWebRTC/others/延时的更新流程.png)
+![延时的更新流程](webrtc的视频统计信息之延迟抖动与丢包/延时的更新流程.png)
 
-##### 1) rtt统计第一阶段
+##### 4.1.2.1 rtt统计第一阶段
 
 由上文可知：从RR可以计算出往返延时rtt，这个rtt最终保存在`RTCPReceiver::received_report_blocks_`。
 
-![rtt统计第一阶段](/images/imageWebRTC/others/rtt统计第一阶段.png)
+![rtt统计第一阶段](webrtc的视频统计信息之延迟抖动与丢包/rtt统计第一阶段.png)
 
-##### 2) rtt统计第二阶段
+##### 4.1.2.2 rtt统计第二阶段
 
 `ModuleRtpRtcpImpl::Process`会定时把rtt从`RTCPReceiver::received_report_blocks_`更新到`CallStats::reports_`，这个更新过程，`CallStats::reports_`中每个rtt都会与一个更新时间戳绑定。参考`CallStats::OnRttUpdate` 函数。
 
-![rtt统计第二阶段](/images/imageWebRTC/others/rtt统计第二阶段.png)
+![rtt统计第二阶段](webrtc的视频统计信息之延迟抖动与丢包/rtt统计第二阶段.png)
 
-##### 3) rtt统计第三阶段
+##### 4.1.2.3 rtt统计第三阶段
 
 `CallStats`继承`Module`，`CallStats::Process`函数会定时做以下三个步骤：
 
@@ -104,23 +108,23 @@ message: Welcome to my blog, enter password to read.
 - 计算1.5s内的平均rtt；
 - 使用平均rtt，更新 `avg_rtt_ms` 成员；
 
-![rtt统计第三阶段](/images/imageWebRTC/others/rtt统计第三阶段.png)
+![rtt统计第三阶段](webrtc的视频统计信息之延迟抖动与丢包/rtt统计第三阶段.png)
 
-#### (3) 获取延时
+#### 4.1.3 获取延时
 
 调用`CallStats::avg_rtt_ms`函数获取rtt时，直接返回 `avg_rtt_ms_` ;
 
-### 下行抖动和丢包
+### 4.2 下行抖动和丢包
 
 > 下行抖动和丢包，通过在接收端根据收到的RTP包来计算和更新。
 
-#### (1) 抖动和丢包的计算
+#### 4.2.1 抖动和丢包的计算
 
-##### 1) 抖动定义
+##### 4.2.1.1 抖动定义
 
 抖动被定义为：一对数据包在接收端与发送端的数据包时间间距之差。如下：
 
-![一对数据包在接收端与发送端的数据包时间间距之差](/images/imageWebRTC/others/抖动定义.png)
+![一对数据包在接收端与发送端的数据包时间间距之差](webrtc的视频统计信息之延迟抖动与丢包/抖动定义.png)
 
 如果Si代表第i个包的发送时间戳，Ri代表第i个包的接收时间戳。Sj、Rj同理。
 `抖动(i, j)` = `|(Rj - Ri) - (Sj - Si)|` = `|(Rj - Sj) - (Ri - Si)|`
@@ -130,21 +134,21 @@ WebRTC为了统一抖动，并且为了很好的降噪、降低突发抖动的�
 
 我虽然看不出J(i)和D(i)的关系，但是`D(i-1, j)`是唯一引起`J(i)`变化的因素，是需要重点关注的。
 
-##### 2) 抖动计算存在的问题：
+##### 4.2.1.2 抖动计算存在的问题：
 
 RTP报文头部，有timestamp字段，该字段用来表示该RTP包所属帧的`capture time`。接收RTP包时如果记录接收时间戳，再根据头部的`timestamp`字段，D(i, j)就可以计算出来，J也就有了。（事实上webrtc原本也是这样干的，而且这种方式计算的抖动还对外暴露，可以参考`StreamStatisticianImpl::UpdateJitter`函数）
 
 但是这样计算抖动是存在问题的：**每一帧的视频数据放进多个RTP包之后，这些RTP包的头部timestamp字段都是一样的（都是帧的capture time），但是实际发送时间不一样，到达时间也不同。**
 
-##### 3) 如何正确计算抖动：
+##### 4.2.1.3 如何正确计算抖动：
 
-计算D(i, j)时，Si不能只使用RTP timestamp，而是应该使用该RTP实际发送到网络的时间戳。这种抖动被命名为`jitter_q4_transmission_time_offset`，意为考虑了transmission_time_offset的jitter。
+计算`D(i, j)`时，`Si`不能只使用RTP timestamp，而是应该使用该RTP实际发送到网络的时间戳。这种抖动被命名为`jitter_q4_transmission_time_offset`，意为考虑了`transmission_time_offset`的`jitter`。
 
 - **a. transmission_time_offset是什么?**
 
-> transmission_time_offset是一段时间间隔，该时间间隔代表属于同一帧的RTP的`实际发送时间`距离帧的`capture time`的 **偏移量** 。下图是对transmission_offset_time的解释：
+> `transmission_time_offset`是一段时间间隔，该时间间隔代表属于同一帧的RTP的`实际发送时间`距离帧的`capture time`的 **偏移量** 。下图是对`transmission_offset_time`的解释：
 
-![transmission_time_offset](/images/imageWebRTC/others/transmission_time_offset.png)
+![transmission_time_offset](webrtc的视频统计信息之延迟抖动与丢包/transmission_time_offset.png)
 
 > 其中，箭头代表一个RTP，发送端的竖线代表时间轴，虚线代表帧的capture time。
 >
@@ -174,31 +178,31 @@ int32_t time_diff_samples_ext =
 > - `header.timestamp + header.extension.transmissionTimeOffset` 前者是capture time，后者是对应的transmission time offset，两者相加代表该RTP实际发送到网络的时间戳；
 > - `last_received_timestamp_ + last_received_transmission_time_offset_` 含义同上，但是代表的是**上一个**RTP的实际发送到网络的时间戳；
 
-#### (2) 下行抖动的更新流程
+#### 4.2.2 下行抖动的更新流程
 
-##### 1) 抖动统计第一阶段
+##### 4.2.2.1 抖动统计第一阶段
 
 接收端收到的RTP包，会经过`StreamStatisticianImpl::UpdateJitter`函数，该函数内部会计算经过这个RTP包之后的抖动值，并更新到成员`jitter_q4_transmission_time_offset_`成员中。
 
-![抖动统计第一阶段](/images/imageWebRTC/others/抖动统计第一阶段.png)
+![抖动统计第一阶段](webrtc的视频统计信息之延迟抖动与丢包/抖动统计第一阶段.png)
 
-##### 2) 抖动统计第二阶段
+##### 4.2.2.2 抖动统计第二阶段
 
 `ModuleRtpRtcpImpl::Process`会定时发送RR，在构建RR的Report Block时，会搜集本地接收报告并把第一阶段保存的`jitter_q4_transmission_time_offset_`信息更新到`ReceiveStatisticsProxy::stats_` 。
 
-![抖动统计第二阶段](/images/imageWebRTC/others/抖动统计第二阶段.png)
+![抖动统计第二阶段](webrtc的视频统计信息之延迟抖动与丢包/抖动统计第二阶段.png)
 
-#### (3) 下行丢包的更新流程
+#### 4.2.3 下行丢包的更新流程
 
-##### 1) 丢包统计第一阶段
+##### 4.2.3.1 丢包统计第一阶段
 
 接收端收到的RTP包，会经过`StreamStatisticianImpl::UpdateCounters` 函数，在该函数内部，会累加接收到的RTP包的个数和重传包的个数，以及当前收到的最大的sequence。
 
-##### 2) 丢包统计第二阶段
+##### 4.2.3.2 丢包统计第二阶段
 
 下图是WebRTC内部计算下行丢包：
 
-![WebRTC内部计算下行丢包](/images/imageWebRTC/others/WebRTC内部计算下行丢包.png)
+![WebRTC内部计算下行丢包](webrtc的视频统计信息之延迟抖动与丢包/WebRTC内部计算下行丢包.png)
 
 丢包率更新的周期是发送一次RR，在发送RR时，会根据第一阶段记录的数据统计丢包，丢包根据下面的公式：
 
@@ -214,23 +218,23 @@ int32_t time_diff_samples_ext =
 
 计算出来的丢包，连同抖动一起被更新到`ReceiveStatisticsProxy::stats_`。
 
-![下行丢包计算](/images/imageWebRTC/others/下行丢包计算.png)
+![下行丢包计算](webrtc的视频统计信息之延迟抖动与丢包/下行丢包计算.png)
 
-#### (3) 获取下行抖动和丢包
+#### 4.2.4 获取下行抖动和丢包
 
 下行抖动和丢包最终会从`ReceiveStatisticsProxy::stats_` 获取。
 
-### 上行抖动和丢包
+### 4.3 上行抖动和丢包
 
 > 下行抖动和丢包，从对方发来的RR包中获取。RR包格式参考上文链接。
 
-#### (1) 上行抖动和丢包的更新流程
+#### 4.3.1 上行抖动和丢包的更新流程
 
 本地上行抖动和丢包，就是对端下行抖动和丢包，对端按照上面介绍的方式计算下行抖动和丢包，然后通过RR返回。
 
 从RR获取抖动和丢包，没有太多阶段，只有一次`推`过程。接收端在收到RR之后，就把内部的抖动和丢包更新到`SendStatisticsProxy::stats_`中，这里就是客户端主动获取上行抖动和丢包时最终的数据源。
 
-#### (2) 获取上行抖动和丢包
+#### 4.3.2 获取上行抖动和丢包
 
 上行抖动和丢包最终会从`SendStatisticsProxy::stats_` 获取。
 

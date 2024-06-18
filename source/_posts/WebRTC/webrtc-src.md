@@ -10,7 +10,7 @@ abstract: Welcome to my blog, enter password to read.
 message: Welcome to my blog, enter password to read.
 ---
 
-# WebRTC 镜像源
+# 1. WebRTC 镜像源
 
 > [WebRTC 镜像源](https://webrtc.agora.io/mirror/)
 
@@ -48,7 +48,7 @@ message: Welcome to my blog, enter password to read.
 >
 > [WebRTC 开发（二）源码下载与编译](<https://depthlove.github.io/2019/05/02/webrtc-development-2-source-code-download-and-build/>)
 
-# 查看和下载特定版本的webrtc代码
+# 2. 查看和下载特定版本的webrtc代码
 
 **注**：*这个方法已经不适用了*
 
@@ -87,8 +87,6 @@ $ gclient sync
 
 
 
-
-
 创建xcode的mac 工程
 
 ```shell
@@ -106,8 +104,6 @@ $ ./webrtc/build/gyp_webrtc.py
 ```
 
 运行后在 webrtc 根目录下生成 `all.ninja.xcodeproj` 和 `sources_for_indexing.xcodeproj`， 分别用来编译和浏览源代码。
-
-
 
 
 
